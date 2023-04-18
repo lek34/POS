@@ -10,8 +10,8 @@ else{
     if ($_GET['module'] == 'beranda') {
 		include "modules/home/dashboard.php";
 	}
-    elseif ($_GET['module'] == 'stok') {
-		include "modules/stok/view.php";
+    if ($_GET['module'] == 'tabel') {
+		include "modules/home/dashboard.php";
 	}
 }
 
