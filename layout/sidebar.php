@@ -8,14 +8,15 @@
         </div>
       </div>
 
+      <?php 
+      $hak_akses = isset($_SESSION["hak_akses"]) ? $_SESSION["hak_akses"]  : '';
 
+      if ($hak_akses =='Super Admin') { ?>
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-          
-          
           <?php 
 					if ($_GET["module"]=="beranda") { ?>
 						<li class="nav-item active">
@@ -663,3 +664,6 @@
           </li>
         </ul>
       </nav>
+      <?php
+      }
+      ?>
