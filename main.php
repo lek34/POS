@@ -6,7 +6,6 @@
 <html lang="en">
 <head>
   <?php
-  
     include_once 'layout/head.php'
   ?>
 </head>
