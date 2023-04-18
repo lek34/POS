@@ -14,7 +14,7 @@ else{
 		include "modules/home/dashboard.php";
 	}
 	elseif ($_GET['module'] == 'master') {
-		include "modules/home/dashboard.php";
+		include "modules/transaksi/view.php";
 	}
 }
 
