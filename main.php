@@ -63,7 +63,7 @@
 </div>
 <!-- ./wrapper -->
 <?php
-  include_once 'layout/sidebar.php'
+  include_once 'layout/bottomjs.php'
 ?>
 </body>
 </html>

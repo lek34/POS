@@ -19,7 +19,7 @@
                with font-awesome or any other icon font library -->
           <?php 
 					if ($_GET["module"]=="beranda") { ?>
-						<li class="nav-item active">
+						<li class="nav-item">
             <a href="?module=beranda" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
@@ -41,8 +41,29 @@
 					<?php
 					}
           ?>
-
-          <li class="nav-item active">
+          <?php 
+					if ($_GET["module"]=="master") { ?>
+          <li class="nav-item">
+              <a href="?module=master" class="nav-link">
+                <i class="nav-icon fas fa-briefcase"></i>
+                <p>
+                  Master Data
+                  <i class="fas fa-angle-left right"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="?module=master" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Top Navigation</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <?php
+					}
+          else { ?>
+						<li class="nav-item ">
               <a href="javascript:void(0);" class="nav-link">
                 <i class="nav-icon fas fa-briefcase"></i>
                 <p>
@@ -52,13 +73,16 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="pages/layout/top-nav.html" class="nav-link">
+                  <a href="?module=master" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Top Navigation</p>
                   </a>
                 </li>
               </ul>
             </li>
+					<?php
+					}
+          ?>
           <li class="nav-item">
             <a href="javascript:void(0);" class="nav-link">
               <i class="nav-icon fas fa-chart-pie"></i>

@@ -10,7 +10,10 @@ else{
     if ($_GET['module'] == 'beranda') {
 		include "modules/home/dashboard.php";
 	}
-    if ($_GET['module'] == 'tabel') {
+    elseif ($_GET['module'] == 'tabel') {
+		include "modules/home/dashboard.php";
+	}
+	elseif ($_GET['module'] == 'master') {
 		include "modules/home/dashboard.php";
 	}
 }
