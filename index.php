@@ -1,3 +1,3 @@
 <?php
-  include 'auth/cek.php'
+  require_once 'auth/cek.php'
 ?>

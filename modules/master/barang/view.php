@@ -58,3 +58,32 @@
           <!-- /.col -->
         </div>
         <!-- /.row -->
+             <!-- The Modal -->
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Tambah Barang</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+            <br>
+            <form action="modules/barang/proses.php?act=insert" method="post">
+                <label>Nama Barang</label>
+                <input type="text" name="namabarang" placeholder="Nama Barang" class="form-control" required>
+                <br>
+                <label>Deskripsi</label>
+                <input type="text" name="deskripsi" placeholder="Deskripsi Barang" class="form-control" required>
+                <br>
+				<br>
+				    <button type="button" class="btn btn-danger" style="float: left;" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" name="addnewbarang" style="float: right;">Submit</button>
+            </form> 
+        </div>
+      </div>
+    </div>
+  </div>
