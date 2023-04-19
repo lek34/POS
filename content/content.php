@@ -13,8 +13,8 @@ else{
     elseif ($_GET['module'] == 'tabel') {
 		include "modules/home/dashboard.php";
 	}
-	elseif ($_GET['module'] == 'master') {
-		include "modules/transaksi/view.php";
+	elseif ($_GET['module'] == 'dataItem') {
+		include "modules/master/barang/view.php";
 	}
 }
 
