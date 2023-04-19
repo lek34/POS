@@ -14,6 +14,11 @@
               </div><!-- /.container-fluid -->
             </section>
 
+<?php
+  $query = "SELECT * from supplier";
+  $execQuery = mysqli_query($conn, $query);
+?>
+
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
@@ -28,11 +33,11 @@
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                   <tr>
-                    <th>Rendering engine</th>
-                    <th>Browser</th>
-                    <th>Platform(s)</th>
-                    <th>Engine version</th>
-                    <th>CSS grade</th>
+                    <th>Nama</th>
+                    <th>Alamat</th>
+                    <th>Kontak</th>
+                    <th>Keterangan</th>
+                    <th>Alamat</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -40,11 +45,11 @@
                   </tbody>
                   <tfoot>
                   <tr>
-                    <th>Rendering engine</th>
-                    <th>Browser</th>
-                    <th>Platform(s)</th>
-                    <th>Engine version</th>
-                    <th>CSS grade</th>
+                    <th>Nama</th>
+                    <th>Alamat</th>
+                    <th>Kontak</th>
+                    <th>Keterangan</th>
+                    <th>Alamat</th>
                   </tr>
                   </tfoot>
                 </table>
