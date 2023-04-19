@@ -9,7 +9,7 @@
             </section>
 
 <?php
-  $query = "SELECT * from supplier";
+  $query = "SELECT * from barang";
   $execQuery = mysqli_query($conn, $query);
 ?>
 
@@ -29,15 +29,25 @@
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                   <tr>
-                    <th>Nama</th>
-                    <th>Alamat</th>
-                    <th>Kontak</th>
-                    <th>Keterangan</th>
-                    <th>Alamat</th>
+                    <th>Nama Barang</th>
+                    <th>Harga Barang</th>
+                    <th>Quantity</th>
+                    <th>History</th>
                   </tr>
                   </thead>
                   <tbody>
-                  
+                    <?php
+                    while ($data = mysqli_fetch_assoc($execQuery)){
+                    ?>
+                      <tr>
+                      <td><?=$data['nama_barang']?></td>
+                      <td><?=$data['harga_beli']?></td>
+                      <td><?=$data['kuantitas']?></td>
+                      <td><a href="history.php?id=<?=$id_barang;?>" class = "btn btn-outline-secondary">History</a></td>
+                      </tr>
+                    <?php
+                    }
+                    ?>
                   </tbody>
                 </table>
               </div>
