@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 19 Apr 2023 pada 16.05
+-- Waktu pembuatan: 19 Apr 2023 pada 16.38
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 8.1.12
 
@@ -20,6 +20,26 @@ SET time_zone = "+00:00";
 --
 -- Database: `pos`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `barang`
+--
+
+CREATE TABLE `barang` (
+  `id_barang` int(11) NOT NULL,
+  `nama_barang` varchar(256) NOT NULL,
+  `harga_beli` int(11) NOT NULL,
+  `kuantitas` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `barang`
+--
+
+INSERT INTO `barang` (`id_barang`, `nama_barang`, `harga_beli`, `kuantitas`) VALUES
+(1, 'a', 100, 200);
 
 -- --------------------------------------------------------
 
@@ -57,6 +77,7 @@ INSERT INTO `is_users` (`id_user`, `username`, `nama_user`, `password`, `email`,
 CREATE TABLE `supplier` (
   `id_supplier` int(11) NOT NULL,
   `nama` varchar(256) NOT NULL,
+  `kontak` int(11) NOT NULL,
   `keterangan` text NOT NULL,
   `alamat` varchar(512) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -64,6 +85,12 @@ CREATE TABLE `supplier` (
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indeks untuk tabel `barang`
+--
+ALTER TABLE `barang`
+  ADD PRIMARY KEY (`id_barang`);
 
 --
 -- Indeks untuk tabel `is_users`
@@ -81,6 +108,12 @@ ALTER TABLE `supplier`
 --
 -- AUTO_INCREMENT untuk tabel yang dibuang
 --
+
+--
+-- AUTO_INCREMENT untuk tabel `barang`
+--
+ALTER TABLE `barang`
+  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `is_users`
