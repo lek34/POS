@@ -23,8 +23,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                <li class="nav-item">
-                <a href="" class="nav-link <?php echo isPageActive("beranda") ? 'active' : ''; ?>">
-                <i class="fa-sharp fa-regular fa-chart-line-down"></i>
+                <a href="?module=beranda" class="nav-link <?php echo isPageActive("beranda") ? 'active' : ''; ?>">
                 <p>
                     Dashboard
                 </p>
@@ -40,25 +39,25 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="?module=master" class="nav-link <?php echo isPageActive('dataItem') ? 'active' : ''; ?>">
+                    <a href="?module=dataItem" class="nav-link <?php echo isPageActive('dataItem') ? 'active' : ''; ?>">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Data Barang</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="?module=master" class="nav-link <?php echo isPageActive('dataSup') ? 'active' : ''; ?>">
+                    <a href="?module=dataSup" class="nav-link <?php echo isPageActive('dataSup') ? 'active' : ''; ?>">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Data Supplier</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="?module=master" class="nav-link <?php echo isPageActive('dataCust') ? 'active' : ''; ?>">
+                    <a href="?module=dataCust" class="nav-link <?php echo isPageActive('dataCust') ? 'active' : ''; ?>">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Data Customer</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="?module=master" class="nav-link <?php echo isPageActive('noAcc') ? 'active' : ''; ?>">
+                    <a href="?module=noAcc" class="nav-link <?php echo isPageActive('noAcc') ? 'active' : ''; ?>">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Nomor Akun</p>
                     </a>
