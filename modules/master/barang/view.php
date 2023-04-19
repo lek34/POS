@@ -20,8 +20,8 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                          <i class="fa fa-plus-square"></i> Tambah Item
+                    <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#myModal">
+                          <i class="fa fa-plus-square"></i> Tambah Barang
                       </button>
               </div>
               <!-- /.card-header -->
