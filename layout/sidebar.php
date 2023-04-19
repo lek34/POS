@@ -18,7 +18,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <?php 
-					if ($_GET["module"]=="beranda") { ?>
+					/* if ($_GET["module"]=="beranda") { ?>
 						<li class="nav-item">
             <a href="?module=beranda" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -75,7 +75,25 @@
                 <li class="nav-item">
                   <a href="?module=master" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
-                    <p>Top Navigation</p>
+                    <p>Data Barang</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="?module=master" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Data Supplier</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="?module=master" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Data Customer</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="?module=master" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Nomor Akun</p>
                   </a>
                 </li>
               </ul>
@@ -87,7 +105,7 @@
             <a href="javascript:void(0);" class="nav-link">
               <i class="nav-icon fas fa-chart-pie"></i>
               <p>
-                Charts
+                Transaksi
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -275,7 +293,7 @@
           </li>
 					<?php
 					}
-          ?>
+          ?> */
 
         </ul>
       </nav>
