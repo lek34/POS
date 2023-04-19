@@ -31,7 +31,7 @@
     <!-- Sidebar -->
     <div class="sidebar">
     <?php
-        include_once 'layout/sidebar.php'
+        include_once 'layout/sidebar2.php'
     ?>
       <!-- /.sidebar-menu -->
     </div>
