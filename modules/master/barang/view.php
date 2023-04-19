@@ -38,15 +38,18 @@
                   <tbody>
                     <?php
                     while ($data = mysqli_fetch_assoc($execQuery)){
+                      $id_barang = $data['id_barang'];
                     ?>
                       <tr>
                       <td><?=$data['nama_barang']?></td>
                       <td><?=$data['harga_beli']?></td>
                       <td><?=$data['kuantitas']?></td>
-                      <td><a href="history.php?id=<?=$id_barang;?>" class = "btn btn-outline-secondary">History</a></td>
+                      <td><a href="history.php?id=<?=$id_barang;?>&action=buy" class = "btn btn-outline-secondary">Pembelian</a><a href="history.php?id=<?=$id_barang;?>&action=sell" class = "btn btn-outline-secondary">Penjualan</a></td>
                       </tr>
                     <?php
                     }
+
+                    mysqli_close($conn);
                     ?>
                   </tbody>
                 </table>
