@@ -10,7 +10,9 @@ require_once "../../../config/database.php";
 require_once "../../../auth/cek.php";
 // jika user sudah login, maka jalankan perintah untuk insert, update, dan delete
     if ($_GET['act']=='insert') {
-        if(isset($_Po   ))
+        if(isset($_POST['addnewbarang'])){
+            
+        }
     }
 	         
 ?>
