@@ -38,6 +38,7 @@
                   <tbody>
                     <?php
                     while ($data = mysqli_fetch_assoc($execQuery)){
+                      $id_barang = $data['id_barang'];
                     ?>
                       <tr>
                       <td><?=$data['nama_barang']?></td>
@@ -47,6 +48,8 @@
                       </tr>
                     <?php
                     }
+
+                    mysqli_close($conn);
                     ?>
                   </tbody>
                 </table>
