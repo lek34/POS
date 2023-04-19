@@ -30,6 +30,41 @@
                 </p>
                 </a>
                </li>
+               <li class="nav-item ">
+                <a href="javascript:void(0);" class="nav-link <?php echo isPageActive('master') ? 'active' : ''; ?>">
+                  <i class="nav-icon fas fa-briefcase"></i>
+                  <p>
+                    Master
+                    <i class="fas fa-angle-left right"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="?module=master" class="nav-link <?php echo isPageActive('dataItem') ? 'active' : ''; ?>">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Data Barang</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="?module=master" class="nav-link <?php echo isPageActive('dataSup') ? 'active' : ''; ?>">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Data Supplier</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="?module=master" class="nav-link <?php echo isPageActive('dataCust') ? 'active' : ''; ?>">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Data Customer</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="?module=master" class="nav-link <?php echo isPageActive('noAcc') ? 'active' : ''; ?>">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Nomor Akun</p>
+                    </a>
+                  </li>
+                </ul>
+            </li>
 
     <?php
       }

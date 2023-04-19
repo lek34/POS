@@ -18,7 +18,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <?php 
-					/* if ($_GET["module"]=="beranda") { ?>
+					if ($_GET["module"]=="beranda") { ?>
 						<li class="nav-item">
             <a href="?module=beranda" class="nav-link active">
               <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -293,7 +293,7 @@
           </li>
 					<?php
 					}
-          ?> */
+          ?>
 
         </ul>
       </nav>
