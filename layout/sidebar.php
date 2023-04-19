@@ -89,6 +89,30 @@
                 </ul>
             </li>
 
+            <li class = "nav-item">
+              <a href="javascript:void(0);" class="nav-link <?php echo isPageActive('laporan') ? 'active' : ''; ?>">
+                    <i class="nav-icon fas fa-newspaper"></i>
+                    <p>
+                      Laporan
+                      <i class="fas fa-angle-left right"></i>
+                    </p>
+                  </a>
+                  <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="?module=buyItem" class="nav-link <?php echo isPageActive('buyReport') ? 'active' : ''; ?>">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Pembelian Barang</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="?module=sellItem" class="nav-link <?php echo isPageActive('sellReport') ? 'active' : ''; ?>">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Penjualan Barang</p>
+                    </a>
+                  </li>
+                </ul>
+            </li>
+
     <?php
       }
     ?>

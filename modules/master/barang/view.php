@@ -32,13 +32,7 @@
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>Other browsers</td>
-                    <td>All others</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>U</td>
-                  </tr>
+                  
                   </tbody>
                 </table>
               </div>
