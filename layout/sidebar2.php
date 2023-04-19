@@ -23,7 +23,8 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                <li class="nav-item">
-                <a href="?module=beranda" class="nav-link <?php echo isPageActive("beranda") ? 'active' : ''; ?>">
+                <a href="?module=beranda" class="nav-link <?php echo isPageActive('beranda') ? 'active' : ''; ?>">
+                <i class="nav-icon fas fa-home"></i>
                 <p>
                     Dashboard
                 </p>
@@ -60,6 +61,29 @@
                     <a href="?module=noAcc" class="nav-link <?php echo isPageActive('noAcc') ? 'active' : ''; ?>">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Nomor Akun</p>
+                    </a>
+                  </li>
+                </ul>
+            </li>
+            <li class = "nav-item">
+              <a href="javascript:void(0);" class="nav-link <?php echo isPageActive('transaksi') ? 'active' : ''; ?>">
+                    <i class="nav-icon fas fa-wallet"></i>
+                    <p>
+                      Transaksi
+                      <i class="fas fa-angle-left right"></i>
+                    </p>
+                  </a>
+                  <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="?module=buyItem" class="nav-link <?php echo isPageActive('buyItem') ? 'active' : ''; ?>">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Pembelian Barang</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="?module=sellItem" class="nav-link <?php echo isPageActive('sellItem') ? 'active' : ''; ?>">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Penjualan Barang</p>
                     </a>
                   </li>
                 </ul>
