@@ -71,9 +71,15 @@
                       <td><?=$data['nama_barang']?></td>
                       <td>Rp. <?=$harga_beli_formatted = number_format($data['harga_beli'], 0, ',', '.');?></td>
                       <td><?=$data['kuantitas']?></td>
+<<<<<<< HEAD
                       <td><a href="history.php?id=<?=$id_barang;?>&action=buy" class = "btn btn-outline-secondary" style="margin-right: 10px;">Pembelian</a><a href="history.php?id=<?=$id_barang;?>&action=sell" class = "btn btn-outline-secondary">Penjualan</a></td>
                       <td>
                         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#edit<?=$id_barang;?>">Edit</button>
+=======
+                      <td>
+                        <a href="history.php?id=<?=$id_barang;?>&action=buy" class = "btn btn-outline-primary" style="margin-right: 10px;">Pembelian</a>
+                        <a href="history.php?id=<?=$id_barang;?>&action=sell" class = "btn btn-outline-danger">Penjualan</a>
+>>>>>>> 94ec56c1de7b605f9d7a9613895760006883d65a
                       </td>
                       </tr>
                     <?php

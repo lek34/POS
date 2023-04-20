@@ -1,23 +1,50 @@
-<?php
-    if (empty($_GET['alert'])) {
+<?php  
+      // fungsi untuk menampilkan pesan
+      // jika alert = "" (kosong)
+      // tampilkan pesan "" (kosong)
+      if (empty($_GET['alert'])) {
         echo "";
       } 
-      // jika alert = 1
-      // tampilkan pesan Gagal "Username atau Password salah, cek kembali Username dan Password Anda"
-      elseif ($_GET['alert'] == 2) {
-        echo "<div class='alert alert-danger alert dismissable'>
-                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                <h4>  <i class='icon fa fa-times-circle'></i> Gagal Login!</h4>
-                Username atau Password salah, cek kembali Username dan Password Anda.
-              </div>";
-      }
-      // jika alert = 2
-      // tampilkan pesan Sukses "Anda telah berhasil logout"
       elseif ($_GET['alert'] == 1) {
         echo "<div class='alert alert-success alert dismissable'>
                 <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                <h4>  <i class='icon fa fa-check-circle'></i> Sukses!</h4>
-                Anda telah berhasil logout.
+                <h4>  <i class='icon fa fa-check-circle'></i> Berhasil!</h4>
+                Data barang berhasil ditambahkan.
+              </div>";
+      }
+      elseif ($_GET['alert'] == 2) {
+        echo "<div class='alert alert-danger alert dismissable'>
+                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                <h4>  <i class='icon fa fa-times-circle'></i> Gagal!</h4>
+                Data barang tidak dapat ditambahkan.
+              </div>";
+      }
+      elseif ($_GET['alert'] == 3) {
+        echo "<div class='alert alert-success alert dismissable'>
+                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                <h4>  <i class='icon fa fa-check-circle'></i> Berhasil!</h4>
+                Data barang berhasil diedit
+              </div>";
+      }
+      elseif ($_GET['alert'] == 4) {
+        echo "<div class='alert alert-danger alert dismissable'>
+                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                <h4>  <i class='icon fa fa-times-circle'></i> Gagal!</h4>
+                Data barang gagal diedit
+              </div>";
+      }
+      elseif ($_GET['alert'] == 5) {
+        echo "<div class='alert alert-success alert dismissable'>
+                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                <h4>  <i class='icon fa fa-check-circle'></i> Berhasil!</h4>
+                Data barang berhasil dihapus
+              </div>";
+      }
+      elseif ($_GET['alert' == 6]) {
+        echo "<div class='alert alert-danger alert dismissable'>
+                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                <h4>  <i class='icon fa fa-times-circle'></i> Gagal!</h4>
+                Data barang gagal dihapus
               </div>";
       }
       ?>
@@ -31,6 +58,10 @@
         </div>
     </div><!-- /.container-fluid -->
 </section>
+<?php
+    $query = "SELECT * FROM supplier";
+    $execQuery = mysqli_query($conn, $query);
+?>
 <section class="content">
     <div class="container-fluid">
         <div class="row">
@@ -67,8 +98,8 @@
                                         <td><?=$data['keterangan']?></td>
                                         <td><?=$data['alamat']?></td>
                                         <td>
-                                            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#edit<?=$id_supplier;?>">Edit</button>
-                                            <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#delete<?=$id_supplier?>">Delete</button>
+                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit<?=$id_supplier;?>"><i class="far fa-edit"></i></button>
+                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete<?=$id_supplier?>"><i class="fas fa-trash-alt"></i></button>
                                         </td>
                                     </tr>
                                 <?php
@@ -155,7 +186,7 @@
             <form action="modules/master/supplier/proses.php?act=edit" method="post">
                 <input type="hidden" name="id_supplier" value="<?=$id_supplier;?>">
                 <label>Nama Supplier</label>
-                <input type="text" name="nama" value="<?=$nama;?>" class="form-control" >
+                <input type="text" name="nama" value="<?=$nama;?>" class="form-control" readonly >
                 <br>
                 <label>Kontak</label>
                 <input type="text" name="kontak" value="<?=$kontak;?>" class="form-control" required>
@@ -178,6 +209,12 @@
         }
     ?>
 <!-- Delete Modal -->
+<?php
+$execQuery = mysqli_query($conn, "SELECT * FROM supplier");
+
+while ($data = mysqli_fetch_array($execQuery)) {
+    $id_supplier = $data['id_supplier'];
+?>
 <div class="modal fade" id="delete<?=$id_supplier;?>">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -207,5 +244,6 @@
   </div>           
 
   <?php
+}
   mysqli_close($conn);
   ?>

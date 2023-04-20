@@ -38,9 +38,9 @@ require_once "../../../auth/cek.php";
             $execQuery = mysqli_query($conn, $query);
 
             if ($execQuery){
-                header('location: ../../../main.php?module=dataSup&alert=1');
+                header('location: ../../../main.php?module=dataSup&alert=3');
             } else {
-                header('location: ../../../main.php?module=dataSup&alert=2');
+                header('location: ../../../main.php?module=dataSup&alert=4');
             }
         }
         
@@ -53,9 +53,9 @@ require_once "../../../auth/cek.php";
             $execQuery = mysqli_query($conn, $query);
 
             if ($execQuery){
-                header('location: ../../../main.php?module=dataSup&alert=1');
+                header('location: ../../../main.php?module=dataSup&alert=5');
             } else {
-                header('location: ../../../main.php?module=dataSup&alert=2');
+                header('location: ../../../main.php?module=dataSup&alert=6');
             }
         }
     }

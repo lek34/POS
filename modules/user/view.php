@@ -75,7 +75,7 @@
                             }
                             ?>
                                 <a data-toggle="tooltip" data-placement="top" title="Ubah" style="margin-right:5px" class="btn btn-success btn-sm" href="modules/user/proses.php?act=on&id=<?php echo $data['id_user'];?>">
-                                        <i class="fas fa-edit" style="color: #ffffff;"></i>
+                                        <i class="far fa-edit" style="color: #ffffff;"></i>
                                     </a>
                         </td>
                       </tr>
@@ -94,7 +94,7 @@
           <!-- /.col -->
         </div>
         <!-- /.row -->
-            <!-- The Modal -->
+  <!-- The Modal -->
   <div class="modal fade" id="myModal">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -108,15 +108,18 @@
         <!-- Modal body -->
         <div class="modal-body">
             <br>
-            <form action="modules/master/barang/proses.php?act=insert" method="post">
+            <form action="modules/user/proses.php?act=insert" method="post">
                 <label>Username</label>
-                <input type="text" name="username" placeholder="Nama Barang" class="form-control" required>
+                <input type="text" name="username" placeholder="Username" class="form-control" required>
                 <br>
                 <label>Password</label>
-                <input type="password" name="password" placeholder="Harga Barang / Item" class="form-control" required>
+                <input type="password" name="password" placeholder="Password" class="form-control" required>
+                <br>
+                <label>Nama User</label>
+                <input type="text" name="nama_user" placeholder="User" class="form-control" required>
                 <br>
                 <label>Hak Akses</label>
-                <select class="form-control" name="hakakses" required>
+                <select class="form-control" name="hakakses" placeholder="Hak Akses" required>
                   <option value="Super Admin">Super Admin</option> 
                   <option value="User">User</option> 
                 </select>
@@ -127,4 +130,4 @@
         </div>
       </div>
     </div>
-  </div>
+  </div><!-- Modal Close -->
