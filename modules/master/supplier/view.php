@@ -146,7 +146,7 @@
                 <br>
                 <br>
 				    <button type="button" class="btn btn-danger" style="float: left;" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" name="addSup" style="float: right;">Submit</button>
+                <button type="submit" class="btn btn-primary" name="editSup" style="float: right;">Submit</button>
             </form> 
         </div>
       </div>
@@ -174,7 +174,7 @@
         <div class="modal-footer">
           <form action="modules/master/supplier/proses.php?act=delete" method="post">
             <input type="hidden" name="idupdtsup" value="<?=$idsup?>">
-            <button type="submit" class="btn btn-primary" name="hapussupplier">Yes</button>
+            <button type="submit" class="btn btn-primary" name="delSup">Yes</button>
           </form>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
         </div>

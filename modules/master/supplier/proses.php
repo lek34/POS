@@ -32,9 +32,14 @@ require_once "../../../auth/cek.php";
         }
     }
     elseif ($_GET['act']=='update') {
+        if (isset($_POST['editSUp'])){
+
+        }
         
     }
     elseif ($_GET['act']=='delete') {
-        
+        if (isset($_POST['delSup'])){
+            
+        }
     }
 ?>
