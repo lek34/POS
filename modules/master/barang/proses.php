@@ -15,10 +15,11 @@ require_once "../../../auth/cek.php";
             $barang = mysqli_real_escape_string($conn, trim($_POST['namabarang']));
             $harga = mysqli_real_escape_string($conn, trim($_POST['harga']));
             $kuantitas = mysqli_real_escape_string($conn, trim($_POST['kuantitas']));
-            $query = mysqli_query($conn,"INSERT INTO barang (nama_barang, harga_beli, kuantitas) VALUES ('$barang', '$harga', '$kuantitas')");
+            $query = "INSERT INTO barang (nama_barang, harga_beli, kuantitas) VALUES ('$barang', '$harga', '$kuantitas')";
+            $execQuery = mysqli_query($conn, $query);
             //or die('Ada kesalahan pada query insert : '.mysqli_error($conn));
             // cek query
-            if ($query) {
+            if ($execQuery) {
                 //jika berhasil tampilkan pesan berhasil simpan data
                 header("location: ../../../main.php?module=dataItem&alert=1");
             }

@@ -18,13 +18,13 @@
       }
       // jika alert = 2
       // tampilkan pesan Sukses "Anda telah berhasil logout"
-      elseif ($_GET['alert'] == 2) {
-        echo "<div class='alert alert-danger alert dismissable'>
-                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                <h4>  <i class='icon fa fa-times-circle'></i> Gagal!</h4>
-                Data barang tidak dapat ditambahkan.
-              </div>";
-      }
+      // elseif ($_GET['alert'] == 2) {
+      //   echo "<div class='alert alert-danger alert dismissable'>
+      //           <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+      //           <h4>  <i class='icon fa fa-times-circle'></i> Gagal!</h4>
+      //           Data barang tidak dapat ditambahkan.
+      //         </div>";
+      // }
       ?>
         <div class="row mb-2">
                   <div class="col-sm-6">
@@ -59,6 +59,7 @@
                     <th>Harga Barang</th>
                     <th>Quantity</th>
                     <th>History</th>
+                    <th>Action</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -71,6 +72,9 @@
                       <td>Rp. <?=$harga_beli_formatted = number_format($data['harga_beli'], 0, ',', '.');?></td>
                       <td><?=$data['kuantitas']?></td>
                       <td><a href="history.php?id=<?=$id_barang;?>&action=buy" class = "btn btn-outline-secondary" style="margin-right: 10px;">Pembelian</a><a href="history.php?id=<?=$id_barang;?>&action=sell" class = "btn btn-outline-secondary">Penjualan</a></td>
+                      <td>
+                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#edit<?=$id_barang;?>">Edit</button>
+                      </td>
                       </tr>
                     <?php
                     }
@@ -119,3 +123,4 @@
       </div>
     </div>
   </div>
+
