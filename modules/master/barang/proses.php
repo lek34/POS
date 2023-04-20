@@ -7,13 +7,14 @@ require_once "../../../config/database.php";
 
 // fungsi untuk pengecekan status login user 
 // jika user belum login, alihkan ke halaman login dan tampilkan pesan = 1
-require_once "../../../auth/cek.php";
+if (empty($_SESSION['username']) && empty($_SESSION['password'])){
+	echo "<meta http-equiv='refresh' content='0; url=login.php?alert=1'>";
+}
 // jika user sudah login, maka jalankan perintah untuk insert, update, dan delete
     if ($_GET['act']=='insert') {
         if(isset($_POST['addnewbarang'])){
             $barang = mysqli_real_escape_string($conn, trim($_POST['barang']));
             $harga = mysqli_real_escape_string($conn, trim($_POST['harga']));
-
             $query = mysqli_query($conn,"INSERT INTO barang (idbarang, penerima, kondisi, quantity) value ('$barang', '$penerima', '$kondisi', '$qty')")
             or die('Ada kesalahan pada query insert : '.mysqli_error($conn));
             // cek query
