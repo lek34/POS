@@ -110,13 +110,13 @@
             <br>
             <form action="modules/user/proses.php?act=insert" method="post">
                 <label>Username</label>
-                <input type="text" name="username" placeholder="Nama Barang" class="form-control" required>
+                <input type="text" name="username" placeholder="Username" class="form-control" required>
                 <br>
                 <label>Password</label>
-                <input type="password" name="password" placeholder="Harga Barang / Item" class="form-control" required>
+                <input type="password" name="password" placeholder="Password" class="form-control" required>
                 <br>
                 <label>Hak Akses</label>
-                <select class="form-control" name="hakakses" required>
+                <select class="form-control" name="hakakses" placeholder="Hak Akses" required>
                   <option value="Super Admin">Super Admin</option> 
                   <option value="User">User</option> 
                 </select>
