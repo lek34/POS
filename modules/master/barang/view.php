@@ -76,13 +76,11 @@
                         <a href="history.php?id=<?=$id_barang;?>&action=sell" class = "btn btn-outline-danger">Penjualan</a>
                       </td>
                       <td>
-                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#edit<?=$id_barang;?>">Edit</button>
+                        <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#edit<?=$id_barang;?>"><i class = "far fa-edit"></i></button>
                       </td>
                       </tr>
                     <?php
                     }
-
-                    mysqli_close($conn);
                     ?>
                   </tbody>
                 </table>
@@ -133,8 +131,8 @@
 
   while ($data = mysqli_fetch_array($execQuery)) {
     $id_barang = $data['id_barang'];
-    $barang = $data ['namabarang'];
-    $harga = $data ['harga'];
+    $barang = $data ['nama_barang'];
+    $harga = $data ['harga_beli'];
     $kuantitas = $data ['kuantitas'];
 ?>
 <div class="modal fade" id="edit<?=$id_barang;?>">
