@@ -16,7 +16,6 @@ $password = mysqli_real_escape_string($conn, stripslashes(strip_tags(htmlspecial
 	// jika data ada, jalankan perintah untuk membuat session
 	if ($rows > 0) {
 		$data  = mysqli_fetch_assoc($query);
-
 		session_start();
 		$_SESSION['id_user']   = $data['id_user'];
 		$_SESSION['username']  = $data['username'];
