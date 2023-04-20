@@ -66,11 +66,14 @@
                     <?php
                     while ($data = mysqli_fetch_assoc($execQuery)){
                       $id_barang = $data['id_barang'];
+                      $barang = $data ['nama_barang'];
+                      $harga_beli_formatted = number_format($data['harga_beli'], 0, ',', '.');
+                      $kuantitas = $data ['kuantitas'];
                     ?>
                       <tr>
-                      <td><?=$data['nama_barang']?></td>
-                      <td>Rp. <?=$harga_beli_formatted = number_format($data['harga_beli'], 0, ',', '.');?></td>
-                      <td><?=$data['kuantitas']?></td>
+                      <td><?=$barang?></td>
+                      <td>Rp. <?=$harga_beli_formatted;?></td>
+                      <td><?=$kuantitas?></td>
                       <td>
                         <a href="history.php?id=<?=$id_barang;?>&action=buy" class = "btn btn-outline-primary" style="margin-right: 10px;">Pembelian</a>
                         <a href="history.php?id=<?=$id_barang;?>&action=sell" class = "btn btn-outline-danger">Penjualan</a>
@@ -79,9 +82,6 @@
                         <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#edit<?=$id_barang;?>"><i class = "far fa-edit"></i></button>
                       </td>
                       </tr>
-                    <?php
-                    }
-                    ?>
                   </tbody>
                 </table>
               </div>
@@ -125,16 +125,6 @@
     </div>
   </div>
 
-<!-- Edit Modal -->
-<?php
-  $execQuery = mysqli_query($conn, "SELECT * FROM barang");
-
-  while ($data = mysqli_fetch_array($execQuery)) {
-    $id_barang = $data['id_barang'];
-    $barang = $data ['nama_barang'];
-    $harga = $data ['harga_beli'];
-    $kuantitas = $data ['kuantitas'];
-?>
 <div class="modal fade" id="edit<?=$id_barang;?>">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -154,7 +144,7 @@
                 <input type="text" name="namabarang" value="<?=$barang;?>" class="form-control" >
                 <br>
                 <label>Harga</label>
-                <input type="text" name="harga" value="<?=$harga;?>" class="form-control" required>
+                <input type="text" name="harga" value="<?=$harga_beli_formatted;?>" class="form-control" required>
                 <br>
                 <label>Kuantitas</label>
                 <input type="text" name="kuantitas" value="<?=$kuantitas?>" class="form-control">
