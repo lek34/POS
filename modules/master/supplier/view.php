@@ -167,13 +167,13 @@
         <!-- Modal body -->
         <div class="modal-body">
             <br>
-                Apakah Anda Ingin Menghapus Supplier <?=$namasupplier;?> ?
+                Apakah Anda Ingin Menghapus Supplier?
         </div>
         
         <!-- Modal footer -->
         <div class="modal-footer">
           <form action="modules/master/supplier/proses.php?act=delete" method="post">
-            <input type="hidden" name="idupdtsup" value="<?=$idsup?>">
+            <input type="hidden" name="id_supplier" value="<?=$id_supplier?>">
             <button type="submit" class="btn btn-primary" name="delSup">Yes</button>
           </form>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
