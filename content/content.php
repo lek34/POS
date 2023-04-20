@@ -16,6 +16,10 @@ else{
 	elseif ($_GET['module'] == 'dataItem') {
 		include "modules/master/barang/view.php";
 	}
+	elseif ($_GET['module'] == 'dataSup') {
+		include "modules/master/barang/supplier.php";
+	}
+	
 }
 
 ?>
