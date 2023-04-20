@@ -109,15 +109,20 @@
         <div class="modal-body">
             <br>
             <form action="modules/master/barang/proses.php?act=insert" method="post">
-                <label>Nama Barang</label>
-                <input type="text" name="namabarang" placeholder="Nama Barang" class="form-control" required>
+                <label>Username</label>
+                <input type="text" name="username" placeholder="Nama Barang" class="form-control" required>
                 <br>
-                <label>Harga Barang</label>
-                <input type="text" name="harga" placeholder="Harga Barang / Item" class="form-control" required>
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Harga Barang / Item" class="form-control" required>
                 <br>
-				<br>
+                <label>Hak Akses</label>
+                <select class="form-control" name="hakakses" required>
+                  <option value="Super Admin">Super Admin</option> 
+                  <option value="User">User</option> 
+                </select>
+                <br>
 				    <button type="button" class="btn btn-danger" style="float: left;" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" name="addnewbarang" style="float: right;">Submit</button>
+                <button type="submit" class="btn btn-primary" name="addUser" style="float: right;">Submit</button>
             </form> 
         </div>
       </div>
