@@ -1,54 +1,3 @@
-<?php  
-      // fungsi untuk menampilkan pesan
-      // jika alert = "" (kosong)
-      // tampilkan pesan "" (kosong)
-      if (empty($_GET['alert'])) {
-        echo "";
-      } 
-      elseif ($_GET['alert'] == 1) {
-        echo "<div class='alert alert-success alert dismissable'>
-                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                <h4>  <i class='icon fa fa-check-circle'></i> Berhasil!</h4>
-                Data barang berhasil ditambahkan.
-              </div>";
-      }
-      elseif ($_GET['alert'] == 2) {
-        echo "<div class='alert alert-danger alert dismissable'>
-                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                <h4>  <i class='icon fa fa-times-circle'></i> Gagal!</h4>
-                Data barang tidak dapat ditambahkan.
-              </div>";
-      }
-      elseif ($_GET['alert'] == 3) {
-        echo "<div class='alert alert-success alert dismissable'>
-                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                <h4>  <i class='icon fa fa-check-circle'></i> Berhasil!</h4>
-                Data barang berhasil diedit
-              </div>";
-      }
-      elseif ($_GET['alert'] == 4) {
-        echo "<div class='alert alert-danger alert dismissable'>
-                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                <h4>  <i class='icon fa fa-times-circle'></i> Gagal!</h4>
-                Data barang gagal diedit
-              </div>";
-      }
-      elseif ($_GET['alert'] == 5) {
-        echo "<div class='alert alert-success alert dismissable'>
-                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                <h4>  <i class='icon fa fa-check-circle'></i> Berhasil!</h4>
-                Data barang berhasil dihapus
-              </div>";
-      }
-      elseif ($_GET['alert' == 6]) {
-        echo "<div class='alert alert-danger alert dismissable'>
-                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                <h4>  <i class='icon fa fa-times-circle'></i> Gagal!</h4>
-                Data barang gagal dihapus
-              </div>";
-      }
-      ?>
-
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -86,9 +35,6 @@
                             </thead>
                             <tbody>
                             <?php
-                                $query = "SELECT * FROM supplier ORDER BY id_supplier";
-                                $execQuery = mysqli_query($conn, $query);
-
                                 while ($data = mysqli_fetch_array($execQuery)) {
                                     $id_supplier  = $data['id_supplier'];
                                     ?>
@@ -98,8 +44,8 @@
                                         <td><?=$data['keterangan']?></td>
                                         <td><?=$data['alamat']?></td>
                                         <td>
-                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit<?=$id_supplier;?>"><i class="far fa-edit"></i></button>
-                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete<?=$id_supplier?>"><i class="fas fa-trash-alt"></i></button>
+                                            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#edit<?=$id_supplier;?>">Edit</button>
+                                            <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#delete<?=$id_supplier?>">Delete</button>
                                         </td>
                                     </tr>
                                 <?php
@@ -186,7 +132,7 @@
             <form action="modules/master/supplier/proses.php?act=edit" method="post">
                 <input type="hidden" name="id_supplier" value="<?=$id_supplier;?>">
                 <label>Nama Supplier</label>
-                <input type="text" name="nama" value="<?=$nama;?>" class="form-control" readonly >
+                <input type="text" name="nama" value="<?=$nama;?>" class="form-control" >
                 <br>
                 <label>Kontak</label>
                 <input type="text" name="kontak" value="<?=$kontak;?>" class="form-control" required>
@@ -205,16 +151,8 @@
       </div>
     </div>
   </div>
-    <?php
-        }
-    ?>
+    
 <!-- Delete Modal -->
-<?php
-$execQuery = mysqli_query($conn, "SELECT * FROM supplier");
-
-while ($data = mysqli_fetch_array($execQuery)) {
-    $id_supplier = $data['id_supplier'];
-?>
 <div class="modal fade" id="delete<?=$id_supplier;?>">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -228,13 +166,13 @@ while ($data = mysqli_fetch_array($execQuery)) {
         <!-- Modal body -->
         <div class="modal-body">
             <br>
-                Apakah Anda Ingin Menghapus Supplier?
+                Apakah Anda Ingin Menghapus Supplier <?=$namasupplier;?> ?
         </div>
         
         <!-- Modal footer -->
         <div class="modal-footer">
           <form action="modules/master/supplier/proses.php?act=delete" method="post">
-            <input type="hidden" name="id_supplier" value="<?=$id_supplier?>">
+            <input type="hidden" name="idupdtsup" value="<?=$idsup?>">
             <button type="submit" class="btn btn-primary" name="delSup">Yes</button>
           </form>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
@@ -244,6 +182,6 @@ while ($data = mysqli_fetch_array($execQuery)) {
   </div>           
 
   <?php
-}
-  mysqli_close($conn);
+    }
+    mysqli_close($conn);
   ?>
