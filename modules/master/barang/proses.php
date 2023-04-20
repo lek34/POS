@@ -13,6 +13,8 @@ require_once "../../../auth/cek.php";
         if(isset($_POST['addnewbarang'])){
             $barang = mysqli_real_escape_string($mysqli, trim($_POST['barang']));
             $harga = mysqli_real_escape_string($mysqli, trim($_POST['harga']));
+
+            $query = mysqli_query($conn,"INSERT INTO barang (barang,"
         }
     }
     elseif ($_GET['act']=='update') {
