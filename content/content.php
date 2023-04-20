@@ -19,6 +19,9 @@ else{
 	elseif ($_GET['module'] == 'dataSup') {
 		include "modules/master/supplier/view.php";
 	}
+	elseif ($_GET['module'] == 'dataCust') {
+		include "modules/master/customer/view.php";
+	}
 	elseif ($_GET['module'] == 'User') {
 		include "modules/user/view.php";
 	}
