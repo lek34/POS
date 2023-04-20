@@ -74,7 +74,7 @@
                             <?php
                             }
                             ?>
-                                <a data-toggle="tooltip" data-placement="top" title="Ubah" style="margin-right:5px" class="btn btn-success btn-sm" href="modules/user/proses.php?act=on&id=<?php echo $data['id_user'];?>">
+                                <a data-toggle="tooltip" data-placement="top" title="Ubah" style="margin-right:5px" class="btn btn-success btn-sm"  data-toggle="modal" data-target="#edit<?=$id_user;?>">
                                         <i class="fas fa-edit" style="color: #ffffff;"></i>
                                     </a>
                         </td>
@@ -96,6 +96,45 @@
         <!-- /.row -->
   <!-- The Modal -->
   <div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Tambah User</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+            <br>
+            <form action="modules/user/proses.php?act=insert" method="post">
+                <label>Username</label>
+                <input type="text" name="username" placeholder="Username" class="form-control" required>
+                <br>
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Password" class="form-control" required>
+                <br>
+                <label>Nama User</label>
+                <input type="text" name="nama_user" placeholder="User" class="form-control" required>
+                <br>
+                <label>Hak Akses</label>
+                <select class="form-control" name="hakakses" placeholder="Hak Akses" required>
+                  <option value="Super Admin">Super Admin</option> 
+                  <option value="User">User</option> 
+                </select>
+                <br>
+				    <button type="button" class="btn btn-danger" style="float: left;" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" name="addUser" style="float: right;">Submit</button>
+            </form> 
+        </div>
+      </div>
+    </div>
+  </div><!-- Modal Close -->
+  
+  
+    <!-- The Modal -->
+    <div class="modal fade" id="edit<?=$id_supplier;?>">
     <div class="modal-dialog">
       <div class="modal-content">
       
