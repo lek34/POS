@@ -35,7 +35,7 @@
                             </thead>
                             <tbody>
                             <?php
-                                while ($data = mysqli_fetch_assoc($execQuery)) {
+                                while ($data = mysqli_fetch_array($execQuery)) {
                                     $id_supplier  = $data['id_supplier'];
                                     ?>
                                     <tr>
@@ -44,13 +44,12 @@
                                         <td><?=$data['keterangan']?></td>
                                         <td><?=$data['alamat']?></td>
                                         <td>
-                                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit<?=$id_supplier?>">Edit</button>
-                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete<?=$id_supplier?>">Delete</button>
+                                            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#edit<?=$id_supplier?>">Edit</button>
+                                            <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#delete<?=$id_supplier?>">Delete</button>
                                         </td>
                                     </tr>
                                 <?php
                                 }
-                            
                             ?>
                             </tbody>
                         </table>
@@ -108,7 +107,7 @@
     $query = "SELECT * FROM supplier";
     $execQuery = mysqli_query($conn, $query);
 
-    while ($data = mysqli_fetch_assoc($execQuery)) {
+    while ($data = mysqli_fetch_array($execQuery)) {
         $id_supplier = $data['id_supplier'];
         $nama = $data ['nama'];
         $kontak = $data ['kontak'];
@@ -133,10 +132,10 @@
             <form action="modules/master/supplier/proses.php?act=edit" method="post">
                 <input type="hidden" name="id_supplier" value="<?=$id_supplier?>">
                 <label>Nama Supplier</label>
-                <input type="text" name="namabarang" value="<?=$nama?>" class="form-control" readonly>
+                <input type="text" name="nama" value="<?=$nama?>" class="form-control" readonly>
                 <br>
                 <label>Kontak</label>
-                <input type="text" name="deskripsi" value="<?=$kontak?>" class="form-control" required>
+                <input type="text" name="kontak" value="<?=$kontak?>" class="form-control" required>
                 <br>
                 <label>Keterangan</label>
                 <input type="text" name="keterangan" value="<?=$keterangan?>" class="form-control">

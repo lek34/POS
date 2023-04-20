@@ -20,20 +20,36 @@ require_once "../../../auth/cek.php";
             $execQuery = mysqli_query($conn, $query);
 
             if ($execQuery){
-                echo 'completed';
                 header('location: ../../../main.php?module=dataSup');
             } else {
                 echo
                 "<script>
                 alert ('Data gagal ditambahkan')
                 </script>";
-                header('location:modules/master/supplier/view.php');
+                header('location: ../../../main.php?module=dataSup');
             }
         }
     }
-    elseif ($_GET['act']=='update') {
-        if (isset($_POST['editSUp'])){
+    elseif ($_GET['act']=='edit') {
+        if (isset($_POST['editSup'])){
+            $id_sup = mysqli_real_escape_string($conn, trim($_POST['id_supplier']));
+            $nama = mysqli_real_escape_string($conn, trim($_POST['nama']));
+            $kontak  = mysqli_real_escape_string($conn, trim($_POST['kontak']));
+            $keterangan = mysqli_real_escape_string($conn, trim($_POST['keterangan']));
+            $alamat = mysqli_real_escape_string($conn, trim($_POST['alamat']));
 
+            $query = "UPDATE supplier SET nama = '$nama', kontak = '$kontak', keterangan = '$keterangan', alamat = '$alamat' WHERE id_supplier = '$id_sup'";
+            $execQuery = mysqli_query($conn, $query);
+
+            if ($execQuery){
+                header('location: ../../../main.php?module=dataSup');
+            } else {
+                echo
+                "<script>
+                alert ('Data gagal ditambahkan')
+                </script>";
+                header('location: ../../../main.php?module=dataSup');
+            }
         }
         
     }
