@@ -1,4 +1,3 @@
-
 <section class="content-header">
       <div class="container-fluid">
       <?php  
@@ -11,19 +10,19 @@
       // jika alert = 1
       // tampilkan pesan Gagal "Username atau Password salah, cek kembali Username dan Password Anda"
       elseif ($_GET['alert'] == 1) {
-        echo "<div class='alert alert-danger alert dismissable'>
+        echo "<div class='alert alert-success alert dismissable'>
                 <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                <h4>  <i class='icon fa fa-times-circle'></i> Gagal Login!</h4>
-                Username atau Password salah, cek kembali Username dan Password Anda.
+                <h4>  <i class='icon fa fa-check-circle'></i> Berhasil!</h4>
+                Data barang berhasil ditambahkan.
               </div>";
       }
       // jika alert = 2
       // tampilkan pesan Sukses "Anda telah berhasil logout"
       elseif ($_GET['alert'] == 2) {
-        echo "<div class='alert alert-success alert dismissable'>
+        echo "<div class='alert alert-danger alert dismissable'>
                 <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                <h4>  <i class='icon fa fa-check-circle'></i> Sukses!</h4>
-                Anda telah berhasil logout.
+                <h4>  <i class='icon fa fa-times-circle'></i> Gagal!</h4>
+                Data barang tidak dapat ditambahkan.
               </div>";
       }
       ?>

@@ -20,13 +20,9 @@ require_once "../../../auth/cek.php";
             $execQuery = mysqli_query($conn, $query);
 
             if ($execQuery){
-                header('location: ../../../main.php?module=dataSup');
+                header('location: ../../../main.php?module=dataSup&alert=1');
             } else {
-                echo
-                "<script>
-                alert ('Data gagal ditambahkan')
-                </script>";
-                header('location: ../../../main.php?module=dataSup');
+                header('location: ../../../main.php?module=dataSup&alert=2');
             }
         }
     }
@@ -42,13 +38,9 @@ require_once "../../../auth/cek.php";
             $execQuery = mysqli_query($conn, $query);
 
             if ($execQuery){
-                header('location: ../../../main.php?module=dataSup');
+                header('location: ../../../main.php?module=dataSup&alert=1');
             } else {
-                echo
-                "<script>
-                alert ('Data gagal ditambahkan')
-                </script>";
-                header('location: ../../../main.php?module=dataSup');
+                header('location: ../../../main.php?module=dataSup&alert=2');
             }
         }
         
@@ -61,13 +53,9 @@ require_once "../../../auth/cek.php";
             $execQuery = mysqli_query($conn, $query);
 
             if ($execQuery){
-                header('location: ../../../main.php?module=dataSup');
+                header('location: ../../../main.php?module=dataSup&alert=1');
             } else {
-                echo
-                "<script>
-                alert ('Data gagal ditambahkan')
-                </script>";
-                header('location: ../../../main.php?module=dataSup');
+                header('location: ../../../main.php?module=dataSup&alert=2');
             }
         }
     }
