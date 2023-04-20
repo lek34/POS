@@ -108,7 +108,7 @@
         <!-- Modal body -->
         <div class="modal-body">
             <br>
-            <form action="modules/master/barang/proses.php?act=insert" method="post">
+            <form action="modules/user/proses.php?act=insert" method="post">
                 <label>Username</label>
                 <input type="text" name="username" placeholder="Nama Barang" class="form-control" required>
                 <br>

@@ -1,4 +1,7 @@
-<?php  
+
+<section class="content-header">
+      <div class="container-fluid">
+      <?php  
       // fungsi untuk menampilkan pesan
       // jika alert = "" (kosong)
       // tampilkan pesan "" (kosong)
@@ -24,8 +27,6 @@
               </div>";
       }
       ?>
-<section class="content-header">
-      <div class="container-fluid">
         <div class="row mb-2">
                   <div class="col-sm-6">
                     <h1>Item</h1>

@@ -20,7 +20,7 @@ require_once "../../../auth/cek.php";
             // cek query
             if ($query) {
                 //jika berhasil tampilkan pesan berhasil simpan data
-                header("location: ../../main.php?module=dataItem&alert=1");
+                header("location: ../../../main.php?module=dataItem&alert=1");
             }
         }
     }
