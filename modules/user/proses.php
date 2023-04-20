@@ -13,13 +13,15 @@ require_once "../../auth/cek.php";
         if (isset($_POST['addUser'])){
             $username = mysqli_real_escape_string($conn, trim($_POST['username']));
             $password  = mysqli_real_escape_string($conn, trim($_POST['password']));
+            $nama_user = mysqli_real_escape_string($conn, trim($_POST['nama_user']));
             $hakakses = mysqli_real_escape_string($conn, trim($_POST['hakakses']));
            
-            $query = "INSERT INTO is_users (username, password, hakakses) VALUES ('$username', '$password', '$hakakses')";
-            $execQuery = mysqli_query($conn, $query);
-
+            $query = "INSERT INTO is_users (username, password, hak_akses,nama_user) VALUES ('$username', '$password', '$hakakses','$nama_user')";
+            $execQuery = mysqli_query($conn, $query)
+            or die('Ada kesalahan pada query insert : '.mysqli_error($conn));   
+            
             if ($execQuery){
-                header("location: ../../main.php?module=dataUser&alert=1");
+                header("location: ../../main.php?module=User&alert=1");
             }
         }
     }

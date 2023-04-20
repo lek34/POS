@@ -115,6 +115,9 @@
                 <label>Password</label>
                 <input type="password" name="password" placeholder="Password" class="form-control" required>
                 <br>
+                <label>Nama User</label>
+                <input type="text" name="nama_user" placeholder="User" class="form-control" required>
+                <br>
                 <label>Hak Akses</label>
                 <select class="form-control" name="hakakses" placeholder="Hak Akses" required>
                   <option value="Super Admin">Super Admin</option> 
