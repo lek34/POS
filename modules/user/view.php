@@ -75,7 +75,7 @@
                             }
                             ?>
                                 <a data-toggle="tooltip" data-placement="top" title="Ubah" style="margin-right:5px" class="btn btn-success btn-sm" href="modules/user/proses.php?act=on&id=<?php echo $data['id_user'];?>">
-                                        <i class="fas fa-edit" style="color: #ffffff;"></i>
+                                        <i class="far fa-edit" style="color: #ffffff;"></i>
                                     </a>
                         </td>
                       </tr>

@@ -98,8 +98,8 @@
                                         <td><?=$data['keterangan']?></td>
                                         <td><?=$data['alamat']?></td>
                                         <td>
-                                            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#edit<?=$id_supplier;?>">Edit</button>
-                                            <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#delete<?=$id_supplier?>">Delete</button>
+                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit<?=$id_supplier;?>"><i class="far fa-edit"></i></button>
+                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete<?=$id_supplier?>"><i class="fas fa-trash-alt"></i></button>
                                         </td>
                                     </tr>
                                 <?php
@@ -186,7 +186,7 @@
             <form action="modules/master/supplier/proses.php?act=edit" method="post">
                 <input type="hidden" name="id_supplier" value="<?=$id_supplier;?>">
                 <label>Nama Supplier</label>
-                <input type="text" name="nama" value="<?=$nama;?>" class="form-control" >
+                <input type="text" name="nama" value="<?=$nama;?>" class="form-control" readonly >
                 <br>
                 <label>Kontak</label>
                 <input type="text" name="kontak" value="<?=$kontak;?>" class="form-control" required>

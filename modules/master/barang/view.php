@@ -70,7 +70,10 @@
                       <td><?=$data['nama_barang']?></td>
                       <td>Rp. <?=$harga_beli_formatted = number_format($data['harga_beli'], 0, ',', '.');?></td>
                       <td><?=$data['kuantitas']?></td>
-                      <td><a href="history.php?id=<?=$id_barang;?>&action=buy" class = "btn btn-outline-secondary" style="margin-right: 10px;">Pembelian</a><a href="history.php?id=<?=$id_barang;?>&action=sell" class = "btn btn-outline-secondary">Penjualan</a></td>
+                      <td>
+                        <a href="history.php?id=<?=$id_barang;?>&action=buy" class = "btn btn-outline-primary" style="margin-right: 10px;">Pembelian</a>
+                        <a href="history.php?id=<?=$id_barang;?>&action=sell" class = "btn btn-outline-danger">Penjualan</a>
+                      </td>
                       </tr>
                     <?php
                     }
