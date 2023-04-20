@@ -55,7 +55,20 @@ require_once "../../../auth/cek.php";
     }
     elseif ($_GET['act']=='delete') {
         if (isset($_POST['delSup'])){
-            
+            $id_sup = mysqli_real_escape_string($conn, trim($_POST['id_supplier']));
+
+            $query = "DELETE FROM supplier WHERE id_supplier = '$id_sup'";
+            $execQuery = mysqli_query($conn, $query);
+
+            if ($execQuery){
+                header('location: ../../../main.php?module=dataSup');
+            } else {
+                echo
+                "<script>
+                alert ('Data gagal ditambahkan')
+                </script>";
+                header('location: ../../../main.php?module=dataSup');
+            }
         }
     }
 ?>
