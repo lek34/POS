@@ -17,10 +17,10 @@ require_once "../../../auth/cek.php";
             $query = mysqli_query($conn,"INSERT INTO barang (idbarang, penerima, kondisi, quantity) value ('$barang', '$penerima', '$kondisi', '$qty')")
             or die('Ada kesalahan pada query insert : '.mysqli_error($conn));
             // cek query
-            if ($query) {
+            //if ($query) {
                 // jika berhasil tampilkan pesan berhasil simpan data
-                header("location: ../../main.php?module=dataItem&alert=1");
-            }
+                //header("location: ../../main.php?module=dataItem&alert=1");
+            //}
         }
     }
     elseif ($_GET['act']=='update') {
