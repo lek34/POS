@@ -42,9 +42,9 @@
                     ?>
                       <tr>
                       <td><?=$data['nama_barang']?></td>
-                      <td><?=$data['harga_beli']?></td>
+                      <td>Rp. <?=$harga_beli_formatted = number_format($data['harga_beli'], 0, ',', '.');?></td>
                       <td><?=$data['kuantitas']?></td>
-                      <td><a href="history.php?id=<?=$id_barang;?>&action=buy" class = "btn btn-outline-secondary">Pembelian</a><a href="history.php?id=<?=$id_barang;?>&action=sell" class = "btn btn-outline-secondary">Penjualan</a></td>
+                      <td><a href="history.php?id=<?=$id_barang;?>&action=buy" class = "btn btn-outline-secondary" style="margin-right: 10px;">Pembelian</a><a href="history.php?id=<?=$id_barang;?>&action=sell" class = "btn btn-outline-secondary">Penjualan</a></td>
                       </tr>
                     <?php
                     }
@@ -61,7 +61,7 @@
           <!-- /.col -->
         </div>
         <!-- /.row -->
-             <!-- The Modal -->
+            <!-- The Modal -->
   <div class="modal fade" id="myModal">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -75,12 +75,12 @@
         <!-- Modal body -->
         <div class="modal-body">
             <br>
-            <form action="modules/barang/proses.php?act=insert" method="post">
+            <form action="modules/master/barang/proses.php?act=insert" method="post">
                 <label>Nama Barang</label>
                 <input type="text" name="namabarang" placeholder="Nama Barang" class="form-control" required>
                 <br>
-                <label>Deskripsi</label>
-                <input type="text" name="deskripsi" placeholder="Deskripsi Barang" class="form-control" required>
+                <label>Harga Barang</label>
+                <input type="text" name="harga" placeholder="Harga Barang / Item" class="form-control" required>
                 <br>
 				<br>
 				    <button type="button" class="btn btn-danger" style="float: left;" data-dismiss="modal">Close</button>
