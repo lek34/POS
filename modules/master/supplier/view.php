@@ -7,10 +7,6 @@
         </div>
     </div><!-- /.container-fluid -->
 </section>
-<?php
-    $query = "SELECT * FROM supplier ORDER BY id_supplier";
-    $execQuery = mysqli_query($conn, $query);
-?>
 <section class="content">
     <div class="container-fluid">
         <div class="row">
@@ -35,6 +31,9 @@
                             </thead>
                             <tbody>
                             <?php
+                                $query = "SELECT * FROM supplier ORDER BY id_supplier";
+                                $execQuery = mysqli_query($conn, $query);
+
                                 while ($data = mysqli_fetch_array($execQuery)) {
                                     $id_supplier  = $data['id_supplier'];
                                     ?>
