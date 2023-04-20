@@ -1,6 +1,6 @@
 
 <?php
-session_start();
+//session_start();
 
 // Panggil koneksi database.php untuk koneksi database
 require_once "../../../config/database.php";
