@@ -22,7 +22,8 @@ $password = mysqli_real_escape_string($conn, stripslashes(strip_tags(htmlspecial
 		$_SESSION['password']  = $data['password'];
 		$_SESSION['nama_user'] = $data['nama_user'];
 		$_SESSION['hak_akses'] = $data['hak_akses'];
-		
+
+		$_SESSION['log']='True';
 		// lalu alihkan ke halaman user
 		header("Location: ../main.php?module=beranda");
 	}
