@@ -11,7 +11,10 @@ require_once "../../../auth/cek.php";
 // jika user sudah login, maka jalankan perintah untuk insert, update, dan delete
     if ($_GET['act']=='insert') {
         if(isset($_POST['addnewbarang'])){
-           
+            $barang = mysqli_real_escape_string($mysqli, trim($_POST['barang']));
+            $harga = mysqli_real_escape_string($mysqli, trim($_POST['harga']));
+
+            $query = mysqli_query($conn,"INSERT INTO barang (idbarang, penerima, kondisi, quantity) value ('$barang', '$penerima', '$kondisi', '$qty')");
         }
     }
     elseif ($_GET['act']=='update') {
@@ -24,5 +27,4 @@ require_once "../../../auth/cek.php";
             
         }
     }
-	         
 ?>
