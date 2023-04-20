@@ -94,7 +94,7 @@
           <!-- /.col -->
         </div>
         <!-- /.row -->
-            <!-- The Modal -->
+  <!-- The Modal -->
   <div class="modal fade" id="myModal">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -130,4 +130,4 @@
         </div>
       </div>
     </div>
-  </div>
+  </div><!-- Modal Close -->

@@ -26,7 +26,7 @@ require_once "../../auth/cek.php";
         }
     }
     elseif ($_GET['act']=='edit') {
-        if (isset($_POST['editSup'])){
+        if (isset($_POST['editUser'])){
             $id_sup = mysqli_real_escape_string($conn, trim($_POST['id_supplier']));
             $nama = mysqli_real_escape_string($conn, trim($_POST['nama']));
             $kontak  = mysqli_real_escape_string($conn, trim($_POST['kontak']));
