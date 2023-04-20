@@ -36,7 +36,7 @@
                             <tbody>
                             <?php
                                 while ($data = mysqli_fetch_assoc($execQuery)) {
-                                    $id_supplier  = $data['id_suppllier'];
+                                    $id_supplier  = $data['id_supplier'];
                                     ?>
                                     <tr>
                                         <td><?=$data['nama']?></td>
@@ -51,7 +51,6 @@
                                 <?php
                                 }
                             
-                                mysqli_close($conn);
                             ?>
                             </tbody>
                         </table>
@@ -82,12 +81,12 @@
 
         <div class="modal-body">
             <br>
-            <form action="modules/supplier/proses.php?act=insert" method="post">
+            <form action="modules/master/supplier/proses.php?act=insert" method="post">
                 <label>Nama Supplier</label>
-                <input type="text" name="namabarang" placeholder="Nama Supplier" class="form-control" required>
+                <input type="text" name="nama" placeholder="Nama Supplier" class="form-control" required>
                 <br>
                 <label>Kontak</label>
-                <input type="text" name="deskripsi" placeholder="Kontak" class="form-control" required>
+                <input type="text" name="kontak" placeholder="Kontak" class="form-control" required>
                 <br>
                 <label>Keterangan</label>
                 <input type="text" name="keterangan" placeholder="Keterangan" class="form-control">
@@ -97,7 +96,7 @@
                 <br>
                 <br>
 				    <button type="button" class="btn btn-danger" style="float: left;" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" name="addnewbarang" style="float: right;">Submit</button>
+                <button type="submit" class="btn btn-primary" name="addSup" style="float: right;">Submit</button>
             </form> 
         </div>
       </div>
@@ -131,7 +130,7 @@
         <!-- Modal body -->
         <div class="modal-body">
             <br>
-            <form action="modules/supplier/proses.php?act=edit" method="post">
+            <form action="modules/master/supplier/proses.php?act=edit" method="post">
                 <input type="hidden" name="id_supplier" value="<?=$id_supplier?>">
                 <label>Nama Supplier</label>
                 <input type="text" name="namabarang" value="<?=$nama?>" class="form-control" readonly>
@@ -147,10 +146,7 @@
                 <br>
                 <br>
 				    <button type="button" class="btn btn-danger" style="float: left;" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" name="addnewbarang" style="float: right;">Submit</button>
-                <?php
-                    mysqli_close($conn);
-                ?>
+                <button type="submit" class="btn btn-primary" name="addSup" style="float: right;">Submit</button>
             </form> 
         </div>
       </div>
@@ -176,7 +172,7 @@
         
         <!-- Modal footer -->
         <div class="modal-footer">
-          <form action="modules/supplier/proses.php?act=delete" method="post">
+          <form action="modules/master/supplier/proses.php?act=delete" method="post">
             <input type="hidden" name="idupdtsup" value="<?=$idsup?>">
             <button type="submit" class="btn btn-primary" name="hapussupplier">Yes</button>
           </form>
@@ -185,3 +181,7 @@
       </div>
     </div>
   </div>           
+
+  <?php
+  mysqli_close($conn);
+  ?>
