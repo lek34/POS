@@ -44,7 +44,7 @@
                                         <td><?=$data['keterangan']?></td>
                                         <td><?=$data['alamat']?></td>
                                         <td>
-                                            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#edit<?=$id_supplier?>">Edit</button>
+                                            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#edit<?=$id_supplier;?>">Edit</button>
                                             <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#delete<?=$id_supplier?>">Delete</button>
                                         </td>
                                     </tr>
@@ -72,7 +72,7 @@
       
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Edit Supplier</h4>
+          <h4 class="modal-title">Tambah Supplier</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         
@@ -104,8 +104,8 @@
 
 <!-- Edit Modal -->
 <?php
-    $query = "SELECT * FROM supplier";
-    $execQuery = mysqli_query($conn, $query);
+
+    $execQuery = mysqli_query($conn, "SELECT * FROM supplier");
 
     while ($data = mysqli_fetch_array($execQuery)) {
         $id_supplier = $data['id_supplier'];
@@ -113,16 +113,16 @@
         $kontak = $data ['kontak'];
         $keterangan = $data ['keterangan'];
         $alamat = $data ['alamat'];
-    }
+    
 ?>
 
-<div class="modal fade" id="edit<?=$id_supplier?>">
+<div class="modal fade" id="edit<?=$id_supplier;?>">
     <div class="modal-dialog">
       <div class="modal-content">
       
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Tambah Supplier</h4>
+          <h4 class="modal-title">Edit Supplier</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         
@@ -130,12 +130,12 @@
         <div class="modal-body">
             <br>
             <form action="modules/master/supplier/proses.php?act=edit" method="post">
-                <input type="hidden" name="id_supplier" value="<?=$id_supplier?>">
+                <input type="hidden" name="id_supplier" value="<?=$id_supplier;?>">
                 <label>Nama Supplier</label>
-                <input type="text" name="nama" value="<?=$nama?>" class="form-control" readonly>
+                <input type="text" name="nama" value="<?=$nama;?>" class="form-control" >
                 <br>
                 <label>Kontak</label>
-                <input type="text" name="kontak" value="<?=$kontak?>" class="form-control" required>
+                <input type="text" name="kontak" value="<?=$kontak;?>" class="form-control" required>
                 <br>
                 <label>Keterangan</label>
                 <input type="text" name="keterangan" value="<?=$keterangan?>" class="form-control">
@@ -151,7 +151,9 @@
       </div>
     </div>
   </div>
-
+    <?php
+        }
+    ?>
 <!-- Delete Modal -->
 <div class="modal fade" id="delete<?=$id_supplier;?>">
     <div class="modal-dialog">
