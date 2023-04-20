@@ -76,7 +76,7 @@
                         <a href="history.php?id=<?=$id_barang;?>&action=sell" class = "btn btn-outline-danger">Penjualan</a>
                       </td>
                       <td>
-                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#edit<?=$id_barang;?>"><?=$id_barang;?></button>
+                        <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#edit<?=$id_barang;?>"><i class = "far fa-edit"></i></button>
                       </td>
                       </tr>
                     <?php
