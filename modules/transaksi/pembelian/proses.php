@@ -41,6 +41,10 @@ require_once "../../../auth/cek.php";
         }
         
     }
+    elseif($_GET['act'] == 'check'){
+
+    }
+
     elseif ($_GET['act']=='delete') {
         if (isset($_POST['delSup'])){
             $id_sup = mysqli_real_escape_string($conn, trim($_POST['id_supplier']));

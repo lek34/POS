@@ -31,7 +31,9 @@ else{
 	elseif ($_GET['module'] == 'buyItem'){
 		include "modules/transaksi/pembelian/view.php";
 	}
-
+	elseif ($_GET['module'] == 'detailPembelian') {
+		include "modules/transaksi/pembelian/detail.php";
+	}
 	
 }
 
