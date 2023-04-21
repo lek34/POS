@@ -49,9 +49,9 @@ require_once "../../../auth/cek.php";
             $execQuery = mysqli_query($conn, $query);
 
             if ($execQuery){
-                header('location: ../../../main.php?module=dataSup&alert=5');
+                header('location: ../../../main.php?module=noAcc&alert=5');
             } else {
-                header('location: ../../../main.php?module=dataSup&alert=6');
+                header('location: ../../../main.php?module=noAcc&alert=6');
             }
         }
     }
