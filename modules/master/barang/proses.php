@@ -46,7 +46,7 @@ require_once "../../../auth/cek.php";
         if(isset($_POST['deletebarang'])){
             $id_barang = mysqli_real_escape_string($conn, trim($_POST['id_barang']));
             
-            $query = "DELETE FROM barang WHERE id_barang = '$id_barang'";
+            $query = "UPDATE barang SET status = 'N' WHERE id_barang = '$id_barang'";
             $execQuery = mysqli_query($conn, $query);
             if($execQuery) {
                 //jika berhasil tampilkan pesan berhasil simpan data
