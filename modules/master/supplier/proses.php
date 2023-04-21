@@ -36,7 +36,7 @@ require_once "../../../auth/cek.php";
             $keterangan = mysqli_real_escape_string($conn, trim($_POST['keterangan']));
             $alamat = mysqli_real_escape_string($conn, trim($_POST['alamat']));
 
-            $query = "UPDATE supplier SET nama = '$nama', kontak = '$kontak',no_rekening = '$no_rekening', keterangan = '$keterangan', alamat = '$alamat' WHERE id_supplier = '$id_sup'";
+            $query = "UPDATE supplier SET nama = '$nama', kontak = '$kontak', no_rekening = '$no_rekening', keterangan = '$keterangan', alamat = '$alamat' WHERE id_supplier = '$id_sup'";
             $execQuery = mysqli_query($conn, $query);
 
             if ($execQuery){
