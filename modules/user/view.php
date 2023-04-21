@@ -108,7 +108,7 @@
         <!-- Modal body -->
         <div class="modal-body">
             <br>
-            <form action="modules/user/proses.php?act=insert" method="post">
+            <form action="modules/user/proses.php?act=insert" method="post" enctype="multipart/form-data">
                 <label>Username</label>
                 <input type="text" name="username" placeholder="Username" class="form-control" required>
                 <br>
