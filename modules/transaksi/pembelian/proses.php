@@ -26,15 +26,11 @@ require_once "../../../auth/cek.php";
         }
     }
     elseif ($_GET['act']=='edit') {
-        if (isset($_POST['editSup'])){
-            $id_sup = mysqli_real_escape_string($conn, trim($_POST['id_supplier']));
-            $nama = mysqli_real_escape_string($conn, trim($_POST['nama']));
-            $kontak  = mysqli_real_escape_string($conn, trim($_POST['kontak']));
-            $no_rekening  = mysqli_real_escape_string($conn, trim($_POST['no_rekening']));
-            $keterangan = mysqli_real_escape_string($conn, trim($_POST['keterangan']));
-            $alamat = mysqli_real_escape_string($conn, trim($_POST['alamat']));
+        if (isset($_POST['editBuy'])){
+            $supplier  = mysqli_real_escape_string($conn, trim($_POST['supplier']));
+            $id_pembelian  = mysqli_real_escape_string($conn, trim($_POST['id_pembelian']));
 
-            $query = "UPDATE supplier SET nama = '$nama', kontak = '$kontak', no_rekening = '$no_rekening', keterangan = '$keterangan', alamat = '$alamat' WHERE id_supplier = '$id_sup'";
+            $query = "UPDATE pembelian SET id_supplier = $supplier  WHERE id_pembelian = '$id_pembelian'";
             $execQuery = mysqli_query($conn, $query);
 
             if ($execQuery){

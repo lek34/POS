@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 21 Apr 2023 pada 07.33
+-- Waktu pembuatan: 21 Apr 2023 pada 10.01
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 8.1.12
 
@@ -120,11 +120,25 @@ INSERT INTO `is_users` (`id_user`, `username`, `nama_user`, `password`, `email`,
 
 CREATE TABLE `pembelian` (
   `id_pembelian` int(11) NOT NULL,
-  `id_barang` int(11) NOT NULL,
+  `nomor_transaksi` int(11) NOT NULL,
+  `no_faktur` varchar(256) NOT NULL,
   `id_supplier` int(11) NOT NULL,
-  `tanggal` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `status` varchar(10) NOT NULL DEFAULT 'Y'
+  `tanggal` date NOT NULL DEFAULT current_timestamp(),
+  `disc` int(11) NOT NULL DEFAULT 0,
+  `harga_netto` int(11) NOT NULL DEFAULT 0,
+  `status_hapus` varchar(10) NOT NULL DEFAULT 'Y',
+  `status_pembayaran` varchar(1) NOT NULL DEFAULT 'N',
+  `creator` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `pembelian`
+--
+
+INSERT INTO `pembelian` (`id_pembelian`, `nomor_transaksi`, `no_faktur`, `id_supplier`, `tanggal`, `disc`, `harga_netto`, `status_hapus`, `status_pembayaran`, `creator`) VALUES
+(1, 1, 'PB/2304/0001', 21, '2023-04-21', 0, 0, 'Y', 'N', ''),
+(2, 2, 'PB/2304/0002', 21, '2023-04-21', 0, 0, 'Y', 'N', ''),
+(3, 1, 'PB/2305/0001', 21, '2023-05-01', 0, 0, 'Y', 'N', '');
 
 -- --------------------------------------------------------
 
@@ -147,7 +161,8 @@ CREATE TABLE `supplier` (
 --
 
 INSERT INTO `supplier` (`id_supplier`, `nama`, `kontak`, `no_rekening`, `keterangan`, `alamat`, `status`) VALUES
-(21, 'Nicholas Yang', '081267643835', '8645185699', 'Pincang', 'Jln. Boulevard Raya', 'N');
+(21, 'Nicholas Yang', '081267643835', '8645185699', 'Pincang', 'Jln. Boulevard Raya', 'Y'),
+(22, 'Alex', '0812676438351', '12121212121', '', 'Jln Tong', 'Y');
 
 --
 -- Indexes for dumped tables
@@ -183,7 +198,6 @@ ALTER TABLE `is_users`
 --
 ALTER TABLE `pembelian`
   ADD PRIMARY KEY (`id_pembelian`),
-  ADD KEY `id_barang` (`id_barang`),
   ADD KEY `id_supplier` (`id_supplier`);
 
 --
@@ -224,13 +238,13 @@ ALTER TABLE `is_users`
 -- AUTO_INCREMENT untuk tabel `pembelian`
 --
 ALTER TABLE `pembelian`
-  MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `supplier`
 --
 ALTER TABLE `supplier`
-  MODIFY `id_supplier` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_supplier` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
@@ -240,7 +254,6 @@ ALTER TABLE `supplier`
 -- Ketidakleluasaan untuk tabel `pembelian`
 --
 ALTER TABLE `pembelian`
-  ADD CONSTRAINT `id_barang` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`),
   ADD CONSTRAINT `id_supplier` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`);
 COMMIT;
 
