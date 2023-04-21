@@ -1,38 +1,34 @@
-<?php
-    $id_pembelian = $_GET['id_pembelian'];
-
-    $query = "SELECT p.*, s.nama, s.no_rekening
-                FROM pembelian p 
-                INNER JOIN supplier s ON p.id_supplier = s.id_supplier
-                WHERE id_pembelian = $id_pembelian
-                ";
-    $execQuery = mysqli_query ($conn, $query);
-
-    $data = mysqli_fetch_assoc($execQuery);
-    $nomor_faktur = $data ['no_faktur'];
-    $nama_supplier = $data ['nama'];
-    $no_rekening = $data ['no_rekening'];
-    $tanggal = $data ['tanggal'];
-    $tanggal_jatuh_tempo = $data ['jatuh_tempo'];
-?>
-
 <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Detail Pembelian</h1>
+            <h1>Tambah Pembelian</h1>
           </div>
         </div>
       </div><!-- /.container-fluid -->
     </section>
+<?php
+  $query = "SELECT MAX(nomor_transaksi) as last_transaksi , no_faktur from pembelian;";
+  $execQuery = mysqli_query($conn, $query);
+  $fetchQuery = mysqli_fetch_array($execQuery);
+  $date = date('ym');
+  $current_month = date('m');
+  $stored_month = substr($fetchQuery['no_faktur'], 5, 2); // extract the stored month from the last ID
+  $next_number = 1; // Set a default value for next_number before the if-else block
+  if ($current_month == $stored_month) {
+      // Increment the next number by 1 if the current month is the same as the stored month
+      $next_number = (int)$fetchQuery['last_transaksi'] + 1;
+  }
+  $date = date('ym');
+  $newFaktur = 'PB/' . $date .'/'. str_pad($next_number, 4, '0', STR_PAD_LEFT);
+?>      
             <!-- Main content -->
             <div class="invoice p-3 mb-3">
               <!-- title row -->
               <div class="row">
                 <div class="col-12">
                   <h2>
-                    <?=$nomor_faktur?>
-                    <small class="float-right"><?=$tanggal?></small>
+                    
                   </h2>
                 </div>
                 <!-- /.col -->
@@ -40,15 +36,34 @@
               <!-- info row -->
               <div class="row invoice-info">
                 <div class="col-sm-4 invoice-col">
-                    <h4>Detail :</h4>
-                <b>Nama Supplier    :</b> <?=$nama_supplier?><br>
-                <b>No. Rekening     :</b> <?=$no_rekening?><br>
-                <b>Jatuh Tempo         :</b> <?=$tanggal_jatuh_tempo?>
+                <form action="modules/transaksi/pembelian/proses.php?act=inserttemp" method="post"> <!-- form buka -->
+                  <input type="text" name="nomor_transaksi" placeholder="You Shouldn't See This" value='<?= $next_number?>' class="form-control" hidden>
+                  <label>No. Faktur</label>
+                  <input type="hidden" name="id_pembelian" placeholder="No Faktur" value='<?= $newFaktur?>' class="form-control" readonly>
+                  <input type="text" name="no_faktur" placeholder="No Faktur" value='<?= $newFaktur?>' class="form-control" readonly>
+                  <br>
+                  <label>Supplier</label>
+                  <select name="supplier" class="form-control">
+                      <?php
+                      $pilihansupplier = mysqli_query($conn, "select * from supplier WHERE status = 'Y'");
+                      while ($fetcharray = mysqli_fetch_array($pilihansupplier)) {
+                      $namasupplier = $fetcharray['nama'];
+                      $idsup = $fetcharray['id_supplier'];
+                      ?>
+                      <option value="<?= $idsup; ?>">
+                          <?= $namasupplier; ?>
+                      </option>
+                      <?php
+                      }
+                      ?>
+                  </select>
+                  <br>
+                  <label>Jatuh Tempo</label>
+                  <input type="date" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" required>
                 </div>
               </div>
               <br>
               <!-- /.row -->
-              <form action="modules/transaksi/pembelian/proses.php?act=insertDetail" method="post">
               <div class="row">
                 <div class="col-12 table-responsive">
                   <table class="table table-striped">
