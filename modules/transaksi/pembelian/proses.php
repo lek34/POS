@@ -18,8 +18,10 @@ require_once "../../../auth/cek.php";
             $query = "INSERT INTO pembelian (no_faktur, id_supplier,nomor_transaksi,jatuh_tempo) VALUES ('$no_faktur', '$supplier','$nomor_transaksi','$jatuh_tempo')";
             $execQuery = mysqli_query($conn, $query);
 
+
             if ($execQuery){
-                header('location: ../../../main.php?module=buyItem&alert=1');
+                $id_pembelian = mysqli_insert_id($conn);
+                header('location: ../../../main.php?module=detailPembelian&id_pembelian='.$id_pembelian);
             } else {
                 header('location: ../../../main.php?module=buyItem&alert=2');
             }
@@ -41,8 +43,13 @@ require_once "../../../auth/cek.php";
         }
         
     }
-    elseif($_GET['act'] == 'check'){
-
+    elseif($_GET['act'] == 'insertDetail'){
+        if(isset($_POST['insertDetail'])){
+            $id_barang = mysqli_real_escape_string($conn, trim($_POST['id_barang']));
+            $kuantitas = mysqli_real_escape_string($conn, trim($_POST['kuantitas']));
+            $bruto = mysqli_real_escape_string($conn, trim($_POST['bruto']));
+            $netto = ($kuantitas*$bruto);
+        }
     }
 
     elseif ($_GET['act']=='delete') {

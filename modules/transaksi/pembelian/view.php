@@ -120,9 +120,11 @@
         <!-- Modal body -->
         <div class="modal-body">
             <br>
+
             <form action="modules/transaksi/pembelian/proses.php?act=insert" method="post">
                 <input type="text" name="nomor_transaksi" placeholder="You Shouldn't See This" value='<?= $next_number?>' class="form-control" hidden>
                 <label>No. Faktur</label>
+                <input type="hidden" name="id_pembelian" placeholder="No Faktur" value='<?= $newFaktur?>' class="form-control" readonly>
                 <input type="text" name="no_faktur" placeholder="No Faktur" value='<?= $newFaktur?>' class="form-control" readonly>
                 <br>
                 <label>Supplier</label>

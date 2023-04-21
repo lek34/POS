@@ -48,48 +48,56 @@
               </div>
               <br>
               <!-- /.row -->
-              <form action="./proses.php?act = insert" method="post">
+              <form action="modules/transaksi/pembelian/proses.php?act=insertDetail" method="post">
               <div class="row">
                 <div class="col-12 table-responsive">
                   <table class="table table-striped">
                   <thead>
                     <tr>
-                      <th>Qty</th>
-                      <th>Product</th>
-                      <th>Serial #</th>
-                      <th>Description</th>
-                      <th>Subtotal</th>
+                      <th>Nama Barang</th>
+                      <th>Kuantitas</th>
+                      <th>Bruto</th>
+                      <th>Submit</th>
                     </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>
-                            <input type="text">
+                            <select name="id_barang" class="form-control">
+                              <?php
+                              $pilihanbarang = mysqli_query($conn, "select * from barang WHERE status = 'Y'");
+                              while ($fetcharray = mysqli_fetch_array($pilihanbarang)) {
+                              $namabarang = $fetcharray['nama_barang'];
+                              $id_barang= $fetcharray['id_barang'];
+                              ?>
+                              <option value="<?= $id_barang; ?>">
+                                  <?= $namabarang; ?>
+                              </option>
+                              <?php
+                              }
+                              ?>
+                          </select>
                             </td>
                             <td>
-                            <input type="text">
+                            <input type="text" class="form-control" name="kuantitas">
                             </td>
                             <td>
-                            <input type="text">
+                            <input type="text" class="form-control" name="bruto">
                             </td>
                             <td>
-                            <input type="text">
-                            </td>
-                            <td>
-                            <input type="text">
-                            </td>
+                              <div class="row">
+                                <div class = "col">
+                                    <button type="submit" class="btn btn-outline-secondary" data-toggle="modal" data-target="#tambah">
+                                        <i class="fa fa-plus-square"></i> Tambah
+                                    </button>
+                                </div>
+                            </div>
+                          </td>
                         </tr>
                     </tbody>
                   </table>
                 </div>
               </div>
-              <div class="row">
-                    <div class = "col-2">
-                        <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#tambah">
-                            <i class="fa fa-plus-square"></i> Tambah Barang
-                        </button>
-                    </div>
-                </div>
               </form>
                 
                 <br>
