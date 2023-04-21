@@ -1,5 +1,11 @@
 <section class="content-header">
     <div class="container-fluid">
+    <?php
+        if (isset($_GET['alert'])) {
+            $alert =  $_GET['alert'];
+            switchAlert($alert);
+    }
+?>
         <div class="row mb-2">
             <div class="col-sm-6">
                 <h1>Tambah Pembelian</h1>
