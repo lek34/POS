@@ -17,7 +17,7 @@ require_once "../../../auth/cek.php";
             $kuantitas = mysqli_real_escape_string($conn, trim($_POST['kuantitas']));
             $query = "INSERT INTO barang (nama_barang, harga_beli, kuantitas) VALUES ('$barang', '$harga', '$kuantitas')";
             $execQuery = mysqli_query($conn, $query);
-            or die('Ada kesalahan pada query insert : '.mysqli_error($conn));
+            //or die('Ada kesalahan pada query insert : '.mysqli_error($conn));
             // cek query
             if ($execQuery) {
                 //jika berhasil tampilkan pesan berhasil simpan data
@@ -25,7 +25,7 @@ require_once "../../../auth/cek.php";
             }
         }
     }
-    elseif ($_GET['act']=='update') {
+    elseif ($_GET['act']=='edit') {
         if(isset($_POST['editbarang'])){
             $id_barang = mysqli_real_escape_string($conn, trim($_POST['id_barang']));
             $barang = mysqli_real_escape_string($conn, trim($_POST['namabarang']));
@@ -33,10 +33,10 @@ require_once "../../../auth/cek.php";
             $kuantitas = mysqli_real_escape_string($conn, trim($_POST['kuantitas']));
             $query = "UPDATE barang SET nama_barang = '$barang', harga_beli = '$harga', kuantitas = '$kuantitas' WHERE id_barang = '$id_barang;'";
             $execQuery = mysqli_query($conn, $query);
-            or die('Ada kesalahan pada query insert : '.mysqli_error($conn));
+            //or die('Ada kesalahan pada query insert : '.mysqli_error($conn));
             if ($execQuery) {
                 //jika berhasil tampilkan pesan berhasil simpan data
-                header("location: ../../../main.php?module=dataItem&alert=1");
+                header("location: ../../../main.php?module=dataItem&alert=2");
             }
         }
     }
