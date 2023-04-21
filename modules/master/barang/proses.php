@@ -23,6 +23,8 @@ require_once "../../../auth/cek.php";
             if ($execQuery) {
                 //jika berhasil tampilkan pesan berhasil simpan data
                 header("location: ../../../main.php?module=dataItem&alert=1");
+            } else {
+                header("location: ../../../main.php?module=dataItem&alert=2");
             }
         }
     }
@@ -38,7 +40,9 @@ require_once "../../../auth/cek.php";
             //or die('Ada kesalahan pada query insert : '.mysqli_error($conn));
             if ($execQuery) {
                 //jika berhasil tampilkan pesan berhasil simpan data
-                header("location: ../../../main.php?module=dataItem&alert=2");
+                header("location: ../../../main.php?module=dataItem&alert=3");
+            } else {
+                header("location: ../../../main.php?module=dataItem&alert=4");
             }
         }
     }
@@ -50,7 +54,9 @@ require_once "../../../auth/cek.php";
             $execQuery = mysqli_query($conn, $query);
             if($execQuery) {
                 //jika berhasil tampilkan pesan berhasil simpan data
-                header("location: ../../../main.php?module=dataItem&alert=3");
+                header("location: ../../../main.php?module=dataItem&alert=5");
+            } else {
+                header("location: ../../../main.php?module=dataItem&alert=6");
             }
         }
     }

@@ -16,25 +16,47 @@
                 Data barang berhasil ditambahkan.
               </div>";
       }
-      // jika alert = 2
-      // tampilkan pesan Berhasil "Data barang berhasil diubah."
+
       elseif ($_GET['alert'] == 2) {
-        echo "<div class='alert alert-success alert dismissable'>
+        echo "<div class='alert alert-danger alert dismissable'>
                 <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                <h4>  <i class='icon fa fa-check-circle'></i> Berhasil!</h4>
-                Data barang berhasil diubah.
+                <h4>  <i class='icon fa fa-times-circle'></i> Berhasil!</h4>
+                Data barang gagal ditambahkan.
               </div>";
       }
-      // jika alert = 3
-      // tampilkan pesan Berhasil "Data barang berhasil dihapus."
+
       elseif ($_GET['alert'] == 3) {
         echo "<div class='alert alert-success alert dismissable'>
                 <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
                 <h4>  <i class='icon fa fa-check-circle'></i> Berhasil!</h4>
-                Data barang berhasil dihapus.
+                Data barang berhasil di-edit.
               </div>";
       }
-      ?>
+
+      elseif ($_GET['alert'] == 4) {
+        echo "<div class='alert alert-danger alert dismissable'>
+                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                <h4>  <i class='icon fa fa-times-circle'></i> Berhasil!</h4>
+                Data barang gagal di-edit.
+              </div>";
+      }
+
+      elseif ($_GET['alert'] == 5) {
+        echo "<div class='alert alert-success alert dismissable'>
+                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                <h4>  <i class='icon fa fa-check-circle'></i> Berhasil!</h4>
+                Data barang berhasil di-hapus.
+              </div>";
+      }
+
+      elseif ($_GET['alert'] == 6) {
+        echo "<div class='alert alert-danger alert dismissable'>
+                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                <h4>  <i class='icon fa fa-times-circle'></i> Berhasil!</h4>
+                Data barang gagal di-hapus.
+              </div>";
+      }
+    ?>
         <div class="row mb-2">
                   <div class="col-sm-6">
                     <h1>Item</h1>
