@@ -75,7 +75,7 @@
                 <div class="card">
                     <div class="card-header">
                         <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#tambah">
-                        <i class="fa fa-plus-square"></i> Tambah CUstomer
+                        <i class="fa fa-plus-square"></i> Tambah Customer
                         </button>
                     </div>
                     <!-- /.card-header -->
