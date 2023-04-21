@@ -13,10 +13,11 @@ require_once "../../../auth/cek.php";
         if (isset($_POST['addSup'])){
             $nama = mysqli_real_escape_string($conn, trim($_POST['nama']));
             $kontak  = mysqli_real_escape_string($conn, trim($_POST['kontak']));
+            $no_rekening  = mysqli_real_escape_string($conn, trim($_POST['no_rekening']));
             $keterangan = mysqli_real_escape_string($conn, trim($_POST['keterangan']));
             $alamat = mysqli_real_escape_string($conn, trim($_POST['alamat']));
 
-            $query = "INSERT INTO supplier (nama, kontak, keterangan, alamat) VALUES ('$nama', '$kontak', '$keterangan', '$alamat')";
+            $query = "INSERT INTO supplier (nama, kontak, no_rekening, keterangan, alamat) VALUES ('$nama', '$kontak','$no_rekening', '$keterangan', '$alamat')";
             $execQuery = mysqli_query($conn, $query);
 
             if ($execQuery){
@@ -31,10 +32,11 @@ require_once "../../../auth/cek.php";
             $id_sup = mysqli_real_escape_string($conn, trim($_POST['id_supplier']));
             $nama = mysqli_real_escape_string($conn, trim($_POST['nama']));
             $kontak  = mysqli_real_escape_string($conn, trim($_POST['kontak']));
+            $no_rekening  = mysqli_real_escape_string($conn, trim($_POST['no_rekening']));
             $keterangan = mysqli_real_escape_string($conn, trim($_POST['keterangan']));
             $alamat = mysqli_real_escape_string($conn, trim($_POST['alamat']));
 
-            $query = "UPDATE supplier SET nama = '$nama', kontak = '$kontak', keterangan = '$keterangan', alamat = '$alamat' WHERE id_supplier = '$id_sup'";
+            $query = "UPDATE supplier SET nama = '$nama', kontak = '$kontak',no_rekening = '$no_rekening', keterangan = '$keterangan', alamat = '$alamat' WHERE id_supplier = '$id_sup'";
             $execQuery = mysqli_query($conn, $query);
 
             if ($execQuery){

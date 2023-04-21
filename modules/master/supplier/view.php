@@ -28,6 +28,7 @@
                                 <tr>
                                 <th>Nama</th>
                                 <th>Kontak</th>
+                                <th>No. Rekening</th>
                                 <th>Keterangan</th>
                                 <th>Alamat</th>
                                 <th>Action</th>
@@ -41,6 +42,7 @@
                                     <tr>
                                         <td><?=$data['nama']?></td>
                                         <td><?=$data['kontak']?></td>
+                                        <td><?=$data['no_rekening']?></td>
                                         <td><?=$data['keterangan']?></td>
                                         <td><?=$data['alamat']?></td>
                                         <td>
@@ -87,6 +89,9 @@
                 <label>Kontak</label>
                 <input type="text" name="kontak" placeholder="Kontak" class="form-control" required>
                 <br>
+                <label>No. Rekening</label>
+                <input type="text" name="no_rekening" placeholder="No. Rekening" class="form-control" required>
+                <br>
                 <label>Keterangan</label>
                 <input type="text" name="keterangan" placeholder="Keterangan" class="form-control">
 				<br>
@@ -111,6 +116,7 @@
         $id_supplier = $data['id_supplier'];
         $nama = $data ['nama'];
         $kontak = $data ['kontak'];
+        $no_rekening = $data ['no_rekening'];
         $keterangan = $data ['keterangan'];
         $alamat = $data ['alamat'];
     
@@ -136,6 +142,9 @@
                 <br>
                 <label>Kontak</label>
                 <input type="text" name="kontak" value="<?=$kontak;?>" class="form-control" required>
+                <br>
+                <label>No. Rekening</label>
+                <input type="text" name="no_rekening" value="<?=$no_rekening;?>" class="form-control" required>
                 <br>
                 <label>Keterangan</label>
                 <input type="text" name="keterangan" value="<?=$keterangan?>" class="form-control">
