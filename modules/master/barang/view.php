@@ -66,7 +66,7 @@
             </section>
 
 <?php
-  $query = "SELECT * from barang";
+  $query = "SELECT * from barang WHERE status = 'Y'";
   $execQuery = mysqli_query($conn, $query);
 ?>
 

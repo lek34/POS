@@ -50,7 +50,7 @@ require_once "../../../auth/cek.php";
         if (isset($_POST['delCust'])){
             $id_cust = mysqli_real_escape_string($conn, trim($_POST['id_customer']));
 
-            $query = "DELETE FROM customer WHERE id_customer = '$id_cust'";
+            $query = "UPDATE customer SET status = 'N' WHERE id_customer = '$id_cust'";
             $execQuery = mysqli_query($conn, $query);
 
             if ($execQuery){

@@ -65,7 +65,7 @@
     </div><!-- /.container-fluid -->
 </section>
 <?php
-    $query = "SELECT * FROM supplier";
+  $query = "SELECT * from supplier WHERE status = 'Y'";
     $execQuery = mysqli_query($conn, $query);
 ?>
 <section class="content">
