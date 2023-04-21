@@ -8,7 +8,7 @@
         echo "";
       } 
       // jika alert = 1
-      // tampilkan pesan Gagal "Username atau Password salah, cek kembali Username dan Password Anda"
+      // tampilkan pesan Berhasil "Data barang berhasil ditambahkan"
       elseif ($_GET['alert'] == 1) {
         echo "<div class='alert alert-success alert dismissable'>
                 <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
@@ -17,14 +17,23 @@
               </div>";
       }
       // jika alert = 2
-      // tampilkan pesan Sukses "Anda telah berhasil logout"
-      // elseif ($_GET['alert'] == 2) {
-      //   echo "<div class='alert alert-danger alert dismissable'>
-      //           <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-      //           <h4>  <i class='icon fa fa-times-circle'></i> Gagal!</h4>
-      //           Data barang tidak dapat ditambahkan.
-      //         </div>";
-      // }
+      // tampilkan pesan Berhasil "Data barang berhasil diubah."
+      elseif ($_GET['alert'] == 2) {
+        echo "<div class='alert alert-success alert dismissable'>
+                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                <h4>  <i class='icon fa fa-check-circle'></i> Berhasil!</h4>
+                Data barang berhasil diubah.
+              </div>";
+      }
+      // jika alert = 3
+      // tampilkan pesan Berhasil "Data barang berhasil dihapus."
+      elseif ($_GET['alert'] == 3) {
+        echo "<div class='alert alert-success alert dismissable'>
+                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                <h4>  <i class='icon fa fa-check-circle'></i> Berhasil!</h4>
+                Data barang berhasil dihapus.
+              </div>";
+      }
       ?>
         <div class="row mb-2">
                   <div class="col-sm-6">
@@ -79,7 +88,8 @@
                         <a href="history.php?id=<?=$id_barang;?>&action=sell" class = "btn btn-outline-danger">Penjualan</a>
                       </td>
                       <td class="center">
-                        <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#edit<?=$id_barang;?>"><i class = "far fa-edit"></i></button>
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit<?=$id_barang;?>"><i class = "far fa-edit"></i></button>
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete<?=$id_barang;?>"><i class = "far fa-trash-alt"></i></button>
                       </td>
                       </tr>
                     <?php
@@ -165,6 +175,33 @@
 				    <button type="button" class="btn btn-danger" style="float: left;" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary" name="editbarang" style="float: right;">Submit</button>
             </form> 
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- Delete Modal -->
+<div class="modal fade" id="delete<?=$id_barang;?>">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Hapus Barang</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+            <br>
+              Apakah anda ingin menghapus barang?
+        </div>
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <form action="modules/master/barang/proses.php?act=delete" method="post">
+            <input type="hidden" name="id_barang" value="<?=$id_barang;?>">
+            <button type="submit" class="btn btn-primary" name="deletebarang">Yes</button>
+				    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+          </form> 
         </div>
       </div>
     </div>

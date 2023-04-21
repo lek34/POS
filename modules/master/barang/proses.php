@@ -15,6 +15,7 @@ require_once "../../../auth/cek.php";
             $barang = mysqli_real_escape_string($conn, trim($_POST['namabarang']));
             $harga = mysqli_real_escape_string($conn, trim($_POST['harga']));
             $kuantitas = mysqli_real_escape_string($conn, trim($_POST['kuantitas']));
+            
             $query = "INSERT INTO barang (nama_barang, harga_beli, kuantitas) VALUES ('$barang', '$harga', '$kuantitas')";
             $execQuery = mysqli_query($conn, $query);
             //or die('Ada kesalahan pada query insert : '.mysqli_error($conn));
@@ -25,14 +26,32 @@ require_once "../../../auth/cek.php";
             }
         }
     }
-    elseif ($_GET['act']=='update') {
+    elseif ($_GET['act']=='edit') {
         if(isset($_POST['editbarang'])){
+            $id_barang = mysqli_real_escape_string($conn, trim($_POST['id_barang']));
+            $barang = mysqli_real_escape_string($conn, trim($_POST['namabarang']));
+            $harga = mysqli_real_escape_string($conn, trim($_POST['harga']));
+            $kuantitas = mysqli_real_escape_string($conn, trim($_POST['kuantitas']));
             
+            $query = "UPDATE barang SET nama_barang = '$barang', harga_beli = '$harga', kuantitas = '$kuantitas' WHERE id_barang = '$id_barang'";
+            $execQuery = mysqli_query($conn, $query);
+            //or die('Ada kesalahan pada query insert : '.mysqli_error($conn));
+            if ($execQuery) {
+                //jika berhasil tampilkan pesan berhasil simpan data
+                header("location: ../../../main.php?module=dataItem&alert=2");
+            }
         }
     }
     elseif ($_GET['act']=='delete') {
         if(isset($_POST['deletebarang'])){
+            $id_barang = mysqli_real_escape_string($conn, trim($_POST['id_barang']));
             
+            $query = "DELETE FROM barang WHERE id_barang = '$id_barang'";
+            $execQuery = mysqli_query($conn, $query);
+            if($execQuery) {
+                //jika berhasil tampilkan pesan berhasil simpan data
+                header("location: ../../../main.php?module=dataItem&alert=3");
+            }
         }
     }
 ?>

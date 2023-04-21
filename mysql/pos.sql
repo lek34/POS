@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 19 Apr 2023 pada 16.38
+-- Waktu pembuatan: 21 Apr 2023 pada 05.00
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 8.1.12
 
@@ -39,7 +39,29 @@ CREATE TABLE `barang` (
 --
 
 INSERT INTO `barang` (`id_barang`, `nama_barang`, `harga_beli`, `kuantitas`) VALUES
-(1, 'a', 100, 200);
+(1, 'a', 100, 200),
+(2, 'adawdawd', 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `customer`
+--
+
+CREATE TABLE `customer` (
+  `id_customer` int(11) NOT NULL,
+  `nama` varchar(256) NOT NULL,
+  `kontak` varchar(20) NOT NULL,
+  `keterangan` text NOT NULL,
+  `alamat` varchar(256) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `customer`
+--
+
+INSERT INTO `customer` (`id_customer`, `nama`, `kontak`, `keterangan`, `alamat`) VALUES
+(1, 'Nicholas Yang', '081267643835', 'Pincang', 'Jln. Boulevard Raya');
 
 -- --------------------------------------------------------
 
@@ -77,9 +99,25 @@ INSERT INTO `is_users` (`id_user`, `username`, `nama_user`, `password`, `email`,
 CREATE TABLE `supplier` (
   `id_supplier` int(11) NOT NULL,
   `nama` varchar(256) NOT NULL,
-  `kontak` int(11) NOT NULL,
+  `kontak` varchar(20) NOT NULL,
   `keterangan` text NOT NULL,
   `alamat` varchar(512) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `transaksi`
+--
+
+CREATE TABLE `transaksi` (
+  `id_transaksi` int(11) NOT NULL,
+  `id_barang` int(11) NOT NULL,
+  `nama_barang` varchar(256) NOT NULL,
+  `id_supplier` int(11) NOT NULL,
+  `nama_supplier` varchar(256) NOT NULL,
+  `tanggal` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `tipe` enum('buy','sell') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -91,6 +129,12 @@ CREATE TABLE `supplier` (
 --
 ALTER TABLE `barang`
   ADD PRIMARY KEY (`id_barang`);
+
+--
+-- Indeks untuk tabel `customer`
+--
+ALTER TABLE `customer`
+  ADD PRIMARY KEY (`id_customer`);
 
 --
 -- Indeks untuk tabel `is_users`
@@ -106,6 +150,14 @@ ALTER TABLE `supplier`
   ADD PRIMARY KEY (`id_supplier`);
 
 --
+-- Indeks untuk tabel `transaksi`
+--
+ALTER TABLE `transaksi`
+  ADD PRIMARY KEY (`id_transaksi`),
+  ADD KEY `id_barang` (`id_barang`),
+  ADD KEY `id_supplier` (`id_supplier`);
+
+--
 -- AUTO_INCREMENT untuk tabel yang dibuang
 --
 
@@ -113,7 +165,13 @@ ALTER TABLE `supplier`
 -- AUTO_INCREMENT untuk tabel `barang`
 --
 ALTER TABLE `barang`
-  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT untuk tabel `customer`
+--
+ALTER TABLE `customer`
+  MODIFY `id_customer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `is_users`
@@ -125,7 +183,24 @@ ALTER TABLE `is_users`
 -- AUTO_INCREMENT untuk tabel `supplier`
 --
 ALTER TABLE `supplier`
-  MODIFY `id_supplier` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_supplier` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- AUTO_INCREMENT untuk tabel `transaksi`
+--
+ALTER TABLE `transaksi`
+  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+--
+
+--
+-- Ketidakleluasaan untuk tabel `transaksi`
+--
+ALTER TABLE `transaksi`
+  ADD CONSTRAINT `id_barang` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`),
+  ADD CONSTRAINT `id_supplier` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
