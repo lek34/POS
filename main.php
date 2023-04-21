@@ -1,6 +1,7 @@
 <?php
   session_start();
-  include 'config/database.php'
+  include 'config/database.php';
+  include 'function/alertfunc.php';
 ?>
 
 <!DOCTYPE html>
