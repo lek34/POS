@@ -230,7 +230,7 @@ while ($data = mysqli_fetch_array($execQuery)){
                 <label>Supplier</label>
                 <select name="supplier" class="form-control">
                     <?php
-                    $pilihansupplier = mysqli_query($conn, "select * from supplier");
+                    $pilihansupplier = mysqli_query($conn, "select * from supplier where status = 'Y'");
                     while ($fetcharray = mysqli_fetch_array($pilihansupplier)) {
                     $namasupplier = $fetcharray['nama'];
                     $idsup = $fetcharray['id_supplier'];
