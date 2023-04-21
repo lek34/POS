@@ -14,14 +14,14 @@ require_once "../../../auth/cek.php";
             $nomor_transaksi  = mysqli_real_escape_string($conn, trim($_POST['nomor_transaksi']));
             $no_faktur = trim($_POST['no_faktur']);
             $supplier  = mysqli_real_escape_string($conn, trim($_POST['supplier']));
-            
-            $query = "INSERT INTO pembelian (no_faktur, id_supplier,nomor_transaksi) VALUES ('$no_faktur', '$supplier','$nomor_transaksi')";
+            $jatuh_tempo  	= mysqli_real_escape_string($conn, trim($_POST['jatuh_tempo']));
+            $query = "INSERT INTO pembelian (no_faktur, id_supplier,nomor_transaksi,jatuh_tempo) VALUES ('$no_faktur', '$supplier','$nomor_transaksi','$jatuh_tempo')";
             $execQuery = mysqli_query($conn, $query);
 
             if ($execQuery){
                 header('location: ../../../main.php?module=buyItem&alert=1');
             } else {
-                header('location: ../../../main.php?module=dataSup&alert=2');
+                header('location: ../../../main.php?module=buyItem&alert=2');
             }
         }
     }
@@ -29,14 +29,14 @@ require_once "../../../auth/cek.php";
         if (isset($_POST['editBuy'])){
             $supplier  = mysqli_real_escape_string($conn, trim($_POST['supplier']));
             $id_pembelian  = mysqli_real_escape_string($conn, trim($_POST['id_pembelian']));
-
-            $query = "UPDATE pembelian SET id_supplier = $supplier  WHERE id_pembelian = '$id_pembelian'";
+            $jatuh_tempo  	= mysqli_real_escape_string($conn, trim($_POST['jatuh_tempo']));
+            $query = "UPDATE pembelian SET id_supplier = '$supplier', jatuh_tempo = '$jatuh_tempo' WHERE id_pembelian = '$id_pembelian'";
             $execQuery = mysqli_query($conn, $query);
 
             if ($execQuery){
-                header('location: ../../../main.php?module=dataSup&alert=3');
+                header('location: ../../../main.php?module=buyItem&alert=3');
             } else {
-                header('location: ../../../main.php?module=dataSup&alert=4');
+                header('location: ../../../main.php?module=buyItem&alert=4');
             }
         }
         
@@ -49,9 +49,9 @@ require_once "../../../auth/cek.php";
             $execQuery = mysqli_query($conn, $query);
 
             if ($execQuery){
-                header('location: ../../../main.php?module=dataSup&alert=5');
+                header('location: ../../../main.php?module=buyItem&alert=5');
             } else {
-                header('location: ../../../main.php?module=dataSup&alert=6');
+                header('location: ../../../main.php?module=buyItem&alert=6');
             }
         }
     }

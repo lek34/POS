@@ -77,11 +77,12 @@
                             <thead>
                                 <tr>
                                 <th>No. Faktur </th>
-                                <th>Tanggal</th>
+                                <th>Tanggal Pembelian</th>
                                 <th>Supplier</th>
                                 <th>Disc</th>
                                 <th>Harga Netto</th>
                                 <th>Status</th>
+                                <th>Jatuh Tempo</th>
                                 <th>Action</th>
                                 </tr>
                             </thead>
@@ -97,6 +98,7 @@
                                     $id_pembelian = $data ['id_pembelian'];
                                     $no_faktur = $data ['no_faktur'];
                                     $tanggal  = $data ['tanggal'];
+                                    $jatuh_tempo  = $data ['jatuh_tempo'];
                                     $supplier = $data ['nama'];
                                     $disc = $data ['disc'];
                                     $netto = number_format($data['harga_netto'], 0, ',', '.');
@@ -117,6 +119,7 @@
                                         }
                                         ?>
                                     </td>
+                                    <td><?=$jatuh_tempo?></td>
                                     <td>
                                         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit<?=$id_pembelian;?>"><i class = "far fa-edit"></i></button>
                                         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete<?=$id_barang;?>"><i class = "far fa-trash-alt"></i></button>
@@ -188,8 +191,12 @@
                     ?>
                 </select>
                 <br>
+                <label>Jatuh Tempo</label>
+                <input type="date" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" required>
+                <br>
+                <br>
 				<br>
-				    <button type="button" class="btn btn-danger" style="float: left;" data-dismiss="modal">Close</button>
+				            <button type="button" class="btn btn-danger" style="float: left;" data-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary" name="addBuy" style="float: right;">Submit</button>
             </form> 
         </div>
@@ -208,6 +215,7 @@ while ($data = mysqli_fetch_array($execQuery)){
     $id_pembelian = $data ['id_pembelian'];
     $no_faktur = $data ['no_faktur'];
     $supplier = $data ['nama'];
+    $jatuh_tempo = $data ['jatuh_tempo'];
 ?>
 <div class="modal fade" id="edit<?=$id_pembelian;?>">
     <div class="modal-dialog">
@@ -242,6 +250,10 @@ while ($data = mysqli_fetch_array($execQuery)){
                     }
                     ?>
                 </select>
+                <br>
+                <label>Jatuh Tempo</label>
+                <input type="date" name="jatuh_tempo" placeholder="jatuhtempo" value='<?= $jatuh_tempo?>' class="form-control" required>
+
                 <br>
 				<br>
 				    <button type="button" class="btn btn-danger" style="float: left;" data-dismiss="modal">Close</button>

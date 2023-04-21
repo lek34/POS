@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 21 Apr 2023 pada 10.01
--- Versi server: 10.4.27-MariaDB
--- Versi PHP: 8.1.12
+-- Generation Time: Apr 21, 2023 at 11:44 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `akun`
+-- Table structure for table `akun`
 --
 
 CREATE TABLE `akun` (
@@ -34,7 +34,7 @@ CREATE TABLE `akun` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `akun`
+-- Dumping data for table `akun`
 --
 
 INSERT INTO `akun` (`id_akun`, `kode_akun`, `nama_akun`) VALUES
@@ -44,7 +44,7 @@ INSERT INTO `akun` (`id_akun`, `kode_akun`, `nama_akun`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `barang`
+-- Table structure for table `barang`
 --
 
 CREATE TABLE `barang` (
@@ -56,7 +56,7 @@ CREATE TABLE `barang` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `barang`
+-- Dumping data for table `barang`
 --
 
 INSERT INTO `barang` (`id_barang`, `nama_barang`, `harga_beli`, `kuantitas`, `status`) VALUES
@@ -66,7 +66,7 @@ INSERT INTO `barang` (`id_barang`, `nama_barang`, `harga_beli`, `kuantitas`, `st
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `customer`
+-- Table structure for table `customer`
 --
 
 CREATE TABLE `customer` (
@@ -79,7 +79,7 @@ CREATE TABLE `customer` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `customer`
+-- Dumping data for table `customer`
 --
 
 INSERT INTO `customer` (`id_customer`, `nama`, `kontak`, `keterangan`, `alamat`, `status`) VALUES
@@ -88,7 +88,7 @@ INSERT INTO `customer` (`id_customer`, `nama`, `kontak`, `keterangan`, `alamat`,
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `is_users`
+-- Table structure for table `is_users`
 --
 
 CREATE TABLE `is_users` (
@@ -106,7 +106,7 @@ CREATE TABLE `is_users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data untuk tabel `is_users`
+-- Dumping data for table `is_users`
 --
 
 INSERT INTO `is_users` (`id_user`, `username`, `nama_user`, `password`, `email`, `telepon`, `foto`, `hak_akses`, `status`, `created_at`, `updated_at`) VALUES
@@ -115,7 +115,7 @@ INSERT INTO `is_users` (`id_user`, `username`, `nama_user`, `password`, `email`,
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pembelian`
+-- Table structure for table `pembelian`
 --
 
 CREATE TABLE `pembelian` (
@@ -124,6 +124,7 @@ CREATE TABLE `pembelian` (
   `no_faktur` varchar(256) NOT NULL,
   `id_supplier` int(11) NOT NULL,
   `tanggal` date NOT NULL DEFAULT current_timestamp(),
+  `jatuh_tempo` date DEFAULT NULL,
   `disc` int(11) NOT NULL DEFAULT 0,
   `harga_netto` int(11) NOT NULL DEFAULT 0,
   `status_hapus` varchar(10) NOT NULL DEFAULT 'Y',
@@ -132,18 +133,19 @@ CREATE TABLE `pembelian` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `pembelian`
+-- Dumping data for table `pembelian`
 --
 
-INSERT INTO `pembelian` (`id_pembelian`, `nomor_transaksi`, `no_faktur`, `id_supplier`, `tanggal`, `disc`, `harga_netto`, `status_hapus`, `status_pembayaran`, `creator`) VALUES
-(1, 1, 'PB/2304/0001', 21, '2023-04-21', 0, 0, 'Y', 'N', ''),
-(2, 2, 'PB/2304/0002', 21, '2023-04-21', 0, 0, 'Y', 'N', ''),
-(3, 1, 'PB/2305/0001', 21, '2023-05-01', 0, 0, 'Y', 'N', '');
+INSERT INTO `pembelian` (`id_pembelian`, `nomor_transaksi`, `no_faktur`, `id_supplier`, `tanggal`, `jatuh_tempo`, `disc`, `harga_netto`, `status_hapus`, `status_pembayaran`, `creator`) VALUES
+(1, 1, 'PB/2304/0001', 22, '2023-04-21', '2023-04-29', 0, 0, 'Y', 'N', ''),
+(2, 2, 'PB/2304/0002', 22, '2023-04-21', '2023-04-28', 0, 0, 'Y', 'N', ''),
+(3, 1, 'PB/2305/0001', 22, '2023-05-01', '2023-04-30', 0, 0, 'Y', 'N', ''),
+(4, 3, 'PB/2304/0003', 22, '2023-04-21', '2023-04-29', 0, 0, 'Y', 'N', '');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `supplier`
+-- Table structure for table `supplier`
 --
 
 CREATE TABLE `supplier` (
@@ -157,11 +159,11 @@ CREATE TABLE `supplier` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `supplier`
+-- Dumping data for table `supplier`
 --
 
 INSERT INTO `supplier` (`id_supplier`, `nama`, `kontak`, `no_rekening`, `keterangan`, `alamat`, `status`) VALUES
-(21, 'Nicholas Yang', '081267643835', '8645185699', 'Pincang', 'Jln. Boulevard Raya', 'Y'),
+(21, 'Nicholas Yang', '081267643835', '8645185699', 'Pincang', 'Jln. Boulevard Raya', 'N'),
 (22, 'Alex', '0812676438351', '12121212121', '', 'Jln Tong', 'Y');
 
 --
@@ -169,89 +171,89 @@ INSERT INTO `supplier` (`id_supplier`, `nama`, `kontak`, `no_rekening`, `keteran
 --
 
 --
--- Indeks untuk tabel `akun`
+-- Indexes for table `akun`
 --
 ALTER TABLE `akun`
   ADD PRIMARY KEY (`id_akun`);
 
 --
--- Indeks untuk tabel `barang`
+-- Indexes for table `barang`
 --
 ALTER TABLE `barang`
   ADD PRIMARY KEY (`id_barang`);
 
 --
--- Indeks untuk tabel `customer`
+-- Indexes for table `customer`
 --
 ALTER TABLE `customer`
   ADD PRIMARY KEY (`id_customer`);
 
 --
--- Indeks untuk tabel `is_users`
+-- Indexes for table `is_users`
 --
 ALTER TABLE `is_users`
   ADD PRIMARY KEY (`id_user`),
   ADD KEY `level` (`hak_akses`);
 
 --
--- Indeks untuk tabel `pembelian`
+-- Indexes for table `pembelian`
 --
 ALTER TABLE `pembelian`
   ADD PRIMARY KEY (`id_pembelian`),
   ADD KEY `id_supplier` (`id_supplier`);
 
 --
--- Indeks untuk tabel `supplier`
+-- Indexes for table `supplier`
 --
 ALTER TABLE `supplier`
   ADD PRIMARY KEY (`id_supplier`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `akun`
+-- AUTO_INCREMENT for table `akun`
 --
 ALTER TABLE `akun`
   MODIFY `id_akun` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT untuk tabel `barang`
+-- AUTO_INCREMENT for table `barang`
 --
 ALTER TABLE `barang`
   MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT untuk tabel `customer`
+-- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
   MODIFY `id_customer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `is_users`
+-- AUTO_INCREMENT for table `is_users`
 --
 ALTER TABLE `is_users`
   MODIFY `id_user` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `pembelian`
+-- AUTO_INCREMENT for table `pembelian`
 --
 ALTER TABLE `pembelian`
-  MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT untuk tabel `supplier`
+-- AUTO_INCREMENT for table `supplier`
 --
 ALTER TABLE `supplier`
   MODIFY `id_supplier` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Constraints for dumped tables
 --
 
 --
--- Ketidakleluasaan untuk tabel `pembelian`
+-- Constraints for table `pembelian`
 --
 ALTER TABLE `pembelian`
   ADD CONSTRAINT `id_supplier` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`);
