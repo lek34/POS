@@ -2,13 +2,13 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Supplier</h1>
+                <h1>Customer</h1>
             </div>
         </div>
     </div><!-- /.container-fluid -->
 </section>
 <?php
-    $query = "SELECT * FROM supplier";
+    $query = "SELECT * FROM customer";
     $execQuery = mysqli_query($conn, $query);
 ?>
 <section class="content">
@@ -18,7 +18,7 @@
                 <div class="card">
                     <div class="card-header">
                         <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#tambah">
-                        <i class="fa fa-plus-square"></i> Tambah Supplier
+                        <i class="fa fa-plus-square"></i> Tambah CUstomer
                         </button>
                     </div>
                     <!-- /.card-header -->
@@ -36,7 +36,7 @@
                             <tbody>
                             <?php
                                 while ($data = mysqli_fetch_array($execQuery)) {
-                                    $id_supplier  = $data['id_supplier'];
+                                    $id_customer  = $data['id_customer'];
                                     ?>
                                     <tr>
                                         <td><?=$data['nama']?></td>
@@ -44,8 +44,8 @@
                                         <td><?=$data['keterangan']?></td>
                                         <td><?=$data['alamat']?></td>
                                         <td>
-                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit<?=$id_supplier;?>"><i class = "far fa-edit"></i></button>
-                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete<?=$id_supplier?>"><i class = "fas fa-trash-alt"></i></button>
+                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit<?=$id_customer;?>"><i class = "far fa-edit"></i></button>
+                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete<?=$id_customer?>"><i class = "fas fa-trash-alt"></i></button>
                                         </td>
                                     </tr>
                                 <?php
@@ -72,7 +72,7 @@
       
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Tambah Supplier</h4>
+          <h4 class="modal-title">Tambah Customer</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         
@@ -80,9 +80,9 @@
 
         <div class="modal-body">
             <br>
-            <form action="modules/master/supplier/proses.php?act=insert" method="post">
-                <label>Nama Supplier</label>
-                <input type="text" name="nama" placeholder="Nama Supplier" class="form-control" required>
+            <form action="modules/master/customer/proses.php?act=insert" method="post">
+                <label>Nama Customer</label>
+                <input type="text" name="nama" placeholder="Nama Customer" class="form-control" required>
                 <br>
                 <label>Kontak</label>
                 <input type="text" name="kontak" placeholder="Kontak" class="form-control" required>
@@ -95,7 +95,7 @@
                 <br>
                 <br>
 				    <button type="button" class="btn btn-danger" style="float: left;" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" name="addSup" style="float: right;">Submit</button>
+                <button type="submit" class="btn btn-primary" name="addCust" style="float: right;">Submit</button>
             </form> 
         </div>
       </div>
@@ -105,10 +105,10 @@
 <!-- Edit Modal -->
 <?php
 
-    $execQuery = mysqli_query($conn, "SELECT * FROM supplier");
+    $execQuery = mysqli_query($conn, "SELECT * FROM customer");
 
     while ($data = mysqli_fetch_array($execQuery)) {
-        $id_supplier = $data['id_supplier'];
+        $id_customer = $data['id_customer'];
         $nama = $data ['nama'];
         $kontak = $data ['kontak'];
         $keterangan = $data ['keterangan'];
@@ -116,22 +116,22 @@
     
 ?>
 
-<div class="modal fade" id="edit<?=$id_supplier;?>">
+<div class="modal fade" id="edit<?=$id_customer;?>">
     <div class="modal-dialog">
       <div class="modal-content">
       
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Edit Supplier</h4>
+          <h4 class="modal-title">Edit Customer</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         
         <!-- Modal body -->
         <div class="modal-body">
             <br>
-            <form action="modules/master/supplier/proses.php?act=edit" method="post">
-                <input type="hidden" name="id_supplier" value="<?=$id_supplier;?>">
-                <label>Nama Supplier</label>
+            <form action="modules/master/customer/proses.php?act=edit" method="post">
+                <input type="hidden" name="id_customer" value="<?=$id_customer;?>">
+                <label>Nama customer</label>
                 <input type="text" name="nama" value="<?=$nama;?>" class="form-control" >
                 <br>
                 <label>Kontak</label>
@@ -145,7 +145,7 @@
                 <br>
                 <br>
 				    <button type="button" class="btn btn-danger" style="float: left;" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" name="editSup" style="float: right;">Submit</button>
+                <button type="submit" class="btn btn-primary" name="editCust" style="float: right;">Submit</button>
             </form> 
         </div>
       </div>
@@ -153,7 +153,7 @@
   </div>
     
 <!-- Delete Modal -->
-<div class="modal fade" id="delete<?=$id_supplier;?>">
+<div class="modal fade" id="delete<?=$id_customer;?>">
     <div class="modal-dialog">
       <div class="modal-content">
       
@@ -166,14 +166,14 @@
         <!-- Modal body -->
         <div class="modal-body">
             <br>
-                Apakah Anda Ingin Menghapus Supplier ?
+                Apakah Anda Ingin Menghapus Customer?
         </div>
         
         <!-- Modal footer -->
         <div class="modal-footer">
-          <form action="modules/master/supplier/proses.php?act=delete" method="post">
-            <input type="hidden" name="id_supplier" value="<?=$id_supplier?>">
-            <button type="submit" class="btn btn-primary" name="delSup">Yes</button>
+          <form action="modules/master/customer/proses.php?act=delete" method="post">
+            <input type="hidden" name="id_customer" value="<?=$id_customer?>">
+            <button type="submit" class="btn btn-primary" name="delCust">Yes</button>
           </form>
           <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
         </div>

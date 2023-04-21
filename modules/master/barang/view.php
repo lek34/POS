@@ -82,6 +82,9 @@
                         <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#edit<?=$id_barang;?>"><i class = "far fa-edit"></i></button>
                       </td>
                       </tr>
+                    <?php
+                    }
+                    ?>
                   </tbody>
                 </table>
               </div>
@@ -125,6 +128,15 @@
     </div>
   </div>
 
+<!-- Edit Modal -->
+<?php
+  $execQuery = mysqli_query($conn, "SELECT * FROM barang");
+  while ($data = mysqli_fetch_array($execQuery)) {
+    $id_barang = $data['id_barang'];
+    $barang = $data ['nama_barang'];
+    $harga = $data ['harga_beli'];
+    $kuantitas = $data ['kuantitas'];
+?>
 <div class="modal fade" id="edit<?=$id_barang;?>">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -144,7 +156,7 @@
                 <input type="text" name="namabarang" value="<?=$barang;?>" class="form-control" >
                 <br>
                 <label>Harga</label>
-                <input type="text" name="harga" value="<?=$harga_beli_formatted;?>" class="form-control" required>
+                <input type="text" name="harga" value="<?=$harga;?>" class="form-control" required>
                 <br>
                 <label>Kuantitas</label>
                 <input type="text" name="kuantitas" value="<?=$kuantitas?>" class="form-control">
