@@ -10,7 +10,7 @@ $password = mysqli_real_escape_string($conn, stripslashes(strip_tags(htmlspecial
 
 	// ambil data dari tabel user untuk pengecekan berdasarkan inputan username dan passrword
 	$query = mysqli_query($conn, "SELECT * FROM is_users WHERE username='$username' AND password='$password' AND status='aktif'")
-									or die('Ada kesalahan pada query user: '.mysqli_error($mysqli));
+									or die('Ada kesalahan pada query user: '.mysqli_error($conn));
 	$rows  = mysqli_num_rows($query);
 
 	// jika data ada, jalankan perintah untuk membuat session
