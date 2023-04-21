@@ -146,10 +146,10 @@
                 <!-- accepted payments column -->
                 <div class="col-6">
                   <p class="lead">Payment Methods:</p>
-                  <img src="../../dist/img/credit/visa.png" alt="Visa">
-                  <img src="../../dist/img/credit/mastercard.png" alt="Mastercard">
-                  <img src="../../dist/img/credit/american-express.png" alt="American Express">
-                  <img src="../../dist/img/credit/paypal2.png" alt="Paypal">
+                  <img src="dist/img/credit/visa.png" alt="Visa">
+                  <img src="dist/img/credit/mastercard.png" alt="Mastercard">
+                  <img src="dist/img/credit/american-express.png" alt="American Express">
+                  <img src="dist/img/credit/paypal2.png" alt="Paypal">
 
                   <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
                     Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning heekya handango imeem
@@ -189,7 +189,12 @@
               <!-- this row will not appear when printing -->
               <div class="row no-print">
                 <div class="col-12">
-                  <a href="invoice-print.html" rel="noopener" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a>
+                <a href="?module=detailPembelian&id_pembelian=<?=$id_pembelian?>" rel="noopener" target="_blank" class="btn btn-default" onclick="printPage()"><i class="fas fa-print"></i> Print</a>
+                    <script>
+                    function printPage() {
+                      window.addEventListener("load", window.print());
+                    }
+                    </script>
                   <button type="button" class="btn btn-success float-right"><i class="far fa-credit-card"></i> Submit
                     Payment
                   </button>
