@@ -13,7 +13,7 @@
     $nama_supplier = $data ['nama'];
     $no_rekening = $data ['no_rekening'];
     $tanggal = $data ['tanggal'];
-    $tanggal_jatuh_tempo = $data ['tanggal'];
+    $tanggal_jatuh_tempo = $data ['jatuh_tempo'];
 ?>
 
 <section class="content-header">
@@ -41,7 +41,6 @@
               <div class="row invoice-info">
                 <div class="col-sm-4 invoice-col">
                     <h4>Detail :</h4>
-                <!-- <b>No. Faktur       :</b> <?=$nomor_faktur?><br> -->
                 <b>Nama Supplier    :</b> <?=$nama_supplier?><br>
                 <b>No. Rekening     :</b> <?=$no_rekening?><br>
                 <b>Jatuh Tempo         :</b> <?=$tanggal_jatuh_tempo?>
@@ -49,13 +48,50 @@
               </div>
               <br>
               <!-- /.row -->
-                <div class="row">
+              <form action="./proses.php?act = insert" method="post">
+              <div class="row">
+                <div class="col-12 table-responsive">
+                  <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Qty</th>
+                      <th>Product</th>
+                      <th>Serial #</th>
+                      <th>Description</th>
+                      <th>Subtotal</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                            <input type="text">
+                            </td>
+                            <td>
+                            <input type="text">
+                            </td>
+                            <td>
+                            <input type="text">
+                            </td>
+                            <td>
+                            <input type="text">
+                            </td>
+                            <td>
+                            <input type="text">
+                            </td>
+                        </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="row">
                     <div class = "col-2">
                         <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#tambah">
                             <i class="fa fa-plus-square"></i> Tambah Barang
                         </button>
                     </div>
                 </div>
+              </form>
+                
                 <br>
               <!-- Table row -->
               <div class="row">
