@@ -1,40 +1,5 @@
 <section class="content-header">
     <div class="container-fluid">
-    <?php  
-      // fungsi untuk menampilkan pesan
-      // jika alert = "" (kosong)
-      // tampilkan pesan "" (kosong)
-      if (empty($_GET['alert'])) {
-        echo "";
-      } 
-      // jika alert = 1
-      // tampilkan pesan Berhasil "Data barang berhasil ditambahkan"
-      elseif ($_GET['alert'] == 1) {
-        echo "<div class='alert alert-success alert dismissable'>
-                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                <h4>  <i class='icon fa fa-check-circle'></i> Berhasil!</h4>
-                Data Akun berhasil ditambahkan.
-              </div>";
-      }
-      // jika alert = 2
-      // tampilkan pesan Berhasil "Data barang berhasil diubah."
-      elseif ($_GET['alert'] == 2) {
-        echo "<div class='alert alert-success alert dismissable'>
-                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                <h4>  <i class='icon fa fa-check-circle'></i> Berhasil!</h4>
-                Data Akun berhasil diubah.
-              </div>";
-      }
-      // jika alert = 3
-      // tampilkan pesan Berhasil "Data barang berhasil dihapus."
-      elseif ($_GET['alert'] == 3) {
-        echo "<div class='alert alert-success alert dismissable'>
-                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-                <h4>  <i class='icon fa fa-check-circle'></i> Berhasil!</h4>
-                Data Akun berhasil dihapus.
-              </div>";
-      }
-      ?>
         <div class="row mb-2">
             <div class="col-sm-6">
                 <h1>Supplier</h1>
