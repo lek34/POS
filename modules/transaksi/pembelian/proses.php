@@ -15,9 +15,9 @@ require_once "../../../auth/cek.php";
             $no_faktur = trim($_POST['no_faktur']);
             $supplier  = mysqli_real_escape_string($conn, trim($_POST['supplier']));
             $jatuh_tempo  	= mysqli_real_escape_string($conn, trim($_POST['jatuh_tempo']));
+
             $query = "INSERT INTO pembelian (no_faktur, id_supplier,nomor_transaksi,jatuh_tempo) VALUES ('$no_faktur', '$supplier','$nomor_transaksi','$jatuh_tempo')";
             $execQuery = mysqli_query($conn, $query);
-
 
             if ($execQuery){
                 $id_pembelian = mysqli_insert_id($conn);
@@ -45,10 +45,22 @@ require_once "../../../auth/cek.php";
     }
     elseif($_GET['act'] == 'insertDetail'){
         if(isset($_POST['insertDetail'])){
+            $id_pembelian = mysqli_real_escape_string($conn, trim($_POST['id_pembelian']));
             $id_barang = mysqli_real_escape_string($conn, trim($_POST['id_barang']));
             $kuantitas = mysqli_real_escape_string($conn, trim($_POST['kuantitas']));
-            $bruto = mysqli_real_escape_string($conn, trim($_POST['bruto']));
-            $netto = ($kuantitas*$bruto);
+            $harga_barang = mysqli_real_escape_string($conn, trim($_POST['harga_barang']));
+            $disc = mysqli_real_escape_string($conn, trim($_POST['disc']));
+            $bruto = ($kuantitas*$harga_barang);
+            $netto = $bruto - $disc;
+            $user = $_SESSION['username'];
+
+            $query = "INSERT INTO temp_beli (id_pembelian, id_barang, kuantitas, harga_barang, disc, bruto, netto, creator) 
+                        VALUES ($id_pembelian, $id_barang, $kuantitas, $harga_barang, $disc, $bruto, $netto, $user)";
+            $execQuery = mysqli_query($conn, $query);
+
+            if($execQuery){
+                header('location: ../../../main.php?module=detailPembelian&id_pembelian='.$id_pembelian);
+            }
         }
     }
 

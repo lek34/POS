@@ -97,10 +97,8 @@
                 <label>Harga Barang</label>
                 <input type="text" name="harga" placeholder="Harga Barang / Item" class="form-control" required>
                 <br>
-                <label>Kuantitas</label>
-                <input type="text" name="kuantitas" placeholder="Jumlah" class="form-control" required>
+                
                 <br>
-				<br>
 				    <button type="button" class="btn btn-danger" style="float: left;" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary" name="addnewbarang" style="float: right;">Submit</button>
             </form> 

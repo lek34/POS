@@ -55,8 +55,9 @@
                   <thead>
                     <tr>
                       <th>Nama Barang</th>
-                      <th>Kuantitas</th>
-                      <th>Bruto</th>
+                      <th>Qty</th>
+                      <th>Harga Barang</th>
+                      <th>Disc</th>
                       <th>Submit</th>
                     </tr>
                     </thead>
@@ -79,10 +80,14 @@
                           </select>
                             </td>
                             <td>
+                              <input type="hidden" name="id_pembelian" value="<?=$id_pembelian?>">
                             <input type="text" class="form-control" name="kuantitas">
                             </td>
                             <td>
-                            <input type="text" class="form-control" name="bruto">
+                            <input type="text" class="form-control" name="harga_barang">
+                            </td>
+                            <td>
+                            <input type="text" class="form-control" name="disc">
                             </td>
                             <td>
                               <div class="row">
@@ -104,45 +109,45 @@
               <!-- Table row -->
               <div class="row">
                 <div class="col-12 table-responsive">
+                  <h3>List Barang :</h3>
                   <table class="table table-striped">
                     <thead>
                     <tr>
+                      <th>Nama Barang</th>
                       <th>Qty</th>
-                      <th>Product</th>
-                      <th>Serial #</th>
-                      <th>Description</th>
-                      <th>Subtotal</th>
+                      <th>Harga Barang</th>
+                      <th>Bruto</th>
+                      <th>Disc</th>
+                      <th>Netto</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>Call of Duty</td>
-                      <td>455-981-221</td>
-                      <td>El snort testosterone trophy driving gloves handsome</td>
-                      <td>$64.50</td>
-                    </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>Need for Speed IV</td>
-                      <td>247-925-726</td>
-                      <td>Wes Anderson umami biodiesel</td>
-                      <td>$50.00</td>
-                    </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>Monsters DVD</td>
-                      <td>735-845-642</td>
-                      <td>Terry Richardson helvetica tousled street art master</td>
-                      <td>$10.70</td>
-                    </tr>
-                    <tr>
-                      <td>1</td>
-                      <td>Grown Ups Blue Ray</td>
-                      <td>422-568-642</td>
-                      <td>Tousled lomo letterpress</td>
-                      <td>$25.99</td>
-                    </tr>
+                      <?php
+                        $ambildatatemp = "SELECT t.*, b.nama_barang
+                        FROM temp_beli t
+                        INNER JOIN barang b ON t.id_barang = b.id_barang
+                        ";
+                        $execdatatemp = mysqli_query($conn, $ambildatatemp);
+
+                        while ($datatemp = mysqli_fetch_array($execdatatemp)) {
+                          $nama_barang = $datatemp ['nama_barang'];
+                          $kuantitas = $datatemp ['kuantitas'];
+                          $harga_barang = number_format($datatemp['harga_barang'], 0, ',', '.');
+                          $bruto = number_format($datatemp['bruto'], 0, ',', '.');
+                          $disc = number_format($datatemp['disc'], 0, ',', '.');
+                          $netto = number_format($datatemp['netto'], 0, ',', '.');
+                          ?>
+                          <tr>
+                            <td><?=$nama_barang?></td>
+                            <td><?=$kuantitas?></td>
+                            <td><?=$harga_barang?></td>
+                            <td><?=$bruto?></td>
+                            <td><?=$disc?></td>
+                            <td><?=$netto?></td>
+                          </tr>
+                        <?php
+                        }
+                      ?>
                     </tbody>
                   </table>
                 </div>
