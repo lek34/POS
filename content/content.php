@@ -28,6 +28,10 @@ else{
 	elseif ($_GET['module'] == 'User') {
 		include "modules/user/view.php";
 	}
+	elseif ($_GET['module'] == 'buyItem'){
+		include "modules/transaksi/pembelian/view.php";
+	}
+
 	
 }
 
