@@ -22,6 +22,9 @@ else{
 	elseif ($_GET['module'] == 'dataCust') {
 		include "modules/master/customer/view.php";
 	}
+	elseif ($_GET['module'] == 'noAcc') {
+		include "modules/master/akunbank/view.php";
+	}
 	elseif ($_GET['module'] == 'User') {
 		include "modules/user/view.php";
 	}
