@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 21 Apr 2023 pada 05.00
--- Versi server: 10.4.27-MariaDB
--- Versi PHP: 8.1.12
+-- Generation Time: Apr 21, 2023 at 05:34 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.0.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,28 +24,49 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `barang`
+-- Table structure for table `akun`
+--
+
+CREATE TABLE `akun` (
+  `id_akun` int(11) NOT NULL,
+  `kode_akun` text NOT NULL,
+  `nama_akun` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `akun`
+--
+
+INSERT INTO `akun` (`id_akun`, `kode_akun`, `nama_akun`) VALUES
+(1, '11021', 'Kas Besar'),
+(2, '110', 'Kas Besar');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `barang`
 --
 
 CREATE TABLE `barang` (
   `id_barang` int(11) NOT NULL,
   `nama_barang` varchar(256) NOT NULL,
   `harga_beli` int(11) NOT NULL,
-  `kuantitas` int(11) NOT NULL
+  `kuantitas` int(11) NOT NULL,
+  `status` varchar(10) NOT NULL DEFAULT 'Y'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `barang`
+-- Dumping data for table `barang`
 --
 
-INSERT INTO `barang` (`id_barang`, `nama_barang`, `harga_beli`, `kuantitas`) VALUES
-(1, 'a', 100, 200),
-(2, 'adawdawd', 0, 0);
+INSERT INTO `barang` (`id_barang`, `nama_barang`, `harga_beli`, `kuantitas`, `status`) VALUES
+(1, 'a', 100, 200, 'Y'),
+(2, 'adawdawd', 0, 0, 'Y');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `customer`
+-- Table structure for table `customer`
 --
 
 CREATE TABLE `customer` (
@@ -53,20 +74,21 @@ CREATE TABLE `customer` (
   `nama` varchar(256) NOT NULL,
   `kontak` varchar(20) NOT NULL,
   `keterangan` text NOT NULL,
-  `alamat` varchar(256) NOT NULL
+  `alamat` varchar(256) NOT NULL,
+  `status` varchar(10) NOT NULL DEFAULT 'Y'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `customer`
+-- Dumping data for table `customer`
 --
 
-INSERT INTO `customer` (`id_customer`, `nama`, `kontak`, `keterangan`, `alamat`) VALUES
-(1, 'Nicholas Yang', '081267643835', 'Pincang', 'Jln. Boulevard Raya');
+INSERT INTO `customer` (`id_customer`, `nama`, `kontak`, `keterangan`, `alamat`, `status`) VALUES
+(1, 'Nicholas Yang', '081267643835', 'Pincang', 'Jln. Boulevard Raya', 'Y');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `is_users`
+-- Table structure for table `is_users`
 --
 
 CREATE TABLE `is_users` (
@@ -84,7 +106,7 @@ CREATE TABLE `is_users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data untuk tabel `is_users`
+-- Dumping data for table `is_users`
 --
 
 INSERT INTO `is_users` (`id_user`, `username`, `nama_user`, `password`, `email`, `telepon`, `foto`, `hak_akses`, `status`, `created_at`, `updated_at`) VALUES
@@ -93,7 +115,7 @@ INSERT INTO `is_users` (`id_user`, `username`, `nama_user`, `password`, `email`,
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `supplier`
+-- Table structure for table `supplier`
 --
 
 CREATE TABLE `supplier` (
@@ -101,13 +123,14 @@ CREATE TABLE `supplier` (
   `nama` varchar(256) NOT NULL,
   `kontak` varchar(20) NOT NULL,
   `keterangan` text NOT NULL,
-  `alamat` varchar(512) NOT NULL
+  `alamat` varchar(512) NOT NULL,
+  `status` varchar(10) NOT NULL DEFAULT 'Y'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `transaksi`
+-- Table structure for table `transaksi`
 --
 
 CREATE TABLE `transaksi` (
@@ -117,7 +140,8 @@ CREATE TABLE `transaksi` (
   `id_supplier` int(11) NOT NULL,
   `nama_supplier` varchar(256) NOT NULL,
   `tanggal` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `tipe` enum('buy','sell') NOT NULL
+  `tipe` enum('buy','sell') NOT NULL,
+  `status` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -125,32 +149,38 @@ CREATE TABLE `transaksi` (
 --
 
 --
--- Indeks untuk tabel `barang`
+-- Indexes for table `akun`
+--
+ALTER TABLE `akun`
+  ADD PRIMARY KEY (`id_akun`);
+
+--
+-- Indexes for table `barang`
 --
 ALTER TABLE `barang`
   ADD PRIMARY KEY (`id_barang`);
 
 --
--- Indeks untuk tabel `customer`
+-- Indexes for table `customer`
 --
 ALTER TABLE `customer`
   ADD PRIMARY KEY (`id_customer`);
 
 --
--- Indeks untuk tabel `is_users`
+-- Indexes for table `is_users`
 --
 ALTER TABLE `is_users`
   ADD PRIMARY KEY (`id_user`),
   ADD KEY `level` (`hak_akses`);
 
 --
--- Indeks untuk tabel `supplier`
+-- Indexes for table `supplier`
 --
 ALTER TABLE `supplier`
   ADD PRIMARY KEY (`id_supplier`);
 
 --
--- Indeks untuk tabel `transaksi`
+-- Indexes for table `transaksi`
 --
 ALTER TABLE `transaksi`
   ADD PRIMARY KEY (`id_transaksi`),
@@ -158,45 +188,51 @@ ALTER TABLE `transaksi`
   ADD KEY `id_supplier` (`id_supplier`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `barang`
+-- AUTO_INCREMENT for table `akun`
+--
+ALTER TABLE `akun`
+  MODIFY `id_akun` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `barang`
 --
 ALTER TABLE `barang`
   MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT untuk tabel `customer`
+-- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
   MODIFY `id_customer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `is_users`
+-- AUTO_INCREMENT for table `is_users`
 --
 ALTER TABLE `is_users`
   MODIFY `id_user` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `supplier`
+-- AUTO_INCREMENT for table `supplier`
 --
 ALTER TABLE `supplier`
   MODIFY `id_supplier` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
--- AUTO_INCREMENT untuk tabel `transaksi`
+-- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
   MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Constraints for dumped tables
 --
 
 --
--- Ketidakleluasaan untuk tabel `transaksi`
+-- Constraints for table `transaksi`
 --
 ALTER TABLE `transaksi`
   ADD CONSTRAINT `id_barang` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`),
