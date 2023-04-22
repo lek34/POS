@@ -8,8 +8,14 @@
         if (isset($_GET['alert'])) {
           $alert = $_GET['alert'];
           if ($alert == 1) {
-            echo "<div class='toastrDefaultError'>
-            </div>";
+            echo "<script>
+              $(document).ready(function() {
+                  toastr.error('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.');
+              });
+          </script>";
+        echo "<div class='toastrDefaultError' id='toastrDefaultError'>
+            Launch Error Toast
+        </div>";
           } 
         }
       ?>
