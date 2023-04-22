@@ -59,8 +59,14 @@
                   </select>
                   <br>
                   <label>Jatuh Tempo</label>
+<<<<<<< HEAD
+                  <input type="date" id="jatuh_tempo" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" required>
+                  <button type="button" id="save-button">Save</button>
+                </form>
+=======
                   <input type="date" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" required>
                 </form> 
+>>>>>>> b1e43e3b3f72ccc5425a4d368caab374c9f0b9e7
                 </div>
               </div>
               <br>
@@ -239,3 +245,4 @@
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </section>
+    
