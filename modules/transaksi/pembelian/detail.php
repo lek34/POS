@@ -308,7 +308,7 @@ unset($_SESSION['temp_data_barang']); */
                       window.addEventListener("load", window.print());
                     }
                     </script>
-                  <button type="button" class="btn btn-success float-right"><i class="far fa-credit-card"></i> Submit
+                  <button type="button" name="insertPembelian" class="btn btn-success float-right"><i class="far fa-credit-card"></i> Submit
                     Payment
                   </button>
                   <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
