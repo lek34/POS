@@ -10,12 +10,10 @@
 
  <!-- generate nomor Faktur -->   
 <?php
-/* unset($_SESSION['temp_data_transaksi']);
-unset($_SESSION['temp_data_barang']); */
   $totBruto = 0;
   $totDiskon = 0;
   $totNetto = 0;
-  $jatuh_tempo = "DD/MM/YYYY";
+  $jatuh_tempo_bawah = "DD/MM/YYYY";
   $query = "SELECT MAX(nomor_transaksi) as last_transaksi , no_faktur from pembelian;";
   $execQuery = mysqli_query($conn, $query);
   $fetchQuery = mysqli_fetch_array($execQuery);
@@ -45,10 +43,11 @@ unset($_SESSION['temp_data_barang']); */
               </div>
               <!-- info row -->
               <div class="row invoice-info">
-                <div class="col-sm-4 invoice-col">
+                
                   <?php
                   if (!isset($_SESSION['temp_data_transaksi'])) {/* pengulangan pertama */
                   ?>
+                  <div class="col-sm-4 invoice-col">
                     <form action="modules/transaksi/pembelian/proses.php?act=inserttemp" method="post"> <!-- form buka -->
                       <input type="hidden" name="nomor_transaksi" placeholder="You Shouldn't See This" value='<?= $next_number?>' class="form-control" hidden>
                       <label>No. Faktur</label>
@@ -83,6 +82,7 @@ unset($_SESSION['temp_data_barang']); */
 
                     
                   ?>
+                  <div class="col-sm-4 invoice-col">
                   <form action="modules/transaksi/pembelian/proses.php?act=inserttemp" method="post"> <!-- form buka -->
                       <input type="hidden" name="nomor_transaksi" placeholder="You Shouldn't See This" value='<?= $next_number?>' class="form-control" hidden>
                       <label>No. Faktur</label>
@@ -110,6 +110,12 @@ unset($_SESSION['temp_data_barang']); */
                     </div>
                   </div>
                   <br>
+                  <div class="col-4 invoice-col">
+                    <a href="modules/transaksi/pembelian/proses.php?act=reset">
+                      <button type="button" name="reset" class="btn btn-primary">reset</button>
+                    </a>
+                    </form>
+                  </div>
 
                   <?php
                   }
@@ -259,6 +265,7 @@ unset($_SESSION['temp_data_barang']); */
                       $totBruto = number_format($totBruto, 0, ',', '.');
                       $totDiskon = number_format($totDiskon, 0, ',', '.');
                       $totNetto = number_format($totNetto, 0, ',', '.');
+                      $jatuh_tempo_bawah = $jatuh_tempo;
                     }
                       ?>
                     </tbody>
@@ -274,7 +281,7 @@ unset($_SESSION['temp_data_barang']); */
                 </div>
                 <!-- /.col -->
                 <div class="col-6">
-                  <p class="lead">Jatuh Tempo : <?=$jatuh_tempo?></p>
+                  <p class="lead">Jatuh Tempo : <?=$jatuh_tempo_bawah?></p>
 
                   <div class="table-responsive">
                     <table class="table">
@@ -302,7 +309,7 @@ unset($_SESSION['temp_data_barang']); */
               <!-- this row will not appear when printing -->
               <div class="row no-print">
                 <div class="col">
-                  <a href="?module=detailPembelian" rel="noopener" target="_blank" class="btn btn-default" onclick="printPage()"><i class="fas fa-print"></i> Print</a>
+                  <a href="?module=detailPembelian" rel="noopener" target="_blank" class="btn btn-default float-left  " onclick="printPage()"><i class="fas fa-print"></i> Print</a>
                     <script>
                     function printPage() {
                       window.addEventListener("load", window.print());

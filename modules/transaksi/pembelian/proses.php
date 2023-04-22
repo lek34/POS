@@ -3,13 +3,17 @@ session_start();
 
 // Panggil koneksi database.php untuk koneksi database
 require_once "../../../config/database.php";
-
 // fungsi untuk pengecekan status login user 
 // jika user belum login, alihkan ke halaman login dan tampilkan pesan = 1
 require_once "../../../auth/cek.php";
 // jika user sudah login, maka jalankan perintah untuk insert, update, dan delete
     if($_GET['act']=='inserttemp'){
         if(isset($_POST['inserttemp'])){
+            $no_transaksi = mysqli_real_escape_string($conn, trim($_POST['nomor_transaksi']));
+            $no_faktur = mysqli_real_escape_string($conn, trim($_POST['no_faktur']));
+            $supplier = mysqli_real_escape_string($conn, trim($_POST['supplier']));
+            $jatuh_tempo = mysqli_real_escape_string($conn, trim($_POST['jatuh_tempo']));
+
             // store the variables in the session
             $_SESSION['temp_data_transaksi'] = array(
                 'no_transaksi' => $no_transaksi,
@@ -45,12 +49,25 @@ require_once "../../../auth/cek.php";
 
             header('location: ../../../main.php?module=detailPembelian');
         }
-    } elseif ($_GET['act'] == 'deleteList'){
+    } 
+    elseif ($_GET['act'] == 'deleteList'){
         if (isset($_POST['deleteList'])){
             $id_list = $_POST['indeks'];
 
             unset($_SESSION['temp_data_barang'][$id_list]);
+
+            header('location: ../../../main.php?module=detailPembelian');
+        }
     }
+    elseif ($_GET['act'] == 'reset'){
+            unset($_SESSION['temp_data_transaksi']);
+            unset($_SESSION['temp_data_barang']);
+
+            header('location: ../../../main.php?module=detailPembelian');
+        
+    }
+
+    
     elseif($_GET['act']=='insertPembelian'){
         if(isset($_POST['insertPembelian'])){
             // Get the data from the session
@@ -69,6 +86,7 @@ require_once "../../../auth/cek.php";
             $id_pembelian = mysqli_insert_id($conn);
 
             if (!isset($_SESSION['temp_data_barang'])) {
+
                 $_SESSION['temp_data_barang'] = array();
             }else{
                  // Loop through temp_data_barang and insert each record into pembelian_detail table
@@ -97,5 +115,4 @@ require_once "../../../auth/cek.php";
                 header('location: ../../../main.php?module=buyItem');
             }
         }
-    }
 ?>
