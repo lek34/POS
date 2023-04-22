@@ -12,6 +12,7 @@
 <?php
 /* unset($_SESSION['temp_data_transaksi']);
 unset($_SESSION['temp_data_barang']); */
+
   $query = "SELECT MAX(nomor_transaksi) as last_transaksi , no_faktur from pembelian;";
   $execQuery = mysqli_query($conn, $query);
   $fetchQuery = mysqli_fetch_array($execQuery);
@@ -184,12 +185,14 @@ unset($_SESSION['temp_data_barang']); */
                   <table class="table table-striped">
                     <thead>
                     <tr>
+                      <th>No.</th>
                       <th>Nama Barang</th>
                       <th>Qty</th>
                       <th>Harga Barang</th>
                       <th>Bruto</th>
                       <th>Disc</th>
                       <th>Netto</th>
+                      <th>Delete</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -203,9 +206,12 @@ unset($_SESSION['temp_data_barang']); */
                           <td>-</td>
                           <td>-</td>
                           <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
                       </tr>
                       <?php
                     } else {
+                      $i = 0;
                       foreach ($_SESSION['temp_data_barang'] as $key => $value){
                         $id_barang = $value['id_barang'];
 
@@ -222,14 +228,22 @@ unset($_SESSION['temp_data_barang']); */
 
                         ?>
                         <tr>
+                          <td><?=$i+1?></td>
                           <td><?=$nama_barang?></td>
                           <td><?=$kuantitas?></td>
                           <td>Rp. <?=$harga_barang?></td>
                           <td>Rp. <?=$bruto?></td>
                           <td><?=$disc?>%</td>
                           <td>Rp. <?=$netto?></td>
+                          <td>
+                            <form action="modules/transaksi/pembelian/proses.php?act=deleteList" method="post">
+                              <input type="hidden" name="indeks" value=<?=$i?>>
+                              <button type="submit" name="deleteList"class="btn btn-danger btn-sm" ><i class = "far fa-trash-alt"></i></button>
+                            </form>
+                          </td>
                       </tr>
                       <?php
+                      $i++;
                       }
                     }
                       ?>
@@ -296,4 +310,4 @@ unset($_SESSION['temp_data_barang']); */
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </section>
-    
+  

@@ -37,11 +37,10 @@
                                 <th>No. Faktur </th>
                                 <th>Tanggal Pembelian</th>
                                 <th>Supplier</th>
-                                <th>Disc</th>
                                 <th>Harga Netto</th>
                                 <th>Status</th>
                                 <th>Jatuh Tempo</th>
-                                <th>Action</th>
+                                <th>delete</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -58,7 +57,6 @@
                                     $tanggal  = $data ['tanggal'];
                                     $jatuh_tempo  = $data ['jatuh_tempo'];
                                     $supplier = $data ['nama'];
-                                    $disc = $data ['disc'];
                                     $netto = number_format($data['harga_netto'], 0, ',', '.');
                                     $status = $data ['status_pembayaran'];
                                 ?>
@@ -66,7 +64,6 @@
                                     <td><?=$no_faktur?></td>
                                     <td><?=$tanggal?></td>
                                     <td><?=$supplier?></td>
-                                    <td><?=$disc?></td>
                                     <td>Rp. <?=$netto?></td>
                                     <td>
                                         <?php
