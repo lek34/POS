@@ -8,31 +8,24 @@ require_once "../../../config/database.php";
 // jika user belum login, alihkan ke halaman login dan tampilkan pesan = 1
 require_once "../../../auth/cek.php";
 // jika user sudah login, maka jalankan perintah untuk insert, update, dan delete
-    if ($_GET['act']=='inserttemp') {
-        $nomor_transaksi  = mysqli_real_escape_string($conn, trim($_POST['nomor_transaksi']));
-        $no_faktur = trim($_POST['no_faktur']);
-        $supplier  = mysqli_real_escape_string($conn, trim($_POST['supplier']));
-        $jatuh_tempo  	= mysqli_real_escape_string($conn, trim($_POST['jatuh_tempo']));
+    if ($_GET['act']=='insert') {
+        if (isset($_POST['addBuy'])){
+            $nomor_transaksi  = mysqli_real_escape_string($conn, trim($_POST['nomor_transaksi']));
+            $no_faktur = trim($_POST['no_faktur']);
+            $supplier  = mysqli_real_escape_string($conn, trim($_POST['supplier']));
+            $jatuh_tempo  	= mysqli_real_escape_string($conn, trim($_POST['jatuh_tempo']));
 
-        $transaction_data = array (
-            'nomor_transaksi' => $nomor_transaksi,
-            'no_faktur' => $no_faktur,
-            'supplier' => $supplier,
-            'jatuh_tempo' => $jatuh_tempo
-        );
-        if (!isset($_SESSION['temp_transaction'])) {
-            $_SESSION['temp_transaction'] = array();
+            $query = "INSERT INTO pembelian (no_faktur, id_supplier,nomor_transaksi,jatuh_tempo) VALUES ('$no_faktur', '$supplier','$nomor_transaksi','$jatuh_tempo')";
+            $execQuery = mysqli_query($conn, $query);
+
+            if ($execQuery){
+                $id_pembelian = mysqli_insert_id($conn);
+                header('location: ../../../main.php?module=detailPembelian&id_pembelian='.$id_pembelian);
+            } else {
+                header('location: ../../../main.php?module=buyItem&alert=2');
             }
-            $success = array_push($_SESSION['temp_transaction'], $transaction_data);
-
-        if ($success){
-            $id_pembelian = mysqli_insert_id($conn);
-            header('location: ../../../main.php?module=detailPembelian&id_pembelian='.$id_pembelian);
-        } else {
-            header('location: ../../../main.php?module=buyItem&alert=2');
         }
     }
-
     elseif ($_GET['act']=='edit') {
         if (isset($_POST['editBuy'])){
             $supplier  = mysqli_real_escape_string($conn, trim($_POST['supplier']));
