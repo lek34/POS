@@ -26,13 +26,10 @@ require_once "../../../auth/cek.php";
             $id_barang = mysqli_real_escape_string($conn, trim($_POST['id_barang']));
             $kuantitas = mysqli_real_escape_string($conn, trim($_POST['kuantitas']));
             $harga_barang = mysqli_real_escape_string($conn, trim($_POST['harga_barang']));
-            if(isset($_POST['disc'])){
-                $disc = 0;
-            } else {
-                $disc = trim($_POST['disc']);
-            }
+            $disc =  mysqli_real_escape_string($conn, trim($_POST['disc']));
             $bruto = ($kuantitas*$harga_barang);
-            $netto = $bruto - ($bruto * ($disc/100));
+            $diskon = ($bruto * ($disc/100));
+            $netto = $bruto - $diskon;
             $user = $_SESSION['username'];
 
             if (!isset($_SESSION['temp_data_barang'])) {
@@ -47,7 +44,8 @@ require_once "../../../auth/cek.php";
                 'disc' => $disc,
                 'bruto' => $bruto,
                 'netto' => $netto,
-                'user' => $user
+                'user' => $user,
+                'diskon' => $diskon
             );
 
             header('location: ../../../main.php?module=detailPembelian');
@@ -55,7 +53,7 @@ require_once "../../../auth/cek.php";
     } elseif ($_GET['act'] == 'deleteList'){
         if (isset($_POST['deleteList'])){
             $id_list = $_POST['indeks'];
-
+            echo $id_list;
             unset($_SESSION['temp_data_barang'][$id_list]);
 
             header('location: ../../../main.php?module=detailPembelian');

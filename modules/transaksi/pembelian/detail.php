@@ -165,7 +165,7 @@ unset($_SESSION['temp_data_barang']); */
                               <div class="row">
                                 <div class = "col">
                                     <button type="submit" name="inserttemp" class="btn btn-outline-secondary">
-                                        <i class="fa fa-plus-square"></i> Tambah
+                                        <!-- <i class="fa fa-plus-square"></i> --> Tambah
                                     </button>
                                 </div>
                             </div>
@@ -211,7 +211,10 @@ unset($_SESSION['temp_data_barang']); */
                       </tr>
                       <?php
                     } else {
-                      $i = 0;
+                      $i = 1;
+                      $totBruto = 0;
+                      $totDiskon = 0;
+                      $totNetto = 0;
                       foreach ($_SESSION['temp_data_barang'] as $key => $value){
                         $id_barang = $value['id_barang'];
 
@@ -221,30 +224,41 @@ unset($_SESSION['temp_data_barang']); */
 
                         $nama_barang = $fetchBarang['nama_barang'];
                         $kuantitas = $value['kuantitas'];
-                        $harga_barang = number_format($value['harga_barang'], 0, ',', '.');
-                        $bruto = number_format($value['bruto'], 0, ',', '.');
+                        $harga_barang = $value ['harga_barang'];
+                        $harga_barang_formatted = number_format($harga_barang, 0, ',', '.');
+                        $bruto = $value ['bruto'];
+                        $bruto_formatted = number_format($bruto, 0, ',', '.');
                         $disc = $value ['disc'];
-                        $netto = number_format($value['netto'], 0, ',', '.');
+                        $netto = $value ['netto'];
+                        $netto_formatted = number_format($netto, 0, ',', '.');
+                        $diskon = $value ['diskon'];
 
                         ?>
                         <tr>
-                          <td><?=$i+1?></td>
+                          <td><?=$i?></td>
                           <td><?=$nama_barang?></td>
                           <td><?=$kuantitas?></td>
-                          <td>Rp. <?=$harga_barang?></td>
-                          <td>Rp. <?=$bruto?></td>
+                          <td>Rp. <?=$harga_barang_formatted?></td>
+                          <td>Rp. <?=$bruto_formatted?></td>
                           <td><?=$disc?>%</td>
-                          <td>Rp. <?=$netto?></td>
+                          <td>Rp. <?=$netto_formatted?></td>
                           <td>
                             <form action="modules/transaksi/pembelian/proses.php?act=deleteList" method="post">
-                              <input type="hidden" name="indeks" value=<?=$i?>>
+                              <input type="hidden" name="indeks" value=<?=$key?>>
                               <button type="submit" name="deleteList"class="btn btn-danger btn-sm" ><i class = "far fa-trash-alt"></i></button>
                             </form>
                           </td>
                       </tr>
                       <?php
                       $i++;
+
+                      $totBruto += $bruto;
+                      $totDiskon += $diskon;
+                      $totNetto += $netto;
                       }
+                      $totBruto = number_format($totBruto, 0, ',', '.');
+                      $totDiskon = number_format($totDiskon, 0, ',', '.');
+                      $totNetto = number_format($totNetto, 0, ',', '.');
                     }
                       ?>
                     </tbody>
@@ -260,25 +274,23 @@ unset($_SESSION['temp_data_barang']); */
                 </div>
                 <!-- /.col -->
                 <div class="col-6">
-                  <p class="lead">Amount Due 2/22/2014</p>
+                  <p class="lead">Jatuh Tempo : <?=$jatuh_tempo?></p>
 
                   <div class="table-responsive">
                     <table class="table">
                       <tr>
                         <th style="width:50%">Subtotal:</th>
-                        <td>$250.30</td>
+                        <td>Rp. <?=$totBruto?></td>
                       </tr>
                       <tr>
-                        <th>Tax (9.3%)</th>
-                        <td>$10.34</td>
+                        <th>Disc</th>
+                        <td>Rp. <?=$totDiskon?></td>
                       </tr>
                       <tr>
-                        <th>Shipping:</th>
-                        <td>$5.80</td>
                       </tr>
                       <tr>
                         <th>Total:</th>
-                        <td>$265.24</td>
+                        <td>Rp. <?=$totNetto?></td>
                       </tr>
                     </table>
                   </div>
