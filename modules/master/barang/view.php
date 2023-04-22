@@ -10,12 +10,9 @@
           if ($alert == 1) {
             echo "<script>
               $(document).ready(function() {
-                  toastr.error('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.');
+                  toastr.success('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.');
               });
           </script>";
-        echo "<div class='toastrDefaultError' id='toastrDefaultError'>
-            Launch Error Toast
-        </div>";
           } 
         }
       ?>
