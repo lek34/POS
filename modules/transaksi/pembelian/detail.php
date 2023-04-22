@@ -114,7 +114,6 @@
                     <a href="modules/transaksi/pembelian/proses.php?act=reset">
                       <button type="button" name="reset" class="btn btn-primary">reset</button>
                     </a>
-                    </form>
                   </div>
 
                   <?php
