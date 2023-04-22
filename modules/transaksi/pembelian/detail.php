@@ -107,8 +107,8 @@
                             <td>
                               <div class="row">
                                 <div class = "col">
-                                    <button type="submit" name="insertDetail" class="btn btn-outline-secondary">
-                                        <i class="fa fa-plus-square"></i> Tambah
+                                    <button type="submit" name="inserttemp" class="btn btn-outline-secondary">
+                                        <!-- <i class="fa fa-plus-square"></i> --> Tambah
                                     </button>
                                 </div>
                             </div>
@@ -140,30 +140,55 @@
                     </thead>
                     <tbody>
                       <?php
-                        $ambildatatemp = "SELECT t.*, b.nama_barang
-                        FROM temp_beli t
-                        INNER JOIN barang b ON t.id_barang = b.id_barang
-                        ";
-                        $execdatatemp = mysqli_query($conn, $ambildatatemp);
+                      if (!isset($_SESSION['temp_data_barang'])) {
+                      ?>
+                      <tr>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                      </tr>
+                      <?php
+                    } else {
+                      $i = 0;
+                      foreach ($_SESSION['temp_data_barang'] as $key => $value){
+                        $id_barang = $value['id_barang'];
 
-                        while ($datatemp = mysqli_fetch_array($execdatatemp)) {
-                          $nama_barang = $datatemp ['nama_barang'];
-                          $kuantitas = $datatemp ['kuantitas'];
-                          $harga_barang = number_format($datatemp['harga_barang'], 0, ',', '.');
-                          $bruto = number_format($datatemp['bruto'], 0, ',', '.');
-                          $disc = number_format($datatemp['disc'], 0, ',', '.');
-                          $netto = number_format($datatemp['netto'], 0, ',', '.');
-                          ?>
-                          <tr>
-                            <td><?=$nama_barang?></td>
-                            <td><?=$kuantitas?></td>
-                            <td><?=$harga_barang?></td>
-                            <td><?=$bruto?></td>
-                            <td><?=$disc?></td>
-                            <td><?=$netto?></td>
-                          </tr>
-                        <?php
-                        }
+                        $query = "SELECT nama_barang FROM barang WHERE $id_barang = id_barang";
+                        $ambilBarang= mysqli_query($conn, $query);
+                        $fetchBarang = mysqli_fetch_assoc($ambilBarang);
+
+                        $nama_barang = $fetchBarang['nama_barang'];
+                        $kuantitas = $value['kuantitas'];
+                        $harga_barang = number_format($value['harga_barang'], 0, ',', '.');
+                        $bruto = number_format($value['bruto'], 0, ',', '.');
+                        $disc = $value ['disc'];
+                        $netto = number_format($value['netto'], 0, ',', '.');
+
+                        ?>
+                        <tr>
+                          <td><?=$i+1?></td>
+                          <td><?=$nama_barang?></td>
+                          <td><?=$kuantitas?></td>
+                          <td>Rp. <?=$harga_barang?></td>
+                          <td>Rp. <?=$bruto?></td>
+                          <td><?=$disc?>%</td>
+                          <td>Rp. <?=$netto?></td>
+                          <td>
+                            <form action="modules/transaksi/pembelian/proses.php?act=deleteList" method="post">
+                              <input type="hidden" name="indeks" value=<?=$i?>>
+                              <button type="submit" name="deleteList"class="btn btn-danger btn-sm" ><i class = "far fa-trash-alt"></i></button>
+                            </form>
+                          </td>
+                      </tr>
+                      <?php
+                      $i++;
+                      }
+                    }
                       ?>
                     </tbody>
                   </table>
@@ -189,25 +214,23 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-6">
-                  <p class="lead">Amount Due 2/22/2014</p>
+                  <p class="lead">Jatuh Tempo : <?=$jatuh_tempo?></p>
 
                   <div class="table-responsive">
                     <table class="table">
                       <tr>
                         <th style="width:50%">Subtotal:</th>
-                        <td>$250.30</td>
+                        <td>Rp. <?=$totBruto?></td>
                       </tr>
                       <tr>
-                        <th>Tax (9.3%)</th>
-                        <td>$10.34</td>
+                        <th>Disc</th>
+                        <td>Rp. <?=$totDiskon?></td>
                       </tr>
                       <tr>
-                        <th>Shipping:</th>
-                        <td>$5.80</td>
                       </tr>
                       <tr>
                         <th>Total:</th>
-                        <td>$265.24</td>
+                        <td>Rp. <?=$totNetto?></td>
                       </tr>
                     </table>
                   </div>
