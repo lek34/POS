@@ -81,16 +81,13 @@ require_once "../../../auth/cek.php";
             
                 $queryHeader = "INSERT INTO pembelian (no_faktur, id_supplier, nomor_transaksi, jatuh_tempo) VALUES ('$no_faktur', '$supplier', '$no_transaksi', '$jatuh_tempo')";
                 $execQueryHeader = mysqli_query($conn, $queryHeader) or die('Ada kesalahan pada query user: ' . mysqli_error($conn));
+                $id_pembelian = mysqli_insert_id($conn);
             }
             
-            $id_pembelian = mysqli_insert_id($conn);
-
-            if (!isset($_SESSION['temp_data_barang'])) {
-
-                $_SESSION['temp_data_barang'] = array();
-            }else{
+                $temp_data_barang =  $_SESSION['temp_data_barang']; 
+            
                  // Loop through temp_data_barang and insert each record into pembelian_detail table
-                foreach($_SESSION['temp_data_barang'] as $data) {
+                foreach($temp_data_barang as $data) {
 
                     // Retrieve data from array
                     $faktur_barang = $data['faktur_barang'];
