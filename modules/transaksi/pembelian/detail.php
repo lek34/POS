@@ -59,6 +59,7 @@
                   <br>
                   <label>Jatuh Tempo</label>
                   <input type="date" id="jatuh_tempo" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" required>
+                  <button type="button" id="save-button">Save</button>
                 </form>
                 </div>
               </div>
@@ -238,3 +239,4 @@
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </section>
+    

@@ -116,8 +116,8 @@
   });
 </script>
 <script>
-  $(document).ready(function(){
-  $('input[type="text"],input[type="date",select').on('input', function(){
+$(document).ready(function(){
+  $('input[type="text"],input[type="date"],select').on('input', function(){
     var nomor_transaksi = $('#nomor_transaksi').val();
     var no_faktur = $('#no_faktur').val();
     var supplier = $('#supplier').val();
@@ -127,18 +127,22 @@
       url: 'modules/transaksi/pembelian/proses.php?act=inserttemp',
       type: 'post',
       data: {
-        nomor_transaksi :nomor_transaksi,
-        no_faktur :no_faktur,
-        supplier :supplier,
-        jatuh_tempo :jatuh_tempo,
-
+        nomor_transaksi: nomor_transaksi,
+        no_faktur: no_faktur,
+        supplier: supplier,
+        jatuh_tempo: jatuh_tempo,
       },
       success: function(response){
         console.log(response);
+      },
+      error: function(xhr, status, error){
+        console.log(xhr.responseText);
       }
     });
   });
 });
+</script>
+
 </script>
 
 </body>
