@@ -10,6 +10,8 @@
 
  <!-- generate nomor Faktur -->   
 <?php
+unset($_SESSION['temp_data_transaksi']);
+unset($_SESSION['temp_data_barang']);
   $query = "SELECT MAX(nomor_transaksi) as last_transaksi , no_faktur from pembelian;";
   $execQuery = mysqli_query($conn, $query);
   $fetchQuery = mysqli_fetch_array($execQuery);
@@ -41,7 +43,7 @@
               <div class="row invoice-info">
                 <div class="col-sm-4 invoice-col">
                   <?php
-                  if (!isset($_SESSION['temp_data_transaksi']['no_transaksi'])) {/* pengulangan pertama */
+                  if (!isset($_SESSION['temp_data_transaksi'])) {/* pengulangan pertama */
                   ?>
                     <form action="modules/transaksi/pembelian/proses.php?act=inserttemp" method="post"> <!-- form buka -->
                       <input type="hidden" name="nomor_transaksi" placeholder="You Shouldn't See This" value='<?= $next_number?>' class="form-control" hidden>
@@ -148,7 +150,7 @@
                               <div class="input-group-append">
                                 <span class="input-group-text">Rp.</span>
                               </div>
-                              <input type="text" class="form-control" name="harga">
+                              <input type="text" class="form-control" name="harga_barang">
                             </div>
                             </td>
                             <td>
@@ -192,6 +194,18 @@
                     </thead>
                     <tbody>
                       <?php
+                      if (!isset($_SESSION['temp_data_barang'])) {
+                      ?>
+                      <tr>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
+                      </tr>
+                      <?php
+                    } else {
                       foreach ($_SESSION['temp_data_barang'] as $key => $value){
                         $id_barang = $value['id_barang'];
 
@@ -217,6 +231,7 @@
                       </tr>
                       <?php
                       }
+                    }
                       ?>
                     </tbody>
                   </table>
@@ -228,17 +243,6 @@
               <div class="row">
                 <!-- accepted payments column -->
                 <div class="col-6">
-                  <p class="lead">Payment Methods:</p>
-                  <img src="dist/img/credit/visa.png" alt="Visa">
-                  <img src="dist/img/credit/mastercard.png" alt="Mastercard">
-                  <img src="dist/img/credit/american-express.png" alt="American Express">
-                  <img src="dist/img/credit/paypal2.png" alt="Paypal">
-
-                  <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
-                    Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning heekya handango imeem
-                    plugg
-                    dopplr jibjab, movity jajah plickers sifteo edmodo ifttt zimbra.
-                  </p>
                 </div>
                 <!-- /.col -->
                 <div class="col-6">
