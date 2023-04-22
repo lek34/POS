@@ -36,13 +36,14 @@
               <!-- info row -->
               <div class="row invoice-info">
                 <div class="col-sm-4 invoice-col">
-                <form action="modules/transaksi/pembelian/proses.php?act=inserttemp" method="post"> <!-- form buka -->
-                  <input type="text" id="nomor_transaksi" name="nomor_transaksi" placeholder="You Shouldn't See This" value='<?= $next_number?>' class="form-control" hidden>
+                <form action="modules/transaksi/pembelian/proses.php?act=insertTransaction" method="post"> <!-- form buka -->
+                  <input type="text" name="nomor_transaksi" placeholder="You Shouldn't See This" value='<?= $next_number?>' class="form-control" hidden>
                   <label>No. Faktur</label>
-                  <input type="text" id="no_faktur" name="no_faktur" placeholder="No Faktur" value='<?= $newFaktur?>' class="form-control" readonly>
+                  <input type="hidden" name="id_pembelian" placeholder="No Faktur" value='<?= $newFaktur?>' class="form-control" readonly>
+                  <input type="text" name="no_faktur" placeholder="No Faktur" value='<?= $newFaktur?>' class="form-control" readonly>
                   <br>
                   <label>Supplier</label>
-                  <select name="supplier" class="form-control" id="supplier">
+                  <select name="supplier" class="form-control">
                       <?php
                       $pilihansupplier = mysqli_query($conn, "select * from supplier WHERE status = 'Y'");
                       while ($fetcharray = mysqli_fetch_array($pilihansupplier)) {
@@ -58,8 +59,8 @@
                   </select>
                   <br>
                   <label>Jatuh Tempo</label>
-                  <input type="date" id="jatuh_tempo" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" required>
-                </form>
+                  <input type="date" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" required>
+                </form> 
                 </div>
               </div>
               <br>
