@@ -24,7 +24,7 @@
                 <div class="card">
                     <div class="card-header">
                         <a href="main.php?module=detailPembelian">
-                            <button type="button" class="btn btn-outline-secondary"">
+                            <button type="button" class="btn btn-outline-secondary">
                             <i class="fa fa-plus-square"></i> Tambah Pembelian
                             </button>
                         </a>
@@ -37,8 +37,7 @@
                                 <th>No. Faktur </th>
                                 <th>Tanggal Pembelian</th>
                                 <th>Supplier</th>
-                                <th>Disc</th>
-                                <th>Harga Netto</th>
+                                <th>Netto</th>
                                 <th>Status</th>
                                 <th>Jatuh Tempo</th>
                                 <th>Action</th>
@@ -58,15 +57,13 @@
                                     $tanggal  = $data ['tanggal'];
                                     $jatuh_tempo  = $data ['jatuh_tempo'];
                                     $supplier = $data ['nama'];
-                                    $disc = $data ['disc'];
-                                    $netto = number_format($data['harga_netto'], 0, ',', '.');
+                                    $netto = number_format($data['netto'], 0, ',', '.');
                                     $status = $data ['status_pembayaran'];
                                 ?>
                                 <tr>
                                     <td><?=$no_faktur?></td>
                                     <td><?=$tanggal?></td>
                                     <td><?=$supplier?></td>
-                                    <td><?=$disc?></td>
                                     <td>Rp. <?=$netto?></td>
                                     <td>
                                         <?php

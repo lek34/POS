@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 22 Apr 2023 pada 05.35
+-- Waktu pembuatan: 22 Apr 2023 pada 13.27
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 8.1.12
 
@@ -80,6 +80,35 @@ CREATE TABLE `customer` (
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `history_pembelian`
+--
+
+CREATE TABLE `history_pembelian` (
+  `id_hbeli` int(11) NOT NULL,
+  `id_pembelian` int(11) NOT NULL,
+  `id_barang` int(11) NOT NULL,
+  `id_supplier` int(11) NOT NULL,
+  `kuantitas` int(11) NOT NULL,
+  `harga_barang` bigint(20) NOT NULL,
+  `disc` int(11) NOT NULL,
+  `bruto` bigint(20) NOT NULL,
+  `netto` bigint(20) NOT NULL,
+  `user` varchar(256) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `history_pembelian`
+--
+
+INSERT INTO `history_pembelian` (`id_hbeli`, `id_pembelian`, `id_barang`, `id_supplier`, `kuantitas`, `harga_barang`, `disc`, `bruto`, `netto`, `user`) VALUES
+(9, 11, 4, 0, 10, 100000, 15, 1000000, 850000, 'admin'),
+(10, 11, 4, 0, 10, 10000, 0, 100000, 100000, 'admin'),
+(11, 12, 4, 0, 20, 100000, 0, 2000000, 2000000, 'admin'),
+(12, 12, 4, 0, 12, 100000, 29, 1200000, 852000, 'admin');
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `is_users`
 --
 
@@ -112,26 +141,24 @@ INSERT INTO `is_users` (`id_user`, `username`, `nama_user`, `password`, `email`,
 
 CREATE TABLE `pembelian` (
   `id_pembelian` int(11) NOT NULL,
-  `nomor_transaksi` int(11) NOT NULL,
   `no_faktur` varchar(256) NOT NULL,
+  `nomor_transaksi` int(11) NOT NULL,
   `id_supplier` int(11) NOT NULL,
   `tanggal` date NOT NULL DEFAULT current_timestamp(),
   `jatuh_tempo` date DEFAULT NULL,
-  `disc` bigint(20) NOT NULL DEFAULT 0,
-  `harga_netto` bigint(20) NOT NULL DEFAULT 0,
-  `total` bigint(20) NOT NULL,
-  `status_hapus` varchar(10) NOT NULL DEFAULT 'Y',
+  `netto` int(11) DEFAULT 0,
+  `status_hapus` varchar(1) NOT NULL DEFAULT 'Y',
   `status_pembayaran` varchar(1) NOT NULL DEFAULT 'N',
-  `creator` text NOT NULL
+  `creator` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `pembelian`
 --
 
-INSERT INTO `pembelian` (`id_pembelian`, `nomor_transaksi`, `no_faktur`, `id_supplier`, `tanggal`, `jatuh_tempo`, `disc`, `harga_netto`, `total`, `status_hapus`, `status_pembayaran`, `creator`) VALUES
-(19, 1, 'PB/2304/0001', 23, '2023-04-22', '2023-04-30', 0, 0, 0, 'Y', 'N', ''),
-(20, 2, 'PB/2304/0002', 23, '2023-04-22', '2023-04-29', 0, 0, 0, 'Y', 'N', '');
+INSERT INTO `pembelian` (`id_pembelian`, `no_faktur`, `nomor_transaksi`, `id_supplier`, `tanggal`, `jatuh_tempo`, `netto`, `status_hapus`, `status_pembayaran`, `creator`) VALUES
+(11, 'PB/2304/0001', 1, 0, '2023-04-22', '2023-04-22', 0, 'Y', 'N', ''),
+(12, 'PB/2304/0002', 2, 0, '2023-04-22', '2023-04-08', 0, 'Y', 'N', '');
 
 -- --------------------------------------------------------
 
@@ -197,6 +224,12 @@ ALTER TABLE `customer`
   ADD PRIMARY KEY (`id_customer`);
 
 --
+-- Indeks untuk tabel `history_pembelian`
+--
+ALTER TABLE `history_pembelian`
+  ADD PRIMARY KEY (`id_hbeli`);
+
+--
 -- Indeks untuk tabel `is_users`
 --
 ALTER TABLE `is_users`
@@ -207,8 +240,7 @@ ALTER TABLE `is_users`
 -- Indeks untuk tabel `pembelian`
 --
 ALTER TABLE `pembelian`
-  ADD PRIMARY KEY (`id_pembelian`),
-  ADD KEY `id_supplier` (`id_supplier`);
+  ADD PRIMARY KEY (`id_pembelian`);
 
 --
 -- Indeks untuk tabel `supplier`
@@ -245,6 +277,12 @@ ALTER TABLE `customer`
   MODIFY `id_customer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT untuk tabel `history_pembelian`
+--
+ALTER TABLE `history_pembelian`
+  MODIFY `id_hbeli` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
 -- AUTO_INCREMENT untuk tabel `is_users`
 --
 ALTER TABLE `is_users`
@@ -254,7 +292,7 @@ ALTER TABLE `is_users`
 -- AUTO_INCREMENT untuk tabel `pembelian`
 --
 ALTER TABLE `pembelian`
-  MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT untuk tabel `supplier`
@@ -267,16 +305,6 @@ ALTER TABLE `supplier`
 --
 ALTER TABLE `temp_beli`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
---
-
---
--- Ketidakleluasaan untuk tabel `pembelian`
---
-ALTER TABLE `pembelian`
-  ADD CONSTRAINT `id_supplier` FOREIGN KEY (`id_supplier`) REFERENCES `supplier` (`id_supplier`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

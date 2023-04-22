@@ -10,8 +10,10 @@
 
  <!-- generate nomor Faktur -->   
 <?php
-/* unset($_SESSION['temp_data_transaksi']);
-unset($_SESSION['temp_data_barang']); */
+  $totBruto = 0;
+  $totDiskon = 0;
+  $totNetto = 0;
+  $jatuh_tempo_bawah = "DD/MM/YYYY";
   $query = "SELECT MAX(nomor_transaksi) as last_transaksi , no_faktur from pembelian;";
   $execQuery = mysqli_query($conn, $query);
   $fetchQuery = mysqli_fetch_array($execQuery);
@@ -41,10 +43,11 @@ unset($_SESSION['temp_data_barang']); */
               </div>
               <!-- info row -->
               <div class="row invoice-info">
-                <div class="col-sm-4 invoice-col">
+                
                   <?php
                   if (!isset($_SESSION['temp_data_transaksi'])) {/* pengulangan pertama */
                   ?>
+                  <div class="col-sm-4 invoice-col">
                     <form action="modules/transaksi/pembelian/proses.php?act=inserttemp" method="post"> <!-- form buka -->
                       <input type="hidden" name="nomor_transaksi" placeholder="You Shouldn't See This" value='<?= $next_number?>' class="form-control" hidden>
                       <label>No. Faktur</label>
@@ -79,6 +82,7 @@ unset($_SESSION['temp_data_barang']); */
 
                     
                   ?>
+                  <div class="col-sm-4 invoice-col">
                   <form action="modules/transaksi/pembelian/proses.php?act=inserttemp" method="post"> <!-- form buka -->
                       <input type="hidden" name="nomor_transaksi" placeholder="You Shouldn't See This" value='<?= $next_number?>' class="form-control" hidden>
                       <label>No. Faktur</label>
@@ -106,6 +110,11 @@ unset($_SESSION['temp_data_barang']); */
                     </div>
                   </div>
                   <br>
+                  <div class="col-4 invoice-col">
+                    <a href="modules/transaksi/pembelian/proses.php?act=reset">
+                      <button type="button" name="reset" class="btn btn-primary">reset</button>
+                    </a>
+                  </div>
 
                   <?php
                   }
@@ -125,6 +134,7 @@ unset($_SESSION['temp_data_barang']); */
                     </tr>
                     </thead>
                     <tbody>
+                      
                         <tr>
                             <td>
                             <select name="id_barang" class="form-control">
@@ -144,6 +154,7 @@ unset($_SESSION['temp_data_barang']); */
                             </td>
                             <td>
                             <input type="text" class="form-control" name="kuantitas">
+                            
                             </td>
                             <td>
                             <div class="input-group mb-3">
@@ -164,7 +175,7 @@ unset($_SESSION['temp_data_barang']); */
                               <div class="row">
                                 <div class = "col">
                                     <button type="submit" name="inserttemp" class="btn btn-outline-secondary">
-                                        <i class="fa fa-plus-square"></i> Tambah
+                                      Tambah
                                     </button>
                                 </div>
                             </div>
@@ -184,12 +195,14 @@ unset($_SESSION['temp_data_barang']); */
                   <table class="table table-striped">
                     <thead>
                     <tr>
+                      <th>No.</th>
                       <th>Nama Barang</th>
                       <th>Qty</th>
                       <th>Harga Barang</th>
                       <th>Bruto</th>
                       <th>Disc</th>
                       <th>Netto</th>
+                      <th>Delete</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -203,34 +216,56 @@ unset($_SESSION['temp_data_barang']); */
                           <td>-</td>
                           <td>-</td>
                           <td>-</td>
+                          <td>-</td>
+                          <td>-</td>
                       </tr>
                       <?php
                     } else {
+                      $i = 1;
                       foreach ($_SESSION['temp_data_barang'] as $key => $value){
                         $id_barang = $value['id_barang'];
-
+                        $id_supplier = $value['id_supplier'];
                         $query = "SELECT nama_barang FROM barang WHERE $id_barang = id_barang";
                         $ambilBarang= mysqli_query($conn, $query);
                         $fetchBarang = mysqli_fetch_assoc($ambilBarang);
-
                         $nama_barang = $fetchBarang['nama_barang'];
                         $kuantitas = $value['kuantitas'];
-                        $harga_barang = number_format($value['harga_barang'], 0, ',', '.');
-                        $bruto = number_format($value['bruto'], 0, ',', '.');
+                        $harga_barang = $value ['harga_barang'];
+                        $harga_barang_formatted = number_format($harga_barang, 0, ',', '.');
+                        $bruto = $value ['bruto'];
+                        $bruto_formatted = number_format($bruto, 0, ',', '.');
                         $disc = $value ['disc'];
-                        $netto = number_format($value['netto'], 0, ',', '.');
+                        $netto = $value ['netto'];
+                        $netto_formatted = number_format($netto, 0, ',', '.');
+                        $diskon = $value ['diskon'];
 
                         ?>
                         <tr>
+                          <td><?=$i?></td>
                           <td><?=$nama_barang?></td>
                           <td><?=$kuantitas?></td>
-                          <td>Rp. <?=$harga_barang?></td>
-                          <td>Rp. <?=$bruto?></td>
+                          <td>Rp. <?=$harga_barang_formatted?></td>
+                          <td>Rp. <?=$bruto_formatted?></td>
                           <td><?=$disc?>%</td>
-                          <td>Rp. <?=$netto?></td>
+                          <td>Rp. <?=$netto_formatted?></td>
+                          <td>
+                            <form action="modules/transaksi/pembelian/proses.php?act=deleteList" method="post">
+                              <input type="hidden" name="indeks" value=<?=$key?>>
+                              <button type="submit" name="deleteList"class="btn btn-danger btn-sm" ><i class = "far fa-trash-alt"></i></button>
+                            </form>
+                          </td>
                       </tr>
                       <?php
+                      $i++;
+
+                      $totBruto += $bruto;
+                      $totDiskon += $diskon;
+                      $totNetto += $netto;
                       }
+                      $totBruto = number_format($totBruto, 0, ',', '.');
+                      $totDiskon = number_format($totDiskon, 0, ',', '.');
+                      $totNetto = number_format($totNetto, 0, ',', '.');
+                      $jatuh_tempo_bawah = $jatuh_tempo;
                     }
                       ?>
                     </tbody>
@@ -246,25 +281,23 @@ unset($_SESSION['temp_data_barang']); */
                 </div>
                 <!-- /.col -->
                 <div class="col-6">
-                  <p class="lead">Amount Due 2/22/2014</p>
+                  <p class="lead">Jatuh Tempo : <?=$jatuh_tempo_bawah?></p>
 
                   <div class="table-responsive">
                     <table class="table">
                       <tr>
                         <th style="width:50%">Subtotal:</th>
-                        <td>$250.30</td>
+                        <td>Rp. <?=$totBruto?></td>
                       </tr>
                       <tr>
-                        <th>Tax (9.3%)</th>
-                        <td>$10.34</td>
+                        <th>Disc</th>
+                        <td>Rp. <?=$totDiskon?></td>
                       </tr>
                       <tr>
-                        <th>Shipping:</th>
-                        <td>$5.80</td>
                       </tr>
                       <tr>
                         <th>Total:</th>
-                        <td>$265.24</td>
+                        <td>Rp. <?=$totNetto?></td>
                       </tr>
                     </table>
                   </div>
@@ -275,17 +308,17 @@ unset($_SESSION['temp_data_barang']); */
 
               <!-- this row will not appear when printing -->
               <div class="row no-print">
-                <div class="col-12">
-                <a href="?module=detailPembelian&id_pembelian=<?=$id_pembelian?>" rel="noopener" target="_blank" class="btn btn-default" onclick="printPage()"><i class="fas fa-print"></i> Print</a>
+                <div class="col">
+                  <a href="?module=detailPembelian" rel="noopener" target="_blank" class="btn btn-default float-left  " onclick="printPage()"><i class="fas fa-print"></i> Print</a>
                     <script>
                     function printPage() {
                       window.addEventListener("load", window.print());
                     }
                     </script>
-                  <button type="button" class="btn btn-success float-right"><i class="far fa-credit-card"></i> Submit
-                    Payment
-                  </button>
-                  <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
+                    <form action="modules/transaksi/pembelian/proses.php?act=insertPembelian" method="post">
+                      <button type="submit" name="insertPembelian" class="btn btn-success float-right">Submit</button>
+                    </form>
+                    <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
                     <i class="fas fa-download"></i> Generate PDF
                   </button>
                 </div>
@@ -296,4 +329,4 @@ unset($_SESSION['temp_data_barang']); */
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </section>
-    
+  
