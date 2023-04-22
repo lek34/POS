@@ -48,6 +48,8 @@ require_once "../../../auth/cek.php";
     } elseif ($_GET['act'] == 'deleteList'){
         if (isset($_POST['deleteList'])){
             $id_list = $_POST['indeks'];
+
+            unset($_SESSION['temp_data_barang'][$id_list]);
     }
     elseif($_GET['act']=='insertPembelian'){
         if(isset($_POST['insertPembelian'])){
