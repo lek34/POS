@@ -24,7 +24,7 @@
                 <div class="card">
                     <div class="card-header">
                         <a href="main.php?module=detailPembelian">
-                            <button type="button" class="btn btn-outline-secondary"">
+                            <button type="button" class="btn btn-outline-secondary">
                             <i class="fa fa-plus-square"></i> Tambah Pembelian
                             </button>
                         </a>

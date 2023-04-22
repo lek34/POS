@@ -36,7 +36,7 @@
               <!-- info row -->
               <div class="row invoice-info">
                 <div class="col-sm-4 invoice-col">
-                <form action="modules/transaksi/pembelian/proses.php?act=act=insertDetail" method="post"> <!-- form buka -->
+                <form action="modules/transaksi/pembelian/proses.php?act=insertPembelian" method="post"> <!-- form buka -->
                   <input type="hidden" name="nomor_transaksi" placeholder="You Shouldn't See This" value='<?= $next_number?>' class="form-control" hidden>
                   <label>No. Faktur</label>
                   <input type="text" name="" placeholder="No Faktur" value='<?= $newFaktur?>' class="form-control" readonly>
@@ -102,7 +102,7 @@
                             <input type="text" class="form-control" name="harga_barang">
                             </td>
                             <td>
-                            <input type="text" class="form-control" name="disc">
+                            <input type="text" class="form-control" name="disc" value="0">
                             </td>
                             <td>
                               <div class="row">
@@ -225,7 +225,7 @@
                       window.addEventListener("load", window.print());
                     }
                     </script>
-                  <button type="button" class="btn btn-success float-right"><i class="far fa-credit-card"></i> Submit
+                  <button type="button" name="insertPembelian" class="btn btn-success float-right"><i class="far fa-credit-card"></i> Submit
                     Payment
                   </button>
                   <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
