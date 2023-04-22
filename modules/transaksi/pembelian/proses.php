@@ -77,6 +77,7 @@ require_once "../../../auth/cek.php";
             $id_supplier = $temp_data_transaksi['id_supplier'];
             $jatuh_tempo = $temp_data_transaksi['jatuh_tempo'];
             $totNetto = $_SESSION['totNetto'];
+            
             $queryHeader = "INSERT INTO pembelian (no_faktur, id_supplier, nomor_transaksi, jatuh_tempo, netto) VALUES ('$no_faktur', '$id_supplier', '$no_transaksi', '$jatuh_tempo', '$totNetto')";
             $execQueryHeader = mysqli_query($conn, $queryHeader) or die('Error inserting data into pembelian table: ' . mysqli_error($conn));
             $id_pembelian = mysqli_insert_id($conn);
@@ -94,7 +95,7 @@ require_once "../../../auth/cek.php";
                 $user = $data['user'];
                 $diskon = $data['diskon'];
     
-                $queryDetail = "INSERT INTO history_pembelian (id_pembelian, id_supplier, id_barang, kuantitas_baru, harga_barang, disc, bruto, netto, user) 
+                $queryDetail = "INSERT INTO history_pembelian (id_pembelian, id_supplier, id_barang, kuantitas, harga_barang, disc, bruto, netto, user) 
                                 VALUES ('$id_pembelian', '$id_supplier', '$id_barang', '$kuantitas', '$harga_barang', '$disc', '$bruto', '$netto', '$user')";
                 $execQueryDetail = mysqli_query($conn, $queryDetail) or die('Error inserting data into pembelian_detail table: ' . mysqli_error($conn));
             }

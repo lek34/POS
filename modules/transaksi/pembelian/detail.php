@@ -1,4 +1,197 @@
-<section class="content-header">
+<?php
+if (isset($_GET['id_pembelian'])) { ?>
+  <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Detail Pembelian</h1>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+<?php
+  $id_pembelian = $_GET['id_pembelian'];
+  $execQuery = mysqli_query($conn, "SELECT pembelian.jatuh_tempo, pembelian.no_faktur, supplier.nama
+                                    FROM pembelian
+                                    JOIN supplier ON pembelian.id_supplier = supplier.id_supplier
+                                    WHERE pembelian.id_pembelian = '$id_pembelian'");
+  while ($data = mysqli_fetch_array($execQuery)){
+    $no_faktur = $data ['no_faktur'];
+    $supplier = $data ['nama'];
+    $jatuh_tempo = $data ['jatuh_tempo'];
+?>
+<!-- Mulai content -->
+            <!-- Main content -->
+            <div class="invoice p-3 mb-3">
+              <!-- title row -->
+              <div class="row">
+                <div class="col-12">
+                  <h2>
+                    
+                  </h2>
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- info row -->
+              <div class="row invoice-info">
+                  <div class="col-sm-4 invoice-col">
+                      <label>No. Faktur</label>
+                      <input type="text" name="no_faktur" placeholder="No Faktur" value='<?=$no_faktur?>' class="form-control" readonly>
+                      <br>
+                      <label>Supplier</label>
+                      <input type="text" name="no_faktur" placeholder="No Faktur" value='<?=$supplier?>' class="form-control" readonly>
+                      <br>
+                      <label>Jatuh Tempo</label>
+                      <input type="date" id="jatuh_tempo" value="<?=$jatuh_tempo?>" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" readonly>
+                    </div>
+                  </div>
+                  <br>
+      <?php
+        }
+      ?>        
+<!-- form tutup -->
+                <br>
+              <!-- Table row -->
+              <div class="row">
+                <div class="col-12 table-responsive">
+                  <h3>List Barang :</h3>
+                  <table class="table table-striped">
+                    <thead>
+                    <tr>
+                      <th>No.</th>
+                      <th>Nama Barang</th>
+                      <th>Qty</th>
+                      <th>Harga Barang</th>
+                      <th>Bruto</th>
+                      <th>Disc</th>
+                      <th>Netto</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                        $i = 1;
+                        $execQuery = mysqli_query($conn, "SELECT pembelian.id_pembelian, history_pembelian.id_barang, history_pembelian.kuantitas, history_pembelian.harga_barang, history_pembelian.disc, history_pembelian.bruto, history_pembelian.netto, barang.nama_barang 
+                                                          FROM pembelian 
+                                                          JOIN history_pembelian ON pembelian.id_pembelian = history_pembelian.id_pembelian 
+                                                          JOIN barang ON history_pembelian.id_barang = barang.id_barang 
+                                                          WHERE pembelian.id_pembelian = '$id_pembelian';");
+                        while ($data = mysqli_fetch_array($execQuery)){
+                          $nama_barang = $data ['nama_barang'];
+                          $kuantitas  = $data ['kuantitas'];
+                          $harga_barang = number_format($data ['harga_barang'], 0, ',', '.');
+                          $disc = number_format($data ['disc'], 0, ',', '.');
+                          $bruto = number_format($data ['bruto'], 0, ',', '.');
+                          $netto = number_format($data ['netto'], 0, ',', '.');
+                    ?>
+                    <tr>
+                        <td><?=$i?></>
+                        <td><?=$nama_barang?></td>
+                        <td><?=$kuantitas?></td>
+                        <td>Rp. <?=$harga_barang?></td>
+                        <td>Rp. <?=$bruto?></td>
+                        <td><?=$disc?>%</td>
+                        <td>Rp. <?=$netto?></td>
+                    </tr>
+                    <?php
+                    $i++;
+                      }
+                    ?>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+              <br>
+              <br>
+              <br>
+              <br>
+              <div class="row">
+                <!-- accepted payments column -->
+                <div class="col-6">
+                </div>
+                <!-- /.col -->
+                <div class="col-6">
+                <?php
+                    $execQuery = mysqli_query($conn, "SELECT pembelian.jatuh_tempo
+                                                      FROM pembelian
+                                                      WHERE pembelian.id_pembelian = '$id_pembelian'");
+                    while ($data = mysqli_fetch_array($execQuery)){
+                      $jatuh_tempo = $data ['jatuh_tempo'];
+                  ?>
+                  <p class="lead">Jatuh Tempo : <?=$jatuh_tempo?></p>
+                  <?php
+                    }
+                  ?>
+                  <div class="table-responsive">
+                    <table class="table">
+                    <?php
+                        $i = 1;
+                        $execQuery = mysqli_query($conn, "SELECT pembelian.id_pembelian, 
+                                                          SUM(history_pembelian.bruto) as total_bruto,
+                                                          SUM(history_pembelian.netto) as total_netto,
+                                                          SUM(history_pembelian.disc) as total_disc,
+                                                          barang.nama_barang 
+                                                          FROM pembelian 
+                                                          JOIN history_pembelian ON pembelian.id_pembelian = history_pembelian.id_pembelian 
+                                                          JOIN barang ON history_pembelian.id_barang = barang.id_barang 
+                                                          WHERE pembelian.id_pembelian = '1'
+                                                          GROUP BY pembelian.id_pembelian, barang.nama_barang;");
+
+                        while ($data = mysqli_fetch_array($execQuery)){
+                          $totBruto =  number_format($data ['total_bruto'], 0, ',', '.');
+                          $totDiskon  = number_format($data ['total_disc'], 0, ',', '.');
+                          $totNetto  = number_format($data ['total_netto'], 0, ',', '.');
+                    ?>
+                      <tr>
+                        <th style="width:50%">Subtotal:</th>
+                        <td>Rp. <?=$totBruto?></td>
+                      </tr>
+                      <tr>
+                        <th>Disc</th>
+                        <td>Rp. <?=$totDiskon?></td>
+                      </tr>
+                      <tr>
+                      </tr>
+                      <tr>
+                        <th>Total:</th>
+                        <td>Rp. <?=$totNetto?></td>
+                      </tr>
+                      <?php
+                        }
+                      ?>
+                    </table>
+                  </div>
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+
+              <!-- this row will not appear when printing -->
+              <div class="row no-print">
+                <div class="col">
+                  <a href="?module=detailPembelian" rel="noopener" target="_blank" class="btn btn-default float-left  " onclick="printPage()"><i class="fas fa-print"></i> Print</a>
+                    <script>
+                    function printPage() {
+                      window.addEventListener("load", window.print());
+                    }
+                    </script>
+                    <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
+                    <i class="fas fa-download"></i> Generate PDF
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- /.invoice -->
+          </div><!-- /.col -->
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+  
+  <?php 
+      } 
+  else  { ?>
+      <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
@@ -282,7 +475,6 @@
                 <!-- /.col -->
                 <div class="col-6">
                   <p class="lead">Jatuh Tempo : <?=$jatuh_tempo_bawah?></p>
-
                   <div class="table-responsive">
                     <table class="table">
                       <tr>
@@ -329,4 +521,7 @@
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </section>
-  
+    <?php 
+  } 
+?>
+
