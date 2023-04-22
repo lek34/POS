@@ -37,10 +37,10 @@
                                 <th>No. Faktur </th>
                                 <th>Tanggal Pembelian</th>
                                 <th>Supplier</th>
-                                <th>Harga Netto</th>
+                                <th>Netto</th>
                                 <th>Status</th>
                                 <th>Jatuh Tempo</th>
-                                <th>delete</th>
+                                <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -57,7 +57,7 @@
                                     $tanggal  = $data ['tanggal'];
                                     $jatuh_tempo  = $data ['jatuh_tempo'];
                                     $supplier = $data ['nama'];
-                                    $netto = number_format($data['harga_netto'], 0, ',', '.');
+                                    $netto = number_format($data['netto'], 0, ',', '.');
                                     $status = $data ['status_pembayaran'];
                                 ?>
                                 <tr>

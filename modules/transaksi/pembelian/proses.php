@@ -70,47 +70,38 @@ require_once "../../../auth/cek.php";
     
     elseif($_GET['act']=='insertPembelian'){
         if(isset($_POST['insertPembelian'])){
-            // Get the data from the session
-            $temp_data_transaksi = $_SESSION['temp_data_transaksi'];    
+            $temp_data_transaksi = $_SESSION['temp_data_transaksi'];
+            $no_transaksi = $temp_data_transaksi['no_transaksi'];
+            $no_faktur = $temp_data_transaksi['no_faktur'];
+            $supplier = $temp_data_transaksi['supplier'];
+            $jatuh_tempo = $temp_data_transaksi['jatuh_tempo'];
 
-            foreach($temp_data_transaksi as $data) {
-                $no_transaksi = $data['no_transaksi'];
-                $no_faktur = $data['no_faktur'];
-                $supplier = $data['supplier'];
-                $jatuh_tempo = $data['jatuh_tempo'];
-            
-                $queryHeader = "INSERT INTO pembelian (no_faktur, id_supplier, nomor_transaksi, jatuh_tempo) VALUES ('$no_faktur', '$supplier', '$no_transaksi', '$jatuh_tempo')";
-                $execQueryHeader = mysqli_query($conn, $queryHeader) or die('Ada kesalahan pada query user: ' . mysqli_error($conn));
-            }
-            
+            $queryHeader = "INSERT INTO pembelian (no_faktur, id_supplier, nomor_transaksi, jatuh_tempo) VALUES ('$no_faktur', '$supplier', '$no_transaksi', '$jatuh_tempo')";
+            $execQueryHeader = mysqli_query($conn, $queryHeader) or die('Error inserting data into pembelian table: ' . mysqli_error($conn));
             $id_pembelian = mysqli_insert_id($conn);
 
-            if (!isset($_SESSION['temp_data_barang'])) {
+            // Insert data from temp_data_barang table
+            $temp_data_barang = $_SESSION['temp_data_barang'];
+            foreach ($temp_data_barang as $data) {
+                $id_barang = $data['id_barang'];
+                $kuantitas = $data['kuantitas'];
+                $harga_barang = $data['harga_barang'];
+                $disc = $data['disc'];
+                $bruto = $data['bruto'];
+                $netto = $data['netto'];
+                $user = $data['user'];
+                $diskon = $data['diskon'];
 
-                $_SESSION['temp_data_barang'] = array();
-            }else{
-                 // Loop through temp_data_barang and insert each record into pembelian_detail table
-                foreach($_SESSION['temp_data_barang'] as $data) {
 
-                    // Retrieve data from array
-                    $faktur_barang = $data['faktur_barang'];
-                    $id_barang = $data['id_barang'];
-                    $kuantitas = $data['kuantitas'];
-                    $harga_barang = $data['harga_barang'];
-                    $disc = $data['disc'];
-                    $bruto = $data['bruto'];
-                    $netto = $data['netto'];
-                    $user = $data['user'];
-
-                    // Insert data into pembelian_detail table
-                    $queryDetail = "INSERT INTO pembelian_detail (id_pembelian, faktur_barang, id_barang, kuantitas, harga_barang, disc, bruto, netto, user) 
-                                    VALUES ('$id_pembelian', '$faktur_barang', '$id_barang', '$kuantitas', '$harga_barang', '$disc', '$bruto', '$netto', '$user')";
-                    $execQueryDetail = mysqli_query($conn, $queryDetail) or die('Ada kesalahan pada query detail: ' . mysqli_error($conn));
-                }
+                echo '<script>alert("Hello! I am an alert box!!");</script>';
+                $queryDetail = "INSERT INTO history_pembelian (id_pembelian, id_supplier, id_barang, kuantitas, harga_barang, disc, bruto, netto, user) 
+                                VALUES ('$id_pembelian', '$supplier', '$id_barang', '$kuantitas', '$harga_barang', '$disc', '$bruto', '$netto', '$user')";
+                $execQueryDetail = mysqli_query($conn, $queryDetail) or die('Error inserting data into pembelian_detail table: ' . mysqli_error($conn));
             }
+
             // Clear session data after successful insertions
-                unset($_SESSION['temp_data_transaksi']);
-                unset($_SESSION['temp_data_barang']);
+            unset($_SESSION['temp_data_transaksi']);
+            unset($_SESSION['temp_data_barang']);
                 
                 header('location: ../../../main.php?module=buyItem');
             }
