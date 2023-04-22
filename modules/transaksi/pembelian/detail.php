@@ -54,7 +54,7 @@
                       <input type="text" name="no_faktur" placeholder="No Faktur" value='<?= $newFaktur?>' class="form-control" readonly>
                       <br>
                       <label>Supplier</label>
-                      <select name="supplier" class="form-control">
+                      <select name="id_supplier" class="form-control">
                           <?php
                             $pilihansupplier = mysqli_query($conn, "select * from supplier WHERE status = 'Y'");
                             while ($fetcharray = mysqli_fetch_array($pilihansupplier)) {
@@ -77,10 +77,8 @@
                   <?php
                   } else { 
                     $no_transaksi = $_SESSION['temp_data_transaksi']['no_transaksi'];
-                    $supplier = $_SESSION['temp_data_transaksi']['supplier'];
+                    $supplier = $_SESSION['temp_data_transaksi']['id_supplier'];
                     $jatuh_tempo = $_SESSION['temp_data_transaksi']['jatuh_tempo'];
-
-                    
                   ?>
                   <div class="col-sm-4 invoice-col">
                   <form action="modules/transaksi/pembelian/proses.php?act=inserttemp" method="post"> <!-- form buka -->
@@ -89,7 +87,7 @@
                       <input type="text" name="no_faktur" placeholder="No Faktur" value='<?=$newFaktur?>' class="form-control" readonly>
                       <br>
                       <label>Supplier</label>
-                      <select name="supplier" class="form-control" disabled="disabled">
+                      <select name="id_supplier" class="form-control" readonly>
                         <?php
                         $pilihansupplier = mysqli_query($conn, "select * from supplier WHERE status = 'Y'");
                         while ($fetcharray = mysqli_fetch_array($pilihansupplier)) {
@@ -222,7 +220,7 @@
                       <?php
                     } else {
                       $i = 1;
-                      foreach ($_SESSION['temp_data_barang'] as $key => $value){
+                      foreach ($_SESSION['temp_data_barang'] as $key => $value){   
                         $id_barang = $value['id_barang'];
                         $id_supplier = $value['id_supplier'];
                         $query = "SELECT nama_barang FROM barang WHERE $id_barang = id_barang";
@@ -261,10 +259,12 @@
                       $totBruto += $bruto;
                       $totDiskon += $diskon;
                       $totNetto += $netto;
+                      $_SESSION['totNetto'] = $totNetto;
                       }
                       $totBruto = number_format($totBruto, 0, ',', '.');
                       $totDiskon = number_format($totDiskon, 0, ',', '.');
                       $totNetto = number_format($totNetto, 0, ',', '.');
+                      
                       $jatuh_tempo_bawah = $jatuh_tempo;
                     }
                       ?>
