@@ -17,7 +17,6 @@ require_once "../../../auth/cek.php";
                 'supplier' => $supplier,
                 'jatuh_tempo' => $jatuh_tempo
             );
-<<<<<<< Updated upstream
             $faktur_barang = trim($_POST['no_faktur']);
             $id_barang = mysqli_real_escape_string($conn, trim($_POST['id_barang']));
             $kuantitas = mysqli_real_escape_string($conn, trim($_POST['kuantitas']));
@@ -31,8 +30,6 @@ require_once "../../../auth/cek.php";
             $netto = $bruto - ($bruto * ($disc/100));
             $user = $_SESSION['username'];
 
-=======
->>>>>>> Stashed changes
             if (!isset($_SESSION['temp_data_barang'])) {
                 $_SESSION['temp_data_barang'] = array();
             }
@@ -50,11 +47,9 @@ require_once "../../../auth/cek.php";
 
             header('location: ../../../main.php?module=detailPembelian');
         }
-<<<<<<< Updated upstream
     } elseif ($_GET['act'] == 'deleteList'){
         if (isset($_POST['deleteList'])){
             $id_list = $_POST['indeks'];
-=======
     }
     elseif($_GET['act']=='insertPembelian'){
         if(isset($_POST['insertPembelian'])){
@@ -96,17 +91,11 @@ require_once "../../../auth/cek.php";
                 }
             }
             // Clear session data after successful insertions
-            unset($_SESSION['temp_data_transaksi']);
-            unset($_SESSION['temp_data_barang']);
-            
-            header('location: ../../../main.php?module=buyItem');
-        }
-    }
->>>>>>> Stashed changes
-
-            unset($_SESSION['temp_data_barang'][$id_list]);
-
-            header('location: ../../../main.php?module=detailPembelian');
+                unset($_SESSION['temp_data_transaksi']);
+                unset($_SESSION['temp_data_barang']);
+                
+                header('location: ../../../main.php?module=buyItem');
+            }
         }
     }
 ?>
