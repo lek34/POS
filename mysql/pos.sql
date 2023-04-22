@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 21 Apr 2023 pada 20.39
+-- Waktu pembuatan: 22 Apr 2023 pada 05.35
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 8.1.12
 
@@ -130,8 +130,8 @@ CREATE TABLE `pembelian` (
 --
 
 INSERT INTO `pembelian` (`id_pembelian`, `nomor_transaksi`, `no_faktur`, `id_supplier`, `tanggal`, `jatuh_tempo`, `disc`, `harga_netto`, `total`, `status_hapus`, `status_pembayaran`, `creator`) VALUES
-(14, 1, 'PB/2304/0001', 23, '2023-04-21', '2023-04-30', 0, 0, 0, 'Y', 'N', ''),
-(15, 2, 'PB/2304/0002', 23, '2023-04-22', '2023-04-29', 0, 0, 0, 'Y', 'N', '');
+(19, 1, 'PB/2304/0001', 23, '2023-04-22', '2023-04-30', 0, 0, 0, 'Y', 'N', ''),
+(20, 2, 'PB/2304/0002', 23, '2023-04-22', '2023-04-29', 0, 0, 0, 'Y', 'N', '');
 
 -- --------------------------------------------------------
 
@@ -254,7 +254,7 @@ ALTER TABLE `is_users`
 -- AUTO_INCREMENT untuk tabel `pembelian`
 --
 ALTER TABLE `pembelian`
-  MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT untuk tabel `supplier`
