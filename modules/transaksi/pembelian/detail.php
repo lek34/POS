@@ -168,7 +168,7 @@ unset($_SESSION['temp_data_barang']); */
                               <div class="row">
                                 <div class = "col">
                                     <button type="submit" name="inserttemp" class="btn btn-outline-secondary">
-                                        <i class="fa fa-plus-square"></i> Tambah
+                                      Tambah
                                     </button>
                                 </div>
                             </div>
@@ -301,19 +301,17 @@ unset($_SESSION['temp_data_barang']); */
 
               <!-- this row will not appear when printing -->
               <div class="row no-print">
-                <div class="col-12">
-                <a href="?module=detailPembelian&id_pembelian=<?=$id_pembelian?>" rel="noopener" target="_blank" class="btn btn-default" onclick="printPage()"><i class="fas fa-print"></i> Print</a>
+                <div class="col">
+                  <a href="?module=detailPembelian" rel="noopener" target="_blank" class="btn btn-default" onclick="printPage()"><i class="fas fa-print"></i> Print</a>
                     <script>
                     function printPage() {
                       window.addEventListener("load", window.print());
                     }
                     </script>
-                  <form action="modules/transaksi/pembelian/proses.php?act=insertPembelian" method="post">
-                  <button type="submit" name="insertPembelian" class="btn btn-success float-right"><i class="far fa-credit-card"></i> Submit
-                    Payment
-                  </button>
-                  </form>
-                  <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
+                    <form action="modules/transaksi/pembelian/proses.php?act=insertPembelian" method="post">
+                      <button type="submit" name="insertPembelian" class="btn btn-success float-right">Submit</button>
+                    </form>
+                    <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
                     <i class="fas fa-download"></i> Generate PDF
                   </button>
                 </div>
