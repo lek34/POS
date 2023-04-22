@@ -8,12 +8,6 @@
       </div><!-- /.container-fluid -->
     </section>
 <?php
-<<<<<<< Updated upstream
-/* unset($_SESSION['temp_data_transaksi']);
-unset($_SESSION['temp_data_barang']); */
-
-=======
->>>>>>> Stashed changes
   $query = "SELECT MAX(nomor_transaksi) as last_transaksi , no_faktur from pembelian;";
   $execQuery = mysqli_query($conn, $query);
   $fetchQuery = mysqli_fetch_array($execQuery);
@@ -146,57 +140,6 @@ unset($_SESSION['temp_data_barang']); */
                     </thead>
                     <tbody>
                       <?php
-<<<<<<< Updated upstream
-                      if (!isset($_SESSION['temp_data_barang'])) {
-                      ?>
-                      <tr>
-                          <td>-</td>
-                          <td>-</td>
-                          <td>-</td>
-                          <td>-</td>
-                          <td>-</td>
-                          <td>-</td>
-                          <td>-</td>
-                          <td>-</td>
-                      </tr>
-                      <?php
-                    } else {
-                      $i = 0;
-                      foreach ($_SESSION['temp_data_barang'] as $key => $value){
-                        $id_barang = $value['id_barang'];
-
-                        $query = "SELECT nama_barang FROM barang WHERE $id_barang = id_barang";
-                        $ambilBarang= mysqli_query($conn, $query);
-                        $fetchBarang = mysqli_fetch_assoc($ambilBarang);
-
-                        $nama_barang = $fetchBarang['nama_barang'];
-                        $kuantitas = $value['kuantitas'];
-                        $harga_barang = number_format($value['harga_barang'], 0, ',', '.');
-                        $bruto = number_format($value['bruto'], 0, ',', '.');
-                        $disc = $value ['disc'];
-                        $netto = number_format($value['netto'], 0, ',', '.');
-
-                        ?>
-                        <tr>
-                          <td><?=$i+1?></td>
-                          <td><?=$nama_barang?></td>
-                          <td><?=$kuantitas?></td>
-                          <td>Rp. <?=$harga_barang?></td>
-                          <td>Rp. <?=$bruto?></td>
-                          <td><?=$disc?>%</td>
-                          <td>Rp. <?=$netto?></td>
-                          <td>
-                            <form action="modules/transaksi/pembelian/proses.php?act=deleteList" method="post">
-                              <input type="hidden" name="indeks" value=<?=$i?>>
-                              <button type="submit" name="deleteList"class="btn btn-danger btn-sm" ><i class = "far fa-trash-alt"></i></button>
-                            </form>
-                          </td>
-                      </tr>
-                      <?php
-                      $i++;
-                      }
-                    }
-=======
                         $ambildatatemp = "SELECT t.*, b.nama_barang
                         FROM temp_beli t
                         INNER JOIN barang b ON t.id_barang = b.id_barang
@@ -221,7 +164,6 @@ unset($_SESSION['temp_data_barang']); */
                           </tr>
                         <?php
                         }
->>>>>>> Stashed changes
                       ?>
                     </tbody>
                   </table>
