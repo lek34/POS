@@ -10,7 +10,7 @@ require_once "../../../auth/cek.php";
 // jika user sudah login, maka jalankan perintah untuk insert, update, dan delete
     if ($_GET['act']=='insert') {
         if (isset($_POST['addBuy'])){
-            $nomor_transaksi  = mysqli_real_escape_string($conn, trim($_POST['nomor_transaksi']));
+           /*  $nomor_transaksi  = mysqli_real_escape_string($conn, trim($_POST['nomor_transaksi']));
             $no_faktur = trim($_POST['no_faktur']);
             $supplier  = mysqli_real_escape_string($conn, trim($_POST['supplier']));
             $jatuh_tempo  	= mysqli_real_escape_string($conn, trim($_POST['jatuh_tempo']));
@@ -23,9 +23,51 @@ require_once "../../../auth/cek.php";
                 header('location: ../../../main.php?module=detailPembelian&id_pembelian='.$id_pembelian);
             } else {
                 header('location: ../../../main.php?module=buyItem&alert=2');
-            }
+            } */
         }
     }
+    elseif($_GET['act']=='inserttemp'){
+        if(isset($_POST['inserttemp'])){
+            $no_transaksi = mysqli_real_escape_string($conn, trim($_POST['nomor_transaksi']));
+            $no_faktur = trim($_POST['no_faktur']);
+            $supplier  = mysqli_real_escape_string($conn, trim($_POST['supplier']));
+            $jatuh_tempo  	= mysqli_real_escape_string($conn, trim($_POST['jatuh_tempo']));
+
+            // store the variables in the session
+            $_SESSION['temp_data_transaksi'] = array(
+                'no_transaksi' => $no_transaksi,
+                'no_faktur' => $no_faktur,
+                'supplier' => $supplier,
+                'jatuh_tempo' => $jatuh_tempo
+            );
+            $faktur_barang = trim($_POST['no_faktur']);
+            $id_barang = mysqli_real_escape_string($conn, trim($_POST['id_barang']));
+            $kuantitas = mysqli_real_escape_string($conn, trim($_POST['kuantitas']));
+            $harga_barang = mysqli_real_escape_string($conn, trim($_POST['harga_barang']));
+            $disc = mysqli_real_escape_string($conn, trim($_POST['disc']));
+            $bruto = ($kuantitas*$harga_barang);
+            $netto = $bruto - ($bruto * ($disc/100));
+            $user = $_SESSION['username'];
+
+            if (!isset($_SESSION['temp_data_barang'])) {
+                $_SESSION['temp_data_barang'] = array();
+            }
+            // Create a session array for transaction items
+            $_SESSION['temp_data_barang'][] = array(
+                'faktur_barang' => $faktur_barang,
+                'id_barang' => $id_barang,
+                'kuantitas' => $kuantitas,
+                'harga_barang' => $harga_barang,
+                'disc' => $disc,
+                'bruto' => $bruto,
+                'netto' => $netto,
+                'user' => $user
+            );
+
+            header('location: ../../../main.php?module=detailPembelian');
+        }
+    }
+
     elseif ($_GET['act']=='edit') {
         if (isset($_POST['editBuy'])){
             $supplier  = mysqli_real_escape_string($conn, trim($_POST['supplier']));

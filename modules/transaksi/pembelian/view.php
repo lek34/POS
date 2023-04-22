@@ -23,9 +23,11 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#tambah">
-                        <i class="fa fa-plus-square"></i> Tambah Pembelian
-                        </button>
+                        <a href="main.php?module=detailPembelian">
+                            <button type="button" class="btn btn-outline-secondary"">
+                            <i class="fa fa-plus-square"></i> Tambah Pembelian
+                            </button>
+                        </a>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
