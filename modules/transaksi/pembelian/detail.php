@@ -7,12 +7,13 @@
         </div>
       </div><!-- /.container-fluid -->
     </section>
-
- <!-- generate nomor Faktur -->   
 <?php
+<<<<<<< Updated upstream
 /* unset($_SESSION['temp_data_transaksi']);
 unset($_SESSION['temp_data_barang']); */
 
+=======
+>>>>>>> Stashed changes
   $query = "SELECT MAX(nomor_transaksi) as last_transaksi , no_faktur from pembelian;";
   $execQuery = mysqli_query($conn, $query);
   $fetchQuery = mysqli_fetch_array($execQuery);
@@ -26,9 +27,7 @@ unset($_SESSION['temp_data_barang']); */
   }
   $date = date('ym');
   $newFaktur = 'PB/' . $date .'/'. str_pad($next_number, 4, '0', STR_PAD_LEFT);
-?>
-
-<!-- Mulai content -->
+?>      
             <!-- Main content -->
             <div class="invoice p-3 mb-3">
               <!-- title row -->
@@ -43,80 +42,38 @@ unset($_SESSION['temp_data_barang']); */
               <!-- info row -->
               <div class="row invoice-info">
                 <div class="col-sm-4 invoice-col">
-                  <?php
-                  if (!isset($_SESSION['temp_data_transaksi'])) {/* pengulangan pertama */
-                  ?>
-                    <form action="modules/transaksi/pembelian/proses.php?act=inserttemp" method="post"> <!-- form buka -->
-                      <input type="hidden" name="nomor_transaksi" placeholder="You Shouldn't See This" value='<?= $next_number?>' class="form-control" hidden>
-                      <label>No. Faktur</label>
-                      <input type="text" name="no_faktur" placeholder="No Faktur" value='<?= $newFaktur?>' class="form-control" readonly>
-                      <br>
-                      <label>Supplier</label>
-                      <select name="supplier" class="form-control">
-                          <?php
-                            $pilihansupplier = mysqli_query($conn, "select * from supplier WHERE status = 'Y'");
-                            while ($fetcharray = mysqli_fetch_array($pilihansupplier)) {
-                            $namasupplier = $fetcharray['nama'];
-                            $idsup = $fetcharray['id_supplier'];
-                            ?>
-                            <option value="<?= $idsup; ?>">
-                                <?= $namasupplier; ?>
-                            </option>
-                            <?php
-                            }
-                          ?>
-                      </select>
-                      <br>
-                      <label>Jatuh Tempo</label>
-                      <input type="date" id="jatuh_tempo" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" required>
-                    </div>
-                  </div>
+                <form action="modules/transaksi/pembelian/proses.php?act=act=insertDetail" method="post"> <!-- form buka -->
+                  <input type="hidden" name="nomor_transaksi" placeholder="You Shouldn't See This" value='<?= $next_number?>' class="form-control" hidden>
+                  <label>No. Faktur</label>
+                  <input type="text" name="" placeholder="No Faktur" value='<?= $newFaktur?>' class="form-control" readonly>
                   <br>
-                  <?php
-                  } else { 
-                    $no_transaksi = $_SESSION['temp_data_transaksi']['no_transaksi'];
-                    $supplier = $_SESSION['temp_data_transaksi']['supplier'];
-                    $jatuh_tempo = $_SESSION['temp_data_transaksi']['jatuh_tempo'];
-
-                    
-                  ?>
-                  <form action="modules/transaksi/pembelian/proses.php?act=inserttemp" method="post"> <!-- form buka -->
-                      <input type="hidden" name="nomor_transaksi" placeholder="You Shouldn't See This" value='<?= $next_number?>' class="form-control" hidden>
-                      <label>No. Faktur</label>
-                      <input type="text" name="no_faktur" placeholder="No Faktur" value='<?=$newFaktur?>' class="form-control" readonly>
-                      <br>
-                      <label>Supplier</label>
-                      <select name="supplier" class="form-control" disabled="disabled">
-                        <?php
-                        $pilihansupplier = mysqli_query($conn, "select * from supplier WHERE status = 'Y'");
-                        while ($fetcharray = mysqli_fetch_array($pilihansupplier)) {
-                          $namasupplier = $fetcharray['nama'];
-                          $idsup = $fetcharray['id_supplier'];
-                          $selected = ($idsup == $supplier) ? "selected" : "";
-                          ?>
-                          <option value="<?= $idsup; ?>" <?= $selected ?>>
-                            <?= $namasupplier; ?>
-                          </option>
-                          <?php
-                        }
-                        ?>
-                      </select>
-                      <br>
-                      <label>Jatuh Tempo</label>
-                      <input type="date" id="jatuh_tempo" value="<?=$jatuh_tempo?>" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" readonly>
-                    </div>
-                  </div>
+                  <label>Supplier</label>
+                  <select name="supplier" class="form-control">
+                      <?php
+                      $pilihansupplier = mysqli_query($conn, "select * from supplier WHERE status = 'Y'");
+                      while ($fetcharray = mysqli_fetch_array($pilihansupplier)) {
+                      $namasupplier = $fetcharray['nama'];
+                      $idsup = $fetcharray['id_supplier'];
+                      ?>
+                      <option value="<?= $idsup; ?>">
+                          <?= $namasupplier; ?>
+                      </option>
+                      <?php
+                      }
+                      ?>
+                  </select>
                   <br>
-
-                  <?php
-                  }
-                  ?>
-                
+                  <label>Jatuh Tempo</label>
+                  <input type="date" id="jatuh_tempo" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" required>
+                </div>
+              </div>
+              <br>
               <!-- /.row -->
+            
               <div class="row">
                 <div class="col-12 table-responsive">
                   <table class="table table-striped">
-                  <thead>
+                  <thead id="table-detail">
                     <tr>
                       <th>Nama Barang</th>
                       <th>Qty</th>
@@ -144,27 +101,19 @@ unset($_SESSION['temp_data_barang']); */
                           </select>
                             </td>
                             <td>
+                              <input type="hidden" name="id_pembelian" value="<?=$id_pembelian?>">
                             <input type="text" class="form-control" name="kuantitas">
                             </td>
                             <td>
-                            <div class="input-group mb-3">
-                              <div class="input-group-append">
-                                <span class="input-group-text">Rp.</span>
-                              </div>
-                              <input type="text" class="form-control" name="harga_barang">
-                            </div>
+                            <input type="text" class="form-control" name="harga_barang">
                             </td>
                             <td>
-                            <div class="input-group mb-3">
-                              <input type="text" class="form-control" name="disc">
-                              <div class="input-group-append">
-                                <span class="input-group-text">%</span>
-                              </div>
-                            </div>
+                            <input type="text" class="form-control" name="disc">
+                            </td>
                             <td>
                               <div class="row">
                                 <div class = "col">
-                                    <button type="submit" name="inserttemp" class="btn btn-outline-secondary">
+                                    <button type="submit" name="insertDetail" class="btn btn-outline-secondary">
                                         <i class="fa fa-plus-square"></i> Tambah
                                     </button>
                                 </div>
@@ -176,7 +125,7 @@ unset($_SESSION['temp_data_barang']); */
                 </div>
               </div>
               </form>
-<!-- form tutup -->
+                
                 <br>
               <!-- Table row -->
               <div class="row">
@@ -197,6 +146,7 @@ unset($_SESSION['temp_data_barang']); */
                     </thead>
                     <tbody>
                       <?php
+<<<<<<< Updated upstream
                       if (!isset($_SESSION['temp_data_barang'])) {
                       ?>
                       <tr>
@@ -246,6 +196,32 @@ unset($_SESSION['temp_data_barang']); */
                       $i++;
                       }
                     }
+=======
+                        $ambildatatemp = "SELECT t.*, b.nama_barang
+                        FROM temp_beli t
+                        INNER JOIN barang b ON t.id_barang = b.id_barang
+                        ";
+                        $execdatatemp = mysqli_query($conn, $ambildatatemp);
+
+                        while ($datatemp = mysqli_fetch_array($execdatatemp)) {
+                          $nama_barang = $datatemp ['nama_barang'];
+                          $kuantitas = $datatemp ['kuantitas'];
+                          $harga_barang = number_format($datatemp['harga_barang'], 0, ',', '.');
+                          $bruto = number_format($datatemp['bruto'], 0, ',', '.');
+                          $disc = number_format($datatemp['disc'], 0, ',', '.');
+                          $netto = number_format($datatemp['netto'], 0, ',', '.');
+                          ?>
+                          <tr>
+                            <td><?=$nama_barang?></td>
+                            <td><?=$kuantitas?></td>
+                            <td><?=$harga_barang?></td>
+                            <td><?=$bruto?></td>
+                            <td><?=$disc?></td>
+                            <td><?=$netto?></td>
+                          </tr>
+                        <?php
+                        }
+>>>>>>> Stashed changes
                       ?>
                     </tbody>
                   </table>
@@ -257,6 +233,17 @@ unset($_SESSION['temp_data_barang']); */
               <div class="row">
                 <!-- accepted payments column -->
                 <div class="col-6">
+                  <p class="lead">Payment Methods:</p>
+                  <img src="dist/img/credit/visa.png" alt="Visa">
+                  <img src="dist/img/credit/mastercard.png" alt="Mastercard">
+                  <img src="dist/img/credit/american-express.png" alt="American Express">
+                  <img src="dist/img/credit/paypal2.png" alt="Paypal">
+
+                  <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
+                    Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning heekya handango imeem
+                    plugg
+                    dopplr jibjab, movity jajah plickers sifteo edmodo ifttt zimbra.
+                  </p>
                 </div>
                 <!-- /.col -->
                 <div class="col-6">
