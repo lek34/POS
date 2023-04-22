@@ -134,6 +134,7 @@
                     </tr>
                     </thead>
                     <tbody>
+                      
                         <tr>
                             <td>
                             <select name="id_barang" class="form-control">
@@ -153,6 +154,7 @@
                             </td>
                             <td>
                             <input type="text" class="form-control" name="kuantitas">
+                            
                             </td>
                             <td>
                             <div class="input-group mb-3">
@@ -222,11 +224,10 @@
                       $i = 1;
                       foreach ($_SESSION['temp_data_barang'] as $key => $value){
                         $id_barang = $value['id_barang'];
-
+                        $id_supplier = $value['id_supplier'];
                         $query = "SELECT nama_barang FROM barang WHERE $id_barang = id_barang";
                         $ambilBarang= mysqli_query($conn, $query);
                         $fetchBarang = mysqli_fetch_assoc($ambilBarang);
-
                         $nama_barang = $fetchBarang['nama_barang'];
                         $kuantitas = $value['kuantitas'];
                         $harga_barang = $value ['harga_barang'];

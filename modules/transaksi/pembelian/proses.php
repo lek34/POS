@@ -39,6 +39,7 @@ require_once "../../../auth/cek.php";
                 'faktur_barang' => $faktur_barang,
                 'id_barang' => $id_barang,
                 'kuantitas' => $kuantitas,
+                'id_supplier' => $id_supplier,
                 'harga_barang' => $harga_barang,
                 'disc' => $disc,
                 'bruto' => $bruto,
@@ -84,6 +85,7 @@ require_once "../../../auth/cek.php";
             $temp_data_barang = $_SESSION['temp_data_barang'];
             foreach ($temp_data_barang as $data) {
                 $id_barang = $data['id_barang'];
+                $id_supplier = $data['id_supplier'];
                 $kuantitas = $data['kuantitas'];
                 $harga_barang = $data['harga_barang'];
                 $disc = $data['disc'];
@@ -92,8 +94,6 @@ require_once "../../../auth/cek.php";
                 $user = $data['user'];
                 $diskon = $data['diskon'];
 
-
-                echo '<script>alert("Hello! I am an alert box!!");</script>';
                 $queryDetail = "INSERT INTO history_pembelian (id_pembelian, id_supplier, id_barang, kuantitas, harga_barang, disc, bruto, netto, user) 
                                 VALUES ('$id_pembelian', '$supplier', '$id_barang', '$kuantitas', '$harga_barang', '$disc', '$bruto', '$netto', '$user')";
                 $execQueryDetail = mysqli_query($conn, $queryDetail) or die('Error inserting data into pembelian_detail table: ' . mysqli_error($conn));
