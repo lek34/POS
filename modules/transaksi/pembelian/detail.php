@@ -12,7 +12,10 @@
 <?php
 /* unset($_SESSION['temp_data_transaksi']);
 unset($_SESSION['temp_data_barang']); */
-
+  $totBruto = 0;
+  $totDiskon = 0;
+  $totNetto = 0;
+  $jatuh_tempo = "DD/MM/YYYY";
   $query = "SELECT MAX(nomor_transaksi) as last_transaksi , no_faktur from pembelian;";
   $execQuery = mysqli_query($conn, $query);
   $fetchQuery = mysqli_fetch_array($execQuery);
@@ -212,9 +215,6 @@ unset($_SESSION['temp_data_barang']); */
                       <?php
                     } else {
                       $i = 1;
-                      $totBruto = 0;
-                      $totDiskon = 0;
-                      $totNetto = 0;
                       foreach ($_SESSION['temp_data_barang'] as $key => $value){
                         $id_barang = $value['id_barang'];
 
