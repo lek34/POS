@@ -1,20 +1,10 @@
 <section class="content-header">
       <div class="container-fluid">
       <?php
-        // if (isset($_GET['alert'])) {
-        //   $alert =  $_GET['alert'];
-        //   switchAlert($alert);
-        //   }
         if (isset($_GET['alert'])) {
-          $alert = $_GET['alert'];
-          if ($alert == 1) {
-            echo "<script>
-              $(document).ready(function() {
-                  toastr.success('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.');
-              });
-          </script>";
-          } 
-        }
+          $alert =  $_GET['alert'];
+          switchAlert($alert);
+          }
       ?>
         <div class="row mb-2">
                   <div class="col-sm-6">
