@@ -127,16 +127,11 @@ if (isset($_GET['id_pembelian'])) { ?>
                     <table class="table">
                     <?php
                         $i = 1;
-                        $execQuery = mysqli_query($conn, "SELECT p.id_pembelian, 
-                                                          SUM(hp.bruto) as total_bruto,
-                                                          SUM(hp.netto) as total_netto,
-                                                          SUM(hp.disc) as total_disc,
-                                                          b.nama_barang 
-                                                          FROM pembelian p
+                        $execQuery = mysqli_query($conn, "SELECT p.id_pembelian, SUM(hp.bruto) as total_bruto, SUM(hp.netto) as total_netto, SUM(hp.disc) as total_disc
+                                                          FROM pembelian p 
                                                           JOIN history_pembelian hp ON p.id_pembelian = hp.id_pembelian 
-                                                          JOIN barang b ON hp.id_barang = b.id_barang 
-                                                          WHERE p.id_pembelian = '1'
-                                                          GROUP BY p.id_pembelian, b.nama_barang;");
+                                                          WHERE p.id_pembelian = '$id_pembelian' 
+                                                          GROUP BY p.id_pembelian;");
 
                         while ($data = mysqli_fetch_array($execQuery)){
                           $totBruto =  number_format($data ['total_bruto'], 0, ',', '.');

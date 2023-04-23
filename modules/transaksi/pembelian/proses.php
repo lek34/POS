@@ -100,21 +100,25 @@ require_once "../../../auth/cek.php";
                 $execQueryDetail = mysqli_query($conn, $queryDetail) or die('Error inserting data into pembelian_detail table: ' . mysqli_error($conn));
             }
             
-            $tambahBarang = "SELECT hp.kuantitas as kuantitas_baru , b.kuantitas, hp.id_barang as id_barang_beli, b.id_barang FROM barang b
-                            INNER JOIN history_pembelian hp 
-                            WHERE hp.id_barang = b.id_barang";
+            $tambahBarang = "SELECT hp.id_barang, b.nama_barang,b.kuantitas, SUM(hp.kuantitas) as total_kuantitas
+                             FROM barang b
+                             INNER JOIN history_pembelian hp ON hp.id_barang = b.id_barang
+                             GROUP BY hp.id_barang, b.nama_barang;";
             $exectambahBarang = mysqli_query($conn, $tambahBarang);
             
-            $totKuantitas = 0;
+            
             while ($datatambahBarang = mysqli_fetch_array($exectambahBarang)){
-                $kuantitas_tambah = $datatambahBarang ['kuantitas_baru'];
-                $totKuantitas += $kuantitas_tambah;
-                $kuantitas = $datatambahBarang ['kuantitas'];
-            }
-            $kuantitasBaru = $totKuantitas + $kuantitas;
+                $id_barang = $datatambahBarang['id_barang'];
+                $stock_sekarang = $datatambahBarang['kuantitas'];
+                $total_kuantitas = $datatambahBarang ['total_kuantitas'];
+                $stock_baru = $stock_sekarang + $total_kuantitas;
 
-            $insertKuantitas = "UPDATE barang SET kuantitas = '$kuantitasBaru' WHERE id_barang = '$id_barang'";
-            $execinsertKuantitas = mysqli_query($conn, $insertKuantitas);
+                $insertKuantitas = "UPDATE barang SET kuantitas = '$stock_baru' WHERE id_barang = '$id_barang'";
+                $execinsertKuantitas = mysqli_query($conn, $insertKuantitas);
+            }
+            
+
+            
             // Clear session data after successful insertions
             unset($_SESSION['temp_data_transaksi']);
             unset($_SESSION['temp_data_barang']);
