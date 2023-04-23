@@ -80,10 +80,8 @@
                                     </td>
                                     <td><?=$jatuh_tempo?></td>
                                     <td>
-                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete<?=$id_barang;?>"><i class = "far fa-trash-alt"></i></button>
                                         <a href="?module=detailPembelian&id_pembelian=<?=$id_pembelian?>"><button type="button" class="btn btn-warning btn-sm"><i class="fas fa-ellipsis-h" style="color : #ffffff"></i></button></a>
                                         <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#bayar<?=$id_pembelian?>"><i class="fas fa-check" style = "color : #ffffff"></i></button>
-
                                     </td>
                                 </tr>
                                 <?php
