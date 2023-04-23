@@ -101,6 +101,37 @@
         <!-- /.row -->
 
 <!-- The Modal -->
-<div class="modal-dialog modal-dialog-centered">
-  ...
-</div>
+<?php
+    $query = "SELECT id_pembelian FROM pembelian";
+    $execQuery = mysqli_query($conn, $query);
+
+    while ($data = mysqli_fetch_array($execQuery)){
+    $id_pembelian = $data ['id_pembelian'];
+    ?>
+  <div class="modal fade" id="bayar<?=$id_pembelian?>">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Pembelian</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+            <br>
+            <form action="modules/transaksi/pembelian/proses.php?act=buy" method="post">
+                <p>Selesaikan Pembayaran?</p>
+                <br>
+                <br>
+                <input type="hidden" name="id_pembelian" value="<?=$id_pembelian;?>">
+                <button type="button" class="btn btn-danger" style="float: left;" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary" name="buy" style="float: right;">Submit</button>
+            </form> 
+        </div>
+      </div>
+    </div>
+  </div>
+  <?php
+    }
+?>

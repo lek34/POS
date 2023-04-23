@@ -68,7 +68,17 @@ require_once "../../../auth/cek.php";
         
     }
 
-    
+    elseif ($_GET['act'] == 'buy'){
+        if(isset($_POST['buy'])){
+            $id_pembelian = mysqli_real_escape_string($conn, trim($_POST['id_pembelian']));
+
+            $query = "UPDATE pembelian SET status_pembayaran = 'Y' WHERE id_pembelian = '$id_pembelian'";
+            $execQuery = mysqli_query($conn, $query);
+
+            header('location: ../../../main.php?module=buyItem');
+        }
+    }
+
     elseif ($_GET['act'] == 'insertPembelian') {
         if (isset($_POST['insertPembelian'])) {
             $temp_data_transaksi = $_SESSION['temp_data_transaksi'];
