@@ -22,7 +22,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header d-md-flex justify-content-md-end">
                         <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#tambah">
                         <i class="fa fa-plus-square"></i> Tambah Supplier
                         </button>
@@ -75,7 +75,7 @@
 
 <!-- Insert Modal -->
 <div class="modal fade" id="tambah">
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       
         <!-- Modal Header -->
@@ -129,7 +129,7 @@
 ?>
 
 <div class="modal fade" id="edit<?=$id_supplier;?>">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
       
         <!-- Modal Header -->
@@ -169,18 +169,17 @@
     
 <!-- Delete Modal -->
 <div class="modal fade" id="delete<?=$id_supplier;?>">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
       
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Delete Item</h4>
+          <h4 class="modal-title">Hapus Supplier</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         
         <!-- Modal body -->
         <div class="modal-body">
-            <br>
                 Apakah Anda Ingin Menghapus Supplier ?
         </div>
         

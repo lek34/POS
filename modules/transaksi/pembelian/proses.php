@@ -87,8 +87,10 @@ require_once "../../../auth/cek.php";
             $id_supplier = $temp_data_transaksi['id_supplier'];
             $jatuh_tempo = $temp_data_transaksi['jatuh_tempo'];
             $totNetto = $_SESSION['totNetto'];
+            $creator = $_SESSION['username'];
             
-            $queryHeader = "INSERT INTO pembelian (no_faktur, id_supplier, nomor_transaksi, jatuh_tempo, netto) VALUES ('$no_faktur', '$id_supplier', '$no_transaksi', '$jatuh_tempo', '$totNetto')";
+            $queryHeader = "INSERT INTO pembelian (no_faktur, id_supplier, nomor_transaksi, jatuh_tempo, netto, creator) 
+                            VALUES ('$no_faktur', '$id_supplier', '$no_transaksi', '$jatuh_tempo', '$totNetto', '$creator')";
             $execQueryHeader = mysqli_query($conn, $queryHeader) or die('Error inserting data into pembelian table: ' . mysqli_error($conn));
             $id_pembelian = mysqli_insert_id($conn);
     

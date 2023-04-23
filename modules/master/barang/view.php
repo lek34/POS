@@ -25,7 +25,7 @@
         <div class="row">
           <div class="col-12">
             <div class="card">
-              <div class="card-header">
+              <div class="card-header d-md-flex justify-content-md-end">
                     <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#myModal">
                           <i class="fa fa-plus-square"></i> Tambah Barang
                       </button>
@@ -78,7 +78,7 @@
         <!-- /.row -->
             <!-- The Modal -->
   <div class="modal fade" id="myModal">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
       
         <!-- Modal Header -->
@@ -117,7 +117,7 @@
     $kuantitas = $data ['kuantitas'];
 ?>
 <div class="modal fade" id="edit<?=$id_barang;?>">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
       
         <!-- Modal Header -->
@@ -150,7 +150,7 @@
   </div>
 <!-- Delete Modal -->
 <div class="modal fade" id="delete<?=$id_barang;?>">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
       
         <!-- Modal Header -->
@@ -161,7 +161,6 @@
         
         <!-- Modal body -->
         <div class="modal-body">
-            <br>
               Apakah anda ingin menghapus barang?
         </div>
         <!-- Modal footer -->

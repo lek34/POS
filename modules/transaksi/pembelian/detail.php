@@ -234,12 +234,12 @@ if (isset($_GET['id_pembelian'])) { ?>
                 <!-- /.col -->
               </div>
               <!-- info row -->
-              <div class="row invoice-info">
+              <div class="row">
                 
                   <?php
                   if (!isset($_SESSION['temp_data_transaksi'])) {/* pengulangan pertama */
                   ?>
-                  <div class="col-sm-4 invoice-col">
+                  <div class="col-sm-4 invoice-info">
                     <form action="modules/transaksi/pembelian/proses.php?act=inserttemp" method="post"> <!-- form buka -->
                       <input type="hidden" name="nomor_transaksi" placeholder="You Shouldn't See This" value='<?= $next_number?>' class="form-control" hidden>
                       <label>No. Faktur</label>
@@ -264,6 +264,11 @@ if (isset($_GET['id_pembelian'])) { ?>
                       <label>Jatuh Tempo</label>
                       <input type="date" id="jatuh_tempo" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" required>
                     </div>
+                    <!-- <div class="col-sm-8 invoice-col d-md-flex justify-content-md-end">
+                        <div class="row">
+                          <button type="button" name="reset" class="btn-lg btn-primary align-items-center" onclick="window.location.href='modules/transaksi/pembelian/proses.php?act=reset'" style="height : 52px" disabled="disabled">Reset</button>
+                        </div>
+                    </div> -->
                   </div>
                   <br>
                   <?php
@@ -298,14 +303,14 @@ if (isset($_GET['id_pembelian'])) { ?>
                       <label>Jatuh Tempo</label>
                       <input type="date" id="jatuh_tempo" value="<?=$jatuh_tempo?>" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" readonly>
                     </div>
+                    <div class="col-sm-8 invoice-col d-md-flex justify-content-md-end">
+                    <div class="row">
+                      <button type="button" name="reset" class="btn-lg btn-primary align-items-center" onclick="window.location.href='modules/transaksi/pembelian/proses.php?act=reset'" style="height : 50px">Reset</button>
+                    </div>
+                  </div>
                   </div>
                   <br>
-                  <div class="col-4 invoice-col">
-                    <a href="modules/transaksi/pembelian/proses.php?act=reset">
-                      <button type="button" name="reset" class="btn btn-primary">reset</button>
-                    </a>
-                  </div>
-
+                  
                   <?php
                   }
                   ?>
