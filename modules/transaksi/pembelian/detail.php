@@ -70,11 +70,11 @@ if (isset($_GET['id_pembelian'])) { ?>
                     <tbody>
                     <?php
                         $i = 1;
-                        $execQuery = mysqli_query($conn, "SELECT pembelian.id_pembelian, history_pembelian.id_barang, history_pembelian.kuantitas, history_pembelian.harga_barang, history_pembelian.disc, history_pembelian.bruto, history_pembelian.netto, barang.nama_barang 
-                                                          FROM pembelian 
-                                                          JOIN history_pembelian ON pembelian.id_pembelian = history_pembelian.id_pembelian 
-                                                          JOIN barang ON history_pembelian.id_barang = barang.id_barang 
-                                                          WHERE pembelian.id_pembelian = '$id_pembelian';");
+                        $execQuery = mysqli_query($conn, "SELECT p.id_pembelian, hp.*,  b.nama_barang 
+                                                          FROM pembelian p
+                                                          JOIN history_pembelian hp ON p.id_pembelian = hp.id_pembelian 
+                                                          JOIN barang b ON hp.id_barang = b.id_barang 
+                                                          WHERE p.id_pembelian = '$id_pembelian';");
                         while ($data = mysqli_fetch_array($execQuery)){
                           $nama_barang = $data ['nama_barang'];
                           $kuantitas  = $data ['kuantitas'];
@@ -113,9 +113,9 @@ if (isset($_GET['id_pembelian'])) { ?>
                 <!-- /.col -->
                 <div class="col-6">
                 <?php
-                    $execQuery = mysqli_query($conn, "SELECT pembelian.jatuh_tempo
-                                                      FROM pembelian
-                                                      WHERE pembelian.id_pembelian = '$id_pembelian'");
+                    $execQuery = mysqli_query($conn, "SELECT p.jatuh_tempo
+                                                      FROM pembelian p
+                                                      WHERE p.id_pembelian = '$id_pembelian'");
                     while ($data = mysqli_fetch_array($execQuery)){
                       $jatuh_tempo = $data ['jatuh_tempo'];
                   ?>
@@ -127,16 +127,16 @@ if (isset($_GET['id_pembelian'])) { ?>
                     <table class="table">
                     <?php
                         $i = 1;
-                        $execQuery = mysqli_query($conn, "SELECT pembelian.id_pembelian, 
-                                                          SUM(history_pembelian.bruto) as total_bruto,
-                                                          SUM(history_pembelian.netto) as total_netto,
-                                                          SUM(history_pembelian.disc) as total_disc,
-                                                          barang.nama_barang 
-                                                          FROM pembelian 
-                                                          JOIN history_pembelian ON pembelian.id_pembelian = history_pembelian.id_pembelian 
-                                                          JOIN barang ON history_pembelian.id_barang = barang.id_barang 
-                                                          WHERE pembelian.id_pembelian = '1'
-                                                          GROUP BY pembelian.id_pembelian, barang.nama_barang;");
+                        $execQuery = mysqli_query($conn, "SELECT p.id_pembelian, 
+                                                          SUM(hp.bruto) as total_bruto,
+                                                          SUM(hp.netto) as total_netto,
+                                                          SUM(hp.disc) as total_disc,
+                                                          b.nama_barang 
+                                                          FROM pembelian p
+                                                          JOIN history_pembelian hp ON p.id_pembelian = hp.id_pembelian 
+                                                          JOIN barang b ON hp.id_barang = b.id_barang 
+                                                          WHERE p.id_pembelian = '1'
+                                                          GROUP BY p.id_pembelian, b.nama_barang;");
 
                         while ($data = mysqli_fetch_array($execQuery)){
                           $totBruto =  number_format($data ['total_bruto'], 0, ',', '.');
