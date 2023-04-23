@@ -55,7 +55,7 @@
                       <td>Rp. <?=$harga_beli_formatted;?></td>
                       <td><?=$kuantitas?></td>
                       <td>
-                        <a href="history.php?id=<?=$id_barang;?>&action=buy" class = "btn btn-outline-primary" style="margin-right: 10px;">Pembelian</a>
+                        <a href="?module=historyPembelian&id_barang=<?=$id_barang?>" class = "btn btn-outline-primary" style="margin-right: 10px;">Pembelian</a>
                         <a href="history.php?id=<?=$id_barang;?>&action=sell" class = "btn btn-outline-danger">Penjualan</a>
                       </td>
                       <td class="center">
