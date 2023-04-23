@@ -100,18 +100,17 @@ require_once "../../../auth/cek.php";
                 $execQueryDetail = mysqli_query($conn, $queryDetail) or die('Error inserting data into pembelian_detail table: ' . mysqli_error($conn));
             }
             
-            $tambahBarang = "SELECT hp.kuantitas as kuantitas_baru , b.kuantitas, hp.id_barang, b.id_barang FROM barang b
+            $tambahBarang = "SELECT hp.kuantitas as kuantitas_baru , b.kuantitas, hp.id_barang as id_barang_beli, b.id_barang FROM barang b
                             INNER JOIN history_pembelian hp 
                             WHERE hp.id_barang = b.id_barang";
             $exectambahBarang = mysqli_query($conn, $tambahBarang);
             
-
             $totKuantitas = 0;
             while ($datatambahBarang = mysqli_fetch_array($exectambahBarang)){
                 $kuantitas_tambah = $datatambahBarang ['kuantitas_baru'];
                 $totKuantitas += $kuantitas_tambah;
+                $kuantitas = $datatambahBarang ['kuantitas'];
             }
-
             $kuantitasBaru = $totKuantitas + $kuantitas;
 
             $insertKuantitas = "UPDATE barang SET kuantitas = '$kuantitasBaru' WHERE id_barang = '$id_barang'";
