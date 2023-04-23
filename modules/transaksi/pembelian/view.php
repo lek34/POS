@@ -89,6 +89,28 @@
                                 ?>
                             </tbody>
                 </table>
+                <br><br>
+                <div class="row">
+                    <div class="col-8"></div>
+                    <?php
+                        $query = "SELECT SUM(netto) as utang_dagang FROM pembelian WHERE status_pembayaran = 'N'";
+                        $execQuery = mysqli_query($conn, $query);
+
+                        $ambilUtangDagang = mysqli_fetch_array($execQuery);
+                        $utang_dagang =  number_format($ambilUtangDagang['utang_dagang'], 0, ',', '.');
+                    ?>
+                    <div class="col-4">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tr>
+                                    <th>Utang Dagang :</th>
+                                    <td>Rp. <?=$utang_dagang?></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
               </div>
               <!-- /.card-body -->
             </div>
