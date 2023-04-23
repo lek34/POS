@@ -1,17 +1,17 @@
 <?php
         function alertText ($alert, $text){
             if ($alert % 2 == 1 ) {
-              echo "<div class='alert alert-success alert dismissable'>
-              <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-              <h4>  <i class='icon fa fa-check-circle'></i> Berhasil!</h4>
-              $text
-              </div>";
+              echo "<script>
+              $(document).ready(function() {
+                  toastr.success('$text');
+              });
+            </script>";
             } else {
-              echo "<div class='alert alert-danger alert dismissable'>
-              <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-              <h4>  <i class='icon fa fa-times-circle'></i> Gagal!</h4>
-              $text
-              </div>";
+              echo "<script>
+              $(document).ready(function() {
+                  toastr.error('$text');
+              });
+            </script>";
             }
         }
     
