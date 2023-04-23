@@ -53,7 +53,7 @@
                     while($data = mysqli_fetch_array($execQuery)){
                         $nama_barang = $data['nama_barang'];
                         $kuantitas = $data['kuantitas'];
-                        $netto = $data['netto'];
+                        $netto = number_format($data ['netto'], 0, ',', '.');
                         $tanggal = $data['tanggal'];
                         $no_faktur = $data['no_faktur'];
                         $supplier = $data['nama_supplier'];
@@ -61,7 +61,7 @@
                      <tr>
                         <td><?=$nama_barang?></td>
                         <td><?=$kuantitas?></td>
-                        <td><?=$netto?></td>
+                        <td>Rp. <?=$netto?></td>
                         <td><?=$tanggal?></td>
                         <td><?=$no_faktur?></td>
                         <td><?=$supplier?></td>
