@@ -5,10 +5,10 @@
             $alert =  $_GET['alert'];
             switchAlert($alert);
     }
-    if (isset($_GET['alert'])) {
-        $alert =  $_GET['alert'];
-        switchAlert($alert);
-}
+    // if (isset($_GET['alert'])) {
+    //     $alert =  $_GET['alert'];
+    //     switchAlert($alert);
+// }
 ?>
         <div class="row mb-2">
             <div class="col-sm-6">
