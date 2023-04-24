@@ -34,7 +34,9 @@ else{
 	elseif ($_GET['module'] == 'detailPembelian') {
 		include "modules/transaksi/pembelian/detail.php";
 	}
-	
+	elseif ($_GET['module'] =='historyPembelian'){
+		include "modules/history/history_pembelian.php";
+	}
 }
 
 ?>
