@@ -339,7 +339,7 @@ if (isset($_GET['id_pembelian'])) { ?>
                           </select>
                             </td>
                             <td>
-                            <input type="text" class="form-control" name="kuantitas">
+                            <input type="text" class="form-control" name="kuantitas" required>
                             
                             </td>
                             <td>
@@ -347,12 +347,12 @@ if (isset($_GET['id_pembelian'])) { ?>
                               <div class="input-group-append">
                                 <span class="input-group-text">Rp.</span>
                               </div>
-                              <input type="text" class="form-control" name="harga_barang">
+                              <input type="text" class="form-control" name="harga_barang" required>
                             </div>
                             </td>
                             <td>
                             <div class="input-group mb-3">
-                              <input type="text" class="form-control" name="disc">
+                              <input type="text" class="form-control" name="disc" value="0" required>
                               <div class="input-group-append">
                                 <span class="input-group-text">%</span>
                               </div>

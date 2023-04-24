@@ -46,8 +46,8 @@
                                         <td><?=$data['kode_akun']?></td>
                                         <td><?=$data['nama_akun']?></td>
                                         <td>
-                                            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#edit<?=$id_akun;?>">Edit</button>
-                                            <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#delete<?=$id_akun?>">Delete</button>
+                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit<?=$id_akun;?>"><i class = "far fa-edit"></i></button>
+                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete<?=$id_akun?>"><i class = "far fa-trash-alt"></i></button>
                                         </td>
                                     </tr>
                                 <?php
