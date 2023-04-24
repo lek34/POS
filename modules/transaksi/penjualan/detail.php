@@ -186,6 +186,12 @@ if (isset($_GET['id_penjualan'])) { ?>
   <?php 
       } 
   else  { ?>
+      <?php
+        if (isset($_GET['alert'])) {
+          $alert =  $_GET['alert'];
+          switchAlert($alert);
+          }
+      ?>
       <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -263,11 +269,6 @@ if (isset($_GET['id_penjualan'])) { ?>
                       <br>
                       <label>Jatuh Tempo</label>
                       <input type="date" id="jatuh_tempo" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" required>
-                    </div>
-                    <div class="col-sm-8 invoice-col d-md-flex justify-content-md-end">
-                        <div class="row">
-                          <button type="button" name="reset" class="btn-lg btn-primary align-items-center" onclick="window.location.href='modules/transaksi/pembelian/proses.php?act=reset'" style="height : 52px" disabled="disabled">Reset</button>
-                        </div>
                     </div>
                   </div>
                   <br>
@@ -418,7 +419,7 @@ if (isset($_GET['id_penjualan'])) { ?>
                       $i = 1;
                       foreach ($_SESSION['temp_data_barang'] as $key => $value){   
                         $id_barang = $value['id_barang'];
-                        $id_supplier = $value['id_supplier'];
+                        $id_customer = $value['id_customer'];
                         $query = "SELECT nama_barang FROM barang WHERE $id_barang = id_barang";
                         $ambilBarang= mysqli_query($conn, $query);
                         $fetchBarang = mysqli_fetch_assoc($ambilBarang);
