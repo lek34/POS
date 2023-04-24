@@ -1,7 +1,7 @@
 <?php
         function alertText ($alert, $text){
           //Kelipatan 7 = warning
-          if ($alert %= 7){
+          if ($alert % 7 == 0){
             echo "<script>
             $(document).ready(function() {
                 toastr.warning('$text');
