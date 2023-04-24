@@ -23,7 +23,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header">
+                    <div class="card-header d-md-flex justify-content-md-end">
                         <a href="main.php?module=detailPenjualan">
                             <button type="button" class="btn btn-outline-secondary">
                             <i class="fa fa-plus-square"></i> Tambah Penjualan

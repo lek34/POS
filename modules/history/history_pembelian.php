@@ -1,6 +1,8 @@
 <section class="content-header">
       <div class="container-fluid">
       <?php
+      $id_barang = $_GET['id_barang'];
+
         if (isset($_GET['alert'])) {
           $alert =  $_GET['alert'];
           switchAlert($alert);
@@ -8,7 +10,7 @@
       ?>
         <div class="row mb-2">
                   <div class="col-sm-6">
-                    <h1>History</h1>
+                    <h1>History Pembelian</h1>
                   </div>
                 </div>
               </div><!-- /.container-fluid -->
@@ -20,6 +22,13 @@
         <div class="row">
           <div class="col-12">
             <div class="card">
+            <div class="card-header">
+                <div class = "row">
+                    <div class="col-4">
+                      <a href="?module=historyPenjualan&id_barang=<?=$id_barang?>" class = "btn btn-outline-danger">Penjualan</a>
+                    </div>
+                </div>
+              </div>
               <!-- /.card-header -->
               <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
@@ -35,8 +44,6 @@
                   </thead>
                   <tbody>
                   <?php
-                    $id_barang = $_GET['id_barang'];
-
                     $query = "SELECT hp.*, b.nama_barang, p.no_faktur, s.nama as nama_supplier, p.tanggal
                                 FROM history_pembelian hp
                                 JOIN barang b ON hp.id_barang = b.id_barang

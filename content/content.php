@@ -44,6 +44,9 @@ else{
 		include "modules/transaksi/penjualan/detail.php";
 	}
 	elseif ($_GET['module'] =='historyPembelian'){
+		include "modules/history/history_pembelian.php";
+	}
+	elseif ($_GET['module'] =='historyPenjualan'){
 		include "modules/history/history_penjualan.php";
 	}
 }

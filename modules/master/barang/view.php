@@ -36,7 +36,6 @@
                   <thead>
                   <tr>
                     <th>Nama Barang</th>
-                    <th>Harga Barang</th>
                     <th>Quantity</th>
                     <th>History</th>
                     <th>Action</th>
@@ -47,16 +46,14 @@
                     while ($data = mysqli_fetch_assoc($execQuery)){
                       $id_barang = $data['id_barang'];
                       $barang = $data ['nama_barang'];
-                      $harga_beli_formatted = number_format($data['harga_beli'], 0, ',', '.');
                       $kuantitas = $data ['kuantitas'];
                     ?>
                       <tr>
                       <td><?=$barang?></td>
-                      <td>Rp. <?=$harga_beli_formatted;?></td>
                       <td><?=$kuantitas?></td>
                       <td>
                         <a href="?module=historyPembelian&id_barang=<?=$id_barang?>" class = "btn btn-outline-primary" style="margin-right: 10px;">Pembelian</a>
-                        <a href="history.php?id=<?=$id_barang;?>&action=sell" class = "btn btn-outline-danger">Penjualan</a>
+                        <a href="?module=historyPenjualan&id_barang=<?=$id_barang?>" class = "btn btn-outline-danger">Penjualan</a>
                       </td>
                       <td class="center">
                         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit<?=$id_barang;?>"><i class = "far fa-edit"></i></button>
@@ -94,9 +91,6 @@
                 <label>Nama Barang</label>
                 <input type="text" name="namabarang" placeholder="Nama Barang" class="form-control" required>
                 <br>
-                <label>Harga Barang</label>
-                <input type="text" name="harga" placeholder="Harga Barang / Item" class="form-control" required>
-                <br>
                 
                 <br>
 				    <button type="button" class="btn btn-danger" style="float: left;" data-dismiss="modal">Close</button>
@@ -113,7 +107,6 @@
   while ($data = mysqli_fetch_array($execQuery)) {
     $id_barang = $data['id_barang'];
     $barang = $data ['nama_barang'];
-    $harga = $data ['harga_beli'];
     $kuantitas = $data ['kuantitas'];
 ?>
 <div class="modal fade" id="edit<?=$id_barang;?>">
@@ -133,9 +126,6 @@
                 <input type="hidden" name="id_barang" value="<?=$id_barang;?>">
                 <label>Nama Barang</label>
                 <input type="text" name="namabarang" value="<?=$barang;?>" class="form-control" >
-                <br>
-                <label>Harga</label>
-                <input type="text" name="harga" value="<?=$harga;?>" class="form-control" required>
                 <br>
                 <label>Kuantitas</label>
                 <input type="text" name="kuantitas" value="<?=$kuantitas?>" class="form-control">

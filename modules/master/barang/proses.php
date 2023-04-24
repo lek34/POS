@@ -13,9 +13,8 @@ require_once "../../../auth/cek.php";
     if ($_GET['act']=='insert') {
         if(isset($_POST['addnewbarang'])){
             $barang = mysqli_real_escape_string($conn, trim($_POST['namabarang']));
-            $harga = mysqli_real_escape_string($conn, trim($_POST['harga']));
             
-            $query = "INSERT INTO barang (nama_barang, harga_beli) VALUES ('$barang', '$harga')";
+            $query = "INSERT INTO barang (nama_barang) VALUES ('$barang')";
             $execQuery = mysqli_query($conn, $query);
             //or die('Ada kesalahan pada query insert : '.mysqli_error($conn));
             // cek query
@@ -31,10 +30,9 @@ require_once "../../../auth/cek.php";
         if(isset($_POST['editbarang'])){
             $id_barang = mysqli_real_escape_string($conn, trim($_POST['id_barang']));
             $barang = mysqli_real_escape_string($conn, trim($_POST['namabarang']));
-            $harga = mysqli_real_escape_string($conn, trim($_POST['harga']));
             $kuantitas = mysqli_real_escape_string($conn, trim($_POST['kuantitas']));
             
-            $query = "UPDATE barang SET nama_barang = '$barang', harga_beli = '$harga', kuantitas = '$kuantitas' WHERE id_barang = '$id_barang'";
+            $query = "UPDATE barang SET nama_barang = '$barang', kuantitas = '$kuantitas' WHERE id_barang = '$id_barang'";
             $execQuery = mysqli_query($conn, $query);
             //or die('Ada kesalahan pada query insert : '.mysqli_error($conn));
             if ($execQuery) {

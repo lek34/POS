@@ -80,7 +80,7 @@ require_once "../../../auth/cek.php";
         
     }
 
-    elseif ($_GET['act'] == 'buy'){
+    elseif ($_GET['act'] == 'sell'){
         if(isset($_POST['buy'])){
             $id_penjualan = mysqli_real_escape_string($conn, trim($_POST['id_penjualan']));
 
