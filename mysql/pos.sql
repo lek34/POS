@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 24, 2023 at 09:07 AM
+-- Generation Time: Apr 24, 2023 at 10:42 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.0.25
 
@@ -60,9 +60,8 @@ CREATE TABLE `barang` (
 --
 
 INSERT INTO `barang` (`id_barang`, `nama_barang`, `harga_beli`, `kuantitas`, `status`) VALUES
-(1, 'Iphone', 0, 10, 'Y'),
-(2, 'Samsung', 0, 5, 'Y'),
-(3, 'Kayu', 0, 0, 'Y');
+(1, 'Iphone', 0, 0, 'Y'),
+(2, 'Samsung', 0, 0, 'Y');
 
 -- --------------------------------------------------------
 
@@ -79,6 +78,14 @@ CREATE TABLE `customer` (
   `status` varchar(10) NOT NULL DEFAULT 'Y'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `customer`
+--
+
+INSERT INTO `customer` (`id_customer`, `nama`, `kontak`, `keterangan`, `alamat`, `status`) VALUES
+(2, 'brian', '1', '-', 'Jl Adam Malik', 'Y'),
+(3, 'GENK', '1', '-', 'Adam Malik', 'Y');
+
 -- --------------------------------------------------------
 
 --
@@ -93,6 +100,7 @@ CREATE TABLE `history_pembelian` (
   `kuantitas` int(11) NOT NULL,
   `harga_barang` bigint(20) NOT NULL,
   `disc` int(11) NOT NULL,
+  `diskon` int(11) NOT NULL,
   `bruto` bigint(20) NOT NULL,
   `netto` bigint(20) NOT NULL,
   `user` varchar(256) NOT NULL
@@ -102,10 +110,13 @@ CREATE TABLE `history_pembelian` (
 -- Dumping data for table `history_pembelian`
 --
 
-INSERT INTO `history_pembelian` (`id_hbeli`, `id_pembelian`, `id_barang`, `id_supplier`, `kuantitas`, `harga_barang`, `disc`, `bruto`, `netto`, `user`) VALUES
-(1, 1, 1, 23, 5, 10000, 0, 50000, 50000, 'admin'),
-(2, 1, 2, 23, 5, 10000, 0, 50000, 50000, 'admin'),
-(3, 1, 1, 23, 5, 10000, 0, 50000, 50000, 'admin');
+INSERT INTO `history_pembelian` (`id_hbeli`, `id_pembelian`, `id_barang`, `id_supplier`, `kuantitas`, `harga_barang`, `disc`, `diskon`, `bruto`, `netto`, `user`) VALUES
+(1, 1, 1, 23, 5, 10000, 0, 0, 50000, 50000, 'admin'),
+(2, 1, 2, 23, 10, 10000, 0, 0, 100000, 100000, 'admin'),
+(3, 2, 1, 23, 5, 10000, 0, 0, 50000, 50000, 'admin'),
+(4, 2, 2, 23, 20000, 10000, 0, 0, 200000000, 200000000, 'admin'),
+(5, 3, 1, 24, 5, 10000, 0, 0, 50000, 50000, 'admin'),
+(6, 3, 2, 24, 20000, 10000, 0, 0, 200000000, 200000000, 'admin');
 
 -- --------------------------------------------------------
 
@@ -117,14 +128,25 @@ CREATE TABLE `history_penjualan` (
   `id_hjual` int(11) NOT NULL,
   `id_penjualan` int(11) NOT NULL,
   `id_barang` int(11) NOT NULL,
-  `id_supplier` int(11) NOT NULL,
+  `id_customer` int(11) NOT NULL,
   `kuantitas` int(11) NOT NULL,
   `harga_barang` bigint(20) NOT NULL,
   `disc` int(11) NOT NULL,
+  `diskon` int(11) NOT NULL,
   `bruto` bigint(20) NOT NULL,
   `netto` bigint(20) NOT NULL,
   `user` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `history_penjualan`
+--
+
+INSERT INTO `history_penjualan` (`id_hjual`, `id_penjualan`, `id_barang`, `id_customer`, `kuantitas`, `harga_barang`, `disc`, `diskon`, `bruto`, `netto`, `user`) VALUES
+(1, 1, 1, 2, 5, 10000, 0, 0, 50000, 50000, 'admin'),
+(2, 2, 2, 3, 20000, 10000, 0, 0, 200000000, 200000000, 'admin'),
+(3, 2, 1, 3, 5, 10000, 0, 0, 50000, 50000, 'admin'),
+(4, 3, 2, 2, 10, 10000, 0, 0, 100000, 100000, 'admin');
 
 -- --------------------------------------------------------
 
@@ -177,7 +199,9 @@ CREATE TABLE `pembelian` (
 --
 
 INSERT INTO `pembelian` (`id_pembelian`, `no_faktur`, `nomor_transaksi`, `id_supplier`, `tanggal`, `jatuh_tempo`, `netto`, `status_hapus`, `status_pembayaran`, `creator`) VALUES
-(1, 'PB/2304/0001', 1, 23, '2023-04-23', '2023-04-24', 150000, 'Y', 'N', '');
+(1, 'PB/2304/0001', 1, 23, '2023-04-24', '2023-04-25', 150000, 'Y', 'N', 'admin'),
+(2, 'PB/2304/0002', 2, 23, '2023-04-24', '2023-04-25', 200050000, 'Y', 'N', 'admin'),
+(3, 'PB/2304/0003', 3, 24, '2023-04-24', '2023-04-25', 200050000, 'Y', 'N', 'admin');
 
 -- --------------------------------------------------------
 
@@ -197,6 +221,15 @@ CREATE TABLE `penjualan` (
   `status_pembayaran` varchar(1) NOT NULL DEFAULT 'N',
   `creator` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `penjualan`
+--
+
+INSERT INTO `penjualan` (`id_penjualan`, `no_faktur`, `nomor_transaksi`, `id_customer`, `tanggal`, `jatuh_tempo`, `netto`, `status_hapus`, `status_pembayaran`, `creator`) VALUES
+(1, 'PJ/2304/0001', 1, 2, '2023-04-24', '2023-04-26', 50000, 'Y', 'N', 'admin'),
+(2, 'PJ/2304/0002', 2, 3, '2023-04-24', '2023-04-26', 200050000, 'Y', 'N', 'admin'),
+(3, 'PJ/2304/0003', 3, 2, '2023-04-24', '2023-04-25', 100000, 'Y', 'N', 'admin');
 
 -- --------------------------------------------------------
 
@@ -295,25 +328,25 @@ ALTER TABLE `akun`
 -- AUTO_INCREMENT for table `barang`
 --
 ALTER TABLE `barang`
-  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `id_customer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_customer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `history_pembelian`
 --
 ALTER TABLE `history_pembelian`
-  MODIFY `id_hbeli` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_hbeli` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `history_penjualan`
 --
 ALTER TABLE `history_penjualan`
-  MODIFY `id_hjual` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_hjual` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `is_users`
@@ -325,13 +358,13 @@ ALTER TABLE `is_users`
 -- AUTO_INCREMENT for table `pembelian`
 --
 ALTER TABLE `pembelian`
-  MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `penjualan`
 --
 ALTER TABLE `penjualan`
-  MODIFY `id_penjualan` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_penjualan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `supplier`
