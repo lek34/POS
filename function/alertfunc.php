@@ -35,6 +35,9 @@
                 case 6:
                 alertText(6, "Data gagal dihapus");
                 break;  
+                case 7:
+                  alertText(7, "Kuantitas tidak mencukupi");
+                break;  
           }
         }
 ?>

@@ -37,6 +37,15 @@ else{
 	elseif ($_GET['module'] =='historyPembelian'){
 		include "modules/history/history_pembelian.php";
 	}
+	elseif ($_GET['module'] == 'sellItem'){
+		include "modules/transaksi/penjualan/view.php";
+	}
+	elseif ($_GET['module'] == 'detailPenjualan') {
+		include "modules/transaksi/penjualan/detail.php";
+	}
+	elseif ($_GET['module'] =='historyPembelian'){
+		include "modules/history/history_penjualan.php";
+	}
 }
 
 ?>
