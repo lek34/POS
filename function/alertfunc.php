@@ -1,12 +1,20 @@
 <?php
         function alertText ($alert, $text){
-            if ($alert % 2 == 1 ) {
+          if ($alert == 7){
+            echo "<script>
+            $(document).ready(function() {
+                toastr.warning('$text');
+            });
+          </script>";
+          }  
+          else if ($alert % 2 == 1 ) {
               echo "<script>
               $(document).ready(function() {
                   toastr.success('$text');
               });
             </script>";
-            } else {
+            } 
+            else {
               echo "<script>
               $(document).ready(function() {
                   toastr.error('$text');
