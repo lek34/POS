@@ -7,10 +7,10 @@
 }
 .toast-message a,
 .toast-message label {
-  color: #FFFFFF;
+  color: #ffffff;
 }
 .toast-message a:hover {
-  color: #CCCCCC;
+  color: #ffffff;
   text-decoration: none;
 }
 .toast-close-button {
