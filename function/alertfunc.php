@@ -47,7 +47,7 @@
                 alertText(6, "Data gagal dihapus");
                 break;  
                 case 7:
-                  alertText(7, "Kuantitas tidak mencukupi");
+                  alertText(7, "Stock tidak mencukupi");
                 break;  
           }
         }

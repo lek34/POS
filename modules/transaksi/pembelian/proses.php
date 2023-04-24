@@ -112,10 +112,11 @@ require_once "../../../auth/cek.php";
                 $execQueryDetail = mysqli_query($conn, $queryDetail) or die('Error inserting data into pembelian_detail table: ' . mysqli_error($conn));
             }
             
-            $tambahBarang = "SELECT hp.id_barang, b.nama_barang,b.kuantitas, SUM(hp.kuantitas) as total_kuantitas
-                             FROM barang b
-                             INNER JOIN history_pembelian hp ON hp.id_barang = b.id_barang
-                             GROUP BY hp.id_barang, b.nama_barang;";
+            $tambahBarang = "SELECT hp.id_barang, b.nama_barang, b.kuantitas, SUM(hp.kuantitas) as total_kuantitas 
+                            FROM barang b 
+                            INNER JOIN history_pembelian hp ON hp.id_barang = b.id_barang 
+                            WHERE hp.id_pembelian = '$id_pembelian'
+                            GROUP BY hp.id_barang, b.nama_barang;";
             $exectambahBarang = mysqli_query($conn, $tambahBarang);
             
             
