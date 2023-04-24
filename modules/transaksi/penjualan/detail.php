@@ -131,7 +131,7 @@ if (isset($_GET['id_penjualan'])) { ?>
                                                           FROM penjualan p 
                                                           JOIN history_penjualan hp ON p.id_penjualan = hp.id_penjualan 
                                                           WHERE p.id_penjualan = '$id_penjualan' 
-                                                          GROUP BY p.penjualan;");
+                                                          GROUP BY p.id_penjualan;");
 
                         while ($data = mysqli_fetch_array($execQuery)){
                           $totBruto =  number_format($data ['total_bruto'], 0, ',', '.');
