@@ -1,12 +1,14 @@
 <?php
         function alertText ($alert, $text){
-          if ($alert == 7){
+          //Kelipatan 7 = warning
+          if ($alert %= 7){
             echo "<script>
             $(document).ready(function() {
                 toastr.warning('$text');
             });
           </script>";
           }  
+          //Ganjil (kecuali 7) = success
           else if ($alert % 2 == 1 ) {
               echo "<script>
               $(document).ready(function() {
@@ -14,13 +16,14 @@
               });
             </script>";
             } 
-            else {
-              echo "<script>
-              $(document).ready(function() {
-                  toastr.error('$text');
-              });
-            </script>";
-            }
+          //Genap = error
+          else {
+            echo "<script>
+            $(document).ready(function() {
+                toastr.error('$text');
+            });
+          </script>";
+          }
         }
     
           function switchAlert ($alert) {
