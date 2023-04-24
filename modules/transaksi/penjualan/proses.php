@@ -38,8 +38,9 @@ require_once "../../../auth/cek.php";
 
             // check if stock is enough
             if($kuantitas > $stock_sekarang){
-                echo "location: ../../../main.php?module=dataItem&alert=7";
-            }else{
+                header ('location: ../../../main.php?module=detailPenjualan&alert=7');
+            }
+            else{
                 if (!isset($_SESSION['temp_data_barang'])) {
                     $_SESSION['temp_data_barang'] = array();
                 }
@@ -57,8 +58,9 @@ require_once "../../../auth/cek.php";
                     'user' => $user,
                     'diskon' => $diskon
                 );
+                header('location: ../../../main.php?module=detailPenjualan');
             }
-            header('location: ../../../main.php?module=detailPenjualan');
+            
         }
     } 
     elseif ($_GET['act'] == 'deleteList'){
