@@ -270,6 +270,32 @@ if (isset($_GET['id_penjualan'])) { ?>
                       <label>Jatuh Tempo</label>
                       <input type="date" id="jatuh_tempo" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" required>
                     </div>
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-5" style="margin-left : 24px;">
+                      <div class="row">
+                        <h5><b>History Penjualan Terdahulu</b></h5>
+                      </div>
+                      <div class="row">
+                        <div class="col-6">
+                          <label>No. Faktur</label>
+                          <input type="text" placeholder = "PJ/XXXX/XXXX" value="" class="form-control" readonly>
+                        </div>
+                        <div class="col-6">
+                          <label>Harga Jual</label>
+                          <input type="text" placeholder = "Rp." value="" class="form-control" readonly>
+                        </div>
+                      </div>
+                      <div class="row" style="margin-top : 24px">
+                      <div class="col-6">
+                          <label>Tanggal</label>
+                          <input type="text"placeholder="DD/MM/YYYY" value="" class="form-control" readonly>
+                        </div>
+                        <div class="col-6">
+                          <label>Kuantitas</label>
+                          <input type="text" placeholder="0" value="" class="form-control" readonly>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   <br>
                   <?php
@@ -304,11 +330,36 @@ if (isset($_GET['id_penjualan'])) { ?>
                       <label>Jatuh Tempo</label>
                       <input type="date" id="jatuh_tempo" value="<?=$jatuh_tempo?>" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" readonly>
                     </div>
-                    <div class="col-sm-8 invoice-col d-md-flex justify-content-md-end">
+                    <div class="col-sm-2 invoice-col d-md-flex justify-content-md-end">
                     <div class="row">
                       <button type="button" name="reset" class="btn-lg btn-primary align-items-center" onclick="window.location.href='modules/transaksi/penjualan/proses.php?act=reset'" style="height : 50px">Reset</button>
                     </div>
                   </div>
+                  <div class="col-sm-5" style="margin-left : 24px;">
+                      <div class="row">
+                        <h5><b>History Penjualan Terdahulu</b></h5>
+                      </div>
+                      <div class="row">
+                        <div class="col-6">
+                          <label>No. Faktur</label>
+                          <input type="text" placeholder = "PJ/XXXX/XXXX" value="" class="form-control" readonly>
+                        </div>
+                        <div class="col-6">
+                          <label>Harga Jual</label>
+                          <input type="text" placeholder = "Rp." value="" class="form-control" readonly>
+                        </div>
+                      </div>
+                      <div class="row" style="margin-top : 24px">
+                      <div class="col-6">
+                          <label>Tanggal</label>
+                          <input type="text"placeholder="DD/MM/YYYY" value="" class="form-control" readonly>
+                        </div>
+                        <div class="col-6">
+                          <label>Kuantitas</label>
+                          <input type="text" placeholder="0" value="" class="form-control" readonly>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   <br>
                   
