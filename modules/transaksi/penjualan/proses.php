@@ -15,7 +15,7 @@ require_once "../../../auth/cek.php";
             $jatuh_tempo = mysqli_real_escape_string($conn, trim($_POST['jatuh_tempo']));
 
             // store the variables in the session
-            $_SESSION['temp_data_transaksi'] = array(
+            $_SESSION['temp_transaksi_jual'] = array(
                 'no_transaksi' => $no_transaksi,
                 'no_faktur' => $no_faktur,
                 'id_customer' => $id_customer,
@@ -41,12 +41,12 @@ require_once "../../../auth/cek.php";
                 header ('location: ../../../main.php?module=detailPenjualan&alert=7');
             }
             else{
-                if (!isset($_SESSION['temp_data_barang'])) {
-                    $_SESSION['temp_data_barang'] = array();
+                if (!isset($_SESSION['temp_data_jual'])) {
+                    $_SESSION['temp_data_jual'] = array();
                 }
     
                 // Create a session array for transaction items
-                $_SESSION['temp_data_barang'][] = array(
+                $_SESSION['temp_data_jual'][] = array(
                     'faktur_barang' => $faktur_barang,
                     'id_barang' => $id_barang,
                     'kuantitas' => $kuantitas,
@@ -67,14 +67,14 @@ require_once "../../../auth/cek.php";
         if (isset($_POST['deleteList'])){
             $id_list = $_POST['indeks'];
 
-            unset($_SESSION['temp_data_barang'][$id_list]);
+            unset($_SESSION['temp_data_jual'][$id_list]);
 
             header('location: ../../../main.php?module=detailPenjualan');
         }
     }
     elseif ($_GET['act'] == 'reset'){
-            unset($_SESSION['temp_data_transaksi']);
-            unset($_SESSION['temp_data_barang']);
+            unset($_SESSION['temp_transaksi_jual']);
+            unset($_SESSION['temp_data_jual']);
 
             header('location: ../../../main.php?module=detailPenjualan');
         
@@ -93,11 +93,11 @@ require_once "../../../auth/cek.php";
 
     elseif ($_GET['act'] == 'insertPenjualan') {
         if (isset($_POST['insertPenjualan'])) {
-            $temp_data_transaksi = $_SESSION['temp_data_transaksi'];
-            $no_transaksi = $temp_data_transaksi['no_transaksi'];
-            $no_faktur = $temp_data_transaksi['no_faktur'];
-            $id_customer = $temp_data_transaksi['id_customer'];
-            $jatuh_tempo = $temp_data_transaksi['jatuh_tempo'];
+            $temp_transaksi_jual = $_SESSION['temp_transaksi_jual'];
+            $no_transaksi = $temp_transaksi_jual['no_transaksi'];
+            $no_faktur = $temp_transaksi_jual['no_faktur'];
+            $id_customer = $temp_transaksi_jual['id_customer'];
+            $jatuh_tempo = $temp_transaksi_jual['jatuh_tempo'];
             $totNetto = $_SESSION['totNetto'];
             $creator = $_SESSION['username'];
             
@@ -106,9 +106,9 @@ require_once "../../../auth/cek.php";
             $execQueryHeader = mysqli_query($conn, $queryHeader) or die('Error inserting data into penjualan table: ' . mysqli_error($conn));
             $id_penjualan = mysqli_insert_id($conn);
     
-            // Insert data from temp_data_barang table
-            $temp_data_barang = $_SESSION['temp_data_barang'];
-            foreach ($temp_data_barang as $data) {
+            // Insert data from temp_data_jual table
+            $temp_data_jual = $_SESSION['temp_data_jual'];
+            foreach ($temp_data_jual as $data) {
                 $id_barang = $data['id_barang'];
                 $id_customer = $data['id_customer'];
                 $kuantitas = $data['kuantitas'];
@@ -145,8 +145,8 @@ require_once "../../../auth/cek.php";
 
             
             // Clear session data after successful insertions
-            unset($_SESSION['temp_data_transaksi']);
-            unset($_SESSION['temp_data_barang']);
+            unset($_SESSION['temp_transaksi_jual']);
+            unset($_SESSION['temp_data_jual']);
     
             header('location: ../../../main.php?module=sellItem');
 
