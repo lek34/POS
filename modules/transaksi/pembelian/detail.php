@@ -297,6 +297,15 @@ if (isset($_GET['id_pembelian'])) { ?>
                     $no_transaksi = $_SESSION['temp_data_transaksi']['no_transaksi'];
                     $supplier = $_SESSION['temp_data_transaksi']['id_supplier'];
                     $jatuh_tempo = $_SESSION['temp_data_transaksi']['jatuh_tempo'];
+                    $id_barang = $_SESSION['temp_data_barang']['id_barang'];
+                    $execQuery = mysqli_query($conn,"SELECT max_hp.id_barang, b.nama_barang, SUM(hp.kuantitas) as total_kuantitas, hp.harga_barang, pb.no_faktur, pb.tanggal 
+                                                  FROM barang b 
+                                                  INNER JOIN 
+                                                  ( SELECT id_barang, MAX(id_pembelian) as max_id_pembelian FROM history_pembelian GROUP BY id_barang ) max_hp 
+                                                  ON b.id_barang = max_hp.id_barang 
+                                                  INNER JOIN history_pembelian hp ON hp.id_barang = max_hp.id_barang AND hp.id_pembelian = max_hp.max_id_pembelian 
+                                                  INNER JOIN pembelian pb ON pb.id_pembelian = hp.id_pembelian WHERE max_hp.id_barang = '$id_barang' 
+                                                  GROUP BY max_hp.id_barang, b.nama_barang;")
                   ?>
                   <div class="col-sm-4 invoice-col">
                   <form action="modules/transaksi/pembelian/proses.php?act=inserttemp" method="post"> <!-- form buka -->
@@ -305,21 +314,7 @@ if (isset($_GET['id_pembelian'])) { ?>
                       <input type="text" name="no_faktur" placeholder="No Faktur" value='<?=$newFaktur?>' class="form-control" readonly>
                       <br>
                       <label>Supplier</label>
-                      <select name="id_supplier" class="form-control" readonly>
-                        <?php
-                        $pilihansupplier = mysqli_query($conn, "select * from supplier WHERE status = 'Y'");
-                        while ($fetcharray = mysqli_fetch_array($pilihansupplier)) {
-                          $namasupplier = $fetcharray['nama'];
-                          $idsup = $fetcharray['id_supplier'];
-                          $selected = ($idsup == $supplier) ? "selected" : "";
-                          ?>
-                          <option value="<?= $idsup; ?>" <?= $selected ?>>
-                            <?= $namasupplier; ?>
-                          </option>
-                          <?php
-                        }
-                        ?>
-                      </select>
+                      <input type="text" name="id_supplier" class="form-control" value="<?= $supplier ?>" readonly>
                       <br>
                       <label>Jatuh Tempo</label>
                       <input type="date" id="jatuh_tempo" value="<?=$jatuh_tempo?>" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" readonly>
@@ -337,21 +332,21 @@ if (isset($_GET['id_pembelian'])) { ?>
                       <div class="row">
                         <div class="col-6">
                           <label>No. Faktur</label>
-                          <input type="text" placeholder = "PB/XXXX/XXXX" value="" class="form-control" readonly>
+                          <input type="text" placeholder = "PB/XXXX/XXXX" value="<?=$no_faktur?>" class="form-control" readonly>
                         </div>
                         <div class="col-6">
                           <label>Harga Beli</label>
-                          <input type="text" placeholder = "Rp." value="" class="form-control" readonly>
+                          <input type="text" placeholder = "Rp." value="<?=$harga_barang?>" class="form-control" readonly>
                         </div>
                       </div>
                       <div class="row" style="margin-top : 24px">
                       <div class="col-6">
                           <label>Tanggal</label>
-                          <input type="text"placeholder="DD/MM/YYYY" value="" class="form-control" readonly>
+                          <input type="text"placeholder="DD/MM/YYYY" value="<?=$tanggal?>" class="form-control" readonly>
                         </div>
                         <div class="col-6">
                           <label>Kuantitas</label>
-                          <input type="text" placeholder="0" value="" class="form-control" readonly>
+                          <input type="text" placeholder="0" value="<?=$total_kuantitas?>" class="form-control" readonly>
                         </div>
                       </div>
                     </div>
