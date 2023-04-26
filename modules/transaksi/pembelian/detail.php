@@ -334,14 +334,8 @@ if (isset($_GET['id_pembelian'])) { ?>
                           $tanggal = $row['tanggal'];
                       }
                   }
-                  $query = "SELECT nama FROM supplier WHERE id_supplier = '$supplier'";
 
-                  $result = mysqli_query($conn, $query);
-
-                  // Fetch the supplier name from the result if it exists
-                  if ($row = mysqli_fetch_assoc($result)) {
-                    $supplier_name = $row['nama'];
-                  }
+                  
                   ?>
                   <div class="col-sm-4 invoice-col">
                   <form action="modules/transaksi/pembelian/proses.php?act=inserttemp" method="post"> <!-- form buka -->
@@ -350,7 +344,21 @@ if (isset($_GET['id_pembelian'])) { ?>
                       <input type="text" name="no_faktur" placeholder="No Faktur" value='<?=$newFaktur?>' class="form-control" readonly>
                       <br>
                       <label>Supplier</label>
-                      <input type="text" name="id_supplier" class="form-control" value="<?= $supplier_name ?>" readonly>
+                      <select name="id_supplier" class="form-control" readonly>
+                        <?php
+                        $pilihansupplier = mysqli_query($conn, "select * from supplier WHERE status = 'Y'");
+                        while ($fetcharray = mysqli_fetch_array($pilihansupplier)) {
+                          $namasupplier = $fetcharray['nama'];
+                          $idsup = $fetcharray['id_supplier'];
+                          $selected = ($idsup == $supplier) ? "selected" : "";
+                          ?>
+                          <option value="<?= $idsup; ?>" <?= $selected ?>>
+                            <?= $namasupplier; ?>
+                          </option>
+                          <?php
+                        }
+                        ?>
+                      </select>
                       <br>
                       <label>Jatuh Tempo</label>
                       <input type="date" id="jatuh_tempo" value="<?=$jatuh_tempo?>" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" readonly>
