@@ -127,9 +127,6 @@
                 <label>Nama Barang</label>
                 <input type="text" name="namabarang" value="<?=$barang;?>" class="form-control" >
                 <br>
-                <label>Kuantitas</label>
-                <input type="text" name="kuantitas" value="<?=$kuantitas?>" class="form-control">
-				        <br>
                 <br>
 				    <button type="button" class="btn btn-danger" style="float: left;" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary" name="editbarang" style="float: right;">Submit</button>

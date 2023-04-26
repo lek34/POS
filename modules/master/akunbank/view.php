@@ -34,6 +34,8 @@
                                 <tr>
                                 <th>Kode Akun</th>
                                 <th>Nama Akun</th>
+                                <th>Debit</th>
+                                <th>Kredit</th>
                                 <th>Action</th>
                                 </tr>
                             </thead>
@@ -45,6 +47,8 @@
                                     <tr>
                                         <td><?=$data['kode_akun']?></td>
                                         <td><?=$data['nama_akun']?></td>
+                                        <td><?=$data['debit']?></td>
+                                        <td><?=$data['kredit']?></td>
                                         <td>
                                             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit<?=$id_akun;?>"><i class = "far fa-edit"></i></button>
                                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete<?=$id_akun?>"><i class = "far fa-trash-alt"></i></button>

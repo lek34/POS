@@ -30,9 +30,8 @@ require_once "../../../auth/cek.php";
         if(isset($_POST['editbarang'])){
             $id_barang = mysqli_real_escape_string($conn, trim($_POST['id_barang']));
             $barang = mysqli_real_escape_string($conn, trim($_POST['namabarang']));
-            $kuantitas = mysqli_real_escape_string($conn, trim($_POST['kuantitas']));
             
-            $query = "UPDATE barang SET nama_barang = '$barang', kuantitas = '$kuantitas' WHERE id_barang = '$id_barang'";
+            $query = "UPDATE barang SET nama_barang = '$barang'";
             $execQuery = mysqli_query($conn, $query);
             //or die('Ada kesalahan pada query insert : '.mysqli_error($conn));
             if ($execQuery) {
