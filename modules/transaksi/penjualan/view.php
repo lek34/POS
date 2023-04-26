@@ -37,7 +37,7 @@
                                 <tr>
                                 <th>No. Faktur </th>
                                 <th>Tanggal Penjualan</th>
-                                <th>Supplier</th>
+                                <th>Customer</th>
                                 <th>Netto</th>
                                 <th>Status</th>
                                 <th>Jatuh Tempo</th>

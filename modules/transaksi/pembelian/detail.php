@@ -265,7 +265,7 @@ if (isset($_GET['id_pembelian'])) { ?>
                       <input type="date" id="jatuh_tempo" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" required>
                     </div>
                     <div class="col-sm-2"></div>
-                    <div class="col-sm-5" style="margin-left : 24px;">
+                    <div class="col-sm-5" style="margin-left : 24px; ">
                       <div class="row">
                         <h5><b>History Pembelian Terdahulu</b></h5>
                       </div>
