@@ -297,6 +297,9 @@ if (isset($_GET['id_penjualan'])) { ?>
                       </div>
                     </div>
                   </div>
+                  <div class="row" style="margin : 24px 0 0 2px">
+                      <button type="button" name="reset" class="btn btn-secondary align-items-center" onclick="window.location.href='modules/transaksi/penjualan/proses.php?act=reset'" style="height : 50px" disabled>Reset</button>
+                    </div>
                   <br>
                   <?php
                   } else { 
@@ -331,9 +334,7 @@ if (isset($_GET['id_penjualan'])) { ?>
                       <input type="date" id="jatuh_tempo" value="<?=$jatuh_tempo?>" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" readonly>
                     </div>
                     <div class="col-sm-2 invoice-col d-md-flex justify-content-md-end">
-                    <div class="row">
-                      <button type="button" name="reset" class="btn-lg btn-primary align-items-center" onclick="window.location.href='modules/transaksi/penjualan/proses.php?act=reset'" style="height : 50px">Reset</button>
-                    </div>
+                    
                   </div>
                   <div class="col-sm-5" style="margin-left : 24px;">
                       <div class="row">
@@ -361,6 +362,9 @@ if (isset($_GET['id_penjualan'])) { ?>
                       </div>
                     </div>
                   </div>
+                  <div class="row" style="margin : 24px 0 0 2px">
+                      <button type="button" name="reset" class="btn btn-primary align-items-center" onclick="window.location.href='modules/transaksi/penjualan/proses.php?act=reset'" style="height : 50px">Reset</button>
+                    </div>
                   <br>
                   
                   <?php
