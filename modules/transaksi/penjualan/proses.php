@@ -141,9 +141,6 @@ require_once "../../../auth/cek.php";
                 $insertKuantitas = "UPDATE barang SET kuantitas = '$stock_baru' WHERE id_barang = '$id_barang'";
                 $execinsertKuantitas = mysqli_query($conn, $insertKuantitas);
             }
-            
-
-            
             // Clear session data after successful insertions
             unset($_SESSION['temp_transaksi_jual']);
             unset($_SESSION['temp_data_jual']);
