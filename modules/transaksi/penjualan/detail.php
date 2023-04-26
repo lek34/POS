@@ -243,7 +243,7 @@ if (isset($_GET['id_penjualan'])) { ?>
               <div class="row">
                 
                   <?php
-                  if (!isset($_SESSION['temp_data_transaksi'])) {/* pengulangan pertama */
+                  if (!isset($_SESSION['temp_transaksi_jual'])) {/* pengulangan pertama */
                   ?>
                   <div class="col-sm-4 invoice-info">
                     <form action="modules/transaksi/penjualan/proses.php?act=inserttemp" method="post"> <!-- form buka -->
@@ -303,9 +303,9 @@ if (isset($_GET['id_penjualan'])) { ?>
                   <br>
                   <?php
                   } else { 
-                    $no_transaksi = $_SESSION['temp_data_transaksi']['no_transaksi'];
-                    $customer = $_SESSION['temp_data_transaksi']['id_customer'];
-                    $jatuh_tempo = $_SESSION['temp_data_transaksi']['jatuh_tempo'];
+                    $no_transaksi = $_SESSION['temp_transaksi_jual']['no_transaksi'];
+                    $customer = $_SESSION['temp_transaksi_jual']['id_customer'];
+                    $jatuh_tempo = $_SESSION['temp_transaksi_jual']['jatuh_tempo'];
                   ?>
                   <div class="col-sm-4 invoice-col">
                   <form action="modules/transaksi/penjualan/proses.php?act=inserttemp" method="post"> <!-- form buka -->
@@ -372,6 +372,7 @@ if (isset($_GET['id_penjualan'])) { ?>
                   ?>
                 
               <!-- /.row -->
+              <form action="">
               <div class="row">
                 <div class="col-12 table-responsive">
                   <table class="table table-striped">
@@ -457,7 +458,7 @@ if (isset($_GET['id_penjualan'])) { ?>
                     </thead>
                     <tbody>
                       <?php
-                      if (!isset($_SESSION['temp_data_barang'])) {
+                      if (!isset($_SESSION['temp_data_jual'])) {
                       ?>
                       <tr>
                           <td>-</td>
@@ -472,7 +473,7 @@ if (isset($_GET['id_penjualan'])) { ?>
                       <?php
                     } else {
                       $i = 1;
-                      foreach ($_SESSION['temp_data_barang'] as $key => $value){   
+                      foreach ($_SESSION['temp_data_jual'] as $key => $value){   
                         $id_barang = $value['id_barang'];
                         $id_customer = $value['id_customer'];
                         $query = "SELECT nama_barang FROM barang WHERE $id_barang = id_barang";

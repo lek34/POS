@@ -237,7 +237,7 @@ if (isset($_GET['id_pembelian'])) { ?>
               <div class="row">
                 
                   <?php
-                  if (!isset($_SESSION['temp_data_transaksi'])) {/* pengulangan pertama */
+                  if (!isset($_SESSION['temp_transaksi_beli'])) {/* pengulangan pertama */
                   ?>
                   <div class="col-sm-4 invoice-info">
                     <form action="modules/transaksi/pembelian/proses.php?act=inserttemp" method="post"> <!-- form buka -->
@@ -286,13 +286,17 @@ if (isset($_GET['id_pembelian'])) { ?>
                         </div>
                     </div>
                       <div class="row" style="margin-top : 24px">
-                      <div class="col-6">
+                      <div class="col-4">
                           <label>Tanggal</label>
                           <input type="text"placeholder="DD/MM/YYYY" value="" class="form-control" readonly>
                         </div>
-                        <div class="col-6">
+                        <div class="col-4">
                           <label>Kuantitas</label>
                           <input type="text" placeholder="0" value="" class="form-control" readonly>
+                        </div>
+                        <div class="col-4">
+                          <label>Stock Sekarang</label>
+                          <input type="text" placeholder="0" class="form-control" readonly>
                         </div>
                       </div>
                     </div>
@@ -303,19 +307,20 @@ if (isset($_GET['id_pembelian'])) { ?>
                   <br>
                   <?php
                   } else { 
-                    $no_transaksi = $_SESSION['temp_data_transaksi']['no_transaksi'];
-                    $supplier = $_SESSION['temp_data_transaksi']['id_supplier'];
-                    $jatuh_tempo = $_SESSION['temp_data_transaksi']['jatuh_tempo'];
-                    $barang_array = $_SESSION['temp_data_barang'];
-                    // Get the latest index of the temp_data_barang array
+                    $no_transaksi = $_SESSION['temp_transaksi_beli']['no_transaksi'];
+                    $supplier = $_SESSION['temp_transaksi_beli']['id_supplier'];
+                    $jatuh_tempo = $_SESSION['temp_transaksi_beli']['jatuh_tempo'];
+                    $barang_array = $_SESSION['temp_data_beli'];
+                    // Get the latest index of the temp_data_beli array
                     $nama_barang = "Nama Barang";
                     $total_kuantitas = "";
                     $harga_barang = "0";
                     $no_faktur = "PB/XXXX/XXXX";
                     $tanggal = "";
+                    $kuantitas = "0";
                     if (isset($_GET['id_barang'])) {
                       $id_barang = $_GET['id_barang'];
-                      $execQuery = mysqli_query($conn, "SELECT max_hp.id_barang, b.nama_barang, SUM(hp.kuantitas) as total_kuantitas, hp.harga_barang, pb.no_faktur, pb.tanggal 
+                      $execQuery = mysqli_query($conn, "SELECT max_hp.id_barang, b.nama_barang, b.kuantitas as stok_sekarang, SUM(hp.kuantitas) as total_kuantitas, hp.harga_barang, pb.no_faktur, pb.tanggal 
                                                       FROM barang b 
                                                       INNER JOIN 
                                                       ( SELECT id_barang, MAX(id_pembelian) as max_id_pembelian FROM history_pembelian GROUP BY id_barang ) max_hp 
@@ -332,6 +337,7 @@ if (isset($_GET['id_pembelian'])) { ?>
                           $harga_barang = $row['harga_barang'];
                           $no_faktur = $row['no_faktur'];
                           $tanggal = $row['tanggal'];
+                          $kuantitas = $row['stok_sekarang'];
                       }
                   }
 
@@ -391,13 +397,17 @@ if (isset($_GET['id_pembelian'])) { ?>
                         </div>
                       </div>
                       <div class="row" style="margin-top : 24px">
-                      <div class="col-6">
+                      <div class="col-4">
                           <label>Tanggal</label>
                           <input type="text"placeholder="DD/MM/YYYY" value="<?=$tanggal?>" class="form-control" readonly>
                         </div>
-                        <div class="col-6">
+                        <div class="col-4">
                           <label>Kuantitas</label>
                           <input type="text" placeholder="0" value="<?=$total_kuantitas?>" class="form-control" readonly>
+                        </div>
+                        <div class="col-4">
+                          <label>Stck Sekarang</label>
+                          <input type="text" placeholder="0" value="<?=$kuantitas?>" class="form-control" readonly>
                         </div>
                       </div>
                     </div>
@@ -498,7 +508,7 @@ if (isset($_GET['id_pembelian'])) { ?>
                     </thead>
                     <tbody>
                       <?php
-                      if (!isset($_SESSION['temp_data_barang'])) {
+                      if (!isset($_SESSION['temp_data_beli'])) {
                       ?>
                       <tr>
                           <td>-</td>
@@ -513,7 +523,7 @@ if (isset($_GET['id_pembelian'])) { ?>
                       <?php
                     } else {
                       $i = 1;
-                      foreach ($_SESSION['temp_data_barang'] as $key => $value){   
+                      foreach ($_SESSION['temp_data_beli'] as $key => $value){   
                         $id_barang = $value['id_barang'];
                         $id_supplier = $value['id_supplier'];
                         $query = "SELECT nama_barang FROM barang WHERE $id_barang = id_barang";

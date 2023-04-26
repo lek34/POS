@@ -15,7 +15,7 @@ require_once "../../../auth/cek.php";
             $jatuh_tempo = mysqli_real_escape_string($conn, trim($_POST['jatuh_tempo']));
 
             // store the variables in the session
-            $_SESSION['temp_data_transaksi'] = array(
+            $_SESSION['temp_transaksi_beli'] = array(
                 'no_transaksi' => $no_transaksi,
                 'no_faktur' => $no_faktur,
                 'id_supplier' => $id_supplier,
@@ -31,11 +31,11 @@ require_once "../../../auth/cek.php";
             $netto = $bruto - $diskon;
             $user = $_SESSION['username'];
 
-            if (!isset($_SESSION['temp_data_barang'])) {
-                $_SESSION['temp_data_barang'] = array();
+            if (!isset($_SESSION['temp_data_beli'])) {
+                $_SESSION['temp_data_beli'] = array();
             }
             // Create a session array for transaction items
-            $_SESSION['temp_data_barang'][] = array(
+            $_SESSION['temp_data_beli'][] = array(
                 'faktur_barang' => $faktur_barang,
                 'id_barang' => $id_barang,
                 'kuantitas' => $kuantitas,
@@ -55,14 +55,14 @@ require_once "../../../auth/cek.php";
         if (isset($_POST['deleteList'])){
             $id_list = $_POST['indeks'];
 
-            unset($_SESSION['temp_data_barang'][$id_list]);
+            unset($_SESSION['temp_data_beli'][$id_list]);
 
             header('location: ../../../main.php?module=detailPembelian');
         }
     }
     elseif ($_GET['act'] == 'reset'){
-            unset($_SESSION['temp_data_transaksi']);
-            unset($_SESSION['temp_data_barang']);
+            unset($_SESSION['temp_transaksi_beli']);
+            unset($_SESSION['temp_data_beli']);
 
             header('location: ../../../main.php?module=detailPembelian');
         
@@ -71,21 +71,9 @@ require_once "../../../auth/cek.php";
     elseif ($_GET['act'] == 'buy'){
         if(isset($_POST['buy'])){
             $id_pembelian = mysqli_real_escape_string($conn, trim($_POST['id_pembelian']));
-            $id_akun = mysqli_real_escape_string($conn, trim($_POST['id_akun']));
 
-            // get the net purchase amount from the pembelian table
-            $query1 = "SELECT netto FROM pembelian WHERE id_pembelian = '$id_pembelian'";
-            $execQuery = mysqli_query($conn, $query1);
-            $data = mysqli_fetch_array($execQuery);
-            $netto = $data['netto'];
-            
-             // update the debit and credit fields in the akun table
-            $query = "UPDATE akun SET debit = debit - $netto, kredit = kredit + $netto WHERE id_akun = '$id_akun'";
-            
+            $query = "UPDATE pembelian SET status_pembayaran = 'Y' WHERE id_pembelian = '$id_pembelian'";
             $execQuery = mysqli_query($conn, $query);
-
-            $query2 = "UPDATE pembelian SET status_pembayaran = 'Y' WHERE id_pembelian = '$id_pembelian'";
-            $execQuery = mysqli_query($conn, $query2);
 
             header('location: ../../../main.php?module=buyItem');
         }
@@ -93,11 +81,11 @@ require_once "../../../auth/cek.php";
 
     elseif ($_GET['act'] == 'insertPembelian') {
         if (isset($_POST['insertPembelian'])) {
-            $temp_data_transaksi = $_SESSION['temp_data_transaksi'];
-            $no_transaksi = $temp_data_transaksi['no_transaksi'];
-            $no_faktur = $temp_data_transaksi['no_faktur'];
-            $id_supplier = $temp_data_transaksi['id_supplier'];
-            $jatuh_tempo = $temp_data_transaksi['jatuh_tempo'];
+            $temp_transaksi_beli = $_SESSION['temp_transaksi_beli'];
+            $no_transaksi = $temp_transaksi_beli['no_transaksi'];
+            $no_faktur = $temp_transaksi_beli['no_faktur'];
+            $id_supplier = $temp_transaksi_beli['id_supplier'];
+            $jatuh_tempo = $temp_transaksi_beli['jatuh_tempo'];
             $totNetto = $_SESSION['totNetto'];
             $creator = $_SESSION['username'];
             
@@ -106,9 +94,9 @@ require_once "../../../auth/cek.php";
             $execQueryHeader = mysqli_query($conn, $queryHeader) or die('Error inserting data into pembelian table: ' . mysqli_error($conn));
             $id_pembelian = mysqli_insert_id($conn);
     
-            // Insert data from temp_data_barang table
-            $temp_data_barang = $_SESSION['temp_data_barang'];
-            foreach ($temp_data_barang as $data) {
+            // Insert data from temp_data_beli table
+            $temp_data_beli = $_SESSION['temp_data_beli'];
+            foreach ($temp_data_beli as $data) {
                 $id_barang = $data['id_barang'];
                 $id_supplier = $data['id_supplier'];
                 $kuantitas = $data['kuantitas'];
@@ -124,29 +112,26 @@ require_once "../../../auth/cek.php";
                 $execQueryDetail = mysqli_query($conn, $queryDetail) or die('Error inserting data into pembelian_detail table: ' . mysqli_error($conn));
             }
             
-            $tambahBarang = "SELECT hp.id_barang, b.nama_barang, b.kuantitas, SUM(hp.kuantitas) as total_kuantitas 
-                            FROM barang b 
-                            INNER JOIN history_pembelian hp ON hp.id_barang = b.id_barang 
-                            WHERE hp.id_pembelian = '$id_pembelian'
-                            GROUP BY hp.id_barang, b.nama_barang;";
+            $tambahBarang = "SELECT hp.id_barang, b.nama_barang,b.kuantitas, SUM(hp.kuantitas) as total_kuantitas
+                             FROM barang b
+                             INNER JOIN history_pembelian hp ON hp.id_barang = b.id_barang
+                             GROUP BY hp.id_barang, b.nama_barang;";
             $exectambahBarang = mysqli_query($conn, $tambahBarang);
             
             
+
             while ($datatambahBarang = mysqli_fetch_array($exectambahBarang)){
                 $id_barang = $datatambahBarang['id_barang'];
-                $stock_sekarang = $datatambahBarang['kuantitas'];
                 $total_kuantitas = $datatambahBarang ['total_kuantitas'];
+                
                 $stock_baru = $stock_sekarang + $total_kuantitas;
-
+                
                 $insertKuantitas = "UPDATE barang SET kuantitas = '$stock_baru' WHERE id_barang = '$id_barang'";
                 $execinsertKuantitas = mysqli_query($conn, $insertKuantitas);
             }
-            
-
-            
             // Clear session data after successful insertions
-            unset($_SESSION['temp_data_transaksi']);
-            unset($_SESSION['temp_data_barang']);
+            unset($_SESSION['temp_transaksi_beli']);
+            unset($_SESSION['temp_data_beli']);
     
             header('location: ../../../main.php?module=buyItem');
 
