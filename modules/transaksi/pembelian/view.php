@@ -139,9 +139,24 @@
             <br>
             <form action="modules/transaksi/pembelian/proses.php?act=buy" method="post">
                 <p>Selesaikan Pembayaran?</p>
-                <br>
-                <br>
                 <input type="hidden" name="id_pembelian" value="<?=$id_pembelian;?>">
+                <select name="id_akun" class="form-control">
+                <?php
+                $query = "SELECT * FROM akun";
+                    $execQuery = mysqli_query($conn, $query);
+                    while ($data = mysqli_fetch_array($execQuery)){
+                    $id_akun = $data ['id_akun'];
+                    $kode_akun = $data ['kode_akun'];
+                    $nama_akun = $data ['nama_akun'];
+                ?>
+                    <option value="<?= $id_akun; ?>">
+                        <?= $nama_akun;?>
+                    <?php
+                    }
+                ?>
+                </select>
+                <br>
+                <br>
                 <button type="button" class="btn btn-danger" style="float: left;" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary" name="buy" style="float: right;">Submit</button>
             </form> 

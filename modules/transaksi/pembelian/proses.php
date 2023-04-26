@@ -71,9 +71,21 @@ require_once "../../../auth/cek.php";
     elseif ($_GET['act'] == 'buy'){
         if(isset($_POST['buy'])){
             $id_pembelian = mysqli_real_escape_string($conn, trim($_POST['id_pembelian']));
+            $id_akun = mysqli_real_escape_string($conn, trim($_POST['id_akun']));
 
-            $query = "UPDATE pembelian SET status_pembayaran = 'Y' WHERE id_pembelian = '$id_pembelian'";
+            // get the net purchase amount from the pembelian table
+            $query1 = "SELECT netto FROM pembelian WHERE id_pembelian = '$id_pembelian'";
+            $execQuery = mysqli_query($conn, $query1);
+            $data = mysqli_fetch_array($execQuery);
+            $netto = $data['netto'];
+            
+             // update the debit and credit fields in the akun table
+            $query = "UPDATE akun SET debit = debit - $netto, kredit = kredit + $netto WHERE id_akun = '$id_akun'";
+            
             $execQuery = mysqli_query($conn, $query);
+
+            $query2 = "UPDATE pembelian SET status_pembayaran = 'Y' WHERE id_pembelian = '$id_pembelian'";
+            $execQuery = mysqli_query($conn, $query2);
 
             header('location: ../../../main.php?module=buyItem');
         }

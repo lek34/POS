@@ -12,7 +12,7 @@
 ?>
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Tambah Pembelian</h1>
+                <h1>Tambah Penjualan</h1>
             </div>
         </div>
     </div><!-- /.container-fluid -->
