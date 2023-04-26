@@ -308,25 +308,39 @@ if (isset($_GET['id_pembelian'])) { ?>
                     $jatuh_tempo = $_SESSION['temp_data_transaksi']['jatuh_tempo'];
                     $barang_array = $_SESSION['temp_data_barang'];
                     // Get the latest index of the temp_data_barang array
-                    $keys = array_keys($barang_array);
-                    $latest_index = end($keys);
-                    $id_barang = $_SESSION['temp_data_barang'][$latest_index]['id_barang'];
-                    $execQuery = mysqli_query($conn,"SELECT max_hp.id_barang, b.nama_barang, SUM(hp.kuantitas) as total_kuantitas, hp.harga_barang, pb.no_faktur, pb.tanggal 
-                                                  FROM barang b 
-                                                  INNER JOIN 
-                                                  ( SELECT id_barang, MAX(id_pembelian) as max_id_pembelian FROM history_pembelian GROUP BY id_barang ) max_hp 
-                                                  ON b.id_barang = max_hp.id_barang 
-                                                  INNER JOIN history_pembelian hp ON hp.id_barang = max_hp.id_barang AND hp.id_pembelian = max_hp.max_id_pembelian 
-                                                  INNER JOIN pembelian pb ON pb.id_pembelian = hp.id_pembelian WHERE max_hp.id_barang = '$id_barang' 
-                                                  GROUP BY max_hp.id_barang, b.nama_barang;");
-                    while ($row = mysqli_fetch_array($execQuery, MYSQLI_ASSOC)) {
-                      // Access the values using the column names
-                      $id_barang = $row['id_barang'];
-                      $nama_barang = $row['nama_barang'];
-                      $total_kuantitas = $row['total_kuantitas'];
-                      $harga_barang = $row['harga_barang'];
-                      $no_faktur = $row['no_faktur'];
-                      $tanggal = $row['tanggal'];
+                    $nama_barang = "Nama Barang";
+                    $total_kuantitas = "";
+                    $harga_barang = "0";
+                    $no_faktur = "PB/XXXX/XXXX";
+                    $tanggal = "";
+                    if (isset($_GET['id_barang'])) {
+                      $id_barang = $_GET['id_barang'];
+                      $execQuery = mysqli_query($conn, "SELECT max_hp.id_barang, b.nama_barang, SUM(hp.kuantitas) as total_kuantitas, hp.harga_barang, pb.no_faktur, pb.tanggal 
+                                                      FROM barang b 
+                                                      INNER JOIN 
+                                                      ( SELECT id_barang, MAX(id_pembelian) as max_id_pembelian FROM history_pembelian GROUP BY id_barang ) max_hp 
+                                                      ON b.id_barang = max_hp.id_barang 
+                                                      INNER JOIN history_pembelian hp ON hp.id_barang = max_hp.id_barang AND hp.id_pembelian = max_hp.max_id_pembelian 
+                                                      INNER JOIN pembelian pb ON pb.id_pembelian = hp.id_pembelian WHERE max_hp.id_barang = '$id_barang' 
+                                                      GROUP BY max_hp.id_barang, b.nama_barang;");
+                  
+                      while ($row = mysqli_fetch_array($execQuery, MYSQLI_ASSOC)) {
+                          // Access the values using the column names
+                          $id_barang = $row['id_barang'];
+                          $nama_barang = $row['nama_barang'];
+                          $total_kuantitas = $row['total_kuantitas'];
+                          $harga_barang = $row['harga_barang'];
+                          $no_faktur = $row['no_faktur'];
+                          $tanggal = $row['tanggal'];
+                      }
+                  }
+                  $query = "SELECT nama FROM supplier WHERE id_supplier = '$supplier'";
+
+                  $result = mysqli_query($conn, $query);
+
+                  // Fetch the supplier name from the result if it exists
+                  if ($row = mysqli_fetch_assoc($result)) {
+                    $supplier_name = $row['nama'];
                   }
                   ?>
                   <div class="col-sm-4 invoice-col">
@@ -336,7 +350,7 @@ if (isset($_GET['id_pembelian'])) { ?>
                       <input type="text" name="no_faktur" placeholder="No Faktur" value='<?=$newFaktur?>' class="form-control" readonly>
                       <br>
                       <label>Supplier</label>
-                      <input type="text" name="id_supplier" class="form-control" value="<?= $supplier ?>" readonly>
+                      <input type="text" name="id_supplier" class="form-control" value="<?= $supplier_name ?>" readonly>
                       <br>
                       <label>Jatuh Tempo</label>
                       <input type="date" id="jatuh_tempo" value="<?=$jatuh_tempo?>" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" readonly>
@@ -348,19 +362,19 @@ if (isset($_GET['id_pembelian'])) { ?>
                       <div class="row">
                         <h5><b>History Pembelian Terdahulu</b></h5>
                       </div>
-                      <div class="row">
+                      <div class="row" style="margin-top : 24px">
                       <div class="col-12">
                           <label>Nama Barang</label>
-                          <input type="text" placeholder = "Nama Barang" value="<?=$nama_barang?>" class="form-control" readonly>
+                          <input type="text" value="<?=$nama_barang?>" class="form-control" readonly>
                         </div>
-                        <div class="row" style="margin-top : 24px">
+                        <div class="row" style="margin-top : 24px ; margin-left : 0px">
                         <div class="col-6">
                           <label>No. Faktur</label>
-                          <input type="text" placeholder = "PB/XXXX/XXXX" value="<?=$no_faktur?>" class="form-control" readonly>
+                          <input type="text" value="<?=$no_faktur?>" class="form-control" readonly>
                         </div>
                         <div class="col-6">
                           <label>Harga Beli</label>
-                          <input type="text" placeholder = "Rp." value="<?=$harga_barang?>" class="form-control" readonly>
+                          <input type="text" value="Rp. <?=$harga_barang?>" class="form-control" readonly>
                         </div>
                       </div>
                         </div>
@@ -507,7 +521,7 @@ if (isset($_GET['id_pembelian'])) { ?>
                         ?>
                         <tr>
                           <td><?=$i?></td>
-                          <td><?=$nama_barang?></td>
+                          <td><a href="main.php?module=detailPembelian&id_barang=<?=$id_barang?>"><?=$nama_barang?></a></td>
                           <td><?=$kuantitas?></td>
                           <td>Rp. <?=$harga_barang_formatted?></td>
                           <td>Rp. <?=$bruto_formatted?></td>
