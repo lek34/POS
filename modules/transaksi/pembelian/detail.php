@@ -406,7 +406,7 @@ if (isset($_GET['id_pembelian'])) { ?>
                           <input type="text" placeholder="0" value="<?=$total_kuantitas?>" class="form-control" readonly>
                         </div>
                         <div class="col-4">
-                          <label>Stck Sekarang</label>
+                          <label>Stock Sekarang</label>
                           <input type="text" placeholder="0" value="<?=$kuantitas?>" class="form-control" readonly>
                         </div>
                       </div>

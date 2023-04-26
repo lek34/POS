@@ -38,6 +38,7 @@
                                 <th>No. Faktur </th>
                                 <th>Tanggal Penjualan</th>
                                 <th>Customer</th>
+                                <th>Plat</th>
                                 <th>Netto</th>
                                 <th>Status</th>
                                 <th>Jatuh Tempo</th>
@@ -58,6 +59,7 @@
                                     $tanggal  = $data ['tanggal'];
                                     $jatuh_tempo  = $data ['jatuh_tempo'];
                                     $customer = $data ['nama'];
+                                    $plat = $data ['plat'];
                                     $netto = number_format($data['netto'], 0, ',', '.');
                                     $status = $data ['status_pembayaran'];
                                 ?>
@@ -65,6 +67,7 @@
                                     <td><?=$no_faktur?></td>
                                     <td><?=$tanggal?></td>
                                     <td><?=$customer?></td>
+                                    <td><?=$plat?></td>
                                     <td>Rp. <?=$netto?></td>
                                     <td>
                                         <?php

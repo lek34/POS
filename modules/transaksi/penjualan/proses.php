@@ -13,13 +13,15 @@ require_once "../../../auth/cek.php";
             $no_faktur = mysqli_real_escape_string($conn, trim($_POST['no_faktur']));
             $id_customer = mysqli_real_escape_string($conn, trim($_POST['id_customer']));
             $jatuh_tempo = mysqli_real_escape_string($conn, trim($_POST['jatuh_tempo']));
+            $kendaraan = $_POST['kendaraan'];
 
             // store the variables in the session
             $_SESSION['temp_transaksi_jual'] = array(
                 'no_transaksi' => $no_transaksi,
                 'no_faktur' => $no_faktur,
                 'id_customer' => $id_customer,
-                'jatuh_tempo' => $jatuh_tempo
+                'jatuh_tempo' => $jatuh_tempo,
+                'kendaraan' => $kendaraan
             );
             $faktur_barang = trim($_POST['no_faktur']);
             $id_barang = mysqli_real_escape_string($conn, trim($_POST['id_barang']));
@@ -98,11 +100,12 @@ require_once "../../../auth/cek.php";
             $no_faktur = $temp_transaksi_jual['no_faktur'];
             $id_customer = $temp_transaksi_jual['id_customer'];
             $jatuh_tempo = $temp_transaksi_jual['jatuh_tempo'];
+            $kendaraan = htmlspecialchars($temp_transaksi_jual['kendaraan'], ENT_QUOTES, 'UTF-8');;
             $totNetto = $_SESSION['totNetto'];
             $creator = $_SESSION['username'];
             
-            $queryHeader = "INSERT INTO penjualan (no_faktur, id_customer, nomor_transaksi, jatuh_tempo, netto, creator) 
-                            VALUES ('$no_faktur', '$id_customer', '$no_transaksi', '$jatuh_tempo', '$totNetto', '$creator')";
+            $queryHeader = "INSERT INTO penjualan (no_faktur, id_customer,nomor_transaksi,plat,jatuh_tempo, netto, creator) 
+                            VALUES ('$no_faktur', '$id_customer', '$no_transaksi','$kendaraan','$jatuh_tempo', '$totNetto', '$creator')";
             $execQueryHeader = mysqli_query($conn, $queryHeader) or die('Error inserting data into penjualan table: ' . mysqli_error($conn));
             $id_penjualan = mysqli_insert_id($conn);
     
