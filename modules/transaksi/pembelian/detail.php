@@ -270,6 +270,10 @@ if (isset($_GET['id_pembelian'])) { ?>
                         <h5><b>History Pembelian Terdahulu</b></h5>
                       </div>
                       <div class="row">
+                      <div class="col-12">
+                          <label>Nama Barang</label>
+                          <input type="text" placeholder = "Nama Barang" value="" class="form-control" readonly>
+                        </div>
                         <div class="col-6">
                           <label>No. Faktur</label>
                           <input type="text" placeholder = "PB/XXXX/XXXX" value="" class="form-control" readonly>
@@ -297,7 +301,11 @@ if (isset($_GET['id_pembelian'])) { ?>
                     $no_transaksi = $_SESSION['temp_data_transaksi']['no_transaksi'];
                     $supplier = $_SESSION['temp_data_transaksi']['id_supplier'];
                     $jatuh_tempo = $_SESSION['temp_data_transaksi']['jatuh_tempo'];
-                    $id_barang = $_SESSION['temp_data_barang']['id_barang'];
+                    $barang_array = $_SESSION['temp_data_barang'];
+                    // Get the latest index of the temp_data_barang array
+                    $keys = array_keys($barang_array);
+                    $latest_index = end($keys);
+                    $id_barang = $_SESSION['temp_data_barang'][$latest_index]['id_barang'];
                     $execQuery = mysqli_query($conn,"SELECT max_hp.id_barang, b.nama_barang, SUM(hp.kuantitas) as total_kuantitas, hp.harga_barang, pb.no_faktur, pb.tanggal 
                                                   FROM barang b 
                                                   INNER JOIN 
@@ -305,7 +313,16 @@ if (isset($_GET['id_pembelian'])) { ?>
                                                   ON b.id_barang = max_hp.id_barang 
                                                   INNER JOIN history_pembelian hp ON hp.id_barang = max_hp.id_barang AND hp.id_pembelian = max_hp.max_id_pembelian 
                                                   INNER JOIN pembelian pb ON pb.id_pembelian = hp.id_pembelian WHERE max_hp.id_barang = '$id_barang' 
-                                                  GROUP BY max_hp.id_barang, b.nama_barang;")
+                                                  GROUP BY max_hp.id_barang, b.nama_barang;");
+                    while ($row = mysqli_fetch_array($execQuery, MYSQLI_ASSOC)) {
+                      // Access the values using the column names
+                      $id_barang = $row['id_barang'];
+                      $nama_barang = $row['nama_barang'];
+                      $total_kuantitas = $row['total_kuantitas'];
+                      $harga_barang = $row['harga_barang'];
+                      $no_faktur = $row['no_faktur'];
+                      $tanggal = $row['tanggal'];
+                  }
                   ?>
                   <div class="col-sm-4 invoice-col">
                   <form action="modules/transaksi/pembelian/proses.php?act=inserttemp" method="post"> <!-- form buka -->
@@ -330,6 +347,10 @@ if (isset($_GET['id_pembelian'])) { ?>
                         <h5><b>History Pembelian Terdahulu</b></h5>
                       </div>
                       <div class="row">
+                      <div class="col-12">
+                          <label>Nama Barang</label>
+                          <input type="text" placeholder = "Nama Barang" value="<?=$nama_barang?>" class="form-control" readonly>
+                        </div>
                         <div class="col-6">
                           <label>No. Faktur</label>
                           <input type="text" placeholder = "PB/XXXX/XXXX" value="<?=$no_faktur?>" class="form-control" readonly>
