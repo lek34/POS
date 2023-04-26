@@ -383,7 +383,7 @@ if (isset($_GET['id_pembelian'])) { ?>
                           <input type="text" value="<?=$nama_barang?>" class="form-control" readonly>
                         </div>
                         </div>
-                        <div class="row" style="margin-top : 24px ; margin-left : 0px">
+                        <div class="row" style="margin-top : 24px ;">
                         <div class="col-6">
                           <label>No. Faktur</label>
                           <input type="text" value="<?=$no_faktur?>" class="form-control" readonly>
