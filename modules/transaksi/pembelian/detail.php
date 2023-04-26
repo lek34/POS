@@ -274,7 +274,9 @@ if (isset($_GET['id_pembelian'])) { ?>
                           <label>Nama Barang</label>
                           <input type="text" placeholder = "Nama Barang" value="" class="form-control" readonly>
                         </div>
-                        <div class="col-6">
+                      </div>
+                      <div class="row" style="margin-top : 24px">
+                      <div class="col-6">
                           <label>No. Faktur</label>
                           <input type="text" placeholder = "PB/XXXX/XXXX" value="" class="form-control" readonly>
                         </div>
@@ -282,7 +284,7 @@ if (isset($_GET['id_pembelian'])) { ?>
                           <label>Harga Beli</label>
                           <input type="text" placeholder = "Rp." value="" class="form-control" readonly>
                         </div>
-                      </div>
+                    </div>
                       <div class="row" style="margin-top : 24px">
                       <div class="col-6">
                           <label>Tanggal</label>
@@ -351,6 +353,7 @@ if (isset($_GET['id_pembelian'])) { ?>
                           <label>Nama Barang</label>
                           <input type="text" placeholder = "Nama Barang" value="<?=$nama_barang?>" class="form-control" readonly>
                         </div>
+                        <div class="row" style="margin-top : 24px">
                         <div class="col-6">
                           <label>No. Faktur</label>
                           <input type="text" placeholder = "PB/XXXX/XXXX" value="<?=$no_faktur?>" class="form-control" readonly>
@@ -360,6 +363,7 @@ if (isset($_GET['id_pembelian'])) { ?>
                           <input type="text" placeholder = "Rp." value="<?=$harga_barang?>" class="form-control" readonly>
                         </div>
                       </div>
+                        </div>
                       <div class="row" style="margin-top : 24px">
                       <div class="col-6">
                           <label>Tanggal</label>
