@@ -264,11 +264,41 @@ if (isset($_GET['id_pembelian'])) { ?>
                       <label>Jatuh Tempo</label>
                       <input type="date" id="jatuh_tempo" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" required>
                     </div>
-                    <!-- <div class="col-sm-8 invoice-col d-md-flex justify-content-md-end">
-                        <div class="row">
-                          <button type="button" name="reset" class="btn-lg btn-primary align-items-center" onclick="window.location.href='modules/transaksi/pembelian/proses.php?act=reset'" style="height : 52px" disabled="disabled">Reset</button>
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-5" style="margin-left : 24px;">
+                      <div class="row">
+                        <h5><b>History Pembelian Terdahulu</b></h5>
+                      </div>
+                      <div class="row" style="margin-top : 24px">
+                      <div class="col-12">
+                          <label>Nama Barang</label>
+                          <input type="text" placeholder = "Nama Barang" value="" class="form-control" readonly>
                         </div>
-                    </div> -->
+                      </div>
+                      <div class="row" style="margin-top : 24px">
+                      <div class="col-6">
+                          <label>No. Faktur</label>
+                          <input type="text" placeholder = "PB/XXXX/XXXX" value="" class="form-control" readonly>
+                        </div>
+                        <div class="col-6">
+                          <label>Harga Beli</label>
+                          <input type="text" placeholder = "Rp." value="" class="form-control" readonly>
+                        </div>
+                    </div>
+                      <div class="row" style="margin-top : 24px">
+                      <div class="col-6">
+                          <label>Tanggal</label>
+                          <input type="text"placeholder="DD/MM/YYYY" value="" class="form-control" readonly>
+                        </div>
+                        <div class="col-6">
+                          <label>Kuantitas</label>
+                          <input type="text" placeholder="0" value="" class="form-control" readonly>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row" style="margin : 24px 0 0 2px">
+                      <button type="button" name="reset" class="btn btn-secondary align-items-center" onclick="window.location.href='modules/transaksi/pembelian/proses.php?act=reset'" style="height : 50px" disabled>Reset</button>
                   </div>
                   <br>
                   <?php
@@ -276,9 +306,40 @@ if (isset($_GET['id_pembelian'])) { ?>
                     $no_transaksi = $_SESSION['temp_data_transaksi']['no_transaksi'];
                     $supplier = $_SESSION['temp_data_transaksi']['id_supplier'];
                     $jatuh_tempo = $_SESSION['temp_data_transaksi']['jatuh_tempo'];
+                    $barang_array = $_SESSION['temp_data_barang'];
+                    // Get the latest index of the temp_data_barang array
+                    $nama_barang = "Nama Barang";
+                    $total_kuantitas = "";
+                    $harga_barang = "0";
+                    $no_faktur = "PB/XXXX/XXXX";
+                    $tanggal = "";
+                    if (isset($_GET['id_barang'])) {
+                      $id_barang = $_GET['id_barang'];
+                      $execQuery = mysqli_query($conn, "SELECT max_hp.id_barang, b.nama_barang, SUM(hp.kuantitas) as total_kuantitas, hp.harga_barang, pb.no_faktur, pb.tanggal 
+                                                      FROM barang b 
+                                                      INNER JOIN 
+                                                      ( SELECT id_barang, MAX(id_pembelian) as max_id_pembelian FROM history_pembelian GROUP BY id_barang ) max_hp 
+                                                      ON b.id_barang = max_hp.id_barang 
+                                                      INNER JOIN history_pembelian hp ON hp.id_barang = max_hp.id_barang AND hp.id_pembelian = max_hp.max_id_pembelian 
+                                                      INNER JOIN pembelian pb ON pb.id_pembelian = hp.id_pembelian WHERE max_hp.id_barang = '$id_barang' 
+                                                      GROUP BY max_hp.id_barang, b.nama_barang;");
+                  
+                      while ($row = mysqli_fetch_array($execQuery, MYSQLI_ASSOC)) {
+                          // Access the values using the column names
+                          $id_barang = $row['id_barang'];
+                          $nama_barang = $row['nama_barang'];
+                          $total_kuantitas = $row['total_kuantitas'];
+                          $harga_barang = $row['harga_barang'];
+                          $no_faktur = $row['no_faktur'];
+                          $tanggal = $row['tanggal'];
+                      }
+                  }
+
+                  
                   ?>
                   <div class="col-sm-4 invoice-col">
-                  <form action="modules/transaksi/pembelian/proses.php?act=inserttemp" method="post"> <!-- form buka -->
+                  <form action="modules/transaksi/pembelian/proses.php?act=inserttemp" method="post"> 
+                    <!-- form buka -->
                       <input type="hidden" name="nomor_transaksi" placeholder="You Shouldn't See This" value='<?= $next_number?>' class="form-control" hidden>
                       <label>No. Faktur</label>
                       <input type="text" name="no_faktur" placeholder="No Faktur" value='<?=$newFaktur?>' class="form-control" readonly>
@@ -303,12 +364,47 @@ if (isset($_GET['id_pembelian'])) { ?>
                       <label>Jatuh Tempo</label>
                       <input type="date" id="jatuh_tempo" value="<?=$jatuh_tempo?>" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" readonly>
                     </div>
-                    <div class="col-sm-8 invoice-col d-md-flex justify-content-md-end">
-                    <div class="row">
-                      <button type="button" name="reset" class="btn-lg btn-primary align-items-center" onclick="window.location.href='modules/transaksi/pembelian/proses.php?act=reset'" style="height : 50px">Reset</button>
+                    <div class="col-sm-2 invoice-col d-md-flex justify-content-md-end">
+                  </div>
+                  <!-- History Pembelian Terdahulu -->
+                  <div class="col-sm-5" style="margin-left : 24px;">
+                      <div class="row">
+                        <h5><b>History Pembelian Terdahulu</b></h5>
+                      </div>
+                      <div class="row" style="margin-top : 24px">
+                      <div class="col-12">
+                          <label>Nama Barang</label>
+                          <input type="text" value="<?=$nama_barang?>" class="form-control" readonly>
+                        </div>
+                        </div>
+                        <div class="row" style="margin-top : 24px ; margin-left : 0px">
+                        <div class="col-6">
+                          <label>No. Faktur</label>
+                          <input type="text" value="<?=$no_faktur?>" class="form-control" readonly>
+                        </div>
+                        <div class="col-6">
+                          <label>Harga Beli</label>
+                          <?php
+                          $harga_barang_formatted = number_format($harga_barang, 0, ',', '.');
+                          ?>
+                          <input type="text" value="Rp. <?=$harga_barang_formatted?>" class="form-control" readonly>
+                        </div>
+                      </div>
+                      <div class="row" style="margin-top : 24px">
+                      <div class="col-6">
+                          <label>Tanggal</label>
+                          <input type="text"placeholder="DD/MM/YYYY" value="<?=$tanggal?>" class="form-control" readonly>
+                        </div>
+                        <div class="col-6">
+                          <label>Kuantitas</label>
+                          <input type="text" placeholder="0" value="<?=$total_kuantitas?>" class="form-control" readonly>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  </div>
+                  <div class="row" style="margin: 24px 0 0 2px">
+                      <button type="button" name="reset" class="btn btn-primary align-items-center" onclick="window.location.href='modules/transaksi/pembelian/proses.php?act=reset'" style="height : 50px">Reset</button>
+                    </div>
                   <br>
                   
                   <?php
@@ -433,11 +529,10 @@ if (isset($_GET['id_pembelian'])) { ?>
                         $netto = $value ['netto'];
                         $netto_formatted = number_format($netto, 0, ',', '.');
                         $diskon = $value ['diskon'];
-
                         ?>
                         <tr>
                           <td><?=$i?></td>
-                          <td><?=$nama_barang?></td>
+                          <td><a href="main.php?module=detailPembelian&id_barang=<?=$id_barang?>" style="text-decoration: none; color : black;"><?=$nama_barang?></a></td>
                           <td><?=$kuantitas?></td>
                           <td>Rp. <?=$harga_barang_formatted?></td>
                           <td>Rp. <?=$bruto_formatted?></td>
@@ -528,4 +623,3 @@ if (isset($_GET['id_pembelian'])) { ?>
     <?php 
   } 
 ?>
-
