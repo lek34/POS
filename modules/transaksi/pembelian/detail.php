@@ -269,7 +269,7 @@ if (isset($_GET['id_pembelian'])) { ?>
                       <div class="row">
                         <h5><b>History Pembelian Terdahulu</b></h5>
                       </div>
-                      <div class="row">
+                      <div class="row" style="margin-top : 24px">
                       <div class="col-12">
                           <label>Nama Barang</label>
                           <input type="text" placeholder = "Nama Barang" value="" class="form-control" readonly>
@@ -338,7 +338,8 @@ if (isset($_GET['id_pembelian'])) { ?>
                   
                   ?>
                   <div class="col-sm-4 invoice-col">
-                  <form action="modules/transaksi/pembelian/proses.php?act=inserttemp" method="post"> <!-- form buka -->
+                  <form action="modules/transaksi/pembelian/proses.php?act=inserttemp" method="post"> 
+                    <!-- form buka -->
                       <input type="hidden" name="nomor_transaksi" placeholder="You Shouldn't See This" value='<?= $next_number?>' class="form-control" hidden>
                       <label>No. Faktur</label>
                       <input type="text" name="no_faktur" placeholder="No Faktur" value='<?=$newFaktur?>' class="form-control" readonly>
@@ -375,6 +376,7 @@ if (isset($_GET['id_pembelian'])) { ?>
                           <label>Nama Barang</label>
                           <input type="text" value="<?=$nama_barang?>" class="form-control" readonly>
                         </div>
+                        </div>
                         <div class="row" style="margin-top : 24px ; margin-left : 0px">
                         <div class="col-6">
                           <label>No. Faktur</label>
@@ -382,10 +384,12 @@ if (isset($_GET['id_pembelian'])) { ?>
                         </div>
                         <div class="col-6">
                           <label>Harga Beli</label>
-                          <input type="text" value="Rp. <?=$harga_barang?>" class="form-control" readonly>
+                          <?php
+                          $harga_barang_formatted = number_format($harga_barang, 0, ',', '.');
+                          ?>
+                          <input type="text" value="Rp. <?=$harga_barang_formatted?>" class="form-control" readonly>
                         </div>
                       </div>
-                        </div>
                       <div class="row" style="margin-top : 24px">
                       <div class="col-6">
                           <label>Tanggal</label>
@@ -525,11 +529,10 @@ if (isset($_GET['id_pembelian'])) { ?>
                         $netto = $value ['netto'];
                         $netto_formatted = number_format($netto, 0, ',', '.');
                         $diskon = $value ['diskon'];
-
                         ?>
                         <tr>
                           <td><?=$i?></td>
-                          <td><a href="main.php?module=detailPembelian&id_barang=<?=$id_barang?>"><?=$nama_barang?></a></td>
+                          <td><a href="main.php?module=detailPembelian&id_barang=<?=$id_barang?>" style="text-decoration: none; color : black;"><?=$nama_barang?></a></td>
                           <td><?=$kuantitas?></td>
                           <td>Rp. <?=$harga_barang_formatted?></td>
                           <td>Rp. <?=$bruto_formatted?></td>
@@ -620,4 +623,3 @@ if (isset($_GET['id_pembelian'])) { ?>
     <?php 
   } 
 ?>
-
