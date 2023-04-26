@@ -269,6 +269,9 @@ if (isset($_GET['id_penjualan'])) { ?>
                       <br>
                       <label>Jatuh Tempo</label>
                       <input type="date" id="jatuh_tempo" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" required>
+                      <br>
+                      <label>Kendaraan</label>
+                      <input type="text" id="kendaraan" name="kendaraan" placeholder="kendaraan" class="form-control" required>
                     </div>
                     <div class="col-sm-2"></div>
                     <div class="col-sm-5" style="margin-left : 24px;">
