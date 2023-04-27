@@ -16,14 +16,20 @@ require_once "../../../auth/cek.php";
             $kontak  = mysqli_real_escape_string($conn, trim($_POST['kontak']));
             $keterangan = mysqli_real_escape_string($conn, trim($_POST['keterangan']));
             $alamat = mysqli_real_escape_string($conn, trim($_POST['alamat']));
-
-            $query = "INSERT INTO customer (nama, kontak, keterangan, alamat) VALUES ('$nama', '$kontak', '$keterangan', '$alamat')";
-            $execQuery = mysqli_query($conn, $query);
-
-            if ($execQuery){
-                header('location: ../../../main.php?module=dataCust&alert=1');
-            } else {
-                header('location: ../../../main.php?module=dataCust&alert=2');
+            //check data ada atau tidak
+            $check = "SELECT * FROM customer WHERE nama = '$nama'";
+            $result = mysqli_query($conn, $check);
+            if (mysqli_num_rows($result) <= 0) {
+                $query = "INSERT INTO customer (nama, kontak, keterangan, alamat) VALUES ('$nama', '$kontak', '$keterangan', '$alamat')";
+                $execQuery = mysqli_query($conn, $query);
+                if ($execQuery){
+                    header('location: ../../../main.php?module=dataCust&alert=1');
+                } else {
+                    header('location: ../../../main.php?module=dataCust&alert=2');
+                }
+            }
+            else {
+                header("location: ../../../main.php?module=dataCust&alert=8");
             }
         }
     }

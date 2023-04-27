@@ -16,14 +16,20 @@ require_once "../../../auth/cek.php";
             $no_rekening  = mysqli_real_escape_string($conn, trim($_POST['no_rekening']));
             $keterangan = mysqli_real_escape_string($conn, trim($_POST['keterangan']));
             $alamat = mysqli_real_escape_string($conn, trim($_POST['alamat']));
-
-            $query = "INSERT INTO supplier (nama, kontak, no_rekening, keterangan, alamat) VALUES ('$nama', '$kontak','$no_rekening', '$keterangan', '$alamat')";
-            $execQuery = mysqli_query($conn, $query);
-
-            if ($execQuery){
-                header('location: ../../../main.php?module=dataSup&alert=1');
-            } else {
-                header('location: ../../../main.php?module=dataSup&alert=2');
+            //check data ada atau tidak
+            $check = "SELECT * FROM supplier WHERE nama = '$nama'";
+            $result = mysqli_query($conn, $check);
+            if (mysqli_num_rows($result) <= 0) {
+                $query = "INSERT INTO supplier (nama, kontak, no_rekening, keterangan, alamat) VALUES ('$nama', '$kontak','$no_rekening', '$keterangan', '$alamat')";
+                $execQuery = mysqli_query($conn, $query);
+                if ($execQuery){
+                    header('location: ../../../main.php?module=dataSup&alert=1');
+                } else {
+                    header('location: ../../../main.php?module=dataSup&alert=2');
+                }
+            }
+            else {
+                header('location: ../../../main.php?module=dataSup&alert=8');
             }
         }
     }

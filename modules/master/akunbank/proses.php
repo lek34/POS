@@ -13,14 +13,20 @@ require_once "../../../auth/cek.php";
         if (isset($_POST['addAcc'])){
             $kode_akun = mysqli_real_escape_string($conn, trim($_POST['kode_akun']));
             $nama_akun  = mysqli_real_escape_string($conn, trim($_POST['nama_akun']));
-
-            $query = "INSERT INTO akun (kode_akun, nama_akun) VALUES ('$kode_akun', '$nama_akun')";
-            $execQuery = mysqli_query($conn, $query);
-
-            if ($execQuery){
-                header('location: ../../../main.php?module=noAcc&alert=1');
-            } else {
-                header('location: ../../../main.php?module=noAcc&alert=2');
+            //check data ada atau tidak
+            $check = "SELECT * FROM akun WHERE kode_akun = '$kode_akun'";
+            $result = mysqli_query($conn, $check);
+            if (mysqli_num_rows($result) <= 0) {
+                $query = "INSERT INTO akun (kode_akun, nama_akun) VALUES ('$kode_akun', '$nama_akun')";
+                $execQuery = mysqli_query($conn, $query);
+                if ($execQuery){
+                    header('location: ../../../main.php?module=noAcc&alert=1');
+                } else {
+                    header('location: ../../../main.php?module=noAcc&alert=2');
+                }
+            }
+            else {
+                header('location: ../../../main.php?module=noAcc&alert=8');
             }
         }
     }

@@ -18,16 +18,24 @@ require_once "../../../auth/cek.php";
             $uombesar = mysqli_real_escape_string($conn, trim($_POST['uombesar']));
             $uomkecil = mysqli_real_escape_string($conn, trim($_POST['uomkecil']));
             $hargamodal = mysqli_real_escape_string($conn, trim($_POST['hargamodal']));
-            $query = "INSERT INTO barang (nama_barang,satuan_besar,satuan_kecil,uom_besar,uom_kecil,harga_modal) VALUES ('$barang','$satuanbesar','$satuankecil','$uombesar','$uomkecil','$hargamodal')";
-            $execQuery = mysqli_query($conn, $query);
+            //check data ada atau tidak
+            $check = "SELECT * FROM barang WHERE nama_barang = '$barang'";
+            $result = mysqli_query($conn, $check);
+            if (mysqli_num_rows($result) <= 0) {
+                $query = "INSERT INTO barang (nama_barang,satuan_besar,satuan_kecil,uom_besar,uom_kecil,harga_modal) VALUES ('$barang','$satuanbesar','$satuankecil','$uombesar','$uomkecil','$hargamodal')";
+                $execQuery = mysqli_query($conn, $query);
+                if ($execQuery) {
+                    //jika berhasil tampilkan pesan berhasil simpan data
+                    header("location: ../../../main.php?module=dataItem&alert=1");
+                } else {
+                    header("location: ../../../main.php?module=dataItem&alert=2");
+                }
+            }
+            else {
+                header("location: ../../../main.php?module=dataItem&alert=8");
+            }
             //or die('Ada kesalahan pada query insert : '.mysqli_error($conn));
             // cek query
-            if ($execQuery) {
-                //jika berhasil tampilkan pesan berhasil simpan data
-                header("location: ../../../main.php?module=dataItem&alert=1");
-            } else {
-                header("location: ../../../main.php?module=dataItem&alert=2");
-            }
         }
     }
     elseif ($_GET['act']=='edit') {

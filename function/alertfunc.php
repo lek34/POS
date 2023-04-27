@@ -49,6 +49,8 @@
                 case 7:
                   alertText(7, "Stock tidak mencukupi");
                 break;  
+                case 8:
+                  alertText(8, "Data dengan nama ini sudah ada");
           }
         }
 ?>
