@@ -123,80 +123,77 @@ $('.toastrDefaultSuccess').click(function() {
     });
 </script>
 <script>
-      function updateUOM(id_barang) {
-        var isi_header = document.getElementById('isi_header');
-var isi_header_added = false;
-var uom_select = document.getElementById("uom_select");
-var selectedOption = "";
+function updateUOM(id_barang) {
+  var isi_header = document.getElementById('isi_header');
+  var uom_select = document.getElementById("uom_select");
+  var selectedOption = "";
 
-function clearIsiHeaderAdded() {
-  isi_header_added = false;
-}
+  // Clear the select options
+  uom_select.innerHTML = "";
 
-clearIsiHeaderAdded();
+  <?php
+  $pilihansatuan = mysqli_query($conn, "select * from barang WHERE status = 'Y'");
+  while ($fetcharray = mysqli_fetch_array($pilihansatuan)) {
+    $barang_id = $fetcharray['id_barang'];
+    $uombesar = $fetcharray['uom_besar'];
+    $uomkecil = $fetcharray['uom_kecil'];
+    $satuanbesar = $fetcharray['satuan_besar'];
+    $satuankecil = $fetcharray['satuan_kecil'];
+  ?>
 
-<?php
-$pilihansatuan = mysqli_query($conn, "select * from barang WHERE status = 'Y'");
-while ($fetcharray = mysqli_fetch_array($pilihansatuan)) {
-  $barang_id = $fetcharray['id_barang'];
-  $uombesar = $fetcharray['uom_besar'];
-  $uomkecil = $fetcharray['uom_kecil'];
-  $satuanbesar = $fetcharray['satuan_besar'];
-  $satuankecil = $fetcharray['satuan_kecil'];
-?>
+    if (<?= $barang_id; ?> == id_barang) {
+      uom_select.add(new Option('<?= $uombesar; ?>', 'besar'));
+      uom_select.add(new Option('<?= $uomkecil; ?>', 'kecil'));
+      uom_select.selectedIndex = -1;
 
-  if (<?= $barang_id; ?> == id_barang) {
-    uom_select.add(new Option('<?= $uombesar; ?>', 'besar'));
-    uom_select.add(new Option('<?= $uomkecil; ?>', 'kecil'));
-    uom_select.selectedIndex = -1;
+      console.log('satuan kecil:', '<?= $satuankecil; ?>');
+      document.getElementById('satuankecil_input').value = '<?= $satuankecil; ?>';
+    }
 
-    console.log('satuan kecil:', '<?= $satuankecil; ?>');
-    document.getElementById('satuankecil_input').value = '<?= $satuankecil; ?>';
-
-    // Remove the previous event listener
-    uom_select.removeEventListener('change', changeUOMSelect);
-
-    // Add a new event listener
-    uom_select.addEventListener('change', changeUOMSelect);
+  <?php
   }
-<?php
+  ?>
 }
-?>
 
-function changeUOMSelect() {
-  selectedOption = uom_select.value;
+function changeUOMSelect(uom_select, isi_header_added) {
+  var selectedOption = uom_select.value;
 
   if (selectedOption === 'besar' && !isi_header_added) {
-    var isi_th = document.createElement('th');
-    isi_th.textContent = 'Isi';
+  var isi_th = document.createElement('th');
+  isi_th.textContent = 'Isi';
 
-    isi_header.parentNode.insertBefore(isi_th, isi_header);
+  isi_header.parentNode.insertBefore(isi_th, isi_header);
 
-    isi_header_added = true;
+  isi_header_added = true;
 
+  var table_rows = document.querySelectorAll('#tableBarang tbody tr');
+
+  for (var i = 0; i < table_rows.length; i++) {
+    var qty_td = table_rows[i].querySelector('td:nth-child(3)');
     var isi_td = document.createElement('td');
     isi_td.textContent = '<?= $satuankecil ?> / <?= $uomkecil ?>';
+    table_rows[i].insertBefore(isi_td, qty_td);
 
-    var table_rows = document.querySelectorAll('#tableBarang tbody tr');
-
-    for (var i = 0; i < table_rows.length; i++) {
-      var qty_td = table_rows[i].querySelector('td:nth-child(3)');
-      table_rows[i].insertBefore(isi_td.cloneNode(true), qty_td);
-    }
-  } else if (selectedOption === 'kecil' && isi_header_added) {
-    var isi_th = document.querySelector('#isi_header th:last-child');
-    isi_th.parentNode.removeChild(isi_th);
-
-    isi_header_added = false;
-
-    var isi_td = document.querySelector('#tableBarang tbody td:last-child');
-    isi_td.parentNode.removeChild(isi_td);
+    // Keep track of which cell contains the isi information
+    table_rows[i].isi_td = isi_td;
   }
 }
 
-// Add the event listener outside the while loop
-uom_select.addEventListener('change', changeUOMSelect);
-    }
+if (selectedOption === '' && isi_header.querySelector('th.isi') != null) {
+  var isi_th = isi_header.querySelector('th.isi');
+  isi_th.parentNode.removeChild(isi_th);
+
+  var isi_td = document.querySelector('#tableBarang tbody td.isi');
+  isi_td.parentNode.removeChild(isi_td);
+}
+}
+
+var isi_header_added = false;
+var uom_select = document.getElementById("uom_select");
+
+uom_select.addEventListener('change', function() {
+  changeUOMSelect(uom_select, isi_header_added);
+}); 
     </script>
 </body>
 </html>
