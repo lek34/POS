@@ -154,7 +154,7 @@ function updateUOM(id_barang) {
   ?>
 }
     </script>
-    
+
 <script>
 // get the select element
 var selectElement = document.getElementsByName("id_barang")[0];
