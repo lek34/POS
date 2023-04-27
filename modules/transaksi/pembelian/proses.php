@@ -24,21 +24,12 @@ require_once "../../../auth/cek.php";
             $faktur_barang = trim($_POST['no_faktur']);
             $id_barang = mysqli_real_escape_string($conn, trim($_POST['id_barang']));
             
-            if (isset($_POST['uom']) && isset($_POST['satuankecil_input']) && isset($_POST['kuantitas'])) {
-                $uom = $_POST['uom'];
-                $satuan_kecil = $_POST['satuankecil_input'];
-                $kuantitas = $_POST['kuantitas'];
-                
-                if ($uom == 'besar') {
-                    $kuantitas = $kuantitas * $satuan_kecil;
-                    echo "Kuantitas after multiplication: " . $kuantitas;
-                    header("location: ../../../main.php?module=detailPembelian&kuantitas=$kuantitas");
-                    exit; // don't forget to exit after sending header
-                } else {
-                    $kuantitas;
-                }
-            } else {
-                echo "One or more POST variables are not set";
+            $uom = $_POST['uom'];
+            $satuan_kecil = $_POST['satuan_kecil'];
+            $kuantitas = $_POST['kuantitas'];
+
+            if ($uom == 'besar') {
+            $kuantitas = $kuantitas * $satuan_kecil;
             }
 
             $harga_barang = mysqli_real_escape_string($conn, trim($_POST['harga_barang']));

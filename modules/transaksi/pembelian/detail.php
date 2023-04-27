@@ -424,12 +424,12 @@ if (isset($_GET['id_pembelian'])) { ?>
               <!-- /.row -->
               <div class="row">
                 <div class="col-12 table-responsive">
-                  <table class="table table-striped">
+                  <table class="table table-striped" id="tableBarang">
                   <thead>
                     <tr>
                       <th>Nama Barang</th>
                       <th>Satuan</th>
-                      <th>Qty</th>
+                      <th id="isi_header">Qty</th>
                       <th>Harga Barang</th>
                       <th>Disc</th>
                       <th>Submit</th>
@@ -457,41 +457,41 @@ if (isset($_GET['id_pembelian'])) { ?>
 <td>
   <select name="uom" class="form-control" id="uom_select">
   </select>
-  <input type="text" class="form-control" name="satuan_kecil" id="satuankecil_input">
+  <input type="text" class="form-control" name="satuan_kecil" id="satuankecil_input" hidden>
 </td>
   <td>
   <input type="text" class="form-control" name="kuantitas" required>
   </td>
-                            <td>
-                            <div class="input-group mb-3">
-                              <div class="input-group-append">
-                                <span class="input-group-text">Rp.</span>
-                              </div>
-                              <input type="text" class="form-control" name="harga_barang" required>
-                            </div>
-                            </td>
-                            <td>
-                            <div class="input-group mb-3">
-                              <input type="text" class="form-control" name="disc" value="0" required>
-                              <div class="input-group-append">
-                                <span class="input-group-text">%</span>
-                              </div>
-                            </div>
-                            <td>
-                              <div class="row">
-                                <div class = "col">
-                                    <button type="submit" name="inserttemp" class="btn btn-outline-secondary">
-                                      Tambah
-                                    </button>
-                                </div>
-                            </div>
-                          </td>
-                        </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-              </form>
+      <td>
+      <div class="input-group mb-3">
+        <div class="input-group-append">
+          <span class="input-group-text">Rp.</span>
+        </div>
+        <input type="text" class="form-control" name="harga_barang" required>
+      </div>
+      </td>
+      <td>
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" name="disc" value="0" required>
+        <div class="input-group-append">
+          <span class="input-group-text">%</span>
+        </div>
+      </div>
+      <td>
+        <div class="row">
+          <div class = "col">
+              <button type="submit" name="inserttemp" class="btn btn-outline-secondary" onclick="clearIsiHeaderAdded()">
+                Tambah
+              </button>
+          </div>
+      </div>
+    </td>
+        </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+</form>
 <!-- form tutup -->
                 <br>
               <!-- Table row -->
