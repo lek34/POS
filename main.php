@@ -155,45 +155,44 @@ function updateUOM(id_barang) {
   ?>
 }
 
-function changeUOMSelect(uom_select, isi_header_added) {
-  var selectedOption = uom_select.value;
+function changeUOMSelect(targetId) {
+  selectedOption = uom_select.value;
 
   if (selectedOption === 'besar' && !isi_header_added) {
-  var isi_th = document.createElement('th');
-  isi_th.textContent = 'Isi';
-
-  isi_header.parentNode.insertBefore(isi_th, isi_header);
-
-  isi_header_added = true;
-
-  var table_rows = document.querySelectorAll('#tableBarang tbody tr');
-
-  for (var i = 0; i < table_rows.length; i++) {
-    var qty_td = table_rows[i].querySelector('td:nth-child(3)');
     var isi_td = document.createElement('td');
-    isi_td.textContent = '<?= $satuankecil ?> / <?= $uomkecil ?>';
-    table_rows[i].insertBefore(isi_td, qty_td);
+    isi_td.id = 'isi_td';
+    var isi_th = document.createElement('th');
+    isi_th.textContent = 'Isi';
 
-    // Keep track of which cell contains the isi information
-    table_rows[i].isi_td = isi_td;
+    isi_header.parentNode.insertBefore(isi_th, isi_header);
+
+    isi_header_added = true;
+
+    var table_rows = document.querySelectorAll('#tableBarang tbody tr');
+
+    for (var i = 0; i < table_rows.length; i++) {
+      var qty_td = table_rows[i].querySelector('td:nth-child(3)');
+      table_rows[i].insertBefore(isi_td.cloneNode(true), qty_td);
+    }
+
+    // update the target element with the new text content
+    var target = document.getElementById(targetId);
+    target.textContent = '<?= $satuankecil ?> / <?= $uomkecil ?>';
+  } else if (selectedOption === 'kecil' && isi_header_added) {
+    var isi_th = document.querySelector('#isi_header th:last-child');
+    isi_th.parentNode.removeChild(isi_th);
+
+    isi_header_added = false;
+
+    var isi_td = document.querySelector('#tableBarang tbody td:last-child');
+    isi_td.parentNode.removeChild(isi_td);
   }
+
+  // clear the text content of the target element
+  var target = document.getElementById(targetId);
+  target.textContent = '';
 }
 
-if (selectedOption === '' && isi_header.querySelector('th.isi') != null) {
-  var isi_th = isi_header.querySelector('th.isi');
-  isi_th.parentNode.removeChild(isi_th);
-
-  var isi_td = document.querySelector('#tableBarang tbody td.isi');
-  isi_td.parentNode.removeChild(isi_td);
-}
-}
-
-var isi_header_added = false;
-var uom_select = document.getElementById("uom_select");
-
-uom_select.addEventListener('change', function() {
-  changeUOMSelect(uom_select, isi_header_added);
-}); 
     </script>
 </body>
 </html>
