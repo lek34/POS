@@ -428,6 +428,7 @@ if (isset($_GET['id_pembelian'])) { ?>
                   <thead>
                     <tr>
                       <th>Nama Barang</th>
+                      <th>Satuan</th>
                       <th>Qty</th>
                       <th>Harga Barang</th>
                       <th>Disc</th>
@@ -437,26 +438,30 @@ if (isset($_GET['id_pembelian'])) { ?>
                     <tbody>
                       
                         <tr>
-                            <td>
-                            <select name="id_barang" class="form-control">
-                              <?php
-                              $pilihanbarang = mysqli_query($conn, "select * from barang WHERE status = 'Y'");
-                              while ($fetcharray = mysqli_fetch_array($pilihanbarang)) {
-                              $namabarang = $fetcharray['nama_barang'];
-                              $id_barang= $fetcharray['id_barang'];
-                              ?>
-                              <option value="<?= $id_barang; ?>">
-                                  <?= $namabarang; ?>
-                              </option>
-                              <?php
-                              }
-                              ?>
-                          </select>
-                            </td>
-                            <td>
-                            <input type="text" class="form-control" name="kuantitas" required>
-                            
-                            </td>
+                        <td>
+  <select name="id_barang" class="form-control" onchange="updateUOM(this.value)">
+    <?php
+    $pilihanbarang = mysqli_query($conn, "select * from barang WHERE status = 'Y'");
+    while ($fetcharray = mysqli_fetch_array($pilihanbarang)) {
+      $namabarang = $fetcharray['nama_barang'];
+      $barang_id = $fetcharray['id_barang']; // use a different variable name here
+    ?>
+      <option value="<?= $barang_id; ?>">
+        <?= $namabarang; ?>
+      </option>
+    <?php
+    }
+    ?>
+  </select>
+</td>
+<td>
+  <select name="uom" class="form-control" id="uom_select">
+  </select>
+  <input type="text" class="form-control" name="satuan_kecil" id="satuankecil_input">
+</td>
+  <td>
+  <input type="text" class="form-control" name="kuantitas" required>
+  </td>
                             <td>
                             <div class="input-group mb-3">
                               <div class="input-group-append">

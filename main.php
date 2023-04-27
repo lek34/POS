@@ -122,5 +122,29 @@ $('.toastrDefaultSuccess').click(function() {
       toastr.success('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
     });
 </script>
+<script>
+      function updateUOM(id_barang) {
+        var uom_select = document.getElementById("uom_select");
+        uom_select.innerHTML = ""; // Clear any existing options
+        <?php
+        $pilihansatuan = mysqli_query($conn, "select * from barang WHERE status = 'Y'");
+        while ($fetcharray = mysqli_fetch_array($pilihansatuan)) {
+          $barang_id = $fetcharray['id_barang']; // use the same variable name as above
+          $uombesar = $fetcharray['uom_besar'];
+          $uomkecil = $fetcharray['uom_kecil'];
+          $satuanbesar = $fetcharray['satuan_besar'];
+          $satuankecil = $fetcharray['satuan_kecil'];
+        ?>
+          if (<?= $barang_id; ?> == id_barang) {
+            uom_select.add(new Option('<?= $uombesar; ?>', 'besar'));
+            uom_select.add(new Option('<?= $uomkecil; ?>', 'kecil'));
+            console.log('satuan kecil:', '<?= $satuankecil; ?>');
+            document.getElementById('satuankecil_input').value = '<?= $satuankecil; ?>'; // set the value of the input field
+          }
+        <?php
+        }
+        ?>
+      }
+    </script>
 </body>
 </html>

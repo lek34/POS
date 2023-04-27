@@ -13,8 +13,12 @@ require_once "../../../auth/cek.php";
     if ($_GET['act']=='insert') {
         if(isset($_POST['addnewbarang'])){
             $barang = mysqli_real_escape_string($conn, trim($_POST['namabarang']));
-            
-            $query = "INSERT INTO barang (nama_barang) VALUES ('$barang')";
+            $satuanbesar = mysqli_real_escape_string($conn, trim($_POST['satuanbesar']));
+            $satuankecil = mysqli_real_escape_string($conn, trim($_POST['satuankecil']));
+            $uombesar = mysqli_real_escape_string($conn, trim($_POST['uombesar']));
+            $uomkecil = mysqli_real_escape_string($conn, trim($_POST['uomkecil']));
+            $hargamodal = mysqli_real_escape_string($conn, trim($_POST['hargamodal']));
+            $query = "INSERT INTO barang (nama_barang,satuan_besar,satuan_kecil,uom_besar,uom_kecil,harga_modal) VALUES ('$barang','$satuanbesar','$satuankecil','$uombesar','$uomkecil','$hargamodal')";
             $execQuery = mysqli_query($conn, $query);
             //or die('Ada kesalahan pada query insert : '.mysqli_error($conn));
             // cek query
