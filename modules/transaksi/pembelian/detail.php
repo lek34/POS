@@ -440,6 +440,7 @@ if (isset($_GET['id_pembelian'])) { ?>
                         <tr>
                         <td>
   <select name="id_barang" class="form-control" onchange="updateUOM(this.value)">
+  <option value="">Select an item</option>
     <?php
     $pilihanbarang = mysqli_query($conn, "select * from barang WHERE status = 'Y'");
     while ($fetcharray = mysqli_fetch_array($pilihanbarang)) {
