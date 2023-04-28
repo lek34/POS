@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 27, 2023 at 12:55 PM
+-- Generation Time: Apr 28, 2023 at 10:58 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.1.17
 
@@ -64,8 +64,8 @@ CREATE TABLE `barang` (
 --
 
 INSERT INTO `barang` (`id_barang`, `nama_barang`, `harga_modal`, `satuan_besar`, `satuan_kecil`, `uom_besar`, `uom_kecil`, `kuantitas`, `status`) VALUES
-(1, 'Iphone', 0, 0, 0, 'Kotak', 'Pcs', 19960, 'Y'),
-(2, 'Samsung', 0, 0, 0, 'Kotak', 'Pcs', 0, 'Y'),
+(1, 'Iphone', 10000, 0, 0, 'Kotak', 'Pcs', 19960, 'Y'),
+(2, 'Samsung', 15000, 0, 0, 'Kotak', 'Pcs', 0, 'Y'),
 (3, 'Masker', 20000, 1, 20, 'Kotak', 'Pcs', 0, 'Y');
 
 -- --------------------------------------------------------
@@ -188,6 +188,25 @@ INSERT INTO `is_users` (`id_user`, `username`, `nama_user`, `password`, `email`,
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `jasa`
+--
+
+CREATE TABLE `jasa` (
+  `id_jasa` int(11) NOT NULL,
+  `nama_jasa` varchar(50) NOT NULL,
+  `status` varchar(10) NOT NULL DEFAULT 'Y'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `jasa`
+--
+
+INSERT INTO `jasa` (`id_jasa`, `nama_jasa`, `status`) VALUES
+(0, 'GANTI OLI', 'Y');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `pembelian`
 --
 
@@ -225,6 +244,7 @@ CREATE TABLE `penjualan` (
   `no_faktur` varchar(256) NOT NULL,
   `nomor_transaksi` int(11) NOT NULL,
   `id_customer` int(11) NOT NULL,
+  `id_jasa` int(11) NOT NULL,
   `plat` varchar(20) NOT NULL,
   `tanggal` date NOT NULL DEFAULT current_timestamp(),
   `jatuh_tempo` date DEFAULT NULL,
@@ -238,11 +258,11 @@ CREATE TABLE `penjualan` (
 -- Dumping data for table `penjualan`
 --
 
-INSERT INTO `penjualan` (`id_penjualan`, `no_faktur`, `nomor_transaksi`, `id_customer`, `plat`, `tanggal`, `jatuh_tempo`, `netto`, `status_hapus`, `status_pembayaran`, `creator`) VALUES
-(1, 'PJ/2304/0001', 1, 2, '', '2023-04-24', '2023-04-26', 50000, 'Y', 'N', 'admin'),
-(2, 'PJ/2304/0002', 2, 3, '', '2023-04-24', '2023-04-26', 200050000, 'Y', 'N', 'admin'),
-(3, 'PJ/2304/0003', 3, 2, '', '2023-04-24', '2023-04-25', 100000, 'Y', 'N', 'admin'),
-(4, 'PJ/2304/0004', 4, 3, '', '2023-04-26', '2023-04-27', 200000000, 'Y', 'N', 'admin');
+INSERT INTO `penjualan` (`id_penjualan`, `no_faktur`, `nomor_transaksi`, `id_customer`, `id_jasa`, `plat`, `tanggal`, `jatuh_tempo`, `netto`, `status_hapus`, `status_pembayaran`, `creator`) VALUES
+(1, 'PJ/2304/0001', 1, 2, 0, '', '2023-04-24', '2023-04-26', 50000, 'Y', 'N', 'admin'),
+(2, 'PJ/2304/0002', 2, 3, 0, '', '2023-04-24', '2023-04-26', 200050000, 'Y', 'N', 'admin'),
+(3, 'PJ/2304/0003', 3, 2, 0, '', '2023-04-24', '2023-04-25', 100000, 'Y', 'N', 'admin'),
+(4, 'PJ/2304/0004', 4, 3, 0, '', '2023-04-26', '2023-04-27', 200000000, 'Y', 'N', 'admin');
 
 -- --------------------------------------------------------
 
