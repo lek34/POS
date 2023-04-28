@@ -151,6 +151,11 @@
   while ($data = mysqli_fetch_array($execQuery)) {
     $id_barang = $data['id_barang'];
     $barang = $data ['nama_barang'];
+    $uombesar = $data ['uom_besar'];
+    $uomkecil = $data ['uom_kecil'];
+    $satuanbesar = $data ['satuan_besar'];
+    $satuankecil = $data ['satuan_kecil'];
+    $harga_modal = $data ['harga_modal'];
     $kuantitas = $data ['kuantitas'];
 ?>
 <div class="modal fade" id="edit<?=$id_barang;?>">
@@ -167,9 +172,42 @@
         <div class="modal-body">
             <br>
             <form action="modules/master/barang/proses.php?act=edit" method="post">
-                <input type="hidden" name="id_barang" value="<?=$id_barang;?>">
+            <div class="row">
+                <div class="col-12">
                 <label>Nama Barang</label>
-                <input type="text" name="namabarang" value="<?=$barang;?>" class="form-control" >
+                  <input type="text" name="namabarang" value="<?=$barang;?>" placeholder="Nama Barang" class="form-control" required>
+                </div>
+              </div>
+
+              <div class="row" style="margin-top: 24px;">
+                <div class="col-6">    
+                  <label>Satuan Besar</label>
+                  <input type="text" name="satuanbesar"  value="<?=$satuanbesar;?>" placeholder="Nama Barang" class="form-control" required>
+                </div>   
+                <div class="col-6">   
+                  <label>UOM Besar</label>
+                  <input type="text" name="uombesar"  value="<?=$uombesar;?>" placeholder="UOM" class="form-control" required>
+                </div>    
+              </div>  
+
+              <div class="row" style="margin-top: 24px;">
+                <div class="col-6">    
+                  <label>Satuan Kecil</label>
+                  <input type="text" name="satuankecil"  value="<?=$satuankecil;?>" placeholder="Nama Barang" class="form-control" required>
+                </div>   
+                <div class="col-6">   
+                  <label>UOM Kecil</label>
+                  <input type="text" name="uomkecil"  value="<?=$uomkecil;?>" placeholder="UOM" class="form-control" required>
+                </div>    
+              </div>  
+               
+              <div class="row" style="margin-top: 24px;">
+                <div class="col-12">
+                <label>Harga Modal</label>
+                  <input type="text" name="hargamodal"  value="<?=$harga_modal;?>" placeholder="Nama Barang" class="form-control" required>
+                </div>
+              </div>
+
                 <br>
                 <br>
 				    <button type="button" class="btn btn-danger" style="float: left;" data-dismiss="modal">Close</button>

@@ -156,20 +156,21 @@ function updateUOM(id_barang) {
     </script>
 
 <script>
-// get the select element
-var selectElement = document.getElementsByName("id_barang")[0];
+const costPriceInput = document.getElementById('costPrice');
+const sellingPriceInput = document.getElementById('harga_barang');
+const marginInput = document.getElementById('margin');
+const barangIdInput = document.getElementById('id_barang_penjualan');
 
-// add event listener for onchange event
-selectElement.addEventListener("change", function() {
-// get the selected option
-var selectedOption = selectElement.options[selectElement.selectedIndex];
-
-// check if the selected option value is not empty
-if (selectedOption.value !== "") {
-// remove the first option element
-selectElement.removeChild(selectElement.options[0]);
+function updateSellingPrice() {
+  const costPrice = parseFloat(barangIdInput.options[barangIdInput.selectedIndex].dataset.hargaModal);
+  const margin = parseFloat(marginInput.value);
+  const sellingPrice = costPrice * (1 + margin / 100);
+  sellingPriceInput.value = sellingPrice.toFixed(0); 
 }
-});
+
+barangIdInput.addEventListener('change', updateSellingPrice);
+marginInput.addEventListener('input', updateSellingPrice);
+
 
 </script>
 </body>

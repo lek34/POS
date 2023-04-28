@@ -441,6 +441,7 @@ if (isset($_GET['id_penjualan'])) { ?>
                     <tr>
                       <th>Nama Barang</th>
                       <th>Qty</th>
+                      <th>Margin</th>
                       <th>Harga Barang</th>
                       <th>Disc</th>
                       <th>Submit</th>
@@ -450,16 +451,18 @@ if (isset($_GET['id_penjualan'])) { ?>
                       
                         <tr>
                             <td>
-                            <select name="id_barang" class="form-control">
+                            <select name="id_barang_penjualan"  id="id_barang_penjualan" class="form-control">
                               <?php
                               $pilihanbarang = mysqli_query($conn, "select * from barang WHERE status = 'Y'");
                               while ($fetcharray = mysqli_fetch_array($pilihanbarang)) {
                               $namabarang = $fetcharray['nama_barang'];
-                              $id_barang= $fetcharray['id_barang'];
+                              $barang_id = $fetcharray['id_barang'];
+                              $harga_modal= $fetcharray['harga_modal'];
                               ?>
-                              <option value="<?= $id_barang; ?>">
+                              <option value="<?= $barang_id; ?>" data-harga-modal="<?= $harga_modal; ?>">
                                   <?= $namabarang; ?>
                               </option>
+                               
                               <?php
                               }
                               ?>
@@ -468,14 +471,22 @@ if (isset($_GET['id_penjualan'])) { ?>
                             <td>
                               <input type="text" class="form-control" name="kuantitas" required>
                             </td>
+
+                            <td>
+                              <input type="hidden" id="costPrice" value="<?= $harga_modal; ?>">
+                              <input type="text" class="form-control" name="margin" id="margin" required>
+                        
+                            </td>
+
                             <td>
                             <div class="input-group mb-3">
                               <div class="input-group-append">
                                 <span class="input-group-text">Rp.</span>
                               </div>
-                              <input type="text" class="form-control" name="harga_barang" required>
+                              <input type="text" class="form-control" name="harga_barang" id="harga_barang" required>
                             </div>
                             </td>
+                            
                             <td>
                             <div class="input-group mb-3">
                               <input type="text" class="form-control" name="disc" value="0" required>
@@ -591,10 +602,35 @@ if (isset($_GET['id_penjualan'])) { ?>
 
               <div class="row">
                 <!-- accepted payments column -->
-                <div class="col-6">
+                <div class="col-4">
+                  <label>Nama Jasa</label>
+                        <select name="id_jasa" class="form-control">
+                          <option value=""></option>
+                              <?php
+                              $pilihanjasa = mysqli_query($conn, "select * from jasa WHERE status = 'Y'");
+                              while ($fetcharray = mysqli_fetch_array($pilihanjasa)) {
+                              $namajasa = $fetcharray['nama_jasa'];
+                              $id_jasa = $fetcharray['id_jasa'];
+                              ?>
+                              <option value="<?= $id_jasa; ?>">
+                                  <?= $namajasa; ?>
+                              </option>
+                               
+                              <?php
+                              }
+                              ?>
+                          </select>
+                      <br>
+                      <label>Harga Jasa</label>
+                      <input type="text" class="form-control" name="hargajasa">
+                      <br>
+                      <label>Deskripsi</label>
+                      <input type="text" class="form-control" name="deskripsijasa">
+                </div>
+                <div class="col-4">
                 </div>
                 <!-- /.col -->
-                <div class="col-6">
+                <div class="col-4">
                   <p class="lead">Jatuh Tempo : <?=$jatuh_tempo_bawah?></p>
                   <div class="table-responsive">
                     <table class="table">

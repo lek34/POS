@@ -24,7 +24,7 @@ require_once "../../../auth/cek.php";
                 'kendaraan' => $kendaraan
             );
             $faktur_barang = trim($_POST['no_faktur']);
-            $id_barang = mysqli_real_escape_string($conn, trim($_POST['id_barang']));
+            $id_barang = mysqli_real_escape_string($conn, trim($_POST['id_barang_penjualan']));
             $kuantitas = mysqli_real_escape_string($conn, trim($_POST['kuantitas']));
             $harga_barang = mysqli_real_escape_string($conn, trim($_POST['harga_barang']));
             $disc =  mysqli_real_escape_string($conn, trim($_POST['disc']));
