@@ -68,11 +68,29 @@ require_once "../../../auth/cek.php";
                     'user' => $user,
                     'diskon' => $diskon
                 );
-                header('location: ../../../main.php?module=detailPenjualan');
+                
             }
-            
+            header('location: ../../../main.php?module=detailPenjualan');
         }
     } 
+
+    elseif ($_GET['act'] == 'insertTempJasa'){
+        if (isset($_POST['insertTempJasa'])){
+            $id_jasa = mysqli_real_escape_string($conn, trim($_POST['id_jasa']));
+            $harga_jasa = mysqli_real_escape_string($conn, trim($_POST['harga_jasa']));
+            $deskripsi = mysqli_real_escape_string($conn, trim($_POST['deskripsi_jasa']));
+
+            $_SESSION['temp_jasa'][] =  array (
+                'id_jasa' => $id_jasa,
+                'harga_jasa' => $harga_jasa,
+                'deskripsi' => $deskripsi,
+            );
+            header('location: ../../../main.php?module=detailPenjualan');
+        }
+    }
+
+    
+
     elseif ($_GET['act'] == 'deleteList'){
         if (isset($_POST['deleteList'])){
             $id_list = $_POST['indeks'];
@@ -82,9 +100,21 @@ require_once "../../../auth/cek.php";
             header('location: ../../../main.php?module=detailPenjualan');
         }
     }
+
+    elseif ($_GET['act'] == 'deleteJasa'){
+        if (isset($_POST['deleteJasa'])){
+            $id_listjasa = $_POST['indeks'];
+
+            unset($_SESSION['temp_jasa'][$id_listjasa]);
+
+            header('location: ../../../main.php?module=detailPenjualan');
+        }
+    }
+
     elseif ($_GET['act'] == 'reset'){
             unset($_SESSION['temp_transaksi_jual']);
             unset($_SESSION['temp_data_jual']);
+            unset($_SESSION['temp_jasa']);
 
             header('location: ../../../main.php?module=detailPenjualan');
         

@@ -433,9 +433,9 @@ if (isset($_GET['id_penjualan'])) { ?>
                   ?>
                 
               <!-- /.row -->
-              <form action="">
               <div class="row">
                 <div class="col-12 table-responsive">
+                <h3>List Barang :</h3>
                   <table class="table table-striped">
                   <thead>
                     <tr>
@@ -521,7 +521,6 @@ if (isset($_GET['id_penjualan'])) { ?>
               <!-- Table row -->
               <div class="row">
                 <div class="col-12 table-responsive">
-                  <h3>List Barang :</h3>
                   <table class="table table-striped">
                     <thead>
                     <tr>
@@ -606,12 +605,20 @@ if (isset($_GET['id_penjualan'])) { ?>
                 <!-- /.col -->
               </div>
               <!-- /.row -->
-
               <div class="row">
-                <!-- accepted payments column -->
-                <div class="col-4">
-                  <label>Nama Jasa</label>
-                        <select name="id_jasa" class="form-control">
+                <div class="col-12 table-responsive">
+                  <h3>Jasa</h3>
+                    <table class="table table-striped">
+                      <thead>
+                        <th>Nama Jasa</th>
+                        <th>Harga Jasa</th>
+                        <th>Deskripsi</th>
+                        <th>Submit</th>
+                      </thead>
+                      <tbody>
+                        <form action="modules/transaksi/penjualan/proses.php?act=insertTempJasa" method="post">
+                          <td>
+                          <select name="id_jasa" class="form-control">
                           <option value=""></option>
                               <?php
                               $pilihanjasa = mysqli_query($conn, "select * from jasa WHERE status = 'Y'");
@@ -627,14 +634,77 @@ if (isset($_GET['id_penjualan'])) { ?>
                               }
                               ?>
                           </select>
-                      <br>
-                      <label>Harga Jasa</label>
-                      <input type="text" class="form-control" name="hargajasa">
-                      <br>
-                      <label>Deskripsi</label>
-                      <input type="text" class="form-control" name="deskripsijasa">
+                        </td>
+                        <td>
+                          <input type="text" class="form-control" name="harga_jasa">
+                        </td>
+                        <td>
+                          <input type="text" class="form-control" name="deskripsi_jasa">
+                        </td>
+                        <td>
+                          <button type="submit" name="inserttemp" class="btn btn-outline-secondary">
+                              Tambah
+                          </button>
+                        </td>
+                        </form>
+                      </tbody>
+                    </table>
                 </div>
-                <div class="col-4">
+              </div>
+              <div class="row">
+                <div class="col-12 table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                        <th>No.</th>
+                        <th>Nama Jasa</th>
+                        <th>Harga Jasa</th>
+                        <th>Deskripsi</th>
+                        <th>Delete</th>
+                      </thead>
+                      <tbody>
+                        <?php
+                        if (!isset($_SESSION['temp_jasa'])) {
+                          ?>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                          <?php
+                        } else {
+                          $i = 1;
+                          foreach ($_SESSION['temp_jasa'] as $key => $value){
+                            $id_jasa = $value['id_jasa'];
+                            $query = "SELECT nama_jasa FROM jasa WHERE $id_jasa = id_jasa";
+                            $ambilJasa= mysqli_query($conn, $query);
+                            $fetchJasa = mysqli_fetch_assoc($ambilJasa);
+                            $namajasa = $fetchJasa['nama_jasa'];
+                            $harga_jasa = $value ['harga_jasa'];
+                            $deskripsi = $value ['deskripsi'];
+                          }   
+                          ?>
+                          <td><?=$i?></td>
+                          <td><?=$namajasa?></td>
+                          <td><?=$harga_jasa?></td>
+                          <td><?=$deskripsi?></td>
+                          <td>
+                            <form action="modules/transaksi/penjualan/proses.php?act=deleteJasa" method="post">
+                              <input type="hidden" name="indeks" value=<?=$key?>>
+                              <button type="submit" name="deleteList"class="btn btn-danger btn-sm" ><i class = "far fa-trash-alt"></i></button>
+                            </form>
+                          </td>
+                          <?php
+                          $i++;
+                        }
+                        ?>
+                      </tbody>
+                    </table>
+                </div>
+              </div>
+
+              <div class="row" style="margin-top : 32px;">
+                <!-- accepted payments column -->
+                <div class="col-8">
                 </div>
                 <!-- /.col -->
                 <div class="col-4">
