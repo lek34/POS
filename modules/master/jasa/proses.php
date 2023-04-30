@@ -38,14 +38,14 @@ require_once "../../../auth/cek.php";
             $id_jasa = mysqli_real_escape_string($conn, trim($_POST['id_jasa']));
             $jasa = mysqli_real_escape_string($conn, trim($_POST['namajasa']));
             
-            $query = "UPDATE hasa SET nama_jasa = '$jasa'";
+            $query = "UPDATE jasa SET nama_jasa = '$jasa'";
             $execQuery = mysqli_query($conn, $query);
             //or die('Ada kesalahan pada query insert : '.mysqli_error($conn));
             if ($execQuery) {
                 //jika berhasil tampilkan pesan berhasil simpan data
-                header("location: ../../../main.php?module=dataItem&alert=3");
+                header("location: ../../../main.php?module=dataJasa&alert=3");
             } else {
-                header("location: ../../../main.php?module=dataItem&alert=4");
+                header("location: ../../../main.php?module=dataJasa&alert=4");
             }
         }
     }
@@ -57,9 +57,9 @@ require_once "../../../auth/cek.php";
             $execQuery = mysqli_query($conn, $query);
             if($execQuery) {
                 //jika berhasil tampilkan pesan berhasil simpan data
-                header("location: ../../../main.php?module=dataItem&alert=5");
+                header("location: ../../../main.php?module=dataJasa&alert=5");
             } else {
-                header("location: ../../../main.php?module=dataItem&alert=6");
+                header("location: ../../../main.php?module=dataJasa&alert=6");
             }
         }
     }

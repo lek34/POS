@@ -124,7 +124,6 @@ $('.toastrDefaultSuccess').click(function() {
 </script>
 <script>
 function updateUOM(id_barang) {
-  var isi_header = document.getElementById('isi_header');
   var uom_select = document.getElementById("uom_select");
   var selectedOption = "";
 
@@ -153,7 +152,39 @@ function updateUOM(id_barang) {
   }
   ?>
 }
-    </script>
+</script>
+
+<script>
+function updateUOM(id_barang) {
+  var uom_select = document.getElementById("uom_select_penjualan");
+  var selectedOption = "";
+
+  // Clear the select options
+  uom_select.innerHTML = "";
+
+  <?php
+  $pilihansatuan = mysqli_query($conn, "select * from barang WHERE status = 'Y'");
+  while ($fetcharray = mysqli_fetch_array($pilihansatuan)) {
+    $barang_id = $fetcharray['id_barang'];
+    $uombesar = $fetcharray['uom_besar'];
+    $uomkecil = $fetcharray['uom_kecil'];
+    $satuanbesar = $fetcharray['satuan_besar'];
+    $satuankecil = $fetcharray['satuan_kecil'];
+  ?>
+
+    if (<?= $barang_id; ?> == id_barang) {
+      uom_select.add(new Option('<?= $uombesar; ?>', 'besar'));
+      uom_select.add(new Option('<?= $uomkecil; ?>', 'kecil'));
+      uom_select.selectedIndex = -1;
+      
+      console.log('satuan kecil:', '<?= $satuankecil; ?>');
+      document.getElementById('satuankecil_input').value = '<?= $satuankecil; ?>';
+    }
+  <?php
+  }
+  ?>
+}
+</script>
 
 <script>
 const costPriceInput = document.getElementById('costPrice');

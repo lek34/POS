@@ -102,7 +102,7 @@
 
 <!-- Edit Modal -->
 <?php
-  $execQuery = mysqli_query($conn, "SELECT * FROM barang");
+  $execQuery = mysqli_query($conn, "SELECT * FROM jasa");
   while ($data = mysqli_fetch_array($execQuery)) {
     $id_jasa = $data['id_jasa'];
     $jasa = $data ['nama_jasa'];
@@ -113,14 +113,14 @@
       
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Edit Barang</h4>
+          <h4 class="modal-title">Edit Jasa</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         
         <!-- Modal body -->
         <div class="modal-body">
             <br>
-            <form action="modules/master/barang/proses.php?act=edit" method="post">
+            <form action="modules/master/jasa/proses.php?act=edit" method="post">
                 <input type="hidden" name="id_jasa" value="<?=$id_jasa;?>">
                 <label>Nama Jasa</label>
                 <input type="text" name="namajasa" value="<?=$jasa;?>" class="form-control" >
@@ -134,25 +134,25 @@
     </div>
   </div>
 <!-- Delete Modal -->
-<div class="modal fade" id="delete<?=$id_barang;?>">
+<div class="modal fade" id="delete<?=$id_jasa;?>">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
       
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Hapus Barang</h4>
+          <h4 class="modal-title">Hapus Jasa</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         
         <!-- Modal body -->
         <div class="modal-body">
-              Apakah anda ingin menghapus barang?
+              Apakah anda ingin menghapus jasa?
         </div>
         <!-- Modal footer -->
         <div class="modal-footer">
-          <form action="modules/master/barang/proses.php?act=delete" method="post">
-            <input type="hidden" name="id_barang" value="<?=$id_barang;?>">
-            <button type="submit" class="btn btn-primary" name="deletebarang">Yes</button>
+          <form action="modules/master/jasa/proses.php?act=delete" method="post">
+            <input type="hidden" name="id_jasa" value="<?=$id_jasa;?>">
+            <button type="submit" class="btn btn-primary" name="deletejasa">Yes</button>
 				    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
           </form> 
         </div>

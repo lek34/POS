@@ -429,7 +429,7 @@ if (isset($_GET['id_pembelian'])) { ?>
                     <tr>
                       <th>Nama Barang</th>
                       <th>Satuan</th>
-                      <th id="isi_header">Qty</th>
+                      <th>Qty</th>
                       <th>Harga Barang</th>
                       <th>Disc</th>
                       <th>Submit</th>

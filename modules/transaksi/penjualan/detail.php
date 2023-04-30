@@ -440,6 +440,7 @@ if (isset($_GET['id_penjualan'])) { ?>
                   <thead>
                     <tr>
                       <th>Nama Barang</th>
+                      <th>Satuan</th>
                       <th>Qty</th>
                       <th>Margin</th>
                       <th>Harga Barang</th>
@@ -451,7 +452,8 @@ if (isset($_GET['id_penjualan'])) { ?>
                       
                         <tr>
                             <td>
-                            <select name="id_barang_penjualan"  id="id_barang_penjualan" class="form-control">
+                            <select name="id_barang_penjualan"  id="id_barang_penjualan" class="form-control" onchange="updateUOM(this.value)">
+                            <option value="">Select an item</option>
                               <?php
                               $pilihanbarang = mysqli_query($conn, "select * from barang WHERE status = 'Y'");
                               while ($fetcharray = mysqli_fetch_array($pilihanbarang)) {
@@ -468,6 +470,11 @@ if (isset($_GET['id_penjualan'])) { ?>
                               ?>
                           </select>
                             </td>
+                            <td>
+                            <select name="uom" class="form-control" id="uom_select_penjualan">
+                            </select>
+                            <input type="text" class="form-control" name="satuankecil" id="satuankecil_input" hidden>
+                          </td>
                             <td>
                               <input type="text" class="form-control" name="kuantitas" required>
                             </td>

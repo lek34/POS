@@ -23,9 +23,17 @@ require_once "../../../auth/cek.php";
                 'jatuh_tempo' => $jatuh_tempo,
                 'kendaraan' => $kendaraan
             );
+
+            $uom = $_POST['uom'];
+            $satuan_kecil = $_POST['satuankecil'];
+            $kuantitas = $_POST['kuantitas'];
+
+            if ($uom == 'besar') {
+                $kuantitas = $kuantitas * $satuan_kecil;
+            }
+
             $faktur_barang = trim($_POST['no_faktur']);
             $id_barang = mysqli_real_escape_string($conn, trim($_POST['id_barang_penjualan']));
-            $kuantitas = mysqli_real_escape_string($conn, trim($_POST['kuantitas']));
             $harga_barang = mysqli_real_escape_string($conn, trim($_POST['harga_barang']));
             $disc =  mysqli_real_escape_string($conn, trim($_POST['disc']));
             $bruto = ($kuantitas*$harga_barang);
