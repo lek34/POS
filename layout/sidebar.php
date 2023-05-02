@@ -94,6 +94,29 @@
                   </li>
                 </ul>
             </li>
+            <li class = "nav-item">
+              <a href="javascript:void(0);" class="nav-link <?php echo isPageActive('transaksi') ? 'active' : ''; ?>">
+                    <i class="nav-icon fas fa-money-bill"></i>
+                    <p>
+                      Cash
+                      <i class="fas fa-angle-left right"></i>
+                    </p>
+                  </a>
+                  <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="?module=buyItem" class="nav-link <?php echo isPageActive('buyItem') ? 'active' : ''; ?>">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Pemasukan Cash Harian</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="?module=sellItem" class="nav-link <?php echo isPageActive('sellItem') ? 'active' : ''; ?>">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Pengeluaran Cash Harian</p>
+                    </a>
+                  </li>
+                </ul>
+            </li>
 
             <li class = "nav-item">
               <a href="javascript:void(0);" class="nav-link <?php echo isPageActive('laporan') ? 'active' : ''; ?>">
