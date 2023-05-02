@@ -489,7 +489,7 @@ if (isset($_GET['id_penjualan'])) { ?>
                             <div class="input-group mb-3">
                               <div class="input-group-append">
                               </div>
-                              <input type="text" class="form-control" name="harga_barang" class="harga_barang" id="hargapenjualan_mask" oninput="formatNumber('hargapenjualan_mask')" required>
+                              <input type="text" class="form-control" name="harga_barang" class="harga_barang" id="harga_barang" required>
                             </div>
                             </td>
                             
