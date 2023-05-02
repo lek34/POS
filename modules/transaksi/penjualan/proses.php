@@ -34,7 +34,7 @@ require_once "../../../auth/cek.php";
 
             $faktur_barang = trim($_POST['no_faktur']);
             $id_barang = mysqli_real_escape_string($conn, trim($_POST['id_barang_penjualan']));
-            $harga_barang = mysqli_real_escape_string($conn, trim($_POST['harga_barang']));
+            $harga_barang = floatval(str_replace(['Rp. ', '.'], ['', ''],mysqli_real_escape_string($conn, trim($_POST['harga_barang']))));
             $disc =  mysqli_real_escape_string($conn, trim($_POST['disc']));
             $bruto = ($kuantitas*$harga_barang);
             $diskon = ($bruto * ($disc/100));
