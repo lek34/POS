@@ -17,7 +17,7 @@ require_once "../../../auth/cek.php";
             $satuankecil = mysqli_real_escape_string($conn, trim($_POST['satuankecil']));
             $uombesar = mysqli_real_escape_string($conn, trim($_POST['uombesar']));
             $uomkecil = mysqli_real_escape_string($conn, trim($_POST['uomkecil']));
-            $hargamodal = mysqli_real_escape_string($conn, trim($_POST['hargamodal']));
+            $hargamodal = floatval(str_replace(['Rp. ', '.'], ['', ''],mysqli_real_escape_string($conn, trim($_POST['hargamodal']))));
             //check data ada atau tidak
             $check = "SELECT * FROM barang WHERE nama_barang = '$barang'";
             $result = mysqli_query($conn, $check);
