@@ -467,7 +467,7 @@ if (isset($_GET['id_pembelian'])) { ?>
       <div class="input-group mb-3">
         <div class="input-group-append">
         </div>
-        <input type="text" class="form-control" name="harga_barang" id="hargapembelian_mask" oninput="formatNumber('hargapembelian_mask')" required>
+        <input type="text" class="form-control" name="harga_barang" id="hargapembelian_mask" oninput="formatCurrency('hargapembelian_mask')" required>
       </div>
       </td>
       <td>

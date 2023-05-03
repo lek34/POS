@@ -14,7 +14,7 @@
     </div><!-- /.container-fluid -->
 </section>
 <?php
-    $query = "SELECT * FROM customer";
+    $query = "SELECT * FROM customer WHERE status = 'Y';";
     $execQuery = mysqli_query($conn, $query);
 ?>
 <section class="content">
@@ -86,7 +86,7 @@
 
         <div class="modal-body">
             <br>
-            <form action="modules/master/customer/proses.php?act=insert" method="post">
+            <form action="modules/master/customer/proses.php?act=insert" id="fcust" method="post">
                 <label>Nama Customer</label>
                 <input type="text" name="nama" placeholder="Nama Customer" class="form-control" required>
                 <br>

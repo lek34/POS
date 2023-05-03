@@ -131,7 +131,7 @@
               <div class="row" style="margin-top: 24px;">
                 <div class="col-12">
                 <label>Harga Modal</label>
-                  <input type="text" name="hargamodal" placeholder="Nama Barang" class="form-control" id="hargamodal_mask" oninput="formatNumber('hargamodal_mask')" required>
+                  <input type="text" name="hargamodal" placeholder="Nama Barang" class="form-control" id="hargamodal_mask" oninput="formatCurrency('hargamodal_mask')" required>
                 </div>
               </div>
 

@@ -17,7 +17,7 @@ require_once "../../../auth/cek.php";
             $keterangan = mysqli_real_escape_string($conn, trim($_POST['keterangan']));
             $alamat = mysqli_real_escape_string($conn, trim($_POST['alamat']));
             //check data ada atau tidak
-            $check = "SELECT * FROM supplier WHERE nama = '$nama'";
+            $check = "SELECT * FROM supplier WHERE nama = '$nama' AND status = 'Y';";
             $result = mysqli_query($conn, $check);
             if (mysqli_num_rows($result) <= 0) {
                 $query = "INSERT INTO supplier (nama, kontak, no_rekening, keterangan, alamat) VALUES ('$nama', '$kontak','$no_rekening', '$keterangan', '$alamat')";

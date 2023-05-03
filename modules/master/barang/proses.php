@@ -19,7 +19,7 @@ require_once "../../../auth/cek.php";
             $uomkecil = mysqli_real_escape_string($conn, trim($_POST['uomkecil']));
             $hargamodal = floatval(str_replace(['Rp. ', '.'], ['', ''],mysqli_real_escape_string($conn, trim($_POST['hargamodal']))));
             //check data ada atau tidak
-            $check = "SELECT * FROM barang WHERE nama_barang = '$barang'";
+            $check = "SELECT * FROM barang WHERE nama_barang = '$barang' AND status = 'Y';";
             $result = mysqli_query($conn, $check);
             if (mysqli_num_rows($result) <= 0) {
                 $query = "INSERT INTO barang (nama_barang,satuan_besar,satuan_kecil,uom_besar,uom_kecil,harga_modal) VALUES ('$barang','$satuanbesar','$satuankecil','$uombesar','$uomkecil','$hargamodal')";
