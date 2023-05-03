@@ -54,13 +54,14 @@
                       $satuanbesar = $data ['satuan_besar'];
                       $satuankecil = $data ['satuan_kecil'];
                       $harga_modal = $data ['harga_modal'];
-                      $kuantitas = $data ['kuantitas'];
+                      $formatted_harga_modal = number_format($harga_modal, 0, ',', '.');
+                      $kuantitas = number_format($data ['kuantitas'], 0, ',', '.');
                     ?>
                       <tr>
                       <td><?=$barang?></td>
                       <td><?=$satuanbesar?> <?=$uombesar?></td>
                       <td><?=$satuankecil?> <?=$uomkecil?></td>
-                      <td>Rp. <?=$harga_modal?></td>
+                      <td>Rp. <?=$formatted_harga_modal?></td>
                       <td><?=$kuantitas?></td>
                       <td>
                         <a href="?module=historyPembelian&id_barang=<?=$id_barang?>" class = "btn btn-outline-primary" style="margin-right: 10px;">Pembelian</a>

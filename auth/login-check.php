@@ -30,7 +30,7 @@ $password = mysqli_real_escape_string($conn, stripslashes(strip_tags(htmlspecial
 
 	// jika data tidak ada, alihkan ke halaman login dan tampilkan pesan = 1
 	else {
-		header("Location: ../auth/login.php?alert=1");
+		header('Location: auth/login.php?alert=1');
 	}
 
 ?>
