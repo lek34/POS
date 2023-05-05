@@ -130,7 +130,7 @@ $('.toastrDefaultSuccess').click(function() {
     });
 </script>
 <script>
-function updateUOM(id_barang) {
+function updateUOMpembelian(id_barang) {
   var uom_select = document.getElementById("uom_select");
   var selectedOption = "";
 
@@ -162,7 +162,7 @@ function updateUOM(id_barang) {
 </script>
 
 <script>
-function updateUOM(id_barang) {
+function updateUOMpenjualan(id_barang) {
   var uom_select = document.getElementById("uom_select_penjualan");
   var selectedOption = "";
 
