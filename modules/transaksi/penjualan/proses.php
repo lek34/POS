@@ -164,6 +164,17 @@ require_once "../../../auth/cek.php";
                                 VALUES ('$id_penjualan', '$id_customer', '$id_barang', '$kuantitas', '$harga_barang', '$disc', '$diskon', '$bruto', '$netto', '$user')";
                 $execQueryDetail = mysqli_query($conn, $queryDetail) or die('Error inserting data into penjualan_detail table: ' . mysqli_error($conn));
             }
+
+            $temp_jasa = $_SESSION['temp_jasa'];
+            foreach ($temp_jasa as $data) {
+                $id_jasa = $data['id_jasa'];
+                $harga_jasa = $data['harga_jasa'];
+                $deskripsi = $data['deskripsi'];
+
+                $queryJasa = "INSERT INTO history_jasa (id_jasa, id_penjualan, harga_jasa, deskripsi)
+                                VALUES ('$id_jasa', '$id_penjualan', '$harga_jasa', '$deskripsi')";
+                $execQueryJasa = mysqli_query($conn, $queryJasa) or die('Error inserting data into penjualan_detail table: ' . mysqli_error($conn));
+            }
             
             $tambahBarang = "SELECT hp.id_barang, b.nama_barang, b.kuantitas, SUM(hp.kuantitas) as total_kuantitas 
                             FROM barang b 

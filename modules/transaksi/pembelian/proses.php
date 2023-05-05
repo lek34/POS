@@ -58,7 +58,8 @@ require_once "../../../auth/cek.php";
 
             header('location: ../../../main.php?module=detailPembelian');
         }
-    } 
+    }
+    
     elseif ($_GET['act'] == 'deleteList'){
         if (isset($_POST['deleteList'])){
             $id_list = $_POST['indeks'];
