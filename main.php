@@ -226,50 +226,39 @@ marginInput.addEventListener('input', updateSellingPrice);
       // Update the input field value with the formatted value
       inputField.value = formattedValue;
     }
-    function formatPhone(inputId) {
+    function formatNumber(inputId) {
       let inputField = document.getElementById(inputId);
 
       // Remove non-numeric characters from the input value
       let numericValue = inputField.value.replace(/\D/g, "");
 
-      // Format the numeric value with the "Rp." prefix and thousands separators
-      let formattedValue = `Rp. ${numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+      // Format the numeric value with the thousands separators
+      let formattedValue = `${numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
 
       // Update the input field value with the formatted value
       inputField.value = formattedValue;
     }
-  </script> 
-<script>
-$(document).ready (function () {
-  //$.validator.setDefaults({
-  //  submitHandler: function () {
-    //  alert( "Form successful submitted!" );
-    //}
-  //});
-  $('#fcust').validate({
-    rules: {
-      kontak: {
-        minlength: 10
-      },
-    },
-    messages: {
-      kontak: {
-        minlength: "Silahkan masukkan nomor telepon yang valid"
-      },
-    },
-    errorElement: 'span',
-    errorPlacement: function (error, element) {
-      error.addClass('invalid-feedback');
-      element.closest('.form-group').append(error);
-    },
-    highlight: function (element, errorClass, validClass) {
-      $(element).addClass('is-invalid');
-    },
-    unhighlight: function (element, errorClass, validClass) {
-      $(element).removeClass('is-invalid');
+    function formatAddress(inputId) {
+      let inputField = document.getElementById(inputId);
+
+      // Format the numeric value with the "Rp." prefix and thousands separators
+      let formattedValue = `Jln. ${inputField}`;
+
+      // Update the input field value with the formatted value
+      inputField.value = formattedValue;
     }
-  });
-});
-</script>
+    function formatPercent(inputId) {
+      let inputField = document.getElementById(inputId);
+
+      // Remove non-numeric characters from the input value
+      let numericValue = inputField.value.replace(/\D/g, "");
+
+      // Format the numeric value with the thousands separators and "%" infix
+      let formattedValue = `${numericValue} %`;
+
+      // Update the input field value with the formatted value
+      inputField.value = formattedValue;
+    }
+  </script>
 </body>
 </html>
