@@ -452,7 +452,7 @@ if (isset($_GET['id_penjualan'])) { ?>
                       
                         <tr>
                             <td>
-                            <select name="id_barang_penjualan"  id="id_barang_penjualan" class="form-control" onchange="updateUOM(this.value)">
+                            <select name="id_barang_penjualan"  id="id_barang_penjualan" class="form-control" onchange="updateUOMpenjualan(this.value)">
                             <option value="">Select an item</option>
                               <?php
                               $pilihanbarang = mysqli_query($conn, "select * from barang WHERE status = 'Y'");

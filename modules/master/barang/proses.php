@@ -48,7 +48,7 @@ require_once "../../../auth/cek.php";
             $uomkecil = mysqli_real_escape_string($conn, trim($_POST['uomkecil']));
             $hargamodal = mysqli_real_escape_string($conn, trim($_POST['hargamodal']));
 
-            $query = "UPDATE barang SET nama_barang = '$barang' , harga_modal = '$hargamodal', satuan_besar = ' $satuanbesar' , satuan_kecil = '$satuankecil' , uom_besar = ' $uombesar' , uom_kecil = '$uomkecil' ";
+            $query = "UPDATE barang SET nama_barang = '$barang' , harga_modal = '$hargamodal', satuan_besar = ' $satuanbesar' , satuan_kecil = '$satuankecil' , uom_besar = ' $uombesar' , uom_kecil = '$uomkecil' where id_barang = '$id_barang' ";
             $execQuery = mysqli_query($conn, $query);
             //or die('Ada kesalahan pada query insert : '.mysqli_error($conn));
             if ($execQuery) {
