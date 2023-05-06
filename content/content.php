@@ -25,6 +25,9 @@ else{
 	elseif ($_GET['module'] == 'dataJasa') {
 		include "modules/master/jasa/view.php";
 	}
+	elseif ($_GET['module'] == 'dataMobil') {
+		include "modules/master/mobil/view.php";
+	}
 	elseif ($_GET['module'] == 'noAcc') {
 		include "modules/master/akunbank/view.php";
 	}

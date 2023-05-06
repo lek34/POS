@@ -64,6 +64,12 @@
                     </a>
                   </li>
                   <li class="nav-item">
+                    <a href="?module=dataMobil" class="nav-link <?php echo isPageActive('dataMobil') ? 'active' : ''; ?>">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Data Mobil</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
                     <a href="?module=noAcc" class="nav-link <?php echo isPageActive('noAcc') ? 'active' : ''; ?>">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Nomor Akun</p>
