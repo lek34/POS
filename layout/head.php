@@ -43,6 +43,7 @@
 <!-- Theme style -->
 <link rel="stylesheet" href="dist/css/adminlte.min.css">
 <script src="plugins/jquery/jquery.min.js"></script>
+<script src="function/webfunction.js"></script>
 </head>
 
 
