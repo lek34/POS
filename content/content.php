@@ -37,7 +37,7 @@ else{
 	elseif ($_GET['module'] == 'detailPembelian') {
 		include "modules/transaksi/pembelian/detail.php";
 	}
-	elseif ($_GET['module'] =='historyPembelian'){
+	elseif ($_GET['module'] == 'historyPembelian'){
 		include "modules/history/history_pembelian.php";
 	}
 	elseif ($_GET['module'] == 'sellItem'){
@@ -46,11 +46,23 @@ else{
 	elseif ($_GET['module'] == 'detailPenjualan') {
 		include "modules/transaksi/penjualan/detail.php";
 	}
-	elseif ($_GET['module'] =='historyPembelian'){
+	elseif ($_GET['module'] == 'historyPembelian'){
 		include "modules/history/history_pembelian.php";
 	}
-	elseif ($_GET['module'] =='historyPenjualan'){
+	elseif ($_GET['module'] == 'historyPenjualan'){
 		include "modules/history/history_penjualan.php";
+	}
+	elseif ($_GET['module'] == 'cashMasuk'){
+		include "modules/cash/pemasukan/view.php";
+	}
+	elseif ($_GET['module'] == 'cashKeluar'){
+		include "modules/cash/pengeluaran/view.php";
+	}
+	elseif ($_GET['module'] == 'detailCashMasuk'){
+		include "modules/cash/pemasukan/detail.php";
+	}
+	elseif ($_GET['module'] == 'detailCashKeluar'){
+		include "modules/cash/pengeluaran/detail.php";
 	}
 }
 

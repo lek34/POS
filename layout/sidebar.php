@@ -104,13 +104,13 @@
                   </a>
                   <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="?module=buyItem" class="nav-link <?php echo isPageActive('buyItem') ? 'active' : ''; ?>">
+                    <a href="?module=cashMasuk" class="nav-link <?php echo isPageActive('buyItem') ? 'active' : ''; ?>">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Pemasukan Cash Harian</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="?module=sellItem" class="nav-link <?php echo isPageActive('sellItem') ? 'active' : ''; ?>">
+                    <a href="?module=cashKeluar" class="nav-link <?php echo isPageActive('sellItem') ? 'active' : ''; ?>">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Pengeluaran Cash Harian</p>
                     </a>
