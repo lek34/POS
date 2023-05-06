@@ -39,7 +39,7 @@ require_once "../../../auth/cek.php";
             $nama = mysqli_real_escape_string($conn, trim($_POST['nama']));
             $kontak  = mysqli_real_escape_string($conn, trim($_POST['kontak']));
             $keterangan = mysqli_real_escape_string($conn, trim($_POST['keterangan']));
-            $alamat = mysqli_real_escape_string($conn, trim($_POST['alamat']));
+            $alamat = floatval(str_replace(['Jln. '], [''],mysqli_real_escape_string($conn, trim($_POST['alamat']))));
 
             $query = "UPDATE customer SET nama = '$nama', kontak = '$kontak', keterangan = '$keterangan', alamat = '$alamat' WHERE id_customer = '$id_cust'";
             $execQuery = mysqli_query($conn, $query);

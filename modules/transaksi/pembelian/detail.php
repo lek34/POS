@@ -461,7 +461,7 @@ if (isset($_GET['id_pembelian'])) { ?>
   <input type="text" class="form-control" name="satuan_kecil" id="satuankecil_input" hidden>
 </td>
   <td>
-  <input type="text" class="form-control" name="kuantitas" required>
+  <input type="text" class="form-control" name="kuantitas" id="kuantitaspembelian_mask" oninput="formatNumber('kuantitaspembelian_mask')" required>
   </td>
       <td>
       <div class="input-group mb-3">
@@ -472,7 +472,7 @@ if (isset($_GET['id_pembelian'])) { ?>
       </td>
       <td>
       <div class="input-group mb-3">
-        <input type="text" class="form-control" name="disc" value="0" required>
+        <input type="text" class="form-control" name="disc" id="discpembelian_mask" oninput="formatNumber('discpembelian_mask')" required>
         <div class="input-group-append">
           <span class="input-group-text">%</span>
         </div>

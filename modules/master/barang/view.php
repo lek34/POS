@@ -110,7 +110,7 @@
               <div class="row" style="margin-top: 24px;">
                 <div class="col-6">    
                   <label>Satuan Besar</label>
-                  <input type="text" name="satuanbesar" placeholder="Nama Barang" class="form-control" required>
+                  <input type="text" name="satuanbesar" placeholder="Nama Barang" class="form-control addbesar_mask" oninput="formatNumber('addbesar_mask')" required>
                 </div>   
                 <div class="col-6">   
                   <label>UOM Besar</label>
@@ -121,7 +121,7 @@
               <div class="row" style="margin-top: 24px;">
                 <div class="col-6">    
                   <label>Satuan Kecil</label>
-                  <input type="text" name="satuankecil" placeholder="Nama Barang" class="form-control" required>
+                  <input type="text" name="satuankecil" placeholder="Nama Barang" class="form-control addkecil_mask" oninput="formatNumber('addkecil_mask')" required>
                 </div>   
                 <div class="col-6">   
                   <label>UOM Kecil</label>
@@ -132,7 +132,7 @@
               <div class="row" style="margin-top: 24px;">
                 <div class="col-12">
                 <label>Harga Modal</label>
-                  <input type="text" name="hargamodal" placeholder="Nama Barang" class="form-control" id="hargamodal_mask" oninput="formatCurrency('hargamodal_mask')" required>
+                  <input type="text" name="hargamodal" placeholder="Nama Barang" class="form-control hargamodal_mask" oninput="formatCurrency('hargamodal_mask')" required>
                 </div>
               </div>
 

@@ -13,8 +13,8 @@ require_once "../../../auth/cek.php";
     if ($_GET['act']=='insert') {
         if(isset($_POST['addnewbarang'])){
             $barang = mysqli_real_escape_string($conn, trim($_POST['namabarang']));
-            $satuanbesar = mysqli_real_escape_string($conn, trim($_POST['satuanbesar']));
-            $satuankecil = mysqli_real_escape_string($conn, trim($_POST['satuankecil']));
+            $satuanbesar = floatval(str_replace(['.'], [''],mysqli_real_escape_string($conn, trim($_POST['satuanbesar']))));
+            $satuankecil = floatval(str_replace(['.'], [''],mysqli_real_escape_string($conn, trim($_POST['satuankecil']))));
             $uombesar = mysqli_real_escape_string($conn, trim($_POST['uombesar']));
             $uomkecil = mysqli_real_escape_string($conn, trim($_POST['uomkecil']));
             $hargamodal = floatval(str_replace(['Rp. ', '.'], ['', ''],mysqli_real_escape_string($conn, trim($_POST['hargamodal']))));
@@ -42,11 +42,11 @@ require_once "../../../auth/cek.php";
         if(isset($_POST['editbarang'])){
             $id_barang = mysqli_real_escape_string($conn, trim($_POST['id_barang']));
             $barang = mysqli_real_escape_string($conn, trim($_POST['namabarang']));
-            $satuanbesar = mysqli_real_escape_string($conn, trim($_POST['satuanbesar']));
-            $satuankecil = mysqli_real_escape_string($conn, trim($_POST['satuankecil']));
+            $satuanbesar = floatval(str_replace(['.'], [''],mysqli_real_escape_string($conn, trim($_POST['satuanbesar']))));
+            $satuankecil = floatval(str_replace(['.'], [''],mysqli_real_escape_string($conn, trim($_POST['satuankecil']))));
             $uombesar = mysqli_real_escape_string($conn, trim($_POST['uombesar']));
             $uomkecil = mysqli_real_escape_string($conn, trim($_POST['uomkecil']));
-            $hargamodal = mysqli_real_escape_string($conn, trim($_POST['hargamodal']));
+            $hargamodal = floatval(str_replace(['Rp. ', '.'], ['', ''],mysqli_real_escape_string($conn, trim($_POST['hargamodal']))));
 
             $query = "UPDATE barang SET nama_barang = '$barang' , harga_modal = '$hargamodal', satuan_besar = ' $satuanbesar' , satuan_kecil = '$satuankecil' , uom_besar = ' $uombesar' , uom_kecil = '$uomkecil' where id_barang = '$id_barang' ";
             $execQuery = mysqli_query($conn, $query);

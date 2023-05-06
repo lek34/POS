@@ -1,7 +1,7 @@
 // <!-- Masking -->
-    function formatCurrency(inputId) {
-      // Retrieve the input field using its ID
-      let inputField = document.getElementById(inputId);
+    function formatCurrency(inputClass) {
+      // Retrieve the input field using its Class
+      let inputField = document.getElementsByClassName(inputClass)[0];
 
       // Remove non-numeric characters from the input value
       let numericValue = inputField.value.replace(/\D/g, "");
@@ -12,8 +12,8 @@
       // Update the input field value with the formatted value
       inputField.value = formattedValue;
     }
-    function formatNumber(inputId) {
-      let inputField = document.getElementById(inputId);
+    function formatNumber(inputClass) {
+      let inputField = document.getElementsByClassName(inputClass)[0];
 
       // Remove non-numeric characters from the input value
       let numericValue = inputField.value.replace(/\D/g, "");
@@ -24,14 +24,14 @@
       // Update the input field value with the formatted value
       inputField.value = formattedValue;
     }
-    function formatAddress(inputId) {
-      let inputField = document.getElementById(inputId);
+    function formatAddress(inputClass) {
+      let inputField = document.getElementsByClassName(inputClass)[0];
     
       // Get the user input value
       let userInput = inputField.value.trim();
     
       // Check if the user input already has the "Jln." prefix
-      let hasPrefix = userInput.startsWith("Jln.");
+      let hasPrefix = userInput.startsWith("Jln. ");
     
       // Format the numeric value with the "Jln." prefix and thousands separators if needed
       let formattedValue = hasPrefix ? userInput : `Jln. ${userInput}`;
@@ -39,8 +39,8 @@
       // Update the input field value with the formatted value
       inputField.value = formattedValue;
     }    
-    function formatPercent(inputId) {
-      let inputField = document.getElementById(inputId);
+    function formatPercent(inputClass) {
+      let inputField = document.getElementsByClassName(inputClass)[0];
 
       // Remove non-numeric characters from the input value
       let numericValue = inputField.value.replace(/\D/g, "");

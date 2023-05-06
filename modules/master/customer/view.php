@@ -97,7 +97,7 @@
                 <input type="text" name="keterangan" placeholder="Keterangan" class="form-control">
 				<br>
                 <label>Alamat</label>
-                <input type="text" name="alamat" placeholder="Alamat" class="form-control" required>
+                <input type="text" name="alamat" placeholder="Alamat" class="form-control alamatcust_mask" oninput="formatAddress('alamatcust_mask')" required>
                 <br>
                 <br>
 				    <button type="button" class="btn btn-danger" style="float: left;" data-dismiss="modal">Close</button>
