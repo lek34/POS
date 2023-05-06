@@ -641,7 +641,7 @@ if (isset($_GET['id_penjualan'])) { ?>
                           <input type="text" class="form-control" name="deskripsi_jasa">
                         </td>
                         <td>
-                          <button type="submit" name="inserttemp" class="btn btn-outline-secondary">
+                          <button type="submit" name="insertTempJasa" class="btn btn-outline-secondary">
                               Tambah
                           </button>
                         </td>
