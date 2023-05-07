@@ -2,61 +2,43 @@
 session_start();
 
 // Panggil koneksi database.php untuk koneksi database
-require_once "../../../config/database.php";
+require_once "../../config/database.php";
 // fungsi untuk pengecekan status login user 
 // jika user belum login, alihkan ke halaman login dan tampilkan pesan = 1
-require_once "../../../auth/cek.php";
+require_once "../../auth/cek.php";
 // jika user sudah login, maka jalankan perintah untuk insert, update, dan delete
     if($_GET['act']=='inserttemp'){
         if(isset($_POST['inserttemp'])){
-            $no_transaksi = mysqli_real_escape_string($conn, trim($_POST['nomor_transaksi']));
-            $no_faktur = mysqli_real_escape_string($conn, trim($_POST['no_faktur']));
-            $id_supplier = mysqli_real_escape_string($conn, trim($_POST['id_supplier']));
-            $jatuh_tempo = mysqli_real_escape_string($conn, trim($_POST['jatuh_tempo']));
+            $merk = mysqli_real_escape_string($conn, trim($_POST['merk']));
+            $plat = mysqli_real_escape_string($conn, trim($_POST['plat']));
+            $tanggal_periksa = mysqli_real_escape_string($conn, trim($_POST['tanggal_periksa']));
+            $pemeriksa = mysqli_real_escape_string($conn, trim($_POST['pemeriksa']));
 
             // store the variables in the session
-            $_SESSION['temp_transaksi_beli'] = array(
-                'no_transaksi' => $no_transaksi,
-                'no_faktur' => $no_faktur,
-                'id_supplier' => $id_supplier,
-                'jatuh_tempo' => $jatuh_tempo
+            $_SESSION['temp_transaksi_mobil'] = array(
+                'merk' => $merk,
+                'plat' => $plat,
+                'tanggal_periksa' => $tanggal_periksa,
+                'pemeriksa' => $pemeriksa
             );
-            $faktur_barang = trim($_POST['no_faktur']);
-            $id_barang = mysqli_real_escape_string($conn, trim($_POST['id_barang']));
             
-            $uom = $_POST['uom'];
-            $satuan_kecil = $_POST['satuan_kecil'];
-            $kuantitas = $_POST['kuantitas'];
-
-            if ($uom == 'besar') {
-            $kuantitas = $kuantitas * $satuan_kecil;
-            }
-
-            $harga_barang = floatval(str_replace(['Rp. ', '.'], ['', ''],mysqli_real_escape_string($conn, trim($_POST['harga_barang']))));
-            $disc =  floatval(str_replace(['%'], [''],mysqli_real_escape_string($conn, trim($_POST['disc']))));
-            $bruto = ($kuantitas*$harga_barang);
-            $diskon = ($bruto * ($disc/100));
-            $netto = $bruto - $diskon;
+            $id_perlengkapan = mysqli_real_escape_string($conn, trim($_POST['id_perlengkapan']));
+            $kondisi = mysqli_real_escape_string($conn, trim($_POST['kondisi']));
+            $perlengkapan = mysqli_real_escape_string($conn, trim($_POST['perlengkapan']));
             $user = $_SESSION['username'];
 
-            if (!isset($_SESSION['temp_data_beli'])) {
-                $_SESSION['temp_data_beli'] = array();
+            if (!isset($_SESSION['temp_data_perlengkapan'])) {
+                $_SESSION['temp_data_perlengkapan'] = array();
             }
             // Create a session array for transaction items
-            $_SESSION['temp_data_beli'][] = array(
-                'faktur_barang' => $faktur_barang,
-                'id_barang' => $id_barang,
-                'kuantitas' => $kuantitas,
-                'id_supplier' => $id_supplier,
-                'harga_barang' => $harga_barang,
-                'disc' => $disc,
-                'bruto' => $bruto,
-                'netto' => $netto,
-                'user' => $user,
-                'diskon' => $diskon
+            $_SESSION['temp_data_perlengkapan'][] = array(
+                'id_perlengkapan' => $id_perlengkapan,
+                'kondisi' => $kondisi,
+                'perlengkapan' => $perlengkapan,
+                
             );
 
-            header('location: ../../../main.php?module=detailPembelian');
+            header('location: ../../main.php?module=detailMobil');
         }
     }
     
@@ -64,16 +46,16 @@ require_once "../../../auth/cek.php";
         if (isset($_POST['deleteList'])){
             $id_list = $_POST['indeks'];
 
-            unset($_SESSION['temp_data_beli'][$id_list]);
+            unset($_SESSION['temp_data_perlengkapan'][$id_list]);
 
-            header('location: ../../../main.php?module=detailPembelian');
+            header('location: ../../main.php?module=detailMobil');
         }
     }
     elseif ($_GET['act'] == 'reset'){
-            unset($_SESSION['temp_transaksi_beli']);
-            unset($_SESSION['temp_data_beli']);
+            unset($_SESSION['temp_transaksi_mobil']);
+            unset($_SESSION['temp_data_perlengkapan']);
 
-            header('location: ../../../main.php?module=detailPembelian');
+            header('location: ../../main.php?module=detailMobil');
         
     }
 

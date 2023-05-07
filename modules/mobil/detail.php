@@ -4,7 +4,7 @@ if (isset($_GET['id_pembelian'])) { ?>
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Detail Pembelian</h1>
+            <h1>Detail Mobil</h1>
           </div>
         </div>
       </div><!-- /.container-fluid -->
@@ -190,36 +190,11 @@ if (isset($_GET['id_pembelian'])) { ?>
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Tambah Pembelian</h1>
+            <h1>Tambah Mobil</h1>
           </div>
         </div>
       </div><!-- /.container-fluid -->
     </section>
-
-
-
-
- <!--Penambahan-->   
- <!-- generate nomor Faktur -->   
-<?php
-  $totBruto = 0;
-  $totDiskon = 0;
-  $totNetto = 0;
-  $jatuh_tempo_bawah = "DD/MM/YYYY";
-  $query = "SELECT MAX(nomor_transaksi) as last_transaksi , no_faktur from pembelian;";
-  $execQuery = mysqli_query($conn, $query);
-  $fetchQuery = mysqli_fetch_array($execQuery);
-  $date = date('ym');
-  $current_month = date('m');
-  $stored_month = substr($fetchQuery['no_faktur'], 5, 2); // extract the stored month from the last ID
-  $next_number = 1; // Set a default value for next_number before the if-else block
-  if ($current_month == $stored_month) {
-      // Increment the next number by 1 if the current month is the same as the stored month
-      $next_number = (int)$fetchQuery['last_transaksi'] + 1;
-  }
-  $date = date('ym');
-  $newFaktur = 'PB/' . $date .'/'. str_pad($next_number, 4, '0', STR_PAD_LEFT);
-?>
 
 <!-- Mulai content -->
             <!-- Main content -->
@@ -237,183 +212,57 @@ if (isset($_GET['id_pembelian'])) { ?>
               <div class="row">
                 
                   <?php
-                  if (!isset($_SESSION['temp_transaksi_beli'])) {/* pengulangan pertama */
+                  if (!isset($_SESSION['temp_transaksi_mobil'])) {/* pengulangan pertama */
                   ?>
                   <div class="col-sm-4 invoice-info">
-                    <form action="modules/transaksi/pembelian/proses.php?act=inserttemp" method="post"> <!-- form buka -->
-                      <input type="hidden" name="nomor_transaksi" placeholder="You Shouldn't See This" value='<?= $next_number?>' class="form-control" hidden>
-                      <label>No. Faktur</label>
-                      <input type="text" name="no_faktur" placeholder="No Faktur" value='<?= $newFaktur?>' class="form-control" readonly>
+                    <form action="modules/mobil/proses.php?act=inserttemp" method="post"> <!-- form buka -->
+                      <label>Merk Mobil</label>
+                      <input type="text" name="merk" placeholder="Merk Mobil" class="form-control">
                       <br>
-                      <label>Supplier</label>
-                      <select name="id_supplier" class="form-control">
-                          <?php
-                            $pilihansupplier = mysqli_query($conn, "select * from supplier WHERE status = 'Y'");
-                            while ($fetcharray = mysqli_fetch_array($pilihansupplier)) {
-                            $namasupplier = $fetcharray['nama'];
-                            $idsup = $fetcharray['id_supplier'];
-                            ?>
-                            <option value="<?= $idsup; ?>">
-                                <?= $namasupplier; ?>
-                            </option>
-                            <?php
-                            }
-                          ?>
-                      </select>
+                      <label>No Polisi</label>
+                      <input type="text" name="plat" placeholder="No Polisi" class="form-control">
                       <br>
-                      <label>Jatuh Tempo</label>
-                      <input type="date" id="jatuh_tempo" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" required>
-                    </div>
-                    <div class="col-sm-2"></div>
-                    <div class="col-sm-5" style="margin-left : 24px; ">
-                      <div class="row">
-                        <h5><b>History Pembelian Terdahulu</b></h5>
-                      </div>
-                      <div class="row" style="margin-top : 24px">
-                      <div class="col-12">
-                          <label>Nama Barang</label>
-                          <input type="text" placeholder = "Nama Barang" value="" class="form-control" readonly>
-                        </div>
-                      </div>
-                      <div class="row" style="margin-top : 24px">
-                      <div class="col-6">
-                          <label>No. Faktur</label>
-                          <input type="text" placeholder = "PB/XXXX/XXXX" value="" class="form-control" readonly>
-                        </div>
-                        <div class="col-6">
-                          <label>Harga Beli</label>
-                          <input type="text" placeholder = "Rp." value="" class="form-control" readonly>
-                        </div>
-                    </div>
-                      <div class="row" style="margin-top : 24px">
-                      <div class="col-4">
-                          <label>Tanggal</label>
-                          <input type="text"placeholder="DD/MM/YYYY" value="" class="form-control" readonly>
-                        </div>
-                        <div class="col-4">
-                          <label>Kuantitas</label>
-                          <input type="text" placeholder="0" value="" class="form-control" readonly>
-                        </div>
-                        <div class="col-4">
-                          <label>Stock Sekarang</label>
-                          <input type="text" placeholder="0" class="form-control" readonly>
-                        </div>
-                      </div>
+                      <label>Tanggal Periksa</label>
+                      <input type="date" id="tanggal_periksa" name="tanggal_periksa" placeholder="Tanggal Periksa" class="form-control" required>
+                      <br>
+                      <label>Pemeriksa</label>
+                      <input type="text" name="pemeriksa" placeholder="Pemeriksa" class="form-control">
+                      <br>
                     </div>
                   </div>
                   <div class="row" style="margin : 24px 0 0 2px">
-                      <button type="button" name="reset" class="btn btn-secondary align-items-center" onclick="window.location.href='modules/transaksi/pembelian/proses.php?act=reset'" style="height : 50px" disabled>Reset</button>
+                      <button type="button" name="reset" class="btn btn-secondary align-items-center" onclick="window.location.href='modules/mobil/proses.php?act=reset'" style="height : 50px" disabled>Reset</button>
                   </div>
                   <br>
                   <?php
                   } else { 
-                    $no_transaksi = $_SESSION['temp_transaksi_beli']['no_transaksi'];
-                    $supplier = $_SESSION['temp_transaksi_beli']['id_supplier'];
-                    $jatuh_tempo = $_SESSION['temp_transaksi_beli']['jatuh_tempo'];
-                    $barang_array = $_SESSION['temp_data_beli'];
-                    // Get the latest index of the temp_data_beli array
-                    $nama_barang = "Nama Barang";
-                    $total_kuantitas = "";
-                    $harga_barang = "0";
-                    $no_faktur = "PB/XXXX/XXXX";
-                    $tanggal = "";
-                    $kuantitas = "0";
-                    if (isset($_GET['id_barang'])) {
-                      $id_barang = $_GET['id_barang'];
-                      $execQuery = mysqli_query($conn, "SELECT max_hp.id_barang, b.nama_barang, b.kuantitas as stok_sekarang, SUM(hp.kuantitas) as total_kuantitas, hp.harga_barang, pb.no_faktur, pb.tanggal 
-                                                      FROM barang b 
-                                                      INNER JOIN 
-                                                      ( SELECT id_barang, MAX(id_pembelian) as max_id_pembelian FROM history_pembelian GROUP BY id_barang ) max_hp 
-                                                      ON b.id_barang = max_hp.id_barang 
-                                                      INNER JOIN history_pembelian hp ON hp.id_barang = max_hp.id_barang AND hp.id_pembelian = max_hp.max_id_pembelian 
-                                                      INNER JOIN pembelian pb ON pb.id_pembelian = hp.id_pembelian WHERE max_hp.id_barang = '$id_barang' 
-                                                      GROUP BY max_hp.id_barang, b.nama_barang;");
-                  
-                      while ($row = mysqli_fetch_array($execQuery, MYSQLI_ASSOC)) {
-                          // Access the values using the column names
-                          $id_barang = $row['id_barang'];
-                          $nama_barang = $row['nama_barang'];
-                          $total_kuantitas = $row['total_kuantitas'];
-                          $harga_barang = $row['harga_barang'];
-                          $no_faktur = $row['no_faktur'];
-                          $tanggal = $row['tanggal'];
-                          $kuantitas = $row['stok_sekarang'];
-                      }
-                  }
-
-                  
+                    $merk = $_SESSION['temp_transaksi_mobil']['merk'];
+                    $plat = $_SESSION['temp_transaksi_mobil']['plat'];
+                    $tanggal_periksa = $_SESSION['temp_transaksi_mobil']['tanggal_periksa'];
+                    $pemeriksa = $_SESSION['temp_transaksi_mobil']['pemeriksa'];
+                    $perlengkapan_array = $_SESSION['temp_data_perlengkapan'];
                   ?>
                   <div class="col-sm-4 invoice-col">
-                  <form action="modules/transaksi/pembelian/proses.php?act=inserttemp" method="post"> 
+                  <form action="modules/mobil/proses.php?act=inserttemp" method="post"> 
                     <!-- form buka -->
-                      <input type="hidden" name="nomor_transaksi" placeholder="You Shouldn't See This" value='<?= $next_number?>' class="form-control" hidden>
-                      <label>No. Faktur</label>
-                      <input type="text" name="no_faktur" placeholder="No Faktur" value='<?=$newFaktur?>' class="form-control" readonly>
+                      <label>Merk Mobil</label>
+                      <input type="text" name="merk" value='<?=$merk?>' class="form-control" readonly>
                       <br>
-                      <label>Supplier</label>
-                      <select name="id_supplier" class="form-control" readonly>
-                        <?php
-                        $pilihansupplier = mysqli_query($conn, "select * from supplier WHERE status = 'Y'");
-                        while ($fetcharray = mysqli_fetch_array($pilihansupplier)) {
-                          $namasupplier = $fetcharray['nama'];
-                          $idsup = $fetcharray['id_supplier'];
-                          $selected = ($idsup == $supplier) ? "selected" : "";
-                          ?>
-                          <option value="<?= $idsup; ?>" <?= $selected ?>>
-                            <?= $namasupplier; ?>
-                          </option>
-                          <?php
-                        }
-                        ?>
-                      </select>
+                      <label>No Polisi</label>
+                      <input type="text" name="plat" value='<?=$plat?>' class="form-control" readonly>
                       <br>
-                      <label>Jatuh Tempo</label>
-                      <input type="date" id="jatuh_tempo" value="<?=$jatuh_tempo?>" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" readonly>
+                      <label>Tanggal Periksa</label>
+                      <input type="date" name="tanggal_periksa" value='<?=$tanggal_periksa?>' class="form-control" readonly>
+                      <br>
+                      <label>Pemeriksa</label>
+                      <input type="text" name="pemeriksa" value='<?=$pemeriksa?>' class="form-control" readonly>
+                      <br>
                     </div>
                     <div class="col-sm-2 invoice-col d-md-flex justify-content-md-end">
                   </div>
-                  <!-- History Pembelian Terdahulu -->
-                  <div class="col-sm-5" style="margin-left : 24px;">
-                      <div class="row">
-                        <h5><b>History Pembelian Terdahulu</b></h5>
-                      </div>
-                      <div class="row" style="margin-top : 24px">
-                      <div class="col-12">
-                          <label>Nama Barang</label>
-                          <input type="text" value="<?=$nama_barang?>" class="form-control" readonly>
-                        </div>
-                        </div>
-                        <div class="row" style="margin-top : 24px ;">
-                        <div class="col-6">
-                          <label>No. Faktur</label>
-                          <input type="text" value="<?=$no_faktur?>" class="form-control" readonly>
-                        </div>
-                        <div class="col-6">
-                          <label>Harga Beli</label>
-                          <?php
-                          $harga_barang_formatted = number_format($harga_barang, 0, ',', '.');
-                          ?>
-                          <input type="text" value="Rp. <?=$harga_barang_formatted?>" class="form-control" readonly>
-                        </div>
-                      </div>
-                      <div class="row" style="margin-top : 24px">
-                      <div class="col-4">
-                          <label>Tanggal</label>
-                          <input type="text"placeholder="DD/MM/YYYY" value="<?=$tanggal?>" class="form-control" readonly>
-                        </div>
-                        <div class="col-4">
-                          <label>Kuantitas</label>
-                          <input type="text" placeholder="0" value="<?=$total_kuantitas?>" class="form-control" readonly>
-                        </div>
-                        <div class="col-4">
-                          <label>Stock Sekarang</label>
-                          <input type="text" placeholder="0" value="<?=$kuantitas?>" class="form-control" readonly>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                   <div class="row" style="margin: 24px 0 0 2px">
-                      <button type="button" name="reset" class="btn btn-primary align-items-center" onclick="window.location.href='modules/transaksi/pembelian/proses.php?act=reset'" style="height : 50px">Reset</button>
+                      <button type="button" name="reset" class="btn btn-primary align-items-center" onclick="window.location.href='modules/mobil/proses.php?act=reset'" style="height : 50px">Reset</button>
                     </div>
                   <br>
                   
@@ -427,56 +276,46 @@ if (isset($_GET['id_pembelian'])) { ?>
                   <table class="table table-striped" id="tableBarang">
                   <thead>
                     <tr>
-                      <th>Nama Barang</th>
-                      <th>Satuan</th>
-                      <th>Qty</th>
-                      <th>Harga Barang</th>
-                      <th>Disc</th>
+                      <th>Nama Perlengkapan</th>
+                      <th>Kondisi</th>
+                      <th>Deskripsi</th>
                       <th>Submit</th>
                     </tr>
                     </thead>
                     <tbody>
-                      
                         <tr>
                         <td>
-  <select name="id_barang" class="form-control" onchange="updateUOMpembelian(this.value)">
-  <option value="">Select an item</option>
-    <?php
-    $pilihanbarang = mysqli_query($conn, "select * from barang WHERE status = 'Y'");
-    while ($fetcharray = mysqli_fetch_array($pilihanbarang)) {
-      $namabarang = $fetcharray['nama_barang'];
-      $barang_id = $fetcharray['id_barang']; // use a different variable name here
-    ?>
-      <option value="<?= $barang_id; ?>">
-        <?= $namabarang; ?>
-      </option>
-    <?php
-    }
-    ?>
-  </select>
-</td>
-<td>
-  <select name="uom" class="form-control" id="uom_select">
-  </select>
-  <input type="text" class="form-control" name="satuan_kecil" id="satuankecil_input" hidden>
-</td>
-  <td>
-  <input type="text" class="form-control" name="kuantitas" id="kuantitaspembelian_mask" oninput="formatNumber('kuantitaspembelian_mask')" required>
-  </td>
+                      <select name="id_perlengkapan" class="form-control">
+                        <?php
+                        $pilihanbarang = mysqli_query($conn, "select * from mobil WHERE status = 'Y'");
+                        while ($fetcharray = mysqli_fetch_array($pilihanbarang)) {
+                          $perlengkapan = $fetcharray['prlkpn'];
+                          $perlengkapan_id = $fetcharray['id_prlkpn']; // use a different variable name here
+                        ?>
+                          <option value="<?= $perlengkapan_id; ?>">
+                            <?= $perlengkapan; ?>
+                          </option>
+                        <?php
+                        }
+                        ?>
+                      </select>
+                      </td>
+
+    <td>
+    <input type="radio" id="kondisi-baik" name="kondisi" value="Baik">
+    <label for="kondisi-baik">Baik</label>
+
+    <input type="radio" id="kondisi-rusak" name="kondisi" value="Rusak">
+    <label for="kondisi-rusak">Rusak</label>
+    </td>
       <td>
-      <div class="input-group mb-3">
-        <div class="input-group-append">
-        </div>
-        <input type="text" class="form-control" name="harga_barang" id="hargapembelian_mask" oninput="formatCurrency('hargapembelian_mask')" required>
-      </div>
+      <input type="radio" id="perlengkapan-ada" name="perlengkapan" value="Ada">
+      <label for="perlengkapan-ada">Ada</label>
+
+      <input type="radio" id="perlengkapan-tidakada" name="perlengkapan" value="Tidak ada">
+      <label for="perlengkapan-tidakada">Tidak Ada</label>
       </td>
-      <td>
-      <div class="input-group mb-3">
-        <input type="text" class="form-control" name="disc" id="discpembelian_mask" oninput="formatNumber('discpembelian_mask')" required>
-        <div class="input-group-append">
-          <span class="input-group-text">%</span>
-        </div>
-      </div>
+      
       <td>
         <div class="row">
           <div class = "col">
@@ -497,28 +336,22 @@ if (isset($_GET['id_pembelian'])) { ?>
               <!-- Table row -->
               <div class="row">
                 <div class="col-12 table-responsive">
-                  <h3>List Barang :</h3>
+                  <h3>List Perlengkapan :</h3>
                   <table class="table table-striped">
                     <thead>
                     <tr>
                       <th>No.</th>
-                      <th>Nama Barang</th>
-                      <th>Qty</th>
-                      <th>Harga Barang</th>
-                      <th>Bruto</th>
-                      <th>Disc</th>
-                      <th>Netto</th>
+                      <th>Nama Perlengkapan</th>
+                      <th>Kondisi</th>
+                      <th>Deskripsi</th>
                       <th>Delete</th>
                     </tr>
                     </thead>
                     <tbody>
                       <?php
-                      if (!isset($_SESSION['temp_data_beli'])) {
+                      if (!isset($_SESSION['temp_data_perlengkapan'])) {
                       ?>
                       <tr>
-                          <td>-</td>
-                          <td>-</td>
-                          <td>-</td>
                           <td>-</td>
                           <td>-</td>
                           <td>-</td>
@@ -528,51 +361,30 @@ if (isset($_GET['id_pembelian'])) { ?>
                       <?php
                     } else {
                       $i = 1;
-                      foreach ($_SESSION['temp_data_beli'] as $key => $value){   
-                        $id_barang = $value['id_barang'];
-                        $id_supplier = $value['id_supplier'];
-                        $query = "SELECT nama_barang FROM barang WHERE $id_barang = id_barang";
-                        $ambilBarang= mysqli_query($conn, $query);
-                        $fetchBarang = mysqli_fetch_assoc($ambilBarang);
-                        $nama_barang = $fetchBarang['nama_barang'];
-                        $kuantitas = $value['kuantitas'];
-                        $harga_barang = $value ['harga_barang'];
-                        $harga_barang_formatted = number_format($harga_barang, 0, ',', '.');
-                        $bruto = $value ['bruto'];
-                        $bruto_formatted = number_format($bruto, 0, ',', '.');
-                        $disc = $value ['disc'];
-                        $netto = $value ['netto'];
-                        $netto_formatted = number_format($netto, 0, ',', '.');
-                        $diskon = $value ['diskon'];
+                      foreach ($_SESSION['temp_data_perlengkapan'] as $key => $value){   
+                        $id_perlengkapan = $value['id_perlengkapan'];
+                        $query = "SELECT prlkpn FROM mobil WHERE $id_perlengkapan = id_prlkpn";
+                        $ambilPerlengkapan= mysqli_query($conn, $query);
+                        $fetchPerlengkapan = mysqli_fetch_assoc($ambilPerlengkapan);
+                        $nama_perlengkapan = $fetchPerlengkapan['prlkpn'];
+                        $kondisi = $value['kondisi'];
+                        $deskripsi = $value ['perlengkapan'];
                         ?>
                         <tr>
                           <td><?=$i?></td>
-                          <td><a href="main.php?module=detailPembelian&id_barang=<?=$id_barang?>" style="text-decoration: none; color : black;"><?=$nama_barang?></a></td>
-                          <td><?=$kuantitas?></td>
-                          <td>Rp. <?=$harga_barang_formatted?></td>
-                          <td>Rp. <?=$bruto_formatted?></td>
-                          <td><?=$disc?>%</td>
-                          <td>Rp. <?=$netto_formatted?></td>
+                          <td><?=$nama_perlengkapan?></td>
+                          <td><?=$kondisi?></td>
+                          <td><?=$deskripsi?></td>
                           <td>
-                            <form action="modules/transaksi/pembelian/proses.php?act=deleteList" method="post">
+                            <form action="modules/mobil/proses.php?act=deleteList" method="post">
                               <input type="hidden" name="indeks" value=<?=$key?>>
                               <button type="submit" name="deleteList"class="btn btn-danger btn-sm" ><i class = "far fa-trash-alt"></i></button>
                             </form>
                           </td>
                       </tr>
                       <?php
-                      $i++;
-
-                      $totBruto += $bruto;
-                      $totDiskon += $diskon;
-                      $totNetto += $netto;
-                      $_SESSION['totNetto'] = $totNetto;
+                      $i++;       
                       }
-                      $totBruto = number_format($totBruto, 0, ',', '.');
-                      $totDiskon = number_format($totDiskon, 0, ',', '.');
-                      $totNetto = number_format($totNetto, 0, ',', '.');
-                      
-                      $jatuh_tempo_bawah = $jatuh_tempo;
                     }
                       ?>
                     </tbody>
@@ -580,53 +392,17 @@ if (isset($_GET['id_pembelian'])) { ?>
                 </div>
                 <!-- /.col -->
               </div>
-              <!-- /.row -->
-
-              <div class="row">
-                <!-- accepted payments column -->
-                <div class="col-6">
-                </div>
-                <!-- /.col -->
-                <div class="col-6">
-                  <p class="lead">Jatuh Tempo : <?=$jatuh_tempo_bawah?></p>
-                  <div class="table-responsive">
-                    <table class="table">
-                      <tr>
-                        <th style="width:50%">Subtotal:</th>
-                        <td>Rp. <?=$totBruto?></td>
-                      </tr>
-                      <tr>
-                        <th>Disc</th>
-                        <td>Rp. <?=$totDiskon?></td>
-                      </tr>
-                      <tr>
-                      </tr>
-                      <tr>
-                        <th>Total:</th>
-                        <td>Rp. <?=$totNetto?></td>
-                      </tr>
-                    </table>
-                  </div>
-                </div>
-                <!-- /.col -->
-              </div>
+              
               <!-- /.row -->
 
               <!-- this row will not appear when printing -->
               <div class="row no-print">
                 <div class="col">
-                  <a href="?module=detailPembelian" rel="noopener" target="_blank" class="btn btn-default float-left  " onclick="printPage()"><i class="fas fa-print"></i> Print</a>
-                    <script>
-                    function printPage() {
-                      window.addEventListener("load", window.print());
-                    }
-                    </script>
+                  
                     <form action="modules/transaksi/pembelian/proses.php?act=insertPembelian" method="post">
                       <button type="submit" name="insertPembelian" class="btn btn-success float-right">Submit</button>
                     </form>
-                    <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
-                    <i class="fas fa-download"></i> Generate PDF
-                  </button>
+                    
                 </div>
               </div>
             </div>

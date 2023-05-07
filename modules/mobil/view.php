@@ -24,7 +24,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header d-md-flex justify-content-md-end">
-                        <a href="main.php?module=detailPembelian">
+                        <a href="main.php?module=detailMobil">
                             <button type="button" class="btn btn-outline-secondary">
                             <i class="fa fa-plus-square"></i> Tambah Mobil
                             </button>
@@ -44,36 +44,22 @@
                             </thead>
                             <tbody>
                                 <?php
-                                $query = "SELECT p.*, s.nama
-                                            FROM pembelian p
-                                            INNER JOIN supplier s ON p.id_supplier = s.id_supplier
-                                            ";
+                                $query = "SELECT * FROM data_mobil where status = 'Y'";
                                 $execQuery = mysqli_query($conn, $query);
 
                                 while ($data = mysqli_fetch_array($execQuery)){
-                                    $id_pembelian = $data ['id_pembelian'];
-                                    $no_faktur = $data ['no_faktur'];
+                                    $id_mobil = $data ['id_mobil'];
+                                    $merk = $data ['merk'];
+                                    $plat = $data ['plat'];
                                     $tanggal  = $data ['tanggal'];
-                                    $jatuh_tempo  = $data ['jatuh_tempo'];
-                                    $supplier = $data ['nama'];
-                                    $netto = number_format($data['netto'], 0, ',', '.');
-                                    $status = $data ['status_pembayaran'];
+                                    $pemeriksa  = $data ['pemeriksa'];
                                 ?>
                                 <tr>
-                                    <td><?=$no_faktur?></td>
+                                    <td><?=$merk?></td>
+                                    <td><?=$plat?></td>
                                     <td><?=$tanggal?></td>
-                                    <td><?=$supplier?></td>
-                                    <td>Rp. <?=$netto?></td>
-                                    <td>
-                                        <?php
-                                        if ($status == "N") {
-                                            echo "Belum Terbayar";
-                                        } else {
-                                            echo "Terbayar";
-                                        }
-                                        ?>
-                                    </td>
-                                    <td><?=$jatuh_tempo?></td>
+                                    <td><?=$pemeriksa?></td>
+                                   
                                     <td>
                                         <a href="?module=detailPembelian&id_pembelian=<?=$id_pembelian?>"><button type="button" class="btn btn-warning btn-sm"><i class="fas fa-ellipsis-h" style="color : #ffffff"></i></button></a>
                                         <?php
@@ -93,27 +79,7 @@
                             </tbody>
                 </table>
                 <br><br>
-                <div class="row">
-                    <div class="col-8"></div>
-                    <?php
-                        $query = "SELECT SUM(netto) as utang_dagang FROM pembelian WHERE status_pembayaran = 'N'";
-                        $execQuery = mysqli_query($conn, $query);
-
-                        $ambilUtangDagang = mysqli_fetch_array($execQuery);
-                        $utang_dagang =  number_format($ambilUtangDagang['utang_dagang'], 0, ',', '.');
-                    ?>
-                    <div class="col-4">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <tr>
-                                    <th>Utang Dagang :</th>
-                                    <td>Rp. <?=$utang_dagang?></td>
-                                </tr>
-                            </table>
-                        </div>
-
-                    </div>
-                </div>
+               
               </div>
               <!-- /.card-body -->
             </div>
