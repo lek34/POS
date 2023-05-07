@@ -55,6 +55,12 @@ else{
 	elseif ($_GET['module'] == 'historyPenjualan'){
 		include "modules/history/history_penjualan.php";
 	}
+	elseif ($_GET['module'] == 'cekMobil'){
+		include "modules/mobil/view.php";
+	}
+	elseif ($_GET['module'] == 'historyPenjualan'){
+		include "modules/history/history_penjualan.php";
+	}
 	elseif ($_GET['module'] == 'cashMasuk'){
 		include "modules/cash/pemasukan/view.php";
 	}
