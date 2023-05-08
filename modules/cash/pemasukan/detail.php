@@ -43,8 +43,28 @@
                             </div>
                         </div>
                         <div class="row">
+                          <div class="col-12">
+                            <label for="">Terima Dari : </label>
+                            <div class="form-group clearfix">
+                              <div class="icheck-primary d-inline">
+                                <input type="radio" id="radioPrimary1" name="terimaDari" value="customer"checked>
+                                <label for="radioPrimary1">
+                                  Customer
+                                </label>
+                              </div>
+                              <div class="icheck-primary d-inline" style="margin-left : 12px  ">
+                                <input type="radio" id="radioPrimary2" name="terimaDari" value="lainnya">
+                                <label for="radioPrimary2">
+                                  lainnya
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
                             <div class="col-12">
                                 <label>Customer</label>
+                                <div class="col-2">
                                 <select name="id_customer" class="form-control">
                                 <?php
                                     $pilihanCustomer = mysqli_query($conn, "select * from customer WHERE status = 'Y'");
@@ -59,11 +79,70 @@
                                 }
                                 ?>
                                 </select>
+                                </div>
+                               
                             </div>
                         </div>
+                        <div class="row">
+                          <div class="col-12">
+                              <label>Ke Kas : </label>
+                              <div class="col-2">
+                              <select name="kas" class="form-control">
+                                <?php
+                                  $pilihanCash = mysqli_query($conn, "SELECT * FROM akun WHERE status = 'Y'");
+                                  while($fetcharray = mysqli_fetch_array($pilihanCash)){
+                                    $namaAkun = $fetcharray ['nama_akun'];
+                                    $idAkun = $fetcharray['id_akun'];
+                                  }
+                                  ?>
+                                  <option value="<?=$idAkun?>">
+                                    <?=$namaAkun?>
+                                  </option>
+                                  <?php
+                                ?>
+                              </select>
+                              </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12">
+                              <label>Kendaraan : </label>
+                              <div class="col-2">
+                              <select name="kendaraan" class="form-control">
+                                <?php
+                                  $pilihanCash = mysqli_query($conn, "SELECT * FROM akun WHERE status = 'Y'");
+                                  while($fetcharray = mysqli_fetch_array($pilihanCash)){
+                                    $namaAkun = $fetcharray ['nama_akun'];
+                                    $idAkun = $fetcharray['id_akun'];
+                                  }
+                                  ?>
+                                  <option value="<?=$idAkun?>">
+                                    <?=$namaAkun?>
+                                  </option>
+                                  <?php
+                                ?>
+                              </select>
+                              </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-12">
+                              <label>Keterangan : </label>
+                              <input type="text" class="form-control" name="keterangan">
+                          </div>
+                        </div>
 
-                      
-                    </div>  
+                    </div> 
+                    <div class="col-sm-6">
+                      <div class="row">
+                        <div class="col-12">
+                          <div class="col-4 align-self-end">
+                            <label for="">No. Jurnal</label>
+                            <input type="text" class="form-control">
+                          </div>
+                        </div>
+                      </div>
+                    </div> 
                   </div>
                   <div class="row" style="margin : 24px 0 0 2px">
                       <button type="button" name="reset" class="btn btn-secondary align-items-center" onclick="window.location.href='modules/transaksi/pembelian/proses.php?act=reset'" style="height : 50px" disabled>Reset</button>
