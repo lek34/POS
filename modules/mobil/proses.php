@@ -104,7 +104,7 @@ require_once "../../auth/cek.php";
             unset($_SESSION['temp_transaksi_beli']);
             unset($_SESSION['temp_data_beli']);
     
-            header('location: ../../../main.php?module=cekMobil');
+            header('location: ../../main.php?module=cekMobil');
 
         }
     }
