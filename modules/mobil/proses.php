@@ -35,7 +35,7 @@ require_once "../../auth/cek.php";
                 'id_perlengkapan' => $id_perlengkapan,
                 'kondisi' => $kondisi,
                 'perlengkapan' => $perlengkapan,
-                
+                'user' => $user,
             );
 
             header('location: ../../main.php?module=detailMobil');
@@ -66,65 +66,45 @@ require_once "../../auth/cek.php";
             $query = "UPDATE pembelian SET status_pembayaran = 'Y' WHERE id_pembelian = '$id_pembelian'";
             $execQuery = mysqli_query($conn, $query);
 
-            header('location: ../../../main.php?module=buyItem');
+            header('location: ../../main.php?module=buyItem');
         }
     }
 
-    elseif ($_GET['act'] == 'insertPembelian') {
-        if (isset($_POST['insertPembelian'])) {
-            $temp_transaksi_beli = $_SESSION['temp_transaksi_beli'];
-            $no_transaksi = $temp_transaksi_beli['no_transaksi'];
-            $no_faktur = $temp_transaksi_beli['no_faktur'];
-            $id_supplier = $temp_transaksi_beli['id_supplier'];
-            $jatuh_tempo = $temp_transaksi_beli['jatuh_tempo'];
-            $totNetto = $_SESSION['totNetto'];
+    elseif ($_GET['act'] == 'insertMobil') {
+        if (isset($_POST['insertMobil'])) {
+            $temp_transaksi_mobil = $_SESSION['temp_transaksi_mobil'];
+            $merk = $temp_transaksi_mobil['merk'];
+            $plat = $temp_transaksi_mobil['plat'];
+            $tanggal_periksa = $temp_transaksi_mobil['tanggal_periksa'];
+            $pemeriksa = $temp_transaksi_mobil['pemeriksa'];
+
             $creator = $_SESSION['username'];
             
-            $queryHeader = "INSERT INTO pembelian (no_faktur, id_supplier, nomor_transaksi, jatuh_tempo, netto, creator) 
-                            VALUES ('$no_faktur', '$id_supplier', '$no_transaksi', '$jatuh_tempo', '$totNetto', '$creator')";
+            $queryHeader = "INSERT INTO data_mobil (merk,plat,tanggal,pemeriksa, creator) 
+                            VALUES ('$merk','$plat','$tanggal_periksa','$pemeriksa', '$creator')";
             $execQueryHeader = mysqli_query($conn, $queryHeader) or die('Error inserting data into pembelian table: ' . mysqli_error($conn));
-            $id_pembelian = mysqli_insert_id($conn);
+            $id_mobil = mysqli_insert_id($conn);
     
             // Insert data from temp_data_beli table
-            $temp_data_beli = $_SESSION['temp_data_beli'];
-            foreach ($temp_data_beli as $data) {
-                $id_barang = $data['id_barang'];
-                $id_supplier = $data['id_supplier'];
-                $kuantitas = $data['kuantitas'];
-                $harga_barang = $data['harga_barang'];
-                $disc = $data['disc'];
-                $bruto = $data['bruto'];
-                $netto = $data['netto'];
+            $temp_data_perlengkapan = $_SESSION['temp_data_perlengkapan'];
+            foreach ($temp_data_perlengkapan as $data) {
+                $id_perlengkapan= $data['id_perlengkapan'];
+                $kondisi = $data['kondisi'];
+                $perlengkapan = $data['perlengkapan'];
                 $user = $data['user'];
-                $diskon = $data['diskon'];
+                
     
-                $queryDetail = "INSERT INTO history_pembelian (id_pembelian, id_supplier, id_barang, kuantitas, harga_barang, disc, diskon, bruto, netto, user) 
-                                VALUES ('$id_pembelian', '$id_supplier', '$id_barang', '$kuantitas', '$harga_barang', '$disc', '$diskon', '$bruto', '$netto', '$user')";
+                $queryDetail = "INSERT INTO history_mobil (id_mobil, id_perlengkapan, ,kondisi , perlengkapan, user) 
+                                VALUES ('$id_mobil', '$id_perlengkapan', '$kondisi', '$perlengkapan' '$user')";
                 $execQueryDetail = mysqli_query($conn, $queryDetail) or die('Error inserting data into pembelian_detail table: ' . mysqli_error($conn));
             }
             
-            $tambahBarang = "SELECT hp.id_barang, b.nama_barang,b.kuantitas, SUM(hp.kuantitas) as total_kuantitas
-                             FROM barang b
-                             INNER JOIN history_pembelian hp ON hp.id_barang = b.id_barang
-                             GROUP BY hp.id_barang, b.nama_barang;";
-            $exectambahBarang = mysqli_query($conn, $tambahBarang);
-            
-            
-
-            while ($datatambahBarang = mysqli_fetch_array($exectambahBarang)){
-                $id_barang = $datatambahBarang['id_barang'];
-                $total_kuantitas = $datatambahBarang ['total_kuantitas'];
-                
-                $stock_baru = $stock_sekarang + $total_kuantitas;
-                
-                $insertKuantitas = "UPDATE barang SET kuantitas = '$stock_baru' WHERE id_barang = '$id_barang'";
-                $execinsertKuantitas = mysqli_query($conn, $insertKuantitas);
-            }
+           
             // Clear session data after successful insertions
             unset($_SESSION['temp_transaksi_beli']);
             unset($_SESSION['temp_data_beli']);
     
-            header('location: ../../../main.php?module=buyItem');
+            header('location: ../../../main.php?module=cekMobil');
 
         }
     }

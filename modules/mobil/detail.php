@@ -273,7 +273,7 @@ if (isset($_GET['id_pembelian'])) { ?>
               <!-- /.row -->
               <div class="row">
                 <div class="col-12 table-responsive">
-                  <table class="table table-striped" id="tableBarang">
+                  <table class="table table-striped">
                   <thead>
                     <tr>
                       <th>Nama Perlengkapan</th>
@@ -399,8 +399,8 @@ if (isset($_GET['id_pembelian'])) { ?>
               <div class="row no-print">
                 <div class="col">
                   
-                    <form action="modules/transaksi/pembelian/proses.php?act=insertPembelian" method="post">
-                      <button type="submit" name="insertPembelian" class="btn btn-success float-right">Submit</button>
+                    <form action="modules/transaksi/pembelian/proses.php?act=insertMobil" method="post">
+                      <button type="submit" name="insertMobil" class="btn btn-success float-right">Submit</button>
                     </form>
                     
                 </div>
