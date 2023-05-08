@@ -8,7 +8,7 @@
 ?>
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Cash Keluar</h1>
+                <h1>Cash Pengeluaran</h1>
             </div>
         </div>
     </div><!-- /.container-fluid -->
@@ -42,3 +42,11 @@
                                 </tr>
                             </thead>
                             <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
