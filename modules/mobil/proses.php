@@ -84,7 +84,7 @@ require_once "../../auth/cek.php";
                             VALUES ('$merk','$plat','$tanggal_periksa','$pemeriksa', '$creator')";
             $execQueryHeader = mysqli_query($conn, $queryHeader) or die('Error inserting data into pembelian table: ' . mysqli_error($conn));
             $id_mobil = mysqli_insert_id($conn);
-    
+            
             // Insert data from temp_data_beli table
             $temp_data_perlengkapan = $_SESSION['temp_data_perlengkapan'];
             foreach ($temp_data_perlengkapan as $data) {
@@ -94,8 +94,8 @@ require_once "../../auth/cek.php";
                 $user = $data['user'];
                 
     
-                $queryDetail = "INSERT INTO history_mobil (id_mobil, id_perlengkapan, ,kondisi , perlengkapan, user) 
-                                VALUES ('$id_mobil', '$id_perlengkapan', '$kondisi', '$perlengkapan' '$user')";
+                $queryDetail = "INSERT INTO history_mobil (id_mobil, id_perlengkapan ,kondisi , perlengkapan, user) 
+                                VALUES ('$id_mobil', '$id_perlengkapan', '$kondisi', '$perlengkapan' ,'$user')";
                 $execQueryDetail = mysqli_query($conn, $queryDetail) or die('Error inserting data into pembelian_detail table: ' . mysqli_error($conn));
             }
             

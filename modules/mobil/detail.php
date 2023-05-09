@@ -399,7 +399,7 @@ if (isset($_GET['id_pembelian'])) { ?>
               <div class="row no-print">
                 <div class="col">
                   
-                    <form action="modules/transaksi/pembelian/proses.php?act=insertMobil" method="post">
+                    <form action="modules/mobil/proses.php?act=insertMobil" method="post">
                       <button type="submit" name="insertMobil" class="btn btn-success float-right">Submit</button>
                     </form>
                     
