@@ -27,7 +27,7 @@
 
                     ?>
                   <div class="col-12">
-                    <form action="modules/transaksi/pembelian/proses.php?act=inserttemp" method="post"> <!-- form buka -->
+                    <form action="modules/transaksi/pembelian/proses.php?act=insertTempCashMasuk" method="post"> <!-- form buka -->
                         <div class="row">
                             <div class="col-2">
                                 <label>No. Bukti : </label>
@@ -149,10 +149,15 @@
                                 <input type="text" class="form-control">
                             </div>
                         </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-12">
+                            <button type="button" name="reset" class="btn btn-secondary" onclick="window.location.href='modules/transaksi/pembelian/proses.php?act=reset'" disabled>Reset</button>
+                            <button type="submit" name="insertTempCashMasuk" class="btn btn-primary float-right">Submit</button>
+                            </div>
+                        </div>
+                        
                     </form>
-                  </div>
-                  <div class="row" style="margin : 24px 0 0 2px">
-                      <button type="button" name="reset" class="btn btn-secondary align-items-center" onclick="window.location.href='modules/transaksi/pembelian/proses.php?act=reset'" style="height : 50px" disabled>Reset</button>
                   </div>
                   <br>
               </div>
