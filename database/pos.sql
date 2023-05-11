@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 08 Bulan Mei 2023 pada 04.25
+-- Waktu pembuatan: 11 Bulan Mei 2023 pada 14.41
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 8.1.12
 
@@ -30,16 +30,17 @@ SET time_zone = "+00:00";
 CREATE TABLE `akun` (
   `id_akun` int(11) NOT NULL,
   `kode_akun` text NOT NULL,
-  `nama_akun` varchar(50) NOT NULL
+  `nama_akun` varchar(50) NOT NULL,
+  `status` varchar(1) NOT NULL DEFAULT 'Y'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `akun`
 --
 
-INSERT INTO `akun` (`id_akun`, `kode_akun`, `nama_akun`) VALUES
-(1, '11021', 'Kas Besar'),
-(2, '110', 'Kas Besar');
+INSERT INTO `akun` (`id_akun`, `kode_akun`, `nama_akun`, `status`) VALUES
+(1, '11021', 'Kas Besar', 'Y'),
+(2, '110', 'Kas Besar', 'Y');
 
 -- --------------------------------------------------------
 
@@ -70,13 +71,26 @@ INSERT INTO `barang` (`id_barang`, `nama_barang`, `harga_modal`, `satuan_besar`,
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `cash_keluar`
+--
+
+CREATE TABLE `cash_keluar` (
+  `id_ckeluar` int(11) NOT NULL,
+  `nomor_keluar` int(11) NOT NULL,
+  `bukti_keluar` int(11) NOT NULL,
+  `status` varchar(1) NOT NULL DEFAULT 'Y'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `cash_masuk`
 --
 
 CREATE TABLE `cash_masuk` (
   `id_cmasuk` int(11) NOT NULL,
   `nomor_masuk` int(11) NOT NULL,
-  `nomor_bukti` varchar(255) NOT NULL,
+  `bukti_masuk` varchar(255) NOT NULL,
   `status` varchar(1) NOT NULL DEFAULT 'Y'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -376,6 +390,12 @@ ALTER TABLE `barang`
   ADD PRIMARY KEY (`id_barang`);
 
 --
+-- Indeks untuk tabel `cash_keluar`
+--
+ALTER TABLE `cash_keluar`
+  ADD PRIMARY KEY (`id_ckeluar`);
+
+--
 -- Indeks untuk tabel `cash_masuk`
 --
 ALTER TABLE `cash_masuk`
@@ -463,6 +483,12 @@ ALTER TABLE `akun`
 --
 ALTER TABLE `barang`
   MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT untuk tabel `cash_keluar`
+--
+ALTER TABLE `cash_keluar`
+  MODIFY `id_ckeluar` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `cash_masuk`
