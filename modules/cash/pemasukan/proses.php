@@ -13,11 +13,23 @@
         if(isset($_POST['insertTempCashMasuk'])){
             echo'test 3';
             $nomor_bukti = mysqli_real_escape_string($conn, trim($_POST['no_bukti']));
-            $target_pengeluaran = mysqli_real_escape_string($conn, trim($_POST['targetPengeluaran']));
+            if(!empty($_POST['targetPengeluaran'])){
+                $target_pengeluaran = mysqli_real_escape_string($conn, trim($_POST['targetPengeluaran']));
+            } else {
+                $target_pengeluaran = mysqli_real_escape_string($conn, trim($_POST['targetPengeluaran2']));
+            }
             $id_akun  = mysqli_real_escape_string($conn, trim($_POST['id_akun']));
             $kendaraan  = mysqli_real_escape_string($conn, trim($_POST['kendaraan']));
             $keterangan =  mysqli_real_escape_string($conn, trim($_POST['keterangan']));
             $jumlah =  mysqli_real_escape_string($conn, trim($_POST['jumlah']));
+
+            if(isset($_POST['barangPenjualan'])){
+                $barang_penjualan = mysqli_real_escape_string($conn, trim($_POST['barangPenjualan']));
+                $kuantitas = mysqli_real_escape_string($conn, trim($_POST['kuantitas']));
+            } else {
+                $barang_penjualan = NULL;
+                $kuantitas = NULL;
+            }
             
 
             $_SESSION['temp_cash_masuk'][] = array(
@@ -27,8 +39,25 @@
                 'kendaraan' => $kendaraan,
                 'keterangan' => $keterangan,
                 'jumlah' => $jumlah,
+                'id_barang' => $barang_penjualan,
+                'kuantitas' => $kuantitas,
             );
         }
         header('location: ../../../main.php?module=detailCashMasuk');
+    }
+
+    elseif ($_GET['act'] == 'reset'){
+        unset($_SESSION['temp_cash_masuk']);
+        header('location: ../../../main.php?module=detailCashMasuk');
+    }
+
+    elseif ($_GET['act'] == 'deleteList'){
+        if (isset($_POST['deleteList'])){
+            $id_list = $_POST['indeks'];
+
+            unset($_SESSION['temp_cash_masuk'][$id_list]);
+
+            header('location: ../../../main.php?module=detailCashMasuk');
+        }
     }
 ?>
