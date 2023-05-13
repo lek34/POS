@@ -3,7 +3,7 @@
               <div class="row">
                 <div class="col-12">
                   <h2>
-                    Input Pengeluaran
+                    Input Pemasukan
                   </h2>
                 </div>
                 <!-- /.col -->
@@ -27,7 +27,7 @@
 
                     ?>
                   <div class="col-12">
-                    <form action="modules/transaksi/pembelian/proses.php?act=insertTempCashMasuk" method="post"> <!-- form buka -->
+                    <form action="modules/cash/pemasukan/proses.php?act=insertTempCashMasuk" method="post"> <!-- form buka -->
                         <div class="row">
                             <div class="col-2">
                                 <label>No. Bukti : </label>
@@ -37,10 +37,6 @@
                             <div class="col-3">
                                 <label>Tanggal : </label>
                                 <input type="date" name = "tanggal_masuk" class="form-control">
-                            </div>
-                            <div class="col-3">
-                                <label for="">No. Jurnal :</label>
-                                <input type="text" name="no_jurnal" class="form-control">
                             </div>
                         </div>
                         <div class="row">
@@ -69,14 +65,13 @@
                         </div>
                         <div class="row">
                             <div class="col-2">
-                            <select name="id_customer" class="form-control">
+                            <select name="targetPengeluaran" class="form-control">
                                 <?php
                                     $pilihanCustomer = mysqli_query($conn, "select * from customer WHERE status = 'Y'");
                                     while ($fetcharray = mysqli_fetch_array($pilihanCustomer)) {
                                     $namaCustomer = $fetcharray['nama'];
-                                    $idCustomer = $fetcharray['id_customer'];
                                     ?>
-                                    <option value="<?= $idCustomer; ?>">
+                                    <option value="<?= $namaCustomer; ?>">
                                         <?= $namaCustomer; ?>
                                     </option>
                                 <?php
@@ -124,20 +119,7 @@
                         </div>
                         <div class="row">
                             <div class="col-2">
-                            <select name="id_kendaraan" class="form-control">
-                                <?php
-                                    $pilihanCustomer = mysqli_query($conn, "select * from customer WHERE status = 'Y'");
-                                    while ($fetcharray = mysqli_fetch_array($pilihanCustomer)) {
-                                    $namaCustomer = $fetcharray['nama'];
-                                    $idCustomer = $fetcharray['id_customer'];
-                                    ?>
-                                    <option value="<?= $idCustomer; ?>">
-                                        <?= $namaCustomer; ?>
-                                    </option>
-                                <?php
-                                }
-                                ?>
-                            </select>
+                            <input type="text" class="form-control" name="kendaraan">
                             </div>
                             <div class="col-8">
                                 <input type="text" class="form-control">
@@ -145,8 +127,18 @@
                         </div>
                         <div class="row">
                             <div class="col-12">
+                                <label for="">Jumlah : </label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-10">
+                                <input type="text" class="form-control" name="jumlah">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
                                 <label for="">Keterangan : </label>
-                                <input type="text" class="form-control">
+                                <input type="text" class="form-control" name="keterangan">
                             </div>
                         </div>
                         <br>
@@ -175,7 +167,36 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php
                                 
+                                if (!isset($_SESSION['temp_cash_masuk'])) {
+                                    ?>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <?php 
+                                } else {
+                                    foreach ($_SESSION['temp_cash_masuk'] as $key => $value){   
+                                        $id_akun = $value['id_akun'];
+                                        $ambilAkun = "SELECT nama_akun, kode_akun FROM akun WHERE $id_akun = id_akun";
+                                        $execQueryAkun = mysqli_query($conn, $ambilAkun);
+                                        $fetchAkun = mysqli_fetch_array($execQueryAkun);
+                                        $kode_akun = $fetchAkun['kode_akun'];
+                                        $nama_akun = $fetchAkun['nama_akun'];
+                                        $keterangan = $value['keterangan'];
+                                        $jumlah = number_format($value ['jumlah'], 0, ',', '.');
+                                ?>
+                                <tr>
+                                    <td><?=$kode_akun?></td>
+                                    <td><?=$nama_akun?></td>
+                                    <td><?=$keterangan?></td>
+                                    <td>Rp.<?=$jumlah?></td>
+                                </tr>
+                                <?php
+                                    }
+                                }
+                                ?>
                             </tbody>
                         </table>
                     </div>
