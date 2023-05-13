@@ -27,7 +27,7 @@
 
                     ?>
                   <div class="col-12">
-                    <form action="modules/transaksi/pembelian/proses.php?act=inserttemp" method="post"> <!-- form buka -->
+                    <form action="modules/cash/pengeluaran/proses.php?act=inserttemp" method="post"> <!-- form buka -->
                         <div class="row">
                             <div class="col-2">
                                 <label>No. Bukti : </label>
@@ -38,149 +38,143 @@
                                 <label>Tanggal : </label>
                                 <input type="date" name = "tanggal_masuk" class="form-control">
                             </div>
-                            <div class="col-3">
-                                <label for="">No. Jurnal :</label>
-                                <input type="text" name="no_jurnal" class="form-control">
-                            </div>
                         </div>
                         <div class="row">
                           <div class="col-12">
-                            <label for="">Terima Dari : </label>
+                            <label for="">Ke : </label>
                             <div class="form-group clearfix">
                               <div class="icheck-primary d-inline">
                                 <input type="radio" id="radioPrimary1" name="terimaDari" value="customer"checked>
                                 <label for="radioPrimary1">
-                                  Customer
+                                    
+                                        Supplier
+                                    
                                 </label>
                               </div>
                               <div class="icheck-primary d-inline" style="margin-left : 12px  ">
-                                <input type="radio" id="radioPrimary2" name="terimaDari" value="salesman">
+                                <input type="radio" id="radioPrimary2" name="terimaDari" value="lainnya">
                                 <label for="radioPrimary2">
-                                  Salesman
-                                </label>
-                              </div>
-                              <div class="icheck-primary d-inline" style="margin-left : 12px  ">
-                                <input type="radio" id="radioPrimary3" name="terimaDari" value="lainnya">
-                                <label for="radioPrimary3">
-                                  Lainnya
+                                        Lainnya
                                 </label>
                               </div>
                             </div>
                           </div>
                         </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <label for="">Customer : </label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-2">
-                            <select name="id_customer" class="form-control">
-                                <?php
-                                    $pilihanCustomer = mysqli_query($conn, "select * from customer WHERE status = 'Y'");
-                                    while ($fetcharray = mysqli_fetch_array($pilihanCustomer)) {
-                                    $namaCustomer = $fetcharray['nama'];
-                                    $idCustomer = $fetcharray['id_customer'];
-                                    ?>
-                                    <option value="<?= $idCustomer; ?>">
-                                        <?= $namaCustomer; ?>
-                                    </option>
-                                <?php
-                                }
-                                ?>
-                            </select>
-                            </div>
-                            <div class="col-8">
-                                <input type="text" class="form-control" >
-                            </div>
-                            <div class="col-1">
-                                Posisi Kredit
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <label for="">Dari Kas : </label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-1">
-                            <select name="id_akun" class="form-control">
-                                <?php
-                                    $pilihanCustomer = mysqli_query($conn, "select * from akun WHERE status = 'Y'");
-                                    while ($fetcharray = mysqli_fetch_array($pilihanCustomer)) {
-                                    $namaAkun = $fetcharray['nama_akun'];
-                                    $idAkun = $fetcharray['id_akun'];
-                                    ?>
-                                    <option value="<?= $idAkun; ?>">
-                                        <?= $namaAkun; ?>
-                                    </option>
-                                <?php
-                                }
-                                ?>
-                            </select>
-                            </div>
-                            <div class="col-9">
-                                <input type="text" class="form-control" >
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <label for="">Kendaraan : </label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-2">
-                            <select name="id_kendaraan" class="form-control">
-                                <?php
-                                    $pilihanCustomer = mysqli_query($conn, "select * from customer WHERE status = 'Y'");
-                                    while ($fetcharray = mysqli_fetch_array($pilihanCustomer)) {
-                                    $namaCustomer = $fetcharray['nama'];
-                                    $idCustomer = $fetcharray['id_customer'];
-                                    ?>
-                                    <option value="<?= $idCustomer; ?>">
-                                        <?= $namaCustomer; ?>
-                                    </option>
-                                <?php
-                                }
-                                ?>
-                            </select>
-                            </div>
-                            <div class="col-8">
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <label for="">Keterangan : </label>
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                    </form>
-                  </div>
-                  <div class="row" style="margin : 24px 0 0 2px">
-                      <button type="button" name="reset" class="btn btn-secondary align-items-center" onclick="window.location.href='modules/transaksi/pembelian/proses.php?act=reset'" style="height : 50px" disabled>Reset</button>
-                  </div>
-                  <br>
-              </div>
-              <br>
-              <br>
-              <div class="row">
-                    <div class="col-12 table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                <th>Account</th>
-                                <th>Nama Perkiraan</th>
-                                <th>Keterangan Jurnal/Referensi</th>
-                                <th>Jumlah</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                      
+                                                <div class="row">
+                                                <div class="col-12">
+                                                    <label for="">Nama : </label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-2">
+                                                <select name="id_customer" class="form-control">
+                                                    <?php
+                                                        $pilihanCustomer = mysqli_query($conn, "select * from customer WHERE status = 'Y'");
+                                                        while ($fetcharray = mysqli_fetch_array($pilihanCustomer)) {
+                                                        $namaCustomer = $fetcharray['nama'];
+                                                        $idCustomer = $fetcharray['id_customer'];
+                                                        ?>
+                                                        <option value="<?= $idCustomer; ?>">
+                                                            <?= $namaCustomer; ?>
+                                                        </option>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                                </div>
+                                                <div class="col-8">
+                                                    <input type="text" class="form-control" >
+                                                </div>
+                                                <div class="col-1">
+                                                    Posisi Kredit
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label for="">Dari Kas : </label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-1">
+                                                <select name="id_akun" class="form-control">
+                                                    <?php
+                                                        $pilihanCustomer = mysqli_query($conn, "select * from akun WHERE status = 'Y'");
+                                                        while ($fetcharray = mysqli_fetch_array($pilihanCustomer)) {
+                                                        $namaAkun = $fetcharray['nama_akun'];
+                                                        $idAkun = $fetcharray['id_akun'];
+                                                        ?>
+                                                        <option value="<?= $idAkun; ?>">
+                                                            <?= $namaAkun; ?>
+                                                        </option>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                                </div>
+                                                <div class="col-9">
+                                                    <input type="text" class="form-control" >
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label for="">Kendaraan : </label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-2">
+                                                <select name="id_kendaraan" class="form-control">
+                                                    <?php
+                                                        $pilihanCustomer = mysqli_query($conn, "select * from customer WHERE status = 'Y'");
+                                                        while ($fetcharray = mysqli_fetch_array($pilihanCustomer)) {
+                                                        $namaCustomer = $fetcharray['nama'];
+                                                        $idCustomer = $fetcharray['id_customer'];
+                                                        ?>
+                                                        <option value="<?= $idCustomer; ?>">
+                                                            <?= $namaCustomer; ?>
+                                                        </option>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                                </div>
+                                                <div class="col-8">
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <label for="">Keterangan : </label>
+                                                    <input type="text" class="form-control">
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="row" style="margin : 24px 0 0 2px">
+                                        <button type="button" name="reset" class="btn btn-secondary align-items-center" onclick="window.location.href='modules/transaksi/pembelian/proses.php?act=reset'" style="height : 50px" disabled>Reset</button>
+                                    </div>
+                                    <br>
+                                </div>
+                                <br>
+                                <br>
+                                <div class="row">
+                                        <div class="col-12 table-responsive">
+                                            <table class="table table-striped">
+                                                <thead>
+                                                    <tr>
+                                                    <th>Account</th>
+                                                    <th>Nama Perkiraan</th>
+                                                    <th>Keterangan Jurnal/Referensi</th>
+                                                    <th>Jumlah</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
 </div>
 
               <!-- /.row -->
