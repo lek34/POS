@@ -27,7 +27,7 @@
 
                     ?>
                   <div class="col-12">
-                    <form action="modules/transaksi/pembelian/proses.php?act=inserttemp" method="post"> <!-- form buka -->
+                    <form action="modules/cash/pengeluaran/proses.php?act=inserttemp" method="post"> <!-- form buka -->
                         <div class="row">
                             <div class="col-2">
                                 <label>No. Bukti : </label>
@@ -37,10 +37,6 @@
                             <div class="col-3">
                                 <label>Tanggal : </label>
                                 <input type="date" name = "tanggal_masuk" class="form-control">
-                            </div>
-                            <div class="col-3">
-                                <label for="">No. Jurnal :</label>
-                                <input type="text" name="no_jurnal" class="form-control">
                             </div>
                         </div>
                         <div class="row">
@@ -111,7 +107,6 @@
                   if (!isset($_SESSION['temp_transaksi_beli'])) {/* pengulangan pertama */
                   ?>
                   <div class="col-sm-4 invoice-info">
-                    <form action="modules/transaksi/pembelian/proses.php?act=inserttemp" method="post"> <!-- form buka -->
                       <label>Supplier</label>
                       <select name="id_supplier" class="form-control">
                           <?php
@@ -168,7 +163,7 @@
                     </div>
                   </div>
                   <div class="row" style="margin : 24px 0 0 2px">
-                      <button type="button" name="reset" class="btn btn-secondary align-items-center" onclick="window.location.href='modules/transaksi/pembelian/proses.php?act=reset'" style="height : 50px" disabled>Reset</button>
+                      <button type="button" name="reset" class="btn btn-secondary align-items-center" onclick="window.location.href='modules/cash/pengeluaran/proses.php?act=reset'" style="height : 50px" disabled>Reset</button>
                   </div>
                   <br>
                   <?php
@@ -212,10 +207,7 @@
                   <div class="col-sm-4 invoice-col">
                   <form action="modules/transaksi/pembelian/proses.php?act=inserttemp" method="post"> 
                     <!-- form buka -->
-                      <input type="hidden" name="nomor_transaksi" placeholder="You Shouldn't See This" value='<?= $next_number?>' class="form-control" hidden>
-                      <label>No. Faktur</label>
-                      <input type="text" name="no_faktur" placeholder="No Faktur" value='<?=$newFaktur?>' class="form-control" readonly>
-                      <br>
+                      
                       <label>Supplier</label>
                       <select name="id_supplier" class="form-control" readonly>
                         <?php
@@ -233,8 +225,6 @@
                         ?>
                       </select>
                       <br>
-                      <label>Jatuh Tempo</label>
-                      <input type="date" id="jatuh_tempo" value="<?=$jatuh_tempo?>" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" readonly>
                     </div>
                     <div class="col-sm-2 invoice-col d-md-flex justify-content-md-end">
                   </div>
