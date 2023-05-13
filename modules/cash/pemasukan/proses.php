@@ -30,6 +30,14 @@
                 $barang_penjualan = NULL;
                 $kuantitas = NULL;
             }
+
+            if(isset($_POST['id_jasa'])){
+                $id_jasa = mysqli_real_escape_string($conn, trim($_POST['id_jasa']));
+                $deskripsi_jasa = mysqli_real_escape_string($conn, trim($_POST['deskripsi_jasa']));
+            } else {
+                $id_jasa = NULL;
+                $deskripsi_jasa = NULL;
+            }
             
 
             $_SESSION['temp_cash_masuk'][] = array(
@@ -41,6 +49,8 @@
                 'jumlah' => $jumlah,
                 'id_barang' => $barang_penjualan,
                 'kuantitas' => $kuantitas,
+                'id_jasa' => $id_jasa,
+                'deskripsi_jasa' => $deskripsi_jasa,
             );
         }
         header('location: ../../../main.php?module=detailCashMasuk');

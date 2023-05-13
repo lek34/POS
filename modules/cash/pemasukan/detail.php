@@ -41,6 +41,8 @@
                         </div>
                         <div class="row">
                             <div class="col-12">
+                            <?php
+                             if(!isset($_SESSION['temp_cash_masuk'])){?>
                                 <label for="">Terima Dari : </label>
                                 <div class="form-group clearfix">
                                 <div class="icheck-primary d-inline">
@@ -56,9 +58,38 @@
                                     </label>
                                 </div>
                                 </div>
+                             <?php
+                             }else{ ?>
+                                <label for="">Terima Dari : </label>
+                                <div class="form-group clearfix">
+                                <div class="icheck-primary d-inline">
+                                    <input type="radio" id="radioPrimary1" name="terimaDari" value="customer" onclick="showForm()" checked>
+                                    <label for="radioPrimary1">
+                                    Customer
+                                    </label>
+                                </div>
+                                <div class="icheck-primary d-inline" style="margin-left : 12px  ">
+                                    <input type="radio" id="radioPrimary2" name="terimaDari" value="lainnya" onclick="showForm()">
+                                    <label for="radioPrimary2">
+                                    Lainnya
+                                    </label>
+                                </div>
+                                </div>
+                            <?php
+                             }
+                            ?>
+                                
                             </div>
                             </div>
-                            <div id="cashmasuk-option1" style="display: none;">
+                            <?php
+                             if(isset($_SESSION['temp_cash_masuk'])){?>
+                                <div id="cashmasuk-option1">
+                             <?php
+                             }else{ ?>
+                                <div id="cashmasuk-option1" style="display: none;">
+                            <?php
+                             }
+                            ?>
                                 <div class="row">
                                     <div class="col-12">
                                     <label for="">Customer : </label>
@@ -128,6 +159,32 @@
                                         <input type="text" class="form-control" name="kuantitas">
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label for="">Nama Jasa : </label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-4">
+                                    <select name="id_jasa" class="form-control">
+                                        <option value=""></option>
+                                            <?php
+                                            $pilihanjasa = mysqli_query($conn, "select * from jasa WHERE status = 'Y'");
+                                            while ($fetcharray = mysqli_fetch_array($pilihanjasa)) {
+                                            $namajasa = $fetcharray['nama_jasa'];
+                                            $id_jasa = $fetcharray['id_jasa'];
+                                            ?>
+                                            <option value="<?= $id_jasa; ?>">
+                                                <?= $namajasa; ?>
+                                            </option>
+                                            
+                                            <?php
+                                            }
+                                            ?>
+                                    </select>
+                                    </div>
+                                </div>
+
                             </div>
                             <div id="cashmasuk-option2" style="display: none;">
                             <div class="row">
@@ -223,6 +280,7 @@
                                     <th>Keterangan Jurnal/Referensi</th>
                                     <th>Terima Dari</th>
                                     <th>Barang</th>
+                                    <th>Jasa</th>
                                     <th>Jumlah</th>
                                     <th>Delete</th>
                                 </tr>
@@ -254,6 +312,8 @@
                                         $jumlah = $value['jumlah'];
                                         $id_barang = $value['id_barang'];
                                         $target_pengeluaran = $value['target_pengeluaran'];
+                                        $id_jasa = $value['id_jasa'];
+                                        $nama_jasa = NULL;
                                         $nama_barang = NULL;
                                         if (isset($id_barang) && $id_barang = $value['id_barang']) {  
                                             $ambilNamaBarang = "SELECT nama_barang FROM barang WHERE $id_barang = id_barang";
@@ -262,6 +322,14 @@
                                             $nama_barang = $fetchNamaBarang['nama_barang'];
                                           }
                                           var_dump($nama_barang);
+
+                                        if (isset($id_jasa) && $id_jasa = $value['id_jasa']) {  
+                                        $ambilNamaJasa = "SELECT nama_jasa FROM jasa WHERE $id_jasa = id_jasa";
+                                        $execQueryJasa = mysqli_query($conn, $ambilNamaJasa);
+                                        $fetchNamaJasa = mysqli_fetch_array($execQueryJasa);
+                                        $nama_jasa = $fetchNamaJasa['nama_jasa'];
+                                        }
+                                        var_dump($nama_jasa);
                                 ?>
                                 <tr>
                                     <td><?=$i?></td>
@@ -273,6 +341,15 @@
                                         <?php
                                            if (!empty($nama_barang)) {
                                                 echo $nama_barang;
+                                           } else {
+                                            echo "-";
+                                           }
+                                        ?>
+                                    </td>
+                                    <td>
+                                        <?php
+                                           if (!empty($nama_jasa)) {
+                                                echo $nama_jasa;
                                            } else {
                                             echo "-";
                                            }
