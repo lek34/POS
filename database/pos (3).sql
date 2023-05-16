@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 08 Bulan Mei 2023 pada 04.25
--- Versi server: 10.4.27-MariaDB
--- Versi PHP: 8.1.12
+-- Generation Time: May 13, 2023 at 06:56 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.0.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,27 +24,28 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `akun`
+-- Table structure for table `akun`
 --
 
 CREATE TABLE `akun` (
   `id_akun` int(11) NOT NULL,
   `kode_akun` text NOT NULL,
-  `nama_akun` varchar(50) NOT NULL
+  `nama_akun` varchar(50) NOT NULL,
+  `status` varchar(1) NOT NULL DEFAULT 'Y'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `akun`
+-- Dumping data for table `akun`
 --
 
-INSERT INTO `akun` (`id_akun`, `kode_akun`, `nama_akun`) VALUES
-(1, '11021', 'Kas Besar'),
-(2, '110', 'Kas Besar');
+INSERT INTO `akun` (`id_akun`, `kode_akun`, `nama_akun`, `status`) VALUES
+(1, '11021', 'Kas Besar', 'Y'),
+(2, '110', 'Kas Besar', 'Y');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `barang`
+-- Table structure for table `barang`
 --
 
 CREATE TABLE `barang` (
@@ -60,7 +61,7 @@ CREATE TABLE `barang` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `barang`
+-- Dumping data for table `barang`
 --
 
 INSERT INTO `barang` (`id_barang`, `nama_barang`, `harga_modal`, `satuan_besar`, `satuan_kecil`, `uom_besar`, `uom_kecil`, `kuantitas`, `status`) VALUES
@@ -70,20 +71,33 @@ INSERT INTO `barang` (`id_barang`, `nama_barang`, `harga_modal`, `satuan_besar`,
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `cash_masuk`
+-- Table structure for table `cash_keluar`
 --
 
-CREATE TABLE `cash_masuk` (
-  `id_cmasuk` int(11) NOT NULL,
-  `nomor_masuk` int(11) NOT NULL,
-  `nomor_bukti` varchar(255) NOT NULL,
+CREATE TABLE `cash_keluar` (
+  `id_ckeluar` int(11) NOT NULL,
+  `nomor_keluar` int(11) NOT NULL,
+  `bukti_keluar` int(11) NOT NULL,
   `status` varchar(1) NOT NULL DEFAULT 'Y'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `customer`
+-- Table structure for table `cash_masuk`
+--
+
+CREATE TABLE `cash_masuk` (
+  `id_cmasuk` int(11) NOT NULL,
+  `nomor_masuk` int(11) NOT NULL,
+  `bukti_masuk` varchar(255) NOT NULL,
+  `status` varchar(1) NOT NULL DEFAULT 'Y'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer`
 --
 
 CREATE TABLE `customer` (
@@ -96,7 +110,7 @@ CREATE TABLE `customer` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `customer`
+-- Dumping data for table `customer`
 --
 
 INSERT INTO `customer` (`id_customer`, `nama`, `kontak`, `keterangan`, `alamat`, `status`) VALUES
@@ -106,7 +120,7 @@ INSERT INTO `customer` (`id_customer`, `nama`, `kontak`, `keterangan`, `alamat`,
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `data_mobil`
+-- Table structure for table `data_mobil`
 --
 
 CREATE TABLE `data_mobil` (
@@ -120,7 +134,28 @@ CREATE TABLE `data_mobil` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `history_jasa`
+-- Table structure for table `history_cash_masuk`
+--
+
+CREATE TABLE `history_cash_masuk` (
+  `id_hcm` int(11) NOT NULL,
+  `id_customer` int(11) NOT NULL,
+  `id_jasa` int(11) NOT NULL,
+  `id_barang` int(11) NOT NULL,
+  `kuantitas` int(11) NOT NULL,
+  `id_kas` int(11) NOT NULL,
+  `target_akun` int(11) NOT NULL,
+  `harga` int(11) NOT NULL,
+  `nomor_bukti` int(11) NOT NULL,
+  `kendaraan` varchar(20) NOT NULL,
+  `keterangan` varchar(20) NOT NULL,
+  `tanggal_masuk` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `history_jasa`
 --
 
 CREATE TABLE `history_jasa` (
@@ -132,7 +167,7 @@ CREATE TABLE `history_jasa` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `history_jasa`
+-- Dumping data for table `history_jasa`
 --
 
 INSERT INTO `history_jasa` (`id_hjasa`, `id_jasa`, `id_penjualan`, `harga_jasa`, `deskripsi`) VALUES
@@ -141,7 +176,7 @@ INSERT INTO `history_jasa` (`id_hjasa`, `id_jasa`, `id_penjualan`, `harga_jasa`,
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `history_pembelian`
+-- Table structure for table `history_pembelian`
 --
 
 CREATE TABLE `history_pembelian` (
@@ -159,7 +194,7 @@ CREATE TABLE `history_pembelian` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `history_pembelian`
+-- Dumping data for table `history_pembelian`
 --
 
 INSERT INTO `history_pembelian` (`id_hbeli`, `id_pembelian`, `id_barang`, `id_supplier`, `kuantitas`, `harga_barang`, `disc`, `diskon`, `bruto`, `netto`, `user`) VALUES
@@ -175,7 +210,7 @@ INSERT INTO `history_pembelian` (`id_hbeli`, `id_pembelian`, `id_barang`, `id_su
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `history_penjualan`
+-- Table structure for table `history_penjualan`
 --
 
 CREATE TABLE `history_penjualan` (
@@ -193,7 +228,7 @@ CREATE TABLE `history_penjualan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `history_penjualan`
+-- Dumping data for table `history_penjualan`
 --
 
 INSERT INTO `history_penjualan` (`id_hjual`, `id_penjualan`, `id_barang`, `id_customer`, `kuantitas`, `harga_barang`, `disc`, `diskon`, `bruto`, `netto`, `user`) VALUES
@@ -210,7 +245,7 @@ INSERT INTO `history_penjualan` (`id_hjual`, `id_penjualan`, `id_barang`, `id_cu
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `is_users`
+-- Table structure for table `is_users`
 --
 
 CREATE TABLE `is_users` (
@@ -228,7 +263,7 @@ CREATE TABLE `is_users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
--- Dumping data untuk tabel `is_users`
+-- Dumping data for table `is_users`
 --
 
 INSERT INTO `is_users` (`id_user`, `username`, `nama_user`, `password`, `email`, `telepon`, `foto`, `hak_akses`, `status`, `created_at`, `updated_at`) VALUES
@@ -237,7 +272,7 @@ INSERT INTO `is_users` (`id_user`, `username`, `nama_user`, `password`, `email`,
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `jasa`
+-- Table structure for table `jasa`
 --
 
 CREATE TABLE `jasa` (
@@ -247,7 +282,7 @@ CREATE TABLE `jasa` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `jasa`
+-- Dumping data for table `jasa`
 --
 
 INSERT INTO `jasa` (`id_jasa`, `nama_jasa`, `status`) VALUES
@@ -256,7 +291,7 @@ INSERT INTO `jasa` (`id_jasa`, `nama_jasa`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `mobil`
+-- Table structure for table `mobil`
 --
 
 CREATE TABLE `mobil` (
@@ -266,7 +301,7 @@ CREATE TABLE `mobil` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `mobil`
+-- Dumping data for table `mobil`
 --
 
 INSERT INTO `mobil` (`id_prlkpn`, `prlkpn`, `status`) VALUES
@@ -275,7 +310,7 @@ INSERT INTO `mobil` (`id_prlkpn`, `prlkpn`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pembelian`
+-- Table structure for table `pembelian`
 --
 
 CREATE TABLE `pembelian` (
@@ -292,7 +327,7 @@ CREATE TABLE `pembelian` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `pembelian`
+-- Dumping data for table `pembelian`
 --
 
 INSERT INTO `pembelian` (`id_pembelian`, `no_faktur`, `nomor_transaksi`, `id_supplier`, `tanggal`, `jatuh_tempo`, `netto`, `status_hapus`, `status_pembayaran`, `creator`) VALUES
@@ -305,7 +340,7 @@ INSERT INTO `pembelian` (`id_pembelian`, `no_faktur`, `nomor_transaksi`, `id_sup
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `penjualan`
+-- Table structure for table `penjualan`
 --
 
 CREATE TABLE `penjualan` (
@@ -324,7 +359,7 @@ CREATE TABLE `penjualan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `penjualan`
+-- Dumping data for table `penjualan`
 --
 
 INSERT INTO `penjualan` (`id_penjualan`, `no_faktur`, `nomor_transaksi`, `id_customer`, `id_jasa`, `plat`, `tanggal`, `jatuh_tempo`, `netto`, `status_hapus`, `status_pembayaran`, `creator`) VALUES
@@ -338,7 +373,7 @@ INSERT INTO `penjualan` (`id_penjualan`, `no_faktur`, `nomor_transaksi`, `id_cus
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `supplier`
+-- Table structure for table `supplier`
 --
 
 CREATE TABLE `supplier` (
@@ -352,7 +387,7 @@ CREATE TABLE `supplier` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `supplier`
+-- Dumping data for table `supplier`
 --
 
 INSERT INTO `supplier` (`id_supplier`, `nama`, `kontak`, `no_rekening`, `keterangan`, `alamat`, `status`) VALUES
@@ -364,174 +399,198 @@ INSERT INTO `supplier` (`id_supplier`, `nama`, `kontak`, `no_rekening`, `keteran
 --
 
 --
--- Indeks untuk tabel `akun`
+-- Indexes for table `akun`
 --
 ALTER TABLE `akun`
   ADD PRIMARY KEY (`id_akun`);
 
 --
--- Indeks untuk tabel `barang`
+-- Indexes for table `barang`
 --
 ALTER TABLE `barang`
   ADD PRIMARY KEY (`id_barang`);
 
 --
--- Indeks untuk tabel `cash_masuk`
+-- Indexes for table `cash_keluar`
+--
+ALTER TABLE `cash_keluar`
+  ADD PRIMARY KEY (`id_ckeluar`);
+
+--
+-- Indexes for table `cash_masuk`
 --
 ALTER TABLE `cash_masuk`
   ADD PRIMARY KEY (`id_cmasuk`);
 
 --
--- Indeks untuk tabel `customer`
+-- Indexes for table `customer`
 --
 ALTER TABLE `customer`
   ADD PRIMARY KEY (`id_customer`);
 
 --
--- Indeks untuk tabel `data_mobil`
+-- Indexes for table `data_mobil`
 --
 ALTER TABLE `data_mobil`
   ADD PRIMARY KEY (`id_mobil`);
 
 --
--- Indeks untuk tabel `history_jasa`
+-- Indexes for table `history_cash_masuk`
+--
+ALTER TABLE `history_cash_masuk`
+  ADD PRIMARY KEY (`id_hcm`);
+
+--
+-- Indexes for table `history_jasa`
 --
 ALTER TABLE `history_jasa`
   ADD PRIMARY KEY (`id_hjasa`);
 
 --
--- Indeks untuk tabel `history_pembelian`
+-- Indexes for table `history_pembelian`
 --
 ALTER TABLE `history_pembelian`
   ADD PRIMARY KEY (`id_hbeli`);
 
 --
--- Indeks untuk tabel `history_penjualan`
+-- Indexes for table `history_penjualan`
 --
 ALTER TABLE `history_penjualan`
   ADD PRIMARY KEY (`id_hjual`);
 
 --
--- Indeks untuk tabel `is_users`
+-- Indexes for table `is_users`
 --
 ALTER TABLE `is_users`
   ADD PRIMARY KEY (`id_user`),
   ADD KEY `level` (`hak_akses`);
 
 --
--- Indeks untuk tabel `jasa`
+-- Indexes for table `jasa`
 --
 ALTER TABLE `jasa`
   ADD PRIMARY KEY (`id_jasa`);
 
 --
--- Indeks untuk tabel `mobil`
+-- Indexes for table `mobil`
 --
 ALTER TABLE `mobil`
   ADD PRIMARY KEY (`id_prlkpn`);
 
 --
--- Indeks untuk tabel `pembelian`
+-- Indexes for table `pembelian`
 --
 ALTER TABLE `pembelian`
   ADD PRIMARY KEY (`id_pembelian`);
 
 --
--- Indeks untuk tabel `penjualan`
+-- Indexes for table `penjualan`
 --
 ALTER TABLE `penjualan`
   ADD PRIMARY KEY (`id_penjualan`);
 
 --
--- Indeks untuk tabel `supplier`
+-- Indexes for table `supplier`
 --
 ALTER TABLE `supplier`
   ADD PRIMARY KEY (`id_supplier`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `akun`
+-- AUTO_INCREMENT for table `akun`
 --
 ALTER TABLE `akun`
   MODIFY `id_akun` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT untuk tabel `barang`
+-- AUTO_INCREMENT for table `barang`
 --
 ALTER TABLE `barang`
   MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT untuk tabel `cash_masuk`
+-- AUTO_INCREMENT for table `cash_keluar`
+--
+ALTER TABLE `cash_keluar`
+  MODIFY `id_ckeluar` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `cash_masuk`
 --
 ALTER TABLE `cash_masuk`
   MODIFY `id_cmasuk` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `customer`
+-- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
   MODIFY `id_customer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT untuk tabel `data_mobil`
+-- AUTO_INCREMENT for table `data_mobil`
 --
 ALTER TABLE `data_mobil`
   MODIFY `id_mobil` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT untuk tabel `history_jasa`
+-- AUTO_INCREMENT for table `history_cash_masuk`
+--
+ALTER TABLE `history_cash_masuk`
+  MODIFY `id_hcm` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `history_jasa`
 --
 ALTER TABLE `history_jasa`
   MODIFY `id_hjasa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `history_pembelian`
+-- AUTO_INCREMENT for table `history_pembelian`
 --
 ALTER TABLE `history_pembelian`
   MODIFY `id_hbeli` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT untuk tabel `history_penjualan`
+-- AUTO_INCREMENT for table `history_penjualan`
 --
 ALTER TABLE `history_penjualan`
   MODIFY `id_hjual` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
--- AUTO_INCREMENT untuk tabel `is_users`
+-- AUTO_INCREMENT for table `is_users`
 --
 ALTER TABLE `is_users`
   MODIFY `id_user` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `jasa`
+-- AUTO_INCREMENT for table `jasa`
 --
 ALTER TABLE `jasa`
   MODIFY `id_jasa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `mobil`
+-- AUTO_INCREMENT for table `mobil`
 --
 ALTER TABLE `mobil`
   MODIFY `id_prlkpn` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT untuk tabel `pembelian`
+-- AUTO_INCREMENT for table `pembelian`
 --
 ALTER TABLE `pembelian`
   MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT untuk tabel `penjualan`
+-- AUTO_INCREMENT for table `penjualan`
 --
 ALTER TABLE `penjualan`
   MODIFY `id_penjualan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT untuk tabel `supplier`
+-- AUTO_INCREMENT for table `supplier`
 --
 ALTER TABLE `supplier`
   MODIFY `id_supplier` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
