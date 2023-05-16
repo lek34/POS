@@ -88,27 +88,6 @@
           <!-- Left col -->
           <section class="col-lg-7 connectedSortable">
             <!-- Custom tabs (Charts with tabs)-->
-            <!-- AREA CHART -->
-			  <div class="card card-primary">
-				<div class="card-header">
-				  <h3 class="card-title">Area Chart</h3>
-  
-				  <div class="card-tools">
-					<button type="button" class="btn btn-tool" data-card-widget="collapse">
-					  <i class="fas fa-minus"></i>
-					</button>
-					<button type="button" class="btn btn-tool" data-card-widget="remove">
-					  <i class="fas fa-times"></i>
-					</button>
-				  </div>
-				</div>
-				<div class="card-body">
-				  <div class="chart">
-					<canvas id="areaChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
-				  </div>
-				</div>
-				<!-- /.card-body -->
-			  </div>
 			  <!-- /.card -->
             <div class="card">
               <div class="card-header">
@@ -119,7 +98,7 @@
                 <div class="card-tools">
                   <ul class="nav nav-pills ml-auto">
                     <li class="nav-item">
-                      <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a>
+                      <a class="nav-link active" href="#revenue-chart" data-toggle="tab" >Area</a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
@@ -132,7 +111,7 @@
                   <!-- Morris chart - Sales -->
                   <div class="chart tab-pane active" id="revenue-chart"
                        style="position: relative; height: 300px;">
-                      <canvas id="revenue-chart-canvas" height="300" style="height: 300px;"></canvas>
+                       <canvas id="areaChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                    </div>
                   <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
                     <canvas id="sales-chart-canvas" height="300" style="height: 300px;"></canvas>
