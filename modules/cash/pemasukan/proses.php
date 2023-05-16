@@ -14,7 +14,12 @@
             echo'test 3';
             $nomor_bukti = mysqli_real_escape_string($conn, trim($_POST['no_bukti']));
             if(!empty($_POST['targetPengeluaran'])){
-                $target_pengeluaran = mysqli_real_escape_string($conn, trim($_POST['targetPengeluaran']));
+                $id_customer = mysqli_real_escape_string($conn, trim($_POST['targetPengeluaran']));
+                $ambilCustomer = "SELECT nama FROM customer WHERE $id_customer = id_customer";
+                $queryAmbilCustomer = mysqli_query($conn, $ambilCustomer);
+                $fetchCustomer = mysqli_fetch_array($queryAmbilCustomer);
+                $nama_customer = $fetchCustomer['nama'];
+                $target_pengeluaran = $nama_customer;
             } else {
                 $target_pengeluaran = mysqli_real_escape_string($conn, trim($_POST['targetPengeluaran2']));
             }
@@ -41,6 +46,7 @@
             
 
             $_SESSION['temp_cash_masuk'][] = array(
+                'id_customer' => $id_customer,
                 'nomor_bukti' => $nomor_bukti,
                 'target_pengeluaran' => $target_pengeluaran,
                 'id_akun' => $id_akun,

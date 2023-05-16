@@ -103,8 +103,9 @@
                                         $pilihanCustomer = mysqli_query($conn, "select * from customer WHERE status = 'Y'");
                                         while ($fetcharray = mysqli_fetch_array($pilihanCustomer)) {
                                             $namaCustomer = $fetcharray['nama'];
+                                            $id_customer = $fetcharray['id_customer'];
                                         ?>
-                                            <option value="<?= $namaCustomer; ?>">
+                                            <option value="<?= $id_customer; ?>">
                                             <?= $namaCustomer; ?>
                                             </option>
                                         <?php
@@ -321,6 +322,7 @@
                                             $fetchNamaBarang = mysqli_fetch_array($execQueryBarang);
                                             $nama_barang = $fetchNamaBarang['nama_barang'];
                                           }
+<<<<<<< Updated upstream
                                           var_dump($nama_barang);
 
                                         if (isset($id_jasa) && $id_jasa = $value['id_jasa']) {  
@@ -330,6 +332,8 @@
                                         $nama_jasa = $fetchNamaJasa['nama_jasa'];
                                         }
                                         var_dump($nama_jasa);
+=======
+>>>>>>> Stashed changes
                                 ?>
                                 <tr>
                                     <td><?=$i?></td>
