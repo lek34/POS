@@ -34,10 +34,25 @@
                                 <input type="text" name = "no_bukti" value=<?=$no_bukti?> class="form-control" readonly>
                             </div>
                             <div class="col-2"></div>
+                            <?php
+                                if(!isset($_SESSION['temp_cash_masuk'])){
+                                    ?>
                             <div class="col-3">
                                 <label>Tanggal : </label>
                                 <input type="date" name = "tanggal_masuk" class="form-control">
                             </div>
+                                    <?php
+                                } else {
+                                    $tanggal = $_SESSION['temp_cash_masuk']('tanggal_masuk');
+                                    ?>
+                            <div class="col-3">
+                                <label>Tanggal : </label>
+                                <input type="date" name = "tanggal_masuk" value="<?=$tanggal?>" class="form-control" readonly>
+                            </div>
+                                    <?php
+                                }
+                            ?>
+                            
                         </div>
                         <div class="row">
                             <div class="col-12">
@@ -207,27 +222,57 @@
                                 <label for="">Ke Kas : </label>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-1">
-                            <select name="id_akun" class="form-control">
-                                <?php
-                                    $pilihanCustomer = mysqli_query($conn, "select * from akun WHERE status = 'Y'");
-                                    while ($fetcharray = mysqli_fetch_array($pilihanCustomer)) {
-                                    $namaAkun = $fetcharray['nama_akun'];
-                                    $idAkun = $fetcharray['id_akun'];
+                        <?php
+                            if (!isset($_SESSION['temp_cash_masuk'])) {
+                            ?>
+                            <div class="row">
+                                <div class="col-1">
+                                <select name="id_akun" class="form-control">
+                                    <?php
+                                        $pilihanCustomer = mysqli_query($conn, "select * from akun WHERE status = 'Y'");
+                                        while ($fetcharray = mysqli_fetch_array($pilihanCustomer)) {
+                                        $namaAkun = $fetcharray['nama_akun'];
+                                        $idAkun = $fetcharray['id_akun'];
+                                        ?>
+                                        <option value="<?= $idAkun; ?>">
+                                            <?= $namaAkun; ?>
+                                        </option>
+                                    <?php
+                                    }
                                     ?>
-                                    <option value="<?= $idAkun; ?>">
-                                        <?= $namaAkun; ?>
-                                    </option>
-                                <?php
-                                }
-                                ?>
-                            </select>
+                                </select>
+                                </div>
+                                <div class="col-9">
+                                    <input type="text" class="form-control" >
+                                </div>
                             </div>
-                            <div class="col-9">
-                                <input type="text" class="form-control" >
-                            </div>
-                        </div>
+                            <?php
+                               }  else {
+                                   ?>
+                                   <div class="row">
+                                    <div class="col-1">
+                                    <select name="id_akun" class="form-control" readonly>
+                                        <?php
+                                            foreach ($_SESSION['temp_cash_masuk'] as $key => $value) {
+                                                $idAkun = $value['id_akun'];
+                                            }
+                                            $queryNamaAkun = "SELECT nama_akun FROM akun WHERE $idAkun = id_akun";
+                                            $execQueryNamaAkun = mysqli_query($conn, $queryNamaAkun);
+                                            $fethcNamaAkun = mysqli_fetch_array($execQueryNamaAkun);
+                                            $namaAkun = $fethcNamaAkun['nama_akun'];
+                                            ?>
+                                            <option value="<?= $idAkun; ?>">
+                                                <?= $namaAkun; ?>
+                                            </option>
+                                        <?php
+                                        }
+                                        ?>
+                                    </select>
+                                    </div>
+                                    <div class="col-9">
+                                        <input type="text" class="form-control" >
+                                    </div>
+                                </div>
                         <div class="row">
                             <div class="col-12">
                                 <label for="">Kendaraan : </label>
@@ -248,7 +293,7 @@
                         </div>
                         <div class="row">
                             <div class="col-10">
-                                <input type="text" class="form-control jumlah_mask"  name="jumlah" oninput="formatCurrency('jumlah_mask')">
+                                <input type="text" class="form-control jumlah_mask"  name="jumlah">
                             </div>
                         </div>
                         <div class="row">
@@ -299,18 +344,19 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    <td></td>
                                     <?php 
                                 } else {
                                     $i = 1;
-                                    foreach ($_SESSION['temp_cash_masuk'] as $key => $value){   
+                                    foreach ($_SESSION['temp_cash_masuk'] as $key => $value){
                                         $id_akun = $value['id_akun'];
                                         $ambilAkun = "SELECT nama_akun, kode_akun FROM akun WHERE $id_akun = id_akun";
                                         $execQueryAkun = mysqli_query($conn, $ambilAkun);
                                         $fetchAkun = mysqli_fetch_array($execQueryAkun);
                                         $kode_akun = $fetchAkun['kode_akun'];
                                         $nama_akun = $fetchAkun['nama_akun'];
-                                        $keterangan = $value['keterangan'];
-                                        $jumlah = $value['jumlah'];
+                                        $keterangan =  $value['keterangan'];
+                                        $jumlah = number_format($value['jumlah'], 0, ',', '.');
                                         $id_barang = $value['id_barang'];
                                         $target_pengeluaran = $value['target_pengeluaran'];
                                         $id_jasa = $value['id_jasa'];
@@ -322,18 +368,12 @@
                                             $fetchNamaBarang = mysqli_fetch_array($execQueryBarang);
                                             $nama_barang = $fetchNamaBarang['nama_barang'];
                                           }
-<<<<<<< Updated upstream
-                                          var_dump($nama_barang);
-
-                                        if (isset($id_jasa) && $id_jasa = $value['id_jasa']) {  
-                                        $ambilNamaJasa = "SELECT nama_jasa FROM jasa WHERE $id_jasa = id_jasa";
-                                        $execQueryJasa = mysqli_query($conn, $ambilNamaJasa);
-                                        $fetchNamaJasa = mysqli_fetch_array($execQueryJasa);
-                                        $nama_jasa = $fetchNamaJasa['nama_jasa'];
-                                        }
-                                        var_dump($nama_jasa);
-=======
->>>>>>> Stashed changes
+                                        if (isset($id_jasa) && $id_jasa = $value['id_barang']) {  
+                                            $ambilNamaJasa = "SELECT nama_jasa FROM jasa WHERE $id_jasa = id_jasa";
+                                            $execQueryJasa = mysqli_query($conn, $ambilNamaJasa);
+                                            $fetchNamaJasa = mysqli_fetch_array($execQueryJasa);
+                                            $nama_jasa = $fetchNamaJasa['nama_jasa'];
+                                          }
                                 ?>
                                 <tr>
                                     <td><?=$i?></td>
@@ -359,7 +399,7 @@
                                            }
                                         ?>
                                     </td>
-                                    <td><?=$jumlah?></td>
+                                    <td>Rp.<?=$jumlah?></td>
                                     <td>
                                     <form action="modules/cash/pemasukan/proses.php?act=deleteList" method="post">
                                         <input type="hidden" name="indeks" value=<?=$key?>>
