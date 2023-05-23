@@ -42,7 +42,7 @@
                                     ?>
                             <div class="col-3">
                                 <label>Tanggal : </label>
-                                <input type="date" name = "tanggal_masuk" class="form-control">
+                                <input type="date" name = "tanggal_masuk" class="form-control" required>
                             </div>
                                     <?php
                                 } else {
@@ -367,7 +367,7 @@
                                             $fetchNamaBarang = mysqli_fetch_array($execQueryBarang);
                                             $nama_barang = $fetchNamaBarang['nama_barang'];
                                           }
-                                        if (isset($id_jasa) && $id_jasa = $value['id_barang']) {  
+                                        if (isset($id_jasa) && $id_jasa = $value['id_jasa']) {  
                                             $ambilNamaJasa = "SELECT nama_jasa FROM jasa WHERE $id_jasa = id_jasa";
                                             $execQueryJasa = mysqli_query($conn, $ambilNamaJasa);
                                             $fetchNamaJasa = mysqli_fetch_array($execQueryJasa);
@@ -419,7 +419,7 @@
                 <div class="row">
                         <div class="col-12 d-md-flex justify-content-md-end">
                             <form action="modules/cash/pemasukan/proses.php?act=insertCashMasuk" method="post"></form>
-                            <button type="submit" class="btn btn-primary float-right">Submit</button>
+                                <button type="submit" class="btn btn-primary float-right">Submit</button>
                         </div>
                     </div>
 </div>

@@ -86,10 +86,11 @@
 
     elseif($_GET['act'] == 'insertCashMasuk') {
         if(isset($_POST['insertCashmasuk'])){
-            $temp_cash_masuk = $_SESSION['temp_cash_masuk'];
-            $nomor_bukti = $temp_cash_masuk['nomor_bukti'];
-            $bukti_masuk = $temp_cash_masuk['bukti_masuk'];
-            $queryHeader = "INSERT INTO cash_masuk (nomor_masuk,bukti_masuk) VALUES ('$nomor_bukti' , '$bukti_masuk')";
+            $temp_transaksi_masuk = $_SESSION['temp_transaksi_masuk'];
+            $nomor_bukti = $temp_transaksi_masuk['nomor_bukti'];
+            $bukti_masuk = $temp_transaksi_masuk['bukti_masuk'];
+            $tanggal = $temp_transaksi_masuk['tanggal'];
+            $queryHeader = "INSERT INTO cash_masuk (nomor_masuk,bukti_masuk,tanggal) VALUES ('$nomor_bukti' , '$bukti_masuk','$tanggal')";
             $execQueryHeader = mysqli_query($conn, $queryHeader) or die('Error inserting data into pembelian table: ' . mysqli_error($conn));
             $id_cmasuk = mysqli_insert_id($conn);
 
@@ -131,6 +132,11 @@
                 $insertKuantitas = "UPDATE barang SET kuantitas = '$stock_baru' WHERE id_barang = '$id_barang'";
                 $execinsertKuantitas = mysqli_query($conn, $insertKuantitas);
             }
+            // Clear session data after successful insertions
+            unset($_SESSION['temp_transaksi_masuk']);
+            unset($_SESSION['temp_cash_masuk']);
+    
+            header('location: ../../../main.php?module=buyItem');
 
         }
     }
