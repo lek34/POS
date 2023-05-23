@@ -10,9 +10,16 @@
     if($_GET['act'] == 'insertTempCashMasuk'){
         if(isset($_POST['insertTempCashMasuk'])){
             $nomor_bukti = mysqli_real_escape_string($conn, trim($_POST['no_bukti']));
-            $id_akun  = mysqli_real_escape_string($conn, trim($_POST['id_akun']));
             $bukti_masuk = mysqli_real_escape_string($conn, trim($_POST['bukti_masuk']));
             $tanggal_masuk = mysqli_real_escape_string($conn, trim($_POST['tanggal_masuk']));
+
+             // store the variables in the session
+             $_SESSION['temp_transaksi_masuk'] = array(
+                'nomor_bukti' => $nomor_bukti,
+                'bukti_masuk' => $bukti_masuk,
+                'tanggal_masuk' => $tanggal_masuk,
+            );
+
             if(!empty($_POST['targetPengeluaran'])){
                 $id_customer = mysqli_real_escape_string($conn, trim($_POST['targetPengeluaran']));
                 $ambilCustomer = "SELECT nama FROM customer WHERE $id_customer = id_customer";
@@ -23,6 +30,7 @@
             } else {
                 $target_pengeluaran = mysqli_real_escape_string($conn, trim($_POST['targetPengeluaran2']));
             }
+            $id_akun  = mysqli_real_escape_string($conn, trim($_POST['id_akun']));
             $kendaraan  = mysqli_real_escape_string($conn, trim($_POST['kendaraan']));
             $keterangan =  mysqli_real_escape_string($conn, trim($_POST['keterangan']));
             $jumlah =  floatval(str_replace(['Rp. ', '.'], ['', ''],mysqli_real_escape_string($conn, trim($_POST['jumlah']))));
@@ -45,10 +53,7 @@
             
 
             $_SESSION['temp_cash_masuk'][] = array(
-                'tanggal_masuk' => $tanggal_masuk,
                 'id_customer' => $id_customer,
-                'nomor_bukti' => $nomor_bukti,
-                'bukti_masuk' => $bukti_masuk,
                 'target_pengeluaran' => $target_pengeluaran,
                 'id_akun' => $id_akun,
                 'kendaraan' => $kendaraan,
@@ -65,6 +70,7 @@
 
     elseif ($_GET['act'] == 'reset'){
         unset($_SESSION['temp_cash_masuk']);
+        unset($_SESSION['temp_transaksi_masuk']);
         header('location: ../../../main.php?module=detailCashMasuk');
     }
 

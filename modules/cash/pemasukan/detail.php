@@ -38,7 +38,7 @@
                             </div>
                             <div class="col-2"></div>
                             <?php
-                                if(!isset($_SESSION['temp_cash_masuk'])){
+                                if(!isset($_SESSION['temp_transaksi_masuk'])){
                                     ?>
                             <div class="col-3">
                                 <label>Tanggal : </label>
@@ -46,7 +46,7 @@
                             </div>
                                     <?php
                                 } else {
-                                    $tanggal_masuk = $_SESSION['temp_cash_masuk']['tanggal_masuk'];
+                                    $tanggal_masuk = $_SESSION['temp_transaksi_masuk']['tanggal_masuk'];
                                     ?>
                             <div class="col-3">
                                 <label>Tanggal : </label>
