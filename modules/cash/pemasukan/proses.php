@@ -25,7 +25,7 @@
             }
             $kendaraan  = mysqli_real_escape_string($conn, trim($_POST['kendaraan']));
             $keterangan =  mysqli_real_escape_string($conn, trim($_POST['keterangan']));
-            $jumlah =  mysqli_real_escape_string($conn, trim($_POST['jumlah']));
+            $jumlah =  floatval(str_replace(['Rp. ', '.'], ['', ''],mysqli_real_escape_string($conn, trim($_POST['jumlah']))));
             $tanggal_masuk = $_POST['tanggal_masuk'];
             if(isset($_POST['barangPenjualan'])){
                 $barang_penjualan = mysqli_real_escape_string($conn, trim($_POST['barangPenjualan']));
@@ -45,7 +45,7 @@
             
 
             $_SESSION['temp_cash_masuk'][] = array(
-                'tanggal_masuk' => $tanggal,
+                'tanggal_masuk' => $tanggal_masuk,
                 'id_customer' => $id_customer,
                 'nomor_bukti' => $nomor_bukti,
                 'bukti_masuk' => $bukti_masuk,

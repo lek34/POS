@@ -1,3 +1,4 @@
+
 <div class="invoice p-3 mb-3">
               <!-- title row -->
               <div class="row">
@@ -11,6 +12,7 @@
               <!-- info row -->
               <div class="row">
                   <?php
+                    
                     $query = "SELECT MAX(nomor_masuk) as last_masuk , bukti_masuk from cash_masuk;";
                     $execQuery = mysqli_query($conn, $query);
                     $fetchQuery = mysqli_fetch_array($execQuery);
@@ -227,7 +229,7 @@
                             if (!isset($_SESSION['temp_cash_masuk'])) {
                             ?>
                             <div class="row">
-                                <div class="col-1">
+                                <div class="col-2">
                                 <select name="id_akun" class="form-control">
                                     <?php
                                         $pilihanCustomer = mysqli_query($conn, "select * from akun WHERE status = 'Y'");
@@ -243,15 +245,13 @@
                                     ?>
                                 </select>
                                 </div>
-                                <div class="col-9">
-                                    <input type="text" class="form-control" >
-                                </div>
+                                
                             </div>
                             <?php
                                }  else {
                                    ?>
                                    <div class="row">
-                                    <div class="col-1">
+                                    <div class="col-2">
                                     <select name="id_akun" class="form-control" readonly>
                                         <?php
                                             foreach ($_SESSION['temp_cash_masuk'] as $key => $value) {
@@ -270,9 +270,7 @@
                                         ?>
                                     </select>
                                     </div>
-                                    <div class="col-9">
-                                        <input type="text" class="form-control" >
-                                    </div>
+                                    
                                 </div>
                         <div class="row">
                             <div class="col-12">
