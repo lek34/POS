@@ -11,16 +11,16 @@
               <!-- info row -->
               <div class="row">
                   <?php
-                    $query = "SELECT MAX(nomor_keluar) as last_keluar , bukti_keluar from cash_keluar;";
+                    $query = "SELECT MAX(nomor_masuk) as last_masuk , bukti_masuk from cash_masuk;";
                     $execQuery = mysqli_query($conn, $query);
                     $fetchQuery = mysqli_fetch_array($execQuery);
                     $date = date('ym');
                     $current_month = date('m');
-                    $stored_month = substr($fetchQuery['bukti_keluar'], 5, 2); // extract the stored month from the last ID
+                    $stored_month = substr($fetchQuery['bukti_masuk'], 5, 2); // extract the stored month from the last ID
                     $next_number = 1; // Set a default value for next_number before the if-else block
                     if ($current_month == $stored_month) {
                         // Increment the next number by 1 if the current month is the same as the stored month
-                        $next_number = (int)$fetchQuery['last_keluar'] + 1;
+                        $next_number = (int)$fetchQuery['last_masuk'] + 1;
                     }
                     $date = date('ym');
                     $no_bukti = 'CM/' . $date .'/'. str_pad($next_number, 4, '0', STR_PAD_LEFT);
@@ -30,6 +30,7 @@
                     <form action="modules/cash/pemasukan/proses.php?act=insertTempCashMasuk" method="post"> <!-- form buka -->
                         <div class="row">
                             <div class="col-2">
+                                <input type="hidden" name="bukti_masuk" placeholder="You Shouldn't See This" value='<?= $next_number?>' class="form-control" hidden>
                                 <label>No. Bukti : </label>
                                 <input type="text" name = "no_bukti" value=<?=$no_bukti?> class="form-control" readonly>
                             </div>
@@ -43,7 +44,7 @@
                             </div>
                                     <?php
                                 } else {
-                                    $tanggal = $_SESSION['temp_cash_masuk']('tanggal_masuk');
+                                    $tanggal = $_SESSION['temp_cash_masuk']['tanggal_masuk'];
                                     ?>
                             <div class="col-3">
                                 <label>Tanggal : </label>
