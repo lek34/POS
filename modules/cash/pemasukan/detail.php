@@ -46,11 +46,11 @@
                             </div>
                                     <?php
                                 } else {
-                                    $tanggal = $_SESSION['temp_cash_masuk']['tanggal_masuk'];
+                                    $tanggal_masuk = $_SESSION['temp_cash_masuk']['tanggal_masuk'];
                                     ?>
                             <div class="col-3">
                                 <label>Tanggal : </label>
-                                <input type="date" name = "tanggal_masuk" value="<?=$tanggal?>" class="form-control" readonly>
+                                <input type="date" name = "tanggal_masuk" value="<?=$tanggal_masuk?>" class="form-control" readonly>
                             </div>
                                     <?php
                                 }

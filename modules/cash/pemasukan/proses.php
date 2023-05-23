@@ -12,7 +12,7 @@
             $nomor_bukti = mysqli_real_escape_string($conn, trim($_POST['no_bukti']));
             $id_akun  = mysqli_real_escape_string($conn, trim($_POST['id_akun']));
             $bukti_masuk = mysqli_real_escape_string($conn, trim($_POST['bukti_masuk']));
-
+            $tanggal_masuk = mysqli_real_escape_string($conn, trim($_POST['tanggal_masuk']));
             if(!empty($_POST['targetPengeluaran'])){
                 $id_customer = mysqli_real_escape_string($conn, trim($_POST['targetPengeluaran']));
                 $ambilCustomer = "SELECT nama FROM customer WHERE $id_customer = id_customer";
@@ -26,7 +26,7 @@
             $kendaraan  = mysqli_real_escape_string($conn, trim($_POST['kendaraan']));
             $keterangan =  mysqli_real_escape_string($conn, trim($_POST['keterangan']));
             $jumlah =  floatval(str_replace(['Rp. ', '.'], ['', ''],mysqli_real_escape_string($conn, trim($_POST['jumlah']))));
-            $tanggal_masuk = $_POST['tanggal_masuk'];
+            
             if(isset($_POST['barangPenjualan'])){
                 $barang_penjualan = mysqli_real_escape_string($conn, trim($_POST['barangPenjualan']));
                 $kuantitas = mysqli_real_escape_string($conn, trim($_POST['kuantitas']));
