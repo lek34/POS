@@ -7,22 +7,34 @@
     // jika user belum login, alihkan ke halaman login dan tampilkan pesan = 1
     require_once "../../../auth/cek.php";
     // jika user sudah login, maka jalankan perintah untuk insert, update, dan delete
-    echo'test 1';
     if($_GET['act'] == 'insertTempCashMasuk'){
-        echo'test 2';
         if(isset($_POST['insertTempCashMasuk'])){
-            echo'test 3';
             $nomor_bukti = mysqli_real_escape_string($conn, trim($_POST['no_bukti']));
+            $bukti_masuk = mysqli_real_escape_string($conn, trim($_POST['bukti_masuk']));
+            $tanggal_masuk = mysqli_real_escape_string($conn, trim($_POST['tanggal_masuk']));
+
+             // store the variables in the session
+             $_SESSION['temp_transaksi_masuk'] = array(
+                'nomor_bukti' => $nomor_bukti,
+                'bukti_masuk' => $bukti_masuk,
+                'tanggal_masuk' => $tanggal_masuk,
+            );
+
             if(!empty($_POST['targetPengeluaran'])){
-                $target_pengeluaran = mysqli_real_escape_string($conn, trim($_POST['targetPengeluaran']));
+                $id_customer = mysqli_real_escape_string($conn, trim($_POST['targetPengeluaran']));
+                $ambilCustomer = "SELECT nama FROM customer WHERE $id_customer = id_customer";
+                $queryAmbilCustomer = mysqli_query($conn, $ambilCustomer);
+                $fetchCustomer = mysqli_fetch_array($queryAmbilCustomer);
+                $nama_customer = $fetchCustomer['nama'];
+                $target_pengeluaran = $nama_customer;
             } else {
                 $target_pengeluaran = mysqli_real_escape_string($conn, trim($_POST['targetPengeluaran2']));
             }
             $id_akun  = mysqli_real_escape_string($conn, trim($_POST['id_akun']));
             $kendaraan  = mysqli_real_escape_string($conn, trim($_POST['kendaraan']));
             $keterangan =  mysqli_real_escape_string($conn, trim($_POST['keterangan']));
-            $jumlah =  mysqli_real_escape_string($conn, trim($_POST['jumlah']));
-
+            $jumlah =  floatval(str_replace(['Rp. ', '.'], ['', ''],mysqli_real_escape_string($conn, trim($_POST['jumlah']))));
+            
             if(isset($_POST['barangPenjualan'])){
                 $barang_penjualan = mysqli_real_escape_string($conn, trim($_POST['barangPenjualan']));
                 $kuantitas = mysqli_real_escape_string($conn, trim($_POST['kuantitas']));
@@ -41,7 +53,7 @@
             
 
             $_SESSION['temp_cash_masuk'][] = array(
-                'nomor_bukti' => $nomor_bukti,
+                'id_customer' => $id_customer,
                 'target_pengeluaran' => $target_pengeluaran,
                 'id_akun' => $id_akun,
                 'kendaraan' => $kendaraan,
@@ -58,6 +70,7 @@
 
     elseif ($_GET['act'] == 'reset'){
         unset($_SESSION['temp_cash_masuk']);
+        unset($_SESSION['temp_transaksi_masuk']);
         header('location: ../../../main.php?module=detailCashMasuk');
     }
 
@@ -68,6 +81,63 @@
             unset($_SESSION['temp_cash_masuk'][$id_list]);
 
             header('location: ../../../main.php?module=detailCashMasuk');
+        }
+    }
+
+    elseif($_GET['act'] == 'insertCashMasuk') {
+        if(isset($_POST['insertCashmasuk'])){
+            $temp_transaksi_masuk = $_SESSION['temp_transaksi_masuk'];
+            $nomor_bukti = $temp_transaksi_masuk['nomor_bukti'];
+            $bukti_masuk = $temp_transaksi_masuk['bukti_masuk'];
+            $tanggal = $temp_transaksi_masuk['tanggal'];
+            $queryHeader = "INSERT INTO cash_masuk (nomor_masuk,bukti_masuk,tanggal) VALUES ('$nomor_bukti' , '$bukti_masuk','$tanggal')";
+            $execQueryHeader = mysqli_query($conn, $queryHeader) or die('Error inserting data into pembelian table: ' . mysqli_error($conn));
+            $id_cmasuk = mysqli_insert_id($conn);
+
+             // Insert data from temp_data_beli table
+             $temp_cash_masuk = $_SESSION['temp_cash_masuk'];
+             foreach ($temp_cash_masuk as $data) {
+                 $id_customer = $data['id_customer'];
+                 $id_jasa = $data['id_jasa'];
+                 $id_barang = $data['id_barang'];
+                 $kuantitas = $data['kuantitas'];
+                 $id_akun = $data['id_akun'];
+                 $target_pengeluaran = $data['target_pengeluaran'];
+                 $jumlah = $data['jumlah'];
+                 $nomor_bukti = $data['nomor_bukti'];
+                 $kendaraan = $data['kendaraan'];
+                 $keterangan = $data['keterangan'];
+                 $tanggal_masuk = $data['tanggal_masuk'];
+
+                 $queryDetail = "INSERT INTO history_cash_masuk (id_cmasuk, id_customer, id_jasa, id_barang, kuantitas, id_kas, target_akun, harga, nomor_bukti, kendaraan,keterangan,tanggal_masuk) 
+                 VALUES ('$id_cmasuk', '$id_customer', '$id_jasa', '$id_barang', '$kuantitas', '$id_akun', '$target_pengeluaran', '$nomor_bukti', '$kendaraan', '$keterangan','$tanggal_masuk')";
+                 $execQueryDetail = mysqli_query($conn, $queryDetail) or die('Error inserting data into pembelian_detail table: ' . mysqli_error($conn));
+
+             }
+
+             $tambahBarang = "SELECT hcm.id_barang, b.nama_barang,b.kuantitas, SUM(hcm.kuantitas) as total_kuantitas
+                             FROM barang b
+                             INNER JOIN history_cash_masuk hcm ON hcm.id_barang = b.id_barang
+                             GROUP BY hcm.id_barang, b.nama_barang;";
+             $exectambahBarang = mysqli_query($conn, $tambahBarang);
+            
+            
+
+            while ($datatambahBarang = mysqli_fetch_array($exectambahBarang)){
+                $id_barang = $datatambahBarang['id_barang'];
+                $total_kuantitas = $datatambahBarang ['total_kuantitas'];
+                
+                $stock_baru = $stock_sekarang + $total_kuantitas;
+                
+                $insertKuantitas = "UPDATE barang SET kuantitas = '$stock_baru' WHERE id_barang = '$id_barang'";
+                $execinsertKuantitas = mysqli_query($conn, $insertKuantitas);
+            }
+            // Clear session data after successful insertions
+            unset($_SESSION['temp_transaksi_masuk']);
+            unset($_SESSION['temp_cash_masuk']);
+    
+            header('location: ../../../main.php?module=buyItem');
+
         }
     }
 ?>
