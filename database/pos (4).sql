@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 26, 2023 at 04:36 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.1.17
+-- Generation Time: May 26, 2023 at 04:29 PM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.0.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -65,7 +65,7 @@ CREATE TABLE `barang` (
 --
 
 INSERT INTO `barang` (`id_barang`, `nama_barang`, `harga_modal`, `satuan_besar`, `satuan_kecil`, `uom_besar`, `uom_kecil`, `kuantitas`, `status`) VALUES
-(1, 'PIPA PARALONTE GAJAHMADA', 10000, 1, 20, 'KONTOL', 'BIJI', 20015, 'Y'),
+(1, 'PIPA PARALONTE GAJAHMADA', 10000, 1, 20, 'KONTOL', 'BIJI', 19910, 'Y'),
 (2, 'GSM', 10000, 1, 30, 'KONTOL', 'BIJI', 40010, 'Y');
 
 -- --------------------------------------------------------
@@ -90,7 +90,8 @@ CREATE TABLE `cash_keluar` (
 CREATE TABLE `cash_masuk` (
   `id_cash_masuk` int(11) NOT NULL,
   `no_bukti` varchar(256) NOT NULL,
-  `nomor_transaksi` int(11) NOT NULL,
+  `bukti_masuk` int(11) NOT NULL,
+  `nomor_masuk` int(11) NOT NULL,
   `id_customer` int(11) NOT NULL,
   `id_jasa` int(11) NOT NULL,
   `plat` varchar(20) NOT NULL,
@@ -145,7 +146,7 @@ CREATE TABLE `data_mobil` (
 
 CREATE TABLE `history_cash_masuk` (
   `id_hcm` int(11) NOT NULL,
-  `id_penjualan` int(11) NOT NULL,
+  `id_cash_masuk` int(11) NOT NULL,
   `id_barang` int(11) NOT NULL,
   `id_customer` int(11) NOT NULL,
   `kuantitas` int(11) NOT NULL,
@@ -245,7 +246,8 @@ INSERT INTO `history_penjualan` (`id_hjual`, `id_penjualan`, `id_barang`, `id_cu
 (6, 4, 1, 2, 10, 10000, 0, 0, 100000, 100000, 'admin'),
 (7, 4, 1, 2, 10, 10000, 0, 0, 100000, 100000, 'admin'),
 (8, 4, 1, 3, 10, 10000, 0, 0, 100000, 100000, 'admin'),
-(9, 6, 1, 2, 20, 210000, 0, 0, 4200000, 4200000, 'admin');
+(9, 6, 1, 2, 20, 210000, 0, 0, 4200000, 4200000, 'admin'),
+(10, 1, 1, 2, 100, 10000, 0, 0, 1000000, 1000000, 'admin');
 
 -- --------------------------------------------------------
 
@@ -367,11 +369,7 @@ CREATE TABLE `penjualan` (
 --
 
 INSERT INTO `penjualan` (`id_penjualan`, `no_faktur`, `nomor_transaksi`, `id_customer`, `plat`, `tanggal`, `jatuh_tempo`, `netto`, `status_hapus`, `status_pembayaran`, `creator`) VALUES
-(1, 'PJ/2304/0001', 1, 2, '', '2023-04-24', '2023-04-26', 50000, 'Y', 'N', 'admin'),
-(2, 'PJ/2304/0002', 2, 3, '', '2023-04-24', '2023-04-26', 200050000, 'Y', 'N', 'admin'),
-(3, 'PJ/2304/0003', 3, 2, '', '2023-04-24', '2023-04-25', 100000, 'Y', 'N', 'admin'),
-(4, 'PJ/2304/0004', 4, 3, '', '2023-04-26', '2023-04-27', 200000000, 'Y', 'N', 'admin'),
-(6, 'PJ/2305/0001', 1, 2, 'adaw', '2023-05-05', '2023-05-27', 4200000, 'Y', 'N', 'admin');
+(1, 'PJ/2305/0001', 1, 2, 'BK 1583 TK', '2023-05-26', '2023-05-27', 1000000, 'Y', 'N', 'admin');
 
 -- --------------------------------------------------------
 
@@ -560,7 +558,7 @@ ALTER TABLE `history_pembelian`
 -- AUTO_INCREMENT for table `history_penjualan`
 --
 ALTER TABLE `history_penjualan`
-  MODIFY `id_hjual` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_hjual` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `is_users`
@@ -590,7 +588,7 @@ ALTER TABLE `pembelian`
 -- AUTO_INCREMENT for table `penjualan`
 --
 ALTER TABLE `penjualan`
-  MODIFY `id_penjualan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_penjualan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `supplier`
