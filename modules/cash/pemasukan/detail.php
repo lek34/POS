@@ -29,7 +29,7 @@
 
                     ?>
                   <div class="col-12">
-                    <form action="modules/cash/pemasukan/proses.php?act=insertTempCashMasuk" method="post"> <!-- form buka -->
+                    <form action="modules/cash/pemasukan/proses2.php?act=insertTempCashMasuk" method="post"> <!-- form buka -->
                         <div class="row">
                             <div class="col-2">
                                 <input type="hidden" name="bukti_masuk" placeholder="You Shouldn't See This" value='<?= $next_number?>' class="form-control" hidden>
@@ -304,7 +304,7 @@
                         <br>
                         <div class="row">
                             <div class="col-12">
-                                <button type="button" name="reset" class="btn btn-secondary" onclick="window.location.href='modules/cash/pemasukan/proses.php?act=reset'">Reset</button>
+                                <button type="button" name="reset" class="btn btn-secondary" onclick="window.location.href='modules/cash/pemasukan/proses2.php?act=reset'">Reset</button>
                                 <button type="submit" name="insertTempCashMasuk" class="btn btn-primary float-right">Tambahkan</button>
                             </form>
                             </div>
@@ -400,7 +400,7 @@
                                     </td>
                                     <td>Rp.<?=$jumlah?></td>
                                     <td>
-                                    <form action="modules/cash/pemasukan/proses.php?act=deleteList" method="post">
+                                    <form action="modules/cash/pemasukan/proses2.php?act=deleteList" method="post">
                                         <input type="hidden" name="indeks" value=<?=$key?>>
                                         <button type="submit" name="deleteList"class="btn btn-danger btn-sm" ><i class = "far fa-trash-alt"></i></button>
                                     </form>
@@ -418,7 +418,7 @@
                 </div>
                 <div class="row">
                         <div class="col-12 d-md-flex justify-content-md-end">
-                            <form action="modules/cash/pemasukan/proses.php?act=insertCashMasuk" method="post"></form>
+                            <form action="modules/cash/pemasukan/proses2.php?act=insertCashMasuk" method="post"></form>
                                 <button type="submit" class="btn btn-primary float-right">Submit</button>
                         </div>
                     </div>

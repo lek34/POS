@@ -161,11 +161,16 @@
                                         <div class="col-12 table-responsive">
                                             <table class="table table-striped">
                                                 <thead>
-                                                    <tr>
-                                                    <th>Account</th>
-                                                    <th>Nama Perkiraan</th>
-                                                    <th>Keterangan Jurnal/Referensi</th>
-                                                    <th>Jumlah</th>
+                                                <tr>
+                                                        <th>No.</th>
+                                                        <th>Account</th>
+                                                        <th>Nama Akun</th>
+                                                        <th>Keterangan Jurnal/Referensi</th>
+                                                        <th>Dari Kas</th>
+                                                        <th>Barang</th>
+                                                        <th>Jasa</th>
+                                                        <th>Jumlah</th>
+                                                        <th>Delete</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
