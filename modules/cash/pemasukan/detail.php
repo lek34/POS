@@ -87,7 +87,7 @@
                                     </label>
                                 </div>
                                 <div class="icheck-primary d-inline" style="margin-left : 12px  ">
-                                    <input type="radio" id="radioPrimary2" name="terimaDari" value="lainnya" onclick="showForm()">
+                                    <input type="radio" id="radioPrimary2" name="terimaDari" value="lainnya" onclick="showForm()" checked>
                                     <label for="radioPrimary2">
                                     Lainnya
                                     </label>

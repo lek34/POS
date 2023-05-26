@@ -80,13 +80,12 @@
                                         <a href="?module=detailPembelian&id_pembelian=<?=$id_pembelian?>"><button type="button" class="btn btn-warning btn-sm"><i class="fas fa-ellipsis-h" style="color : #ffffff"></i></button></a>
                                         <?php
                                         if ($status == "N") {
-                                            echo "<button type='button' class='btn btn-danger btn-sm' data-toggle='modal' data-target='#bayar<?=$id_pembelian?>'><i class='fas fa-times' style = 'color : #ffffff'></i></button>";
+                                            // echo"<a href='".$id_pembelian."'>";
+                                            echo "<button type='button' class='btn btn-danger btn-sm' data-toggle='modal' data-target='#bayar".$id_pembelian."'><i class='fas fa-times' style='color: #ffffff'></i></button>";
                                         } else {
                                             echo "<button type='button' class='btn btn-success btn-sm'><i class='fas fa-check' style = 'color : #ffffff'></i></button>";
                                         }
-
                                         ?>
-                                        
                                     </td>
                                 </tr>
                                 <?php
@@ -127,16 +126,17 @@
 
 <!-- The Modal -->
 <?php
-    $query = "SELECT id_pembelian FROM pembelian";
-    $execQuery = mysqli_query($conn, $query);
+    $query2 = "SELECT id_pembelian , no_faktur , netto FROM pembelian";
+    $execQuery2 = mysqli_query($conn, $query2);
 
-    while ($data = mysqli_fetch_array($execQuery)){
-    $id_pembelian = $data ['id_pembelian'];
+    while ($data2 = mysqli_fetch_array($execQuery2)){
+    $id_pembelian = $data2 ['id_pembelian'];
+    $no_faktur = $data2 ['no_faktur'];
+    $netto = $data2 ['netto'];
     ?>
   <div class="modal fade" id="bayar<?=$id_pembelian?>">
     <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-      
+      <div class="modal-content">     
         <!-- Modal Header -->
         <div class="modal-header">
           <h4 class="modal-title">Pembelian</h4>
@@ -148,6 +148,10 @@
             <form action="modules/transaksi/pembelian/proses.php?act=buy" method="post">
                 <p>Selesaikan Pembayaran?</p>
                 <input type="hidden" name="id_pembelian" value="<?=$id_pembelian;?>">
+                <input name="no_faktur" class="form-control" value="<?=$no_faktur;?>" disabled>
+                <br>
+                <input name="jumlah" class="form-control" value="<?=$netto;?>" readonly>
+                <br>
                 <select name="id_akun" class="form-control">
                 <?php
                 $query = "SELECT * FROM akun";

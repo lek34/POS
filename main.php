@@ -241,6 +241,20 @@ marginInput.addEventListener('input', updateSellingPrice);
     }
   });
 </script>
+<script>
+  document.getElementById("option").addEventListener("change", function() {
+    var customerFields = document.getElementById("customerFields");
+    var lainnyaFields = document.getElementById("lainnyaFields");
+
+    if (this.value === "customer") {
+      customerFields.style.display = "block";
+      lainnyaFields.style.display = "none";
+    } else if (this.value === "lainnya") {
+      customerFields.style.display = "none";
+      lainnyaFields.style.display = "block";
+    }
+  });
+</script>
 <script src="plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>

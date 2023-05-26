@@ -80,9 +80,27 @@ require_once "../../../auth/cek.php";
     elseif ($_GET['act'] == 'buy'){
         if(isset($_POST['buy'])){
             $id_pembelian = mysqli_real_escape_string($conn, trim($_POST['id_pembelian']));
+            $id_akun = mysqli_real_escape_string($conn, trim($_POST['id_akun']));
+            $netto = $_POST['jumlah'];
 
             $query = "UPDATE pembelian SET status_pembayaran = 'Y' WHERE id_pembelian = '$id_pembelian'";
             $execQuery = mysqli_query($conn, $query);
+
+            $queryjumlah ="SELECT * from akun where id_akun = $id_akun";
+            $exectambahjumlah = mysqli_query($conn, $queryjumlah);
+
+            while ($datatambahjumlah = mysqli_fetch_array($exectambahjumlah)){
+                $id_akun= $datatambahjumlah['id_akun'];
+                $kredit = (int)$datatambahjumlah['kredit'];
+                
+                $jumlahbaru = $netto + $kredit;
+                
+                $insertjumlah = "UPDATE akun SET kredit = '$jumlahbaru' WHERE id_akun = '$id_akun'";
+                $execinsertJumlah = mysqli_query($conn, $insertjumlah);
+            }
+
+            $queryAkun = "INSERT INTO history_akun (id_akun , id_pembelian , kredit) VALUES ('$id_akun','$id_pembelian','$netto')";
+            $execakun = mysqli_query($conn, $queryAkun);
 
             header('location: ../../../main.php?module=buyItem');
         }

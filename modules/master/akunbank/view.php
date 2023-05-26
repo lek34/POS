@@ -50,6 +50,7 @@
                                         <td><?=$data['debit']?></td>
                                         <td><?=$data['kredit']?></td>
                                         <td>
+                                            <a href="?module=historyAkun&id_akun=<?=$id_akun?>" class = "btn btn-outline-primary" style="margin-right: 10px;">History Akun</a>
                                             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit<?=$id_akun;?>"><i class = "far fa-edit"></i></button>
                                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete<?=$id_akun?>"><i class = "far fa-trash-alt"></i></button>
                                         </td>
