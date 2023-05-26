@@ -71,7 +71,7 @@ else{
 		include "modules/cash/pengeluaran/view.php";
 	}
 	elseif ($_GET['module'] == 'detailCashMasuk'){
-		include "modules/cash/pemasukan/detail.php";
+		include "modules/cash/pemasukan/detail2.php";
 	}
 	elseif ($_GET['module'] == 'detailCashKeluar'){
 		include "modules/cash/pengeluaran/detail.php";
