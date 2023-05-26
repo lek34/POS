@@ -211,21 +211,21 @@ if (isset($_GET['id_penjualan'])) { ?>
   $totBruto = 0;
   $totDiskon = 0;
   $totNetto = 0;
-
-$query = "SELECT MAX(nomor_masuk) as last_masuk , bukti_masuk from cash_masuk;";
-$execQuery = mysqli_query($conn, $query);
-$fetchQuery = mysqli_fetch_array($execQuery);
-$date = date('ym');
-$current_month = date('m');
-$stored_month = substr($fetchQuery['bukti_masuk'], 5, 2); // extract the stored month from the last ID
-$next_number = 1; // Set a default value for next_number before the if-else block
-if ($current_month == $stored_month) {
-    // Increment the next number by 1 if the current month is the same as the stored month
-    $next_number = (int)$fetchQuery['last_masuk'] + 1;
-}
-$date = date('ym');
-$no_bukti = 'CM/' . $date .'/'. str_pad($next_number, 4, '0', STR_PAD_LEFT);
-?>
+  $tanggal_bawah = "DD/MM/YYYY";        
+  $query = "SELECT MAX(nomor_masuk) as last_masuk , bukti_masuk from cash_masuk;";
+  $execQuery = mysqli_query($conn, $query);
+  $fetchQuery = mysqli_fetch_array($execQuery);
+  $date = date('ym');
+  $current_month = date('m');
+  $stored_month = substr($fetchQuery['bukti_masuk'], 5, 2); // extract the stored month from the last ID
+  $next_number = 1; // Set a default value for next_number before the if-else block
+  if ($current_month == $stored_month) {
+      // Increment the next number by 1 if the current month is the same as the stored month
+      $next_number = (int)$fetchQuery['last_masuk'] + 1;
+  }
+  $date = date('ym');
+  $no_bukti = 'CM/' . $date .'/'. str_pad($next_number, 4, '0', STR_PAD_LEFT);
+  ?>
 
 <!-- Mulai content -->
             <!-- Main content -->
@@ -247,7 +247,7 @@ $no_bukti = 'CM/' . $date .'/'. str_pad($next_number, 4, '0', STR_PAD_LEFT);
                   ?>
                   <div class="col-sm-4 invoice-info">
                     <form action="modules/cash/pemasukan/proses.php?act=inserttemp" method="post"> <!-- form buka -->
-                      <input type="hidden" name="nomor_transaksi" placeholder="You Shouldn't See This" value='<?= $next_number?>' class="form-control" hidden>
+                      <input type="hidden" name="last_masuk" placeholder="You Shouldn't See This" value='<?= $next_number?>' class="form-control" hidden>
                       <label>No. Bukti</label>
                       <input type="text" name="no_bukti" placeholder="No Bukti" value='<?= $no_bukti?>' class="form-control" readonly>
                       <br>
@@ -279,15 +279,15 @@ $no_bukti = 'CM/' . $date .'/'. str_pad($next_number, 4, '0', STR_PAD_LEFT);
                         <label>Lainnya</label>
                         <input type="text" name="lainnya" class="form-control">
                         </div>
-                      <br>
-                      <label>Tanggal</label>
-                      <input type="date" id="tanggal" name="tanggal" placeholder="jatuhtempo" class="form-control">
-                      <br>
-                      <label>Kendaraan</label>
-                      <input type="text" id="kendaraan" name="kendaraan" placeholder="Kendaraan" class="form-control" required>
-                      <br>
-                      <label>Ke Kas</label>
-                      <select name="id_akun" class="form-control">
+                        <br>
+                        <label>Tanggal</label>
+                        <input type="date" id="tanggal" name="tanggal" placeholder="jatuhtempo" class="form-control">
+                        <br>
+                        <label>Kendaraan</label>
+                        <input type="text" id="kendaraan" name="kendaraan" placeholder="Kendaraan" class="form-control" required>
+                        <br>
+                        <label>Ke Kas</label>
+                        <select name="id_akun" class="form-control">
                             <?php
                                 $pilihanCustomer = mysqli_query($conn, "select * from akun WHERE status = 'Y'");
                                 while ($fetcharray = mysqli_fetch_array($pilihanCustomer)) {
@@ -309,74 +309,73 @@ $no_bukti = 'CM/' . $date .'/'. str_pad($next_number, 4, '0', STR_PAD_LEFT);
                     </div>
                   </div>
                   <div class="row" style="margin : 24px 0 0 2px">
-                      <button type="button" name="reset" class="btn btn-secondary align-items-center" onclick="window.location.href='modules/transaksi/penjualan/proses.php?act=reset'" style="height : 50px" disabled>Reset</button>
+                      <button type="button" name="reset" class="btn btn-secondary align-items-center" onclick="window.location.href='modules/cash/pemasukan/proses.php?act=reset'" style="height : 50px" disabled>Reset</button>
                     </div>
                   <br>
                   <?php
                   } else { 
-                    $no_transaksi = $_SESSION['temp_transaksi_jual']['no_transaksi'];
-                    $customer = $_SESSION['temp_transaksi_jual']['id_customer'];
-                    $kendaraan = $_SESSION['temp_transaksi_jual']['kendaraan'];
-                    // Get the latest index of the temp_data_beli array
-                    $nama_barang = "Nama Barang";
-                    $total_kuantitas = "";
-                    $harga_barang = "0";
-                    $no_faktur = "PB/XXXX/XXXX";
-                    $tanggal = "";
-                    $kuantitas = "0";
-                    if (isset($_GET['id_barang'])) {
-                      $id_barang = $_GET['id_barang'];
-                      $execQuery = mysqli_query($conn, "SELECT max_hp.id_barang, b.nama_barang, b.kuantitas as stok_sekarang, 
-                                                        SUM(hp.kuantitas) as total_kuantitas, hp.harga_barang, pj.no_faktur, pj.tanggal 
-                                                        FROM barang b 
-                                                        INNER JOIN 
-                                                        (SELECT id_barang, MAX(id_penjualan) as max_id_penjualan FROM history_penjualan GROUP BY id_barang) max_hp 
-                                                        ON b.id_barang = max_hp.id_barang 
-                                                        INNER JOIN history_penjualan hp ON hp.id_barang = max_hp.id_barang AND hp.id_penjualan = max_hp.max_id_penjualan 
-                                                        INNER JOIN penjualan pj ON pj.id_penjualan = hp.id_penjualan 
-                                                        WHERE max_hp.id_barang = '$id_barang' 
-                                                        GROUP BY max_hp.id_barang, b.nama_barang;");
-                  
-                      while ($row = mysqli_fetch_array($execQuery, MYSQLI_ASSOC)) {
-                          // Access the values using the column names
-                          $id_barang = $row['id_barang'];
-                          $nama_barang = $row['nama_barang'];
-                          $total_kuantitas = $row['total_kuantitas'];
-                          $harga_barang = $row['harga_barang'];
-                          $no_faktur = $row['no_faktur'];
-                          $tanggal = $row['tanggal'];
-                          $kuantitas = $row['stok_sekarang'];
-                      }
-                  }
+                    $last_masuk = $_SESSION['temp_transaksi_masuk']['last_masuk'];
+                    $customer = $_SESSION['temp_transaksi_masuk']['id_customer'];
+                    $kendaraan = $_SESSION['temp_transaksi_masuk']['kendaraan'];
+                    $akun = $_SESSION['temp_transaksi_masuk']['akun'];
+                    $option = $_SESSION['temp_transaksi_masuk']['option'];
+                    $lainnya = $_SESSION['temp_transaksi_masuk']['lainnya'];
+                    $tanggal = $_SESSION['temp_transaksi_masuk']['tanggal'];
                   ?>
                   <div class="col-sm-4 invoice-col">
-                  <form action="modules/transaksi/penjualan/proses.php?act=inserttemp" method="post"> <!-- form buka -->
+                  <form action="modules/cash/pemasukan/proses.php?act=inserttemp" method="post"> <!-- form buka -->
                       <input type="hidden" name="nomor_transaksi" placeholder="You Shouldn't See This" value='<?= $next_number?>' class="form-control" hidden>
-                      <label>No. Faktur</label>
-                      <input type="text" name="no_faktur" placeholder="No Faktur" value='<?=$newFaktur?>' class="form-control" readonly>
+                      <label>No. Bukti</label>
+                      <input type="text" name="no_bukti" placeholder="No Faktur" value='<?=$no_bukti?>' class="form-control" readonly>
                       <br>
-                      <label>Customer</label>
-                      <select name="id_customer" class="form-control" readonly>
-                        <?php
-                        $pilihancustomer = mysqli_query($conn, "select * from customer WHERE status = 'Y'");
-                        while ($fetcharray = mysqli_fetch_array($pilihancustomer)) {
-                          $namacustomer = $fetcharray['nama'];
-                          $idcus = $fetcharray['id_customer'];
-                          $selected = ($idcus == $customer) ? "selected" : "";
-                          ?>
-                          <option value="<?= $idcus; ?>" <?= $selected ?>>
-                            <?= $namacustomer; ?>
-                          </option>
+                      <?php
+                        if($option == "customer") { ?>
+                        <label>Customer</label>
+                        <select name="id_customer" class="form-control" style="pointer-events: none; background-color: #e9ecef;">
                           <?php
+                          $pilihancustomer = mysqli_query($conn, "select * from customer WHERE status = 'Y'");
+                          while ($fetcharray = mysqli_fetch_array($pilihancustomer)) {
+                            $namacustomer = $fetcharray['nama'];
+                            $idcus = $fetcharray['id_customer'];
+                            $selected = ($idcus == $customer) ? "selected" : "";
+                            ?>
+                            <option value="<?= $idcus; ?>" <?= $selected ?>>
+                              <?= $namacustomer; ?>
+                            </option>
+                            <?php
+                          }
+                          ?>
+                        </select>
+                      <?php
+                        }else{ ?>
+                          <label>Lainnya</label>
+                          <input type="text" id="lain" value="<?=$lainnya?>" name="lainnya" placeholder="lain" class="form-control" readonly>
+                        <?php
                         }
-                        ?>
-                      </select>
+                      ?>
                       <br>
-                      <label>Jatuh Tempo</label>
-                      <input type="date" id="jatuh_tempo" value="<?=$jatuh_tempo?>" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" readonly>
+                      <label>Tanggal</label>
+                      <input type="date" id="tanggal" value="<?=$tanggal?>" name="jatuh_tempo" placeholder="tanggal" class="form-control" readonly>
                       <br>
                       <label>Kendaraan</label>
                       <input type="text" id="kendaraan" value="<?=$kendaraan?>" name="kendaraan" placeholder="kendaraan" class="form-control" readonly>
+                      <br>
+                        <label>Ke Kas</label>
+                        <select name="id_akun" class="form-control" style="pointer-events: none; background-color: #e9ecef;">
+                            <?php
+                                $pilihanCustomer = mysqli_query($conn, "select * from akun WHERE status = 'Y'");
+                                while ($fetcharray = mysqli_fetch_array($pilihanCustomer)) {
+                                $namaAkun = $fetcharray['nama_akun'];
+                                $idAkun = $fetcharray['id_akun'];
+                                $selected = ($idAkun == $akun) ? "selected" : "";
+                                ?>
+                                <option value="<?= $idAkun; ?>" <?= $selected ?>>
+                                    <?= $namaAkun; ?>
+                                </option>
+                            <?php
+                            }
+                            ?>
+                        </select>
                     </div>
                     <div class="col-sm-2 invoice-col d-md-flex justify-content-md-end">
                     
@@ -384,7 +383,7 @@ $no_bukti = 'CM/' . $date .'/'. str_pad($next_number, 4, '0', STR_PAD_LEFT);
                     </div>
                   </div>
                   <div class="row" style="margin : 24px 0 0 2px">
-                      <button type="button" name="reset" class="btn btn-primary align-items-center" onclick="window.location.href='modules/transaksi/penjualan/proses.php?act=reset'" style="height : 50px">Reset</button>
+                      <button type="button" name="reset" class="btn btn-primary align-items-center" onclick="window.location.href='modules/cash/pemasukan/proses.php?act=reset'" style="height : 50px">Reset</button>
                     </div>
                   <br>
                   
@@ -537,7 +536,7 @@ $no_bukti = 'CM/' . $date .'/'. str_pad($next_number, 4, '0', STR_PAD_LEFT);
                           <td><?=$disc?>%</td>
                           <td>Rp. <?=$netto_formatted?></td>
                           <td>
-                            <form action="modules/transaksi/penjualan/proses.php?act=deleteList" method="post">
+                            <form action="modules/cash/pemasukan/proses.php?act=deleteList" method="post">
                               <input type="hidden" name="indeks" value=<?=$key?>>
                               <button type="submit" name="deleteList"class="btn btn-danger btn-sm" ><i class = "far fa-trash-alt"></i></button>
                             </form>
@@ -555,7 +554,7 @@ $no_bukti = 'CM/' . $date .'/'. str_pad($next_number, 4, '0', STR_PAD_LEFT);
                       $totDiskon = number_format($totDiskon, 0, ',', '.');
                       $totNetto = number_format($totNetto, 0, ',', '.');
                       
-                      $jatuh_tempo_bawah = $jatuh_tempo;
+                      $tanggal_bawah = $tanggal;
                     }
                       ?>
                     </tbody>
@@ -575,7 +574,7 @@ $no_bukti = 'CM/' . $date .'/'. str_pad($next_number, 4, '0', STR_PAD_LEFT);
                         <th>Submit</th>
                       </thead>
                       <tbody>
-                        <form action="modules/transaksi/penjualan/proses.php?act=insertTempJasa" method="post">
+                        <form action="modules/cash/pemasukan/proses.php?act=insertTempJasa" method="post">
                           <td>
                           <select name="id_jasa" class="form-control">
                           <option value=""></option>
@@ -647,7 +646,7 @@ $no_bukti = 'CM/' . $date .'/'. str_pad($next_number, 4, '0', STR_PAD_LEFT);
                           <td><?=$harga_jasa?></td>
                           <td><?=$deskripsi?></td>
                           <td>
-                            <form action="modules/transaksi/penjualan/proses.php?act=deleteJasa" method="post">
+                            <form action="modules/cash/pemasukan/proses.php?act=deleteJasa" method="post">
                               <input type="hidden" name="indeks" value=<?=$key?>>
                               <button type="submit" name="deleteList"class="btn btn-danger btn-sm" ><i class = "far fa-trash-alt"></i></button>
                             </form>
@@ -688,7 +687,7 @@ $no_bukti = 'CM/' . $date .'/'. str_pad($next_number, 4, '0', STR_PAD_LEFT);
                 
                 <!-- /.col -->
                 <div class="col-3">
-                  <p class="lead">Tanggal : <?=$jatuh_tempo_bawah?></p>
+                  <p class="lead">Tanggal : <?=$tanggal_bawah?></p>
                   <div class="table-responsive">
                     <table class="table">
                       <tr>
@@ -715,7 +714,7 @@ $no_bukti = 'CM/' . $date .'/'. str_pad($next_number, 4, '0', STR_PAD_LEFT);
               <!-- this row will not appear when printing -->
               <div class="row">
                 <div class="col">
-                    <form action="modules/transaksi/penjualan/proses.php?act=insertPenjualan" method="post">
+                    <form action="modules/cash/pemasukan/proses.php?act=insertPenjualan" method="post">
                       <button type="submit" name="insertPenjualan" class="btn btn-success float-right">Submit</button>
                     </form>
                 </div>

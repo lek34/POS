@@ -9,19 +9,25 @@ require_once "../../../auth/cek.php";
 // jika user sudah login, maka jalankan perintah untuk insert, update, dan delete
     if($_GET['act']=='inserttemp'){
         if(isset($_POST['inserttemp'])){
-            $no_transaksi = mysqli_real_escape_string($conn, trim($_POST['nomor_transaksi']));
-            $no_faktur = mysqli_real_escape_string($conn, trim($_POST['no_faktur']));
+            $last_masuk = mysqli_real_escape_string($conn, trim($_POST['last_masuk']));
+            $no_bukti = mysqli_real_escape_string($conn, trim($_POST['no_bukti']));
+            $option = mysqli_real_escape_string($conn, trim($_POST['option']));
             $id_customer = mysqli_real_escape_string($conn, trim($_POST['id_customer']));
-            $jatuh_tempo = mysqli_real_escape_string($conn, trim($_POST['jatuh_tempo']));
+            $lainnya = mysqli_real_escape_string($conn, trim($_POST['lainnya']));
+            $tanggal = mysqli_real_escape_string($conn, trim($_POST['tanggal']));
             $kendaraan = $_POST['kendaraan'];
+            $id_akun = mysqli_real_escape_string($conn, trim($_POST['id_akun']));
 
             // store the variables in the session
-            $_SESSION['temp_transaksi_jual'] = array(
-                'no_transaksi' => $no_transaksi,
-                'no_faktur' => $no_faktur,
+            $_SESSION['temp_transaksi_masuk'] = array(
+                'last_masuk' => $last_masuk,
+                'no_bukti' => $no_bukti,
+                'option' => $option,
                 'id_customer' => $id_customer,
-                'jatuh_tempo' => $jatuh_tempo,
-                'kendaraan' => $kendaraan
+                'lainnya' => $lainnya,
+                'tanggal' => $tanggal,
+                'kendaraan' => $kendaraan,
+                'akun' => $id_akun
             );
 
             $uom = $_POST['uom'];
@@ -48,7 +54,7 @@ require_once "../../../auth/cek.php";
 
             // check if stock is enough
             if($kuantitas > $stock_sekarang){
-                header ('location: ../../../main.php?module=detailPenjualan&alert=7');
+                header ('location: ../../../main.php?module=detailCashMasuk&alert=7');
             }
             else{
                 if (!isset($_SESSION['temp_data_jual'])) {
@@ -70,7 +76,7 @@ require_once "../../../auth/cek.php";
                 );
                 
             }
-            header('location: ../../../main.php?module=detailPenjualan');
+            header('location: ../../../main.php?module=detailCashMasuk');
         }
     } 
 
@@ -85,7 +91,7 @@ require_once "../../../auth/cek.php";
                 'harga_jasa' => $harga_jasa,
                 'deskripsi' => $deskripsi,
             );
-            header('location: ../../../main.php?module=detailPenjualan');
+            header('location: ../../../main.php?module=detailCashMasuk');
         }
     }
 
@@ -97,7 +103,7 @@ require_once "../../../auth/cek.php";
 
             unset($_SESSION['temp_data_jual'][$id_list]);
 
-            header('location: ../../../main.php?module=detailPenjualan');
+            header('location: ../../../main.php?module=detailCashMasuk');
         }
     }
 
@@ -107,16 +113,16 @@ require_once "../../../auth/cek.php";
 
             unset($_SESSION['temp_jasa'][$id_listjasa]);
 
-            header('location: ../../../main.php?module=detailPenjualan');
+            header('location: ../../../main.php?module=detailCashMasuk');
         }
     }
 
     elseif ($_GET['act'] == 'reset'){
-            unset($_SESSION['temp_transaksi_jual']);
+            unset($_SESSION['temp_transaksi_masuk']);
             unset($_SESSION['temp_data_jual']);
             unset($_SESSION['temp_jasa']);
 
-            header('location: ../../../main.php?module=detailPenjualan');
+            header('location: ../../../main.php?module=detailCashMasuk');
         
     }
 
@@ -131,16 +137,6 @@ require_once "../../../auth/cek.php";
         }
     }
 
-    elseif ($_GET['act'] == 'sell'){
-        if(isset($_POST['buy'])){
-            $id_penjualan = mysqli_real_escape_string($conn, trim($_POST['id_penjualan']));
-
-            $query = "UPDATE penjualan SET status_pembayaran = 'Y' WHERE id_penjualan = '$id_penjualan'";
-            $execQuery = mysqli_query($conn, $query);
-
-            header('location: ../../../main.php?module=sellItem');
-        }
-    }
 
     elseif ($_GET['act'] == 'insertPenjualan') {
         if (isset($_POST['insertPenjualan'])) {

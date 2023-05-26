@@ -221,9 +221,8 @@ if (isset($_GET['id_penjualan'])) { ?>
   $next_number = 1; // Set a default value for next_number before the if-else block
   if ($current_month == $stored_month) {
       // Increment the next number by 1 if the current month is the same as the stored month
-      $next_number = (int)$fetchQuery['last_transaksi'] + 1;
+      $next_number = $fetchQuery['last_transaksi'] + 1;
   }
-  $date = date('ym');
   $newFaktur = 'PJ/' . $date .'/'. str_pad($next_number, 4, '0', STR_PAD_LEFT);
 ?>
 
@@ -247,7 +246,7 @@ if (isset($_GET['id_penjualan'])) { ?>
                   ?>
                   <div class="col-sm-4 invoice-info">
                     <form action="modules/transaksi/penjualan/proses.php?act=inserttemp" method="post"> <!-- form buka -->
-                      <input type="hidden" name="nomor_transaksi" placeholder="You Shouldn't See This" value='<?= $next_number?>' class="form-control" hidden>
+                      <input name="nomor_transaksi" placeholder="You Shouldn't See This" value='<?= $next_number?>' class="form-control" hidden>
                       <label>No. Faktur</label>
                       <input type="text" name="no_faktur" placeholder="No Faktur" value='<?= $newFaktur?>' class="form-control" readonly>
                       <br>
@@ -359,7 +358,7 @@ if (isset($_GET['id_penjualan'])) { ?>
                       <input type="text" name="no_faktur" placeholder="No Faktur" value='<?=$newFaktur?>' class="form-control" readonly>
                       <br>
                       <label>Customer</label>
-                      <select name="id_customer" class="form-control" readonly>
+                      <select name="id_customer" class="form-control" style="pointer-events: none; background-color: #e9ecef;">
                         <?php
                         $pilihancustomer = mysqli_query($conn, "select * from customer WHERE status = 'Y'");
                         while ($fetcharray = mysqli_fetch_array($pilihancustomer)) {

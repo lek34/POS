@@ -351,7 +351,7 @@ if (isset($_GET['id_pembelian'])) { ?>
                       <input type="text" name="no_faktur" placeholder="No Faktur" value='<?=$newFaktur?>' class="form-control" readonly>
                       <br>
                       <label>Supplier</label>
-                      <select name="id_supplier" class="form-control" readonly>
+                      <select name="id_supplier" class="form-control" style="pointer-events: none; background-color: #e9ecef;">
                         <?php
                         $pilihansupplier = mysqli_query($conn, "select * from supplier WHERE status = 'Y'");
                         while ($fetcharray = mysqli_fetch_array($pilihansupplier)) {
