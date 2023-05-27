@@ -1,44 +1,75 @@
 <?php
+session_start();
+
+// Panggil koneksi database.php untuk koneksi database
+require_once "../../../config/database.php";
+// fungsi untuk pengecekan status login user 
 // jika user belum login, alihkan ke halaman login dan tampilkan pesan = 1
-    require_once "../../../auth/cek.php";
-    // jika user sudah login, maka jalankan perintah untuk insert, update, dan delete
-    if($_GET['act'] == 'insertTempCashMasuk'){
-        if(isset($_POST['insertTempCashMasuk'])){
-            
-            $nomor_bukti = mysqli_real_escape_string($conn, trim($_POST['no_bukti']));
-            $id_akun  = mysqli_real_escape_string($conn, trim($_POST['id_akun']));
+require_once "../../../auth/cek.php";
 
-            if(!empty($_POST['targetPengeluaran'])){
-                $id_customer = mysqli_real_escape_string($conn, trim($_POST['targetPengeluaran']));
-                $ambilCustomer = "SELECT nama FROM customer WHERE $id_customer = id_customer";
+if($_GET['act'] == 'insertTempCashMasuk'){
+    if(isset($_POST['insertTempCashMasuk'])){
+        /* Header Information */
+        $last_masuk = mysqli_real_escape_string($conn, trim($_POST['last_masuk']));
+        $no_bukti = mysqli_real_escape_string($conn, trim($_POST['no_bukti']));
+        $id_akun = mysqli_real_escape_string($conn, trim($_POST['id_akun']));
+        $tanggal_masuk = $_POST['tanggal_masuk'];
+        $terima_dari = mysqli_real_escape_string($conn, trim($_POST['terimaDari']));
 
-            } else {
-                $target_pengeluaran = mysqli_real_escape_string($conn, trim($_POST['targetPengeluaran2']));
-            }
-            $id_akun  = mysqli_real_escape_string($conn, trim($_POST['id_akun']));
-            $kendaraan  = mysqli_real_escape_string($conn, trim($_POST['kendaraan']));
-            $keterangan =  mysqli_real_escape_string($conn, trim($_POST['keterangan']));
-            $jumlah =  mysqli_real_escape_string($conn, trim($_POST['jumlah']));
+        $_SESSION['header_cash_masuk'] =  array(
+            'last_masuk' => $last_masuk,
+            'no_bukti' => $no_bukti,
+            'id_akun' => $id_akun,
+            'tanggal_masuk' => $tanggal_masuk,
+            'terima_dari' => $terima_dari,
+        );
 
-            $tanggal = $_POST['tanggal_masuk'];
-            if(isset($_POST['barangPenjualan'])){
-                $barang_penjualan = mysqli_real_escape_string($conn, trim($_POST['barangPenjualan']));
-                $kuantitas = mysqli_real_escape_string($conn, trim($_POST['kuantitas']));
-
-            $_SESSION['temp_cash_masuk'][] = array(
-                'tanggal_masuk' => $tanggal,
-                'id_customer' => $id_customer,
-                'nomor_bukti' => $nomor_bukti,
-                'target_pengeluaran' => $target_pengeluaran,
-            );
-            header('location: ../../../main.php?module=detailCashMasuk');
+        /* end of header information */
+        /* Content Information */
+        if ($terima_dari == "customer") {
+            $sumber = mysqli_real_escape_string($conn, trim($_POST['sumberCustomer']));
+        } else {
+            $sumber = mysqli_real_escape_string($conn, trim($_POST['sumberLainnya']));
         }
-    }
+        $barangPenjualan = mysqli_real_escape_string($conn, trim($_POST['barangPenjualan']));
+        $uom = mysqli_real_escape_string($conn, trim($_POST['uom']));
+        $satuan_kecil = mysqli_real_escape_string($conn, trim($_POST['satuankecil']));
+        $id_jasa = mysqli_real_escape_string($conn, trim($_POST['id_jasa']));
+        $kendaraan = mysqli_real_escape_string($conn, trim($_POST['barangPenjualan']));
+        $jumlah = mysqli_real_escape_string($conn, trim($_POST['jumlah']));
+        $keterangan = mysqli_real_escape_string($conn, trim($_POST['keterangan']));
 
-    elseif($_GET['act'] == 'insertCashMasuk') {
-        if(isset($_POST['insertCashmasuk'])){
+        $_SESSION['temp_cash_masuk'][] = array(
+            'sumber' => $sumber,
+            'barangPenjualan' => $barangPenjualan,
+            'uom' => $uom,
+            'satuan_kecil' => $satuan_kecil,
+            'id_jasa' => $id_jasa,
+            'kendaraan' => $kendaraan,
+            'jumlah' => $jumlah,
+            'keterangan' => $keterangan,
+        );
 
-        }
-     }
+        header('location: ../../../main.php?module=detailCashMasuk');
     }
+}
+
+elseif ($_GET['act'] == 'reset'){
+    unset($_SESSION['header_cash_masuk']);
+    unset($_SESSION['temp_cash_masuk']);
+
+    header('location: ../../../main.php?module=detailCashMasuk');
+}
+
+elseif ($_GET['act'] == 'deleteList'){
+    if (isset($_POST['deleteList'])){
+        $id_list = $_POST['indeks'];
+
+        unset($_SESSION['temp_cash_masuk'][$id_list]);
+
+        header('location: ../../../main.php?module=detailPembelian');
+    }
+}
+
+
 ?>

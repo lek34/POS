@@ -14,7 +14,7 @@
     </div><!-- /.container-fluid -->
 </section>
 <?php
-    $query = "SELECT * FROM cash_masuk WHERE status = 'Y';";
+    $query = "SELECT * FROM cash_masuk WHERE status_hapus = 'Y';";
     $execQuery = mysqli_query($conn, $query);
 ?>
 <section class="content">

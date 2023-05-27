@@ -123,7 +123,6 @@ require_once "../../../auth/cek.php";
             unset($_SESSION['temp_jasa']);
 
             header('location: ../../../main.php?module=detailCashMasuk');
-        
     }
 
     elseif ($_GET['act'] == 'sell'){
