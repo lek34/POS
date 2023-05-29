@@ -633,9 +633,9 @@ if (isset($_GET['id_penjualan'])) { ?>
                       $totNetto += $netto;
                       $_SESSION['totNetto'] = $totNetto;
                       }
-                      $totBruto = number_format($totBruto, 0, ',', '.');
-                      $totDiskon = number_format($totDiskon, 0, ',', '.');
-                      $totNetto = number_format($totNetto, 0, ',', '.');
+                      $totBrutoformat = number_format($totBruto, 0, ',', '.');
+                      $totDiskonformat = number_format($totDiskon, 0, ',', '.');
+                      $totNettoformat = number_format($totNetto, 0, ',', '.');
                       
                       $jatuh_tempo_bawah = $jatuh_tempo;
                     }
@@ -721,21 +721,30 @@ if (isset($_GET['id_penjualan'])) { ?>
                             $fetchJasa = mysqli_fetch_assoc($ambilJasa);
                             $namajasa = $fetchJasa['nama_jasa'];
                             $harga_jasa = $value ['harga_jasa'];
-                            $deskripsi = $value ['deskripsi'];
-                          }   
-                          ?>
-                          <td><?=$i?></td>
-                          <td><?=$namajasa?></td>
-                          <td><?=$harga_jasa?></td>
-                          <td><?=$deskripsi?></td>
-                          <td>
-                            <form action="modules/transaksi/penjualan/proses.php?act=deleteJasa" method="post">
-                              <input type="hidden" name="indeks" value=<?=$key?>>
-                              <button type="submit" name="deleteList"class="btn btn-danger btn-sm" ><i class = "far fa-trash-alt"></i></button>
-                            </form>
-                          </td>
+                            $formattedHargaJasa = number_format($harga_jasa, 0, ',', '.');
+                            $deskripsi = $value ['deskripsi']; 
+
+                            ?> 
+                            <tr>
+                            <td><?=$i?></td>
+                            <td><?=$namajasa?></td>
+                            <td>Rp. <?=$formattedHargaJasa?></td>
+                            <td><?=$deskripsi?></td>
+                            <td>
+                              <form action="modules/transaksi/penjualan/proses.php?act=deleteJasa" method="post">
+                                <input type="hidden" name="indeks" value=<?=$key?>>
+                                <button type="submit" name="deleteJasa"class="btn btn-danger btn-sm" ><i class = "far fa-trash-alt"></i></button>
+                              </form>
+                            </td> 
+                            </tr>
                           <?php
                           $i++;
+                          $totBruto += $harga_jasa;
+                          $totNetto += $harga_jasa;  
+                        } 
+                        $totBrutoformat = number_format($totBruto, 0, ',', '.');
+                        $totDiskonformat = number_format($totDiskon, 0, ',', '.');
+                        $totNettoformat = number_format($totNetto, 0, ',', '.');
                         }
                         ?>
                       </tbody>
@@ -754,7 +763,7 @@ if (isset($_GET['id_penjualan'])) { ?>
                     <table class="table">
                       <tr>
                         <th style="width:50%">Subtotal:</th>
-                        <td>Rp. <?=$totBruto?></td>
+                        <td>Rp. <?=$totBrutoformat?></td>
                       </tr>
                       <tr>
                         <th>Disc</th>
@@ -764,7 +773,7 @@ if (isset($_GET['id_penjualan'])) { ?>
                       </tr>
                       <tr>
                         <th>Total:</th>
-                        <td>Rp. <?=$totNetto?></td>
+                        <td>Rp. <?=$totNettoformat?></td>
                       </tr>
                     </table>
                   </div>

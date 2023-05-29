@@ -101,8 +101,8 @@ require_once "../../auth/cek.php";
             
            
             // Clear session data after successful insertions
-            unset($_SESSION['temp_transaksi_beli']);
-            unset($_SESSION['temp_data_beli']);
+            unset($_SESSION['temp_transaksi_mobil']);
+            unset($_SESSION['temp_data_perlengkapan']);
     
             header('location: ../../main.php?module=cekMobil');
 
