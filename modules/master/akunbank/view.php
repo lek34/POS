@@ -43,12 +43,14 @@
                             <?php
                                 while ($data = mysqli_fetch_array($execQuery)) {
                                     $id_akun  = $data['id_akun'];
+                                    $kredit = number_format($data['kredit'], 0); // Format 'kredit' with 2 decimal places
+                                    $debit = number_format($data['debit'], 0); // Format 'debit' with 2 decimal places
                                     ?>
                                     <tr>
                                         <td><?=$data['kode_akun']?></td>
                                         <td><?=$data['nama_akun']?></td>
-                                        <td><?=$data['debit']?></td>
-                                        <td><?=$data['kredit']?></td>
+                                        <td><?=$kredit?></td>
+                                        <td><?=$debit?></td>
                                         <td>
                                             <a href="?module=historyAkun&id_akun=<?=$id_akun?>" class = "btn btn-outline-primary" style="margin-right: 10px;">History Akun</a>
                                             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit<?=$id_akun;?>"><i class = "far fa-edit"></i></button>

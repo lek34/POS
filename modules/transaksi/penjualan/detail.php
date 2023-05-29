@@ -102,6 +102,49 @@ if (isset($_GET['id_penjualan'])) { ?>
                 <!-- /.col -->
               </div>
               <!-- /.row -->
+              <!-- Table row -->
+              <div class="row">
+                <div class="col-12 table-responsive">
+                  <h3>List Jasa :</h3>
+                  <table class="table table-striped">
+                    <thead>
+                    <tr>
+                      <th>No.</th>
+                      <th>Nama Jasa</th>
+                      <th>Harga Jasa</th>
+                      <th>Deskripsi</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                        $i = 1;
+                        $execQuery = mysqli_query($conn, "SELECT p.id_penjualan, hj.*, j.nama_jasa
+                                                          FROM penjualan p
+                                                          JOIN history_jasa hj ON p.id_penjualan = hj.id_penjualan 
+                                                          JOIN jasa j ON hj.id_jasa = j.id_jasa 
+                                                          WHERE p.id_penjualan = '$id_penjualan';");
+                        while ($data = mysqli_fetch_array($execQuery)){
+                          $nama_jasa = $data ['nama_jasa'];
+                          $deskripsi  = $data ['deskripsi'];
+                          $harga_jasa = number_format($data ['harga_jasa'], 0, ',', '.');
+                          $jumlah = $data ['harga_jasa'];
+                    ?>
+                    <tr>
+                        <td><?=$i?></>
+                        <td><?=$nama_jasa?></td>
+                        <td>Rp. <?=$harga_jasa?></td>
+                        <td><?=$deskripsi?></td>
+                    </tr>
+                    <?php
+                    $i++;
+                      }
+                    ?>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
               <br>
               <br>
               <br>
@@ -134,9 +177,9 @@ if (isset($_GET['id_penjualan'])) { ?>
                                                           GROUP BY p.id_penjualan;");
 
                         while ($data = mysqli_fetch_array($execQuery)){
-                          $totBruto =  number_format($data ['total_bruto'], 0, ',', '.');
+                          $totBruto =  number_format($jumlah + $data ['total_bruto'], 0, ',', '.');
                           $totDiskon =  number_format($data ['total_diskon'], 0, ',', '.');
-                          $totNetto  = number_format($data ['total_netto'], 0, ',', '.');
+                          $totNetto  = number_format($jumlah + $data ['total_netto'], 0, ',', '.');
                     ?>
                       <tr>
                         <th style="width:50%">Subtotal:</th>

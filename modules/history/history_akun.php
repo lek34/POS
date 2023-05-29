@@ -56,8 +56,8 @@
                         $no_faktur = $data['no_faktur'];
                         $nama_akun = $data['nama_akun'];
                         $tanggal = $data['tanggal'];
-                        $kredit = $data['kredit'];
-                        $debit = $data['debit'];
+                        $kredit = number_format($data['kredit'], 0); // Format 'kredit' with 2 decimal places
+                        $debit = number_format($data['debit'], 0); // Format 'debit' with 2 decimal places
                      ?>
                      <tr>
                         <td><?=$nama_akun?></td>
