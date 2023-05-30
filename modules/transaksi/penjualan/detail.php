@@ -723,7 +723,6 @@ if (isset($_GET['id_penjualan'])) { ?>
                             $harga_jasa = $value ['harga_jasa'];
                             $formattedHargaJasa = number_format($harga_jasa, 0, ',', '.');
                             $deskripsi = $value ['deskripsi']; 
-
                             ?> 
                             <tr>
                             <td><?=$i?></td>
