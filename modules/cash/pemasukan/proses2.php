@@ -63,7 +63,7 @@ elseif ($_GET['act'] == 'reset'){
 
 elseif ($_GET['act'] == 'deleteList'){
     if (isset($_POST['deleteList'])){
-        $id_list = $_POST['indeks'];
+        $id_list = $_POST['indexhapus'];
 
         unset($_SESSION['temp_cash_masuk'][$id_list]);
 
