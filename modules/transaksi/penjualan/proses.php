@@ -68,9 +68,9 @@ require_once "../../../auth/cek.php";
                     'user' => $user,
                     'diskon' => $diskon
                 );
-                
+                header('location: ../../../main.php?module=detailPenjualan');
             }
-            header('location: ../../../main.php?module=detailPenjualan');
+            
         }
     } 
 
@@ -103,9 +103,9 @@ require_once "../../../auth/cek.php";
 
     elseif ($_GET['act'] == 'deleteJasa'){
         if (isset($_POST['deleteJasa'])){
-            $id_listjasa = $_POST['indeks'];
+            $id_jasa = $_POST['indeks'];
 
-            unset($_SESSION['temp_jasa'][$id_listjasa]);
+            unset($_SESSION['temp_jasa'][$id_jasa]);
 
             header('location: ../../../main.php?module=detailPenjualan');
         }

@@ -102,6 +102,49 @@ if (isset($_GET['id_penjualan'])) { ?>
                 <!-- /.col -->
               </div>
               <!-- /.row -->
+              <!-- Table row -->
+              <div class="row">
+                <div class="col-12 table-responsive">
+                  <h3>List Jasa :</h3>
+                  <table class="table table-striped">
+                    <thead>
+                    <tr>
+                      <th>No.</th>
+                      <th>Nama Jasa</th>
+                      <th>Harga Jasa</th>
+                      <th>Deskripsi</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                        $i = 1;
+                        $execQuery = mysqli_query($conn, "SELECT p.id_penjualan, hj.*, j.nama_jasa
+                                                          FROM penjualan p
+                                                          JOIN history_jasa hj ON p.id_penjualan = hj.id_penjualan 
+                                                          JOIN jasa j ON hj.id_jasa = j.id_jasa 
+                                                          WHERE p.id_penjualan = '$id_penjualan';");
+                        while ($data = mysqli_fetch_array($execQuery)){
+                          $nama_jasa = $data ['nama_jasa'];
+                          $deskripsi  = $data ['deskripsi'];
+                          $harga_jasa = number_format($data ['harga_jasa'], 0, ',', '.');
+                          $jumlah = $data ['harga_jasa'];
+                    ?>
+                    <tr>
+                        <td><?=$i?></>
+                        <td><?=$nama_jasa?></td>
+                        <td>Rp. <?=$harga_jasa?></td>
+                        <td><?=$deskripsi?></td>
+                    </tr>
+                    <?php
+                    $i++;
+                      }
+                    ?>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
               <br>
               <br>
               <br>
@@ -134,9 +177,9 @@ if (isset($_GET['id_penjualan'])) { ?>
                                                           GROUP BY p.id_penjualan;");
 
                         while ($data = mysqli_fetch_array($execQuery)){
-                          $totBruto =  number_format($data ['total_bruto'], 0, ',', '.');
+                          $totBruto =  number_format($jumlah + $data ['total_bruto'], 0, ',', '.');
                           $totDiskon =  number_format($data ['total_diskon'], 0, ',', '.');
-                          $totNetto  = number_format($data ['total_netto'], 0, ',', '.');
+                          $totNetto  = number_format($jumlah + $data ['total_netto'], 0, ',', '.');
                     ?>
                       <tr>
                         <th style="width:50%">Subtotal:</th>
@@ -590,9 +633,9 @@ if (isset($_GET['id_penjualan'])) { ?>
                       $totNetto += $netto;
                       $_SESSION['totNetto'] = $totNetto;
                       }
-                      $totBruto = number_format($totBruto, 0, ',', '.');
-                      $totDiskon = number_format($totDiskon, 0, ',', '.');
-                      $totNetto = number_format($totNetto, 0, ',', '.');
+                      $totBrutoformat = number_format($totBruto, 0, ',', '.');
+                      $totDiskonformat = number_format($totDiskon, 0, ',', '.');
+                      $totNettoformat = number_format($totNetto, 0, ',', '.');
                       
                       $jatuh_tempo_bawah = $jatuh_tempo;
                     }
@@ -678,21 +721,29 @@ if (isset($_GET['id_penjualan'])) { ?>
                             $fetchJasa = mysqli_fetch_assoc($ambilJasa);
                             $namajasa = $fetchJasa['nama_jasa'];
                             $harga_jasa = $value ['harga_jasa'];
-                            $deskripsi = $value ['deskripsi'];
-                          }   
-                          ?>
-                          <td><?=$i?></td>
-                          <td><?=$namajasa?></td>
-                          <td><?=$harga_jasa?></td>
-                          <td><?=$deskripsi?></td>
-                          <td>
-                            <form action="modules/transaksi/penjualan/proses.php?act=deleteJasa" method="post">
-                              <input type="hidden" name="indeks" value=<?=$key?>>
-                              <button type="submit" name="deleteList"class="btn btn-danger btn-sm" ><i class = "far fa-trash-alt"></i></button>
-                            </form>
-                          </td>
+                            $formattedHargaJasa = number_format($harga_jasa, 0, ',', '.');
+                            $deskripsi = $value ['deskripsi']; 
+                            ?> 
+                            <tr>
+                            <td><?=$i?></td>
+                            <td><?=$namajasa?></td>
+                            <td>Rp. <?=$formattedHargaJasa?></td>
+                            <td><?=$deskripsi?></td>
+                            <td>
+                              <form action="modules/transaksi/penjualan/proses.php?act=deleteJasa" method="post">
+                                <input type="hidden" name="indeks" value=<?=$key?>>
+                                <button type="submit" name="deleteJasa"class="btn btn-danger btn-sm" ><i class = "far fa-trash-alt"></i></button>
+                              </form>
+                            </td> 
+                            </tr>
                           <?php
                           $i++;
+                          $totBruto += $harga_jasa;
+                          $totNetto += $harga_jasa;  
+                        } 
+                        $totBrutoformat = number_format($totBruto, 0, ',', '.');
+                        $totDiskonformat = number_format($totDiskon, 0, ',', '.');
+                        $totNettoformat = number_format($totNetto, 0, ',', '.');
                         }
                         ?>
                       </tbody>
@@ -711,7 +762,7 @@ if (isset($_GET['id_penjualan'])) { ?>
                     <table class="table">
                       <tr>
                         <th style="width:50%">Subtotal:</th>
-                        <td>Rp. <?=$totBruto?></td>
+                        <td>Rp. <?=$totBrutoformat?></td>
                       </tr>
                       <tr>
                         <th>Disc</th>
@@ -721,7 +772,7 @@ if (isset($_GET['id_penjualan'])) { ?>
                       </tr>
                       <tr>
                         <th>Total:</th>
-                        <td>Rp. <?=$totNetto?></td>
+                        <td>Rp. <?=$totNettoformat?></td>
                       </tr>
                     </table>
                   </div>
