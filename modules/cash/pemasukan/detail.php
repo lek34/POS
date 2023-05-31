@@ -453,6 +453,7 @@
                 </thead>
                 <tbody>
                     <?php
+                    $totJumlah = 0;
                     if (!isset($_SESSION['temp_cash_masuk'])) {
                     ?>
                     <tr>
@@ -475,7 +476,6 @@
                     $fetchAkun = mysqli_fetch_array($execQueryAkun);
                     $nama_akun = $fetchAkun['nama_akun'];
                     $kode_akun  = $fetchAkun['kode_akun'];
-
                     foreach ($_SESSION['temp_cash_masuk'] as $key => $value) {
                         $keterangan = $value ['keterangan'];
                         
@@ -511,6 +511,9 @@
                         }
 
                         $jumlah = $value['jumlah'];
+                        $jumlah_tampil = number_format($jumlah, 0, ',', '.');
+                        $totJumlah += $jumlah;
+                        $totalJumlah = number_format($totJumlah, 0, ',', '.');
                     ?>
                     <tr>
                         <td><?=$i?></td>
@@ -520,7 +523,7 @@
                         <td><?=$sumber?></td>
                         <td><?=$nama_barang?></td>
                         <td><?=$nama_jasa?></td>
-                        <td><?=$jumlah?></td>
+                        <td>Rp.<?=$jumlah_tampil?></td>
                         <td>
                             <form action="modules/cash/pemasukan/proses.php?act=deleteList" method="post">
                               <input type="hidden" name="indexhapus" value=<?=$key?>>
@@ -537,4 +540,31 @@
             </table>   
         </div>
     </div>
+    <div class="row">
+        <!-- accepted payments column -->
+        <?php
+            if(!isset($tanggal_masuk)){
+                $tanggal_bawah = "DD/MM/YYYY";
+            } else{
+                $tanggal_bawah = $tanggal_masuk;
+            }
+            $totalJumlah = number_format($totJumlah, 0, ',', '.');
+        ?>
+        <div class="col-6">
+        </div>
+        <!-- /.col -->
+        <div class="col-6"> 
+            <p class="lead">Total Pemasukan : <?=$tanggal_bawah?></p>
+            <div class="table-responsive">
+            <table class="table">
+                <tr>
+                <th>Total:</th>
+                <td>Rp. <?=$totalJumlah?></td>
+                </tr>
+            </table>
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+        <!-- /.row -->
 </div>    <!-- /.row -->
