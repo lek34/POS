@@ -6,206 +6,71 @@ require_once "../../../config/database.php";
 // fungsi untuk pengecekan status login user 
 // jika user belum login, alihkan ke halaman login dan tampilkan pesan = 1
 require_once "../../../auth/cek.php";
-// jika user sudah login, maka jalankan perintah untuk insert, update, dan delete
-    if($_GET['act']=='inserttemp'){
-        if(isset($_POST['inserttemp'])){
-            $last_masuk = mysqli_real_escape_string($conn, trim($_POST['last_masuk']));
-            $no_bukti = mysqli_real_escape_string($conn, trim($_POST['no_bukti']));
-            $option = mysqli_real_escape_string($conn, trim($_POST['option']));
-            $id_customer = mysqli_real_escape_string($conn, trim($_POST['id_customer']));
-            $lainnya = mysqli_real_escape_string($conn, trim($_POST['lainnya']));
-            $tanggal = mysqli_real_escape_string($conn, trim($_POST['tanggal']));
-            $kendaraan = $_POST['kendaraan'];
-            $id_akun = mysqli_real_escape_string($conn, trim($_POST['id_akun']));
 
-            // store the variables in the session
-            $_SESSION['temp_transaksi_masuk'] = array(
-                'last_masuk' => $last_masuk,
-                'no_bukti' => $no_bukti,
-                'option' => $option,
-                'id_customer' => $id_customer,
-                'lainnya' => $lainnya,
-                'tanggal' => $tanggal,
-                'kendaraan' => $kendaraan,
-                'akun' => $id_akun
-            );
+if($_GET['act'] == 'insertTempCashMasuk'){
+    if(isset($_POST['insertTempCashMasuk'])){
+        /* Header Information */
+        $last_masuk = mysqli_real_escape_string($conn, trim($_POST['last_masuk']));
+        $no_bukti = mysqli_real_escape_string($conn, trim($_POST['no_bukti']));
+        $id_akun = mysqli_real_escape_string($conn, trim($_POST['id_akun']));
+        $tanggal_masuk = $_POST['tanggal_masuk'];
+        $terima_dari = mysqli_real_escape_string($conn, trim($_POST['terimaDari']));
 
-            $uom = $_POST['uom'];
-            $satuan_kecil = $_POST['satuankecil'];
-            $kuantitas = $_POST['kuantitas'];
+        $_SESSION['header_cash_masuk'] =  array(
+            'last_masuk' => $last_masuk,
+            'no_bukti' => $no_bukti,
+            'id_akun' => $id_akun,
+            'tanggal_masuk' => $tanggal_masuk,
+            'terima_dari' => $terima_dari,
+        );
 
-            if ($uom == 'besar') {
-                $kuantitas = $kuantitas * $satuan_kecil;
-            }
-
-            $faktur_barang = trim($_POST['no_faktur']);
-            $id_barang = mysqli_real_escape_string($conn, trim($_POST['id_barang_penjualan']));
-            $harga_barang = floatval(str_replace(['Rp. ', '.'], ['', ''],mysqli_real_escape_string($conn, trim($_POST['harga_barang']))));
-            $disc =  mysqli_real_escape_string($conn, trim($_POST['disc']));
-            $bruto = ($kuantitas*$harga_barang);
-            $diskon = ($bruto * ($disc/100));
-            $netto = $bruto - $diskon;
-            $user = $_SESSION['username'];
-
-            // get data from database
-            $getStock = mysqli_query($conn, "SELECT kuantitas FROM barang WHERE id_barang='$id_barang'");
-            $data = mysqli_fetch_assoc($getStock);
-            $stock_sekarang = $data['kuantitas'];
-
-            // check if stock is enough
-            if($kuantitas > $stock_sekarang){
-                header ('location: ../../../main.php?module=detailCashMasuk&alert=7');
-            }
-            else{
-                if (!isset($_SESSION['temp_data_jual'])) {
-                    $_SESSION['temp_data_jual'] = array();
-                }
-    
-                // Create a session array for transaction items
-                $_SESSION['temp_data_jual'][] = array(
-                    'faktur_barang' => $faktur_barang,
-                    'id_barang' => $id_barang,
-                    'kuantitas' => $kuantitas,
-                    'id_customer' => $id_customer,
-                    'harga_barang' => $harga_barang,
-                    'disc' => $disc,
-                    'bruto' => $bruto,
-                    'netto' => $netto,
-                    'user' => $user,
-                    'diskon' => $diskon
-                );
-                
-            }
-            header('location: ../../../main.php?module=detailCashMasuk');
+        /* end of header information */
+        /* Content Information */
+        if ($terima_dari == "customer") {
+            $sumber = mysqli_real_escape_string($conn, trim($_POST['sumberCustomer']));
+        } else {
+            $sumber = mysqli_real_escape_string($conn, trim($_POST['sumberLainnya']));
         }
-    } 
+        echo $terima_dari;
+        $barangPenjualan = mysqli_real_escape_string($conn, trim($_POST['barangPenjualan']));
+        $uom = mysqli_real_escape_string($conn, trim($_POST['uom']));
+        $satuan_kecil = mysqli_real_escape_string($conn, trim($_POST['satuankecil']));
+        $id_jasa = mysqli_real_escape_string($conn, trim($_POST['id_jasa']));
+        $kendaraan = mysqli_real_escape_string($conn, trim($_POST['barangPenjualan']));
+        $jumlah = mysqli_real_escape_string($conn, trim($_POST['jumlah']));
+        $keterangan = mysqli_real_escape_string($conn, trim($_POST['keterangan']));
 
-    elseif ($_GET['act'] == 'insertTempJasa'){
-        if (isset($_POST['insertTempJasa'])){
-            $id_jasa = mysqli_real_escape_string($conn, trim($_POST['id_jasa']));
-            $harga_jasa = mysqli_real_escape_string($conn, trim($_POST['harga_jasa']));
-            $deskripsi = mysqli_real_escape_string($conn, trim($_POST['deskripsi_jasa']));
+        $_SESSION['temp_cash_masuk'][] = array(
+            'sumber' => $sumber,
+            'barangPenjualan' => $barangPenjualan,
+            'uom' => $uom,
+            'satuan_kecil' => $satuan_kecil,
+            'id_jasa' => $id_jasa,
+            'kendaraan' => $kendaraan,
+            'jumlah' => $jumlah,
+            'keterangan' => $keterangan,
+        );
 
-            $_SESSION['temp_jasa'][] =  array (
-                'id_jasa' => $id_jasa,
-                'harga_jasa' => $harga_jasa,
-                'deskripsi' => $deskripsi,
-            );
-            header('location: ../../../main.php?module=detailCashMasuk');
-        }
+        header('location: ../../../main.php?module=detailCashMasuk');
     }
+}
 
-    
+elseif ($_GET['act'] == 'reset'){
+    unset($_SESSION['header_cash_masuk']);
+    unset($_SESSION['temp_cash_masuk']);
 
-    elseif ($_GET['act'] == 'deleteList'){
-        if (isset($_POST['deleteList'])){
-            $id_list = $_POST['indeks'];
+    header('location: ../../../main.php?module=detailCashMasuk');
+}
 
-            unset($_SESSION['temp_data_jual'][$id_list]);
+elseif ($_GET['act'] == 'deleteList'){
+    if (isset($_POST['deleteList'])){
+        $id_list = $_POST['indexhapus'];
 
-            header('location: ../../../main.php?module=detailCashMasuk');
-        }
+        unset($_SESSION['temp_cash_masuk'][$id_list]);
+
+        header('location: ../../../main.php?module=detailCashMasuk');
     }
-
-    elseif ($_GET['act'] == 'deleteJasa'){
-        if (isset($_POST['deleteJasa'])){
-            $id_listjasa = $_POST['indeks'];
-
-            unset($_SESSION['temp_jasa'][$id_listjasa]);
-
-            header('location: ../../../main.php?module=detailCashMasuk');
-        }
-    }
-
-    elseif ($_GET['act'] == 'reset'){
-            unset($_SESSION['temp_transaksi_masuk']);
-            unset($_SESSION['temp_data_jual']);
-            unset($_SESSION['temp_jasa']);
-
-            header('location: ../../../main.php?module=detailCashMasuk');
-    }
-
-    elseif ($_GET['act'] == 'sell'){
-        if(isset($_POST['buy'])){
-            $id_penjualan = mysqli_real_escape_string($conn, trim($_POST['id_penjualan']));
-
-            $query = "UPDATE penjualan SET status_pembayaran = 'Y' WHERE id_penjualan = '$id_penjualan'";
-            $execQuery = mysqli_query($conn, $query);
-
-            header('location: ../../../main.php?module=sellItem');
-        }
-    }
+}
 
 
-    elseif ($_GET['act'] == 'insertPenjualan') {
-        if (isset($_POST['insertPenjualan'])) {
-            $temp_transaksi_jual = $_SESSION['temp_transaksi_jual'];
-            $no_transaksi = $temp_transaksi_jual['no_transaksi'];
-            $no_faktur = $temp_transaksi_jual['no_faktur'];
-            $id_customer = $temp_transaksi_jual['id_customer'];
-            $jatuh_tempo = $temp_transaksi_jual['jatuh_tempo'];
-            $kendaraan = htmlspecialchars($temp_transaksi_jual['kendaraan'], ENT_QUOTES, 'UTF-8');;
-            $totNetto = $_SESSION['totNetto'];
-            $creator = $_SESSION['username'];
-            
-            $queryHeader = "INSERT INTO penjualan (no_faktur, id_customer,nomor_transaksi,plat,jatuh_tempo, netto, creator) 
-                            VALUES ('$no_faktur', '$id_customer', '$no_transaksi','$kendaraan','$jatuh_tempo', '$totNetto', '$creator')";
-            $execQueryHeader = mysqli_query($conn, $queryHeader) or die('Error inserting data into penjualan table: ' . mysqli_error($conn));
-            $id_penjualan = mysqli_insert_id($conn);
-    
-            // Insert data from temp_data_jual table
-            $temp_data_jual = $_SESSION['temp_data_jual'];
-            foreach ($temp_data_jual as $data) {
-                $id_barang = $data['id_barang'];
-                $id_customer = $data['id_customer'];
-                $kuantitas = $data['kuantitas'];
-                $harga_barang = $data['harga_barang'];
-                $disc = $data['disc'];
-                $bruto = $data['bruto'];
-                $netto = $data['netto'];
-                $user = $data['user'];
-                $diskon = $data['diskon'];
-    
-                $queryDetail = "INSERT INTO history_penjualan (id_penjualan, id_customer, id_barang, kuantitas, harga_barang, disc, diskon, bruto, netto, user) 
-                                VALUES ('$id_penjualan', '$id_customer', '$id_barang', '$kuantitas', '$harga_barang', '$disc', '$diskon', '$bruto', '$netto', '$user')";
-                $execQueryDetail = mysqli_query($conn, $queryDetail) or die('Error inserting data into penjualan_detail table: ' . mysqli_error($conn));
-            }
-
-            $temp_jasa = $_SESSION['temp_jasa'];
-            foreach ($temp_jasa as $data) {
-                $id_jasa = $data['id_jasa'];
-                $harga_jasa = $data['harga_jasa'];
-                $deskripsi = $data['deskripsi'];
-
-                $queryJasa = "INSERT INTO history_jasa (id_jasa, id_penjualan, harga_jasa, deskripsi)
-                                VALUES ('$id_jasa', '$id_penjualan', '$harga_jasa', '$deskripsi')";
-                $execQueryJasa = mysqli_query($conn, $queryJasa) or die('Error inserting data into penjualan_detail table: ' . mysqli_error($conn));
-            }
-            
-            $tambahBarang = "SELECT hp.id_barang, b.nama_barang, b.kuantitas, SUM(hp.kuantitas) as total_kuantitas 
-                            FROM barang b 
-                            INNER JOIN history_penjualan hp ON hp.id_barang = b.id_barang 
-                            WHERE hp.id_penjualan = '$id_penjualan'
-                            GROUP BY hp.id_barang, b.nama_barang;";
-            $exectambahBarang = mysqli_query($conn, $tambahBarang);
-            
-            
-            while ($datatambahBarang = mysqli_fetch_array($exectambahBarang)){
-                $id_barang = $datatambahBarang['id_barang'];
-                $stock_sekarang = $datatambahBarang['kuantitas'];
-                $total_kuantitas = $datatambahBarang ['total_kuantitas'];
-                $stock_baru = $stock_sekarang - $total_kuantitas;
-
-                $insertKuantitas = "UPDATE barang SET kuantitas = '$stock_baru' WHERE id_barang = '$id_barang'";
-                $execinsertKuantitas = mysqli_query($conn, $insertKuantitas);
-            }
-            // Clear session data after successful insertions
-            unset($_SESSION['temp_transaksi_jual']);
-            unset($_SESSION['temp_data_jual']);
-    
-            header('location: ../../../main.php?module=sellItem');
-
-        }
-    }
-    
 ?>

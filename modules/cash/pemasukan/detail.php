@@ -29,10 +29,11 @@
 
         ?>
         <div class="col-12">
-        <form action="modules/cash/pemasukan/proses2.php?act=insertTempCashMasuk" method="post"> <!-- form buka -->
+        <form action="modules/cash/pemasukan/proses.php?act=insertTempCashMasuk" method="post"> <!-- form buka -->
         <!-- Pengulangan pertama -->
         <?php
         if (!isset($_SESSION['header_cash_masuk'])) { 
+            $terima_dari = NULL;
         ?>
             <div class="row">
                 <div class="col-2">
@@ -126,13 +127,13 @@
                         ?>
                         <div class="form-group clearfix">
                             <div class="icheck-primary d-inline">
-                                <input type="radio" id="radioPrimary1" name="terimaDari" value="customer" onclick="showForm()" checked readonly>
+                                <input type="radio" id="radioPrimary1" name="terimaDari" value="customer" onclick="showForm()" checked disabled>
                                 <label for="radioPrimary1">
                                 Customer
                                 </label>
                             </div>
                             <div class="icheck-primary d-inline" style="margin-left : 12px  ">
-                                <input type="radio" id="radioPrimary2" name="terimaDari" value="lainnya" onclick="showForm()" readonly>
+                                <input type="radio" id="radioPrimary2" name="terimaDari" value="lainnya" onclick="showForm()" disabled>
                                 <label for="radioPrimary2">
                                 Lainnya
                                 </label>
@@ -143,13 +144,13 @@
                         ?>
                         <div class="form-group clearfix">
                             <div class="icheck-primary d-inline">
-                                <input type="radio" id="radioPrimary1" name="terimaDari" value="customer" onclick="showForm()"readonly>
+                                <input type="radio" id="radioPrimary1" name="terimaDari" value="customer" onclick="showForm()" disabled>
                                 <label for="radioPrimary1" readonly>
                                 Customer
                                 </label>
                             </div>
                             <div class="icheck-primary d-inline" style="margin-left : 12px  ">
-                                <input type="radio" id="radioPrimary2" name="terimaDari" value="lainnya" onclick="showForm()" readonly checked>
+                                <input type="radio" id="radioPrimary2" name="terimaDari" value="lainnya" onclick="showForm()" disabled checked>
                                 <label for="radioPrimary2" readonly>
                                 Lainnya
                                 </label>
@@ -279,6 +280,7 @@
                     </div>
                     <?php
                     }
+                } else {
                 ?>
                 <div id="cashmasuk-option1" style="display: none;">
                     <div class="row">
@@ -416,11 +418,11 @@
                         <?php
                         if (!isset($_SESSION['header_cash_masuk'])) {
                         ?>
-                        <button type="button" name="reset" class="btn btn-secondary" onclick="window.location.href='modules/cash/pemasukan/proses2.php?act=reset'" disabled>Reset</button>
+                        <button type="button" name="reset" class="btn btn-secondary" onclick="window.location.href='modules/cash/pemasukan/proses.php?act=reset'" disabled>Reset</button>
                         <?php
                         } else {
                         ?>
-                        <button type="button" name="reset" class="btn btn-danger" onclick="window.location.href='modules/cash/pemasukan/proses2.php?act=reset'">Reset</button>
+                        <button type="button" name="reset" class="btn btn-danger" onclick="window.location.href='modules/cash/pemasukan/proses.php?act=reset'">Reset</button>
                         <?php
                         }
                         ?>
@@ -453,6 +455,7 @@
                     <?php
                     if (!isset($_SESSION['temp_cash_masuk'])) {
                     ?>
+                    <tr>
                         <td>-</td>
                         <td>-</td>
                         <td>-</td>
@@ -462,6 +465,7 @@
                         <td>-</td>
                         <td>-</td>
                         <td>-</td>
+                    </tr>
                     <?php
                     } else {
                     $i = 1;
@@ -476,23 +480,25 @@
                         $keterangan = $value ['keterangan'];
                         
                         /* Ambil Nama Customer */
-                        if($terima_dari ="customer"){
+                        if($terima_dari == "customer"){
                             $sumber = $value ['sumber'];
                             $queryNamaCustomer = "SELECT nama FROM customer WHERE $sumber = id_customer";
                             $execQueryNamaCustomer = mysqli_query($conn, $queryNamaCustomer);
                             $fetchNamaCustomer = mysqli_fetch_array($execQueryNamaCustomer);
                             $sumber = $fetchNamaCustomer ['nama'];
+
+                            /* Ambil Nama Barang */
+                            $id_barang = $value['barangPenjualan'];
+                            $queryNamaBarang = "SELECT nama_barang FROM barang WHERE $id_barang = id_barang";
+                            $execQueryNamaBarang = mysqli_query($conn, $queryNamaBarang);
+                            $fetchNamaBarang = mysqli_fetch_array($execQueryNamaBarang);
+                            $nama_barang = $fetchNamaBarang['nama_barang'];
                         } else {
                             $sumber = $value['sumber'];
+                            $nama_barang = NULL;
                         }
                         
-                        /* Ambil Nama Barang */
-                        $id_barang = $value['barangPenjualan'];
-                        $queryNamaBarang = "SELECT nama_barang FROM barang WHERE $id_barang = id_barang";
-                        $execQueryNamaBarang = mysqli_query($conn, $queryNamaBarang);
-                        $fetchNamaBarang = mysqli_fetch_array($execQueryNamaBarang);
-                        $nama_barang = $fetchNamaBarang['nama_barang'];
-
+                        
                         /* Ambil Nama Jasa */
                         $id_jasa = $value['id_jasa'];
                         if ($id_jasa == NULL) {
@@ -505,8 +511,8 @@
                         }
 
                         $jumlah = $value['jumlah'];
-                    }
                     ?>
+                    <tr>
                         <td><?=$i?></td>
                         <td><?=$kode_akun?></td>
                         <td><?=$nama_akun?></td>
@@ -521,13 +527,14 @@
                               <button type="submit" name="deleteList"class="btn btn-danger btn-sm" ><i class = "far fa-trash-alt"></i></button>
                             </form>
                         </td>
+                    </tr>
                     <?php
+                        }
+                        $i++;
                     }
                     ?>
                 </tbody>
             </table>   
         </div>
     </div>
-</div>
-
-              <!-- /.row -->
+</div>    <!-- /.row -->
