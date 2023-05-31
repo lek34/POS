@@ -44,9 +44,8 @@
                 <div class="col-2">
                 <label for="">Ke Kas : </label>
                     <select name="id_akun" class="form-control" required>
-                        <option>Select an Option</option>
-                        <?php
-                            $pilihanCustomer = mysqli_query($conn, "select * from akun WHERE status = 'Y'");
+                            <?php
+                                $pilihanCustomer = mysqli_query($conn, "select * from akun WHERE status = 'Y'");
                             while ($fetcharray = mysqli_fetch_array($pilihanCustomer)) {
                             $namaAkun = $fetcharray['nama_akun'];
                             $idAkun = $fetcharray['id_akun'];
@@ -61,7 +60,10 @@
                 </div>
                 <div class="col-2">
                     <label>Tanggal : </label>
-                    <input type="date" name = "tanggal_masuk" class="form-control" required>
+                    <?php
+                        $tanggal_masuk = date("d/m/y");
+                    ?>
+                    <input type="text" name = "tanggal_masuk" class="form-control" value="<?=$tanggal_masuk?>" readonly>
                 </div>
             </div>
             <div class="row">
@@ -98,24 +100,23 @@
                 </div>
                 <div class="col-2">
                 <label for="">Ke Kas : </label>
-                    <select name="id_akun" class="form-control" readonly>
+                    <select class="form-control" disabled>
                         <?php
-                            $pilihanCustomer = mysqli_query($conn, "select * from akun WHERE status = 'Y'");
-                            while ($fetcharray = mysqli_fetch_array($pilihanCustomer)) {
-                            $namaAkun = $fetcharray['nama_akun'];
-                            $idAkun = $fetcharray['id_akun'];
+                            $queryNamaAkun = "SELECT nama_akun from akun where $idAkun = id_akun";
+                            $execQueryNamaAkun =  mysqli_query($conn, $queryNamaAkun);
+                            $fetchNamaAkun = mysqli_fetch_array($execQueryNamaAkun);
+                            $namaAkun = $fetchNamaAkun['nama_akun'];
                             ?>
                             <option value="<?= $idAkun; ?>">
                                 <?= $namaAkun; ?>
                             </option>
-                        <?php
-                        }
-                        ?>
                     </select>
+                    <input type="hidden" name="id_akun" value="<?=$idAkun?>">
                 </div>
                 <div class="col-2">
                     <label>Tanggal : </label>
-                    <input type="date" name = "tanggal_masuk" class="form-control" value="<?=$tanggal_masuk?>"  readonly>
+                    <input type="text" class="form-control" value="<?=$tanggal_masuk?>" disabled>
+                    <input type="hidden" name="tanggal_masuk" value="<?=$tanggal_masuk?>">
                 </div>
             </div>
             <div class="row">
@@ -127,7 +128,8 @@
                         ?>
                         <div class="form-group clearfix">
                             <div class="icheck-primary d-inline">
-                                <input type="radio" id="radioPrimary1" name="terimaDari" value="customer" onclick="showForm()" checked disabled>
+                                <input type="radio" id="radioPrimary1" onclick="showForm()" checked disabled>
+                                <input type="hidden" name="terimaDari" value="customer">
                                 <label for="radioPrimary1">
                                 Customer
                                 </label>
@@ -150,7 +152,8 @@
                                 </label>
                             </div>
                             <div class="icheck-primary d-inline" style="margin-left : 12px  ">
-                                <input type="radio" id="radioPrimary2" name="terimaDari" value="lainnya" onclick="showForm()" disabled checked>
+                                <input type="radio" id="radioPrimary2" onclick="showForm()" disabled checked>
+                                <input type="hidden" name="terimaDari" value="lainnya">
                                 <label for="radioPrimary2" readonly>
                                 Lainnya
                                 </label>
@@ -178,21 +181,19 @@
                         </div>
                         <div class="row">
                             <div class="col-6">
-                            <select name="sumberCustomer" class="form-control">
-                                <option value="">Select an option</option>
-                                <?php
-                                $pilihanCustomer = mysqli_query($conn, "select * from customer WHERE status = 'Y'");
-                                while ($fetcharray = mysqli_fetch_array($pilihanCustomer)) {
-                                    $namaCustomer = $fetcharray['nama'];
-                                    $id_customer = $fetcharray['id_customer'];
-                                ?>
-                                    <option value="<?= $id_customer; ?>">
-                                    <?= $namaCustomer; ?>
-                                    </option>
-                                <?php
-                                }
-                                ?>
-                            </select>
+                                <select class="form-control" disabled>
+                                    <?php
+                                        $sumber = $_SESSION['header_cash_masuk']['sumber'];
+                                        $queryNamaCustomer = "SELECT nama from customer where $sumber = id_customer";
+                                        $execQueryNamaCustomer =  mysqli_query($conn, $queryNamaCustomer);
+                                        $fetchNamaCustomer = mysqli_fetch_array($execQueryNamaCustomer);
+                                        $namaCustomer = $fetchNamaCustomer['nama'];
+                                        ?>
+                                        <option value="<?= $sumber; ?>">
+                                            <?= $namaCustomer; ?>
+                                        </option>
+                                </select>
+                                <input type="hidden" name="sumber" value="<?=$sumber?>">
                             </div>
                             <div class="col-1">
                             Posisi Debet
@@ -215,7 +216,6 @@
                         <div class="row">
                             <div class="col-2">
                                 <select name="barangPenjualan"  id="id_barang_penjualan" class="form-control" onchange="updateUOMpenjualan(this.value)">
-                                    <option value="">Select an item</option>
                                     <?php
                                     $pilihanbarang = mysqli_query($conn, "select * from barang WHERE status = 'Y'");
                                     while ($fetcharray = mysqli_fetch_array($pilihanbarang)) {
@@ -291,7 +291,6 @@
                     <div class="row">
                         <div class="col-6">
                         <select name="sumberCustomer" class="form-control">
-                            <option value="">Select an option</option>
                             <?php
                             $pilihanCustomer = mysqli_query($conn, "select * from customer WHERE status = 'Y'");
                             while ($fetcharray = mysqli_fetch_array($pilihanCustomer)) {
@@ -481,7 +480,7 @@
                         
                         /* Ambil Nama Customer */
                         if($terima_dari == "customer"){
-                            $sumber = $value ['sumber'];
+                            $sumber = $_SESSION['header_cash_masuk']['sumber'];
                             $queryNamaCustomer = "SELECT nama FROM customer WHERE $sumber = id_customer";
                             $execQueryNamaCustomer = mysqli_query($conn, $queryNamaCustomer);
                             $fetchNamaCustomer = mysqli_fetch_array($execQueryNamaCustomer);
@@ -494,7 +493,7 @@
                             $fetchNamaBarang = mysqli_fetch_array($execQueryNamaBarang);
                             $nama_barang = $fetchNamaBarang['nama_barang'];
                         } else {
-                            $sumber = $value['sumber'];
+                            $sumber = $_SESSION['header_cash_masuk']['sumber'];
                             $nama_barang = NULL;
                         }
                         
@@ -532,8 +531,8 @@
                         </td>
                     </tr>
                     <?php
+                    $i++;
                         }
-                        $i++;
                     }
                     ?>
                 </tbody>
@@ -554,7 +553,7 @@
         </div>
         <!-- /.col -->
         <div class="col-6"> 
-            <p class="lead">Total Pemasukan : <?=$tanggal_bawah?></p>
+            <p class="lead">Tanggal Masuk : <?=$tanggal_bawah?></p>
             <div class="table-responsive">
             <table class="table">
                 <tr>
@@ -565,6 +564,24 @@
             </div>
         </div>
         <!-- /.col -->
+    </div>
+    <div class="row no-print">
+        <div class="col">
+            <?php
+            if(!isset($_SESSION['temp_cash_masuk'])){
+            ?>
+                <button type="submit" name="insertPembelian" class="btn btn-success float-right" disabled>Submit</button>
+            <?php
+            } else {
+            ?>
+            <form action="modules/cash/pemasukan/proses.php?act=insertCash" method="post">
+                <input type="hidden" name="totJumlah" value="<?=$totJumlah?>">
+                <button type="submit" name="insertCash" class="btn btn-success float-right">Submit</button>
+            </form>
+            <?php
+            }
+            ?>
+        </div>
     </div>
         <!-- /.row -->
 </div>    <!-- /.row -->

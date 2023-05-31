@@ -15,8 +15,14 @@ if($_GET['act'] == 'insertTempCashMasuk'){
         $id_akun = mysqli_real_escape_string($conn, trim($_POST['id_akun']));
         $tanggal_masuk = $_POST['tanggal_masuk'];
         $terima_dari = mysqli_real_escape_string($conn, trim($_POST['terimaDari']));
+        if ($terima_dari == "customer") {
+            $sumber = mysqli_real_escape_string($conn, trim($_POST['sumberCustomer']));
+        } else {
+            $sumber = mysqli_real_escape_string($conn, trim($_POST['sumberLainnya']));
+        }
 
         $_SESSION['header_cash_masuk'] =  array(
+            'sumber' => $sumber,
             'last_masuk' => $last_masuk,
             'no_bukti' => $no_bukti,
             'id_akun' => $id_akun,
@@ -26,12 +32,6 @@ if($_GET['act'] == 'insertTempCashMasuk'){
 
         /* end of header information */
         /* Content Information */
-        if ($terima_dari == "customer") {
-            $sumber = mysqli_real_escape_string($conn, trim($_POST['sumberCustomer']));
-        } else {
-            $sumber = mysqli_real_escape_string($conn, trim($_POST['sumberLainnya']));
-        }
-        echo $terima_dari;
         $barangPenjualan = mysqli_real_escape_string($conn, trim($_POST['barangPenjualan']));
         $uom = mysqli_real_escape_string($conn, trim($_POST['uom']));
         $satuan_kecil = mysqli_real_escape_string($conn, trim($_POST['satuankecil']));
@@ -41,7 +41,6 @@ if($_GET['act'] == 'insertTempCashMasuk'){
         $keterangan = mysqli_real_escape_string($conn, trim($_POST['keterangan']));
 
         $_SESSION['temp_cash_masuk'][] = array(
-            'sumber' => $sumber,
             'barangPenjualan' => $barangPenjualan,
             'uom' => $uom,
             'satuan_kecil' => $satuan_kecil,
@@ -69,6 +68,18 @@ elseif ($_GET['act'] == 'deleteList'){
         unset($_SESSION['temp_cash_masuk'][$id_list]);
 
         header('location: ../../../main.php?module=detailCashMasuk');
+    }
+}
+elseif ($_GET['act'] == 'insertCash'){
+    if (isset($_POST['insertCash'])){
+        $totJumlah = $_POST['totJumlah'];
+        $no_bukti = $_SESSION['header_cash_masuk']['no_bukti'];
+        $id_akun =  $_SESSION['header_cash_masuk']['id_akun'];
+        $tanggal_masuk = $_SESSION['header_cash_masuk']['tanggal_masuk'];
+        $sumber = $_SESSION['header_cash_masuk']['sumber'];
+
+        $queryHeader = "INSERT INTO cash_masuk (bukti_masuk, sumber)";
+
     }
 }
 

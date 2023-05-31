@@ -447,6 +447,7 @@ marginInput.addEventListener('input', updateSellingPrice);
       options: stackedBarChartOptions
     })
   })
+
 </script>
 </body>
 </html>
