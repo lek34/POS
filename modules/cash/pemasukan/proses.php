@@ -76,12 +76,36 @@ elseif ($_GET['act'] == 'insertCash'){
         $no_bukti = $_SESSION['header_cash_masuk']['no_bukti'];
         $id_akun =  $_SESSION['header_cash_masuk']['id_akun'];
         $tanggal_masuk = $_SESSION['header_cash_masuk']['tanggal_masuk'];
-        $sumber = $_SESSION['header_cash_masuk']['sumber'];
+        $terima_dari = $_SESSION['header_cash_masuk']['terima_dari'];
+        /* Ambil Keterangan Nama */
+        if ($terima_dari == "customer") {
+            $sumber = $_SESSION['header_cash_masuk']['sumber'];
+            $queryNamaCustomer = "SELECT nama FROM customer WHERE $sumber = id_customer";
+            $execQueryNamaCustomer = mysqli_query($conn, $queryNamaCustomer);
+            $fetchNamaCustomer = mysqli_fetch_array($execQueryNamaCustomer);
+            $sumber = $fetchNamaCustomer ['nama'];
+        } else {
+            $sumber = $_SESSION['header_cash_masuk']['sumber'];
+        }
+        $queryHeader = "INSERT INTO cash_masuk (bukti_masuk, sumber_pemasukan , jumlah, id_akun, tanggal_masuk) VALUES ($no_bukti, $sumber, $totJumlah, $id_akun, $tanggal_masuk)";
+        $execQueryHeader = mysqli_query($conn, $queryHeader);
+        $id_cashMasuk = mysqli_insert_id($conn);
 
-        $queryHeader = "INSERT INTO cash_masuk (bukti_masuk, sumber)";
+        $temp_cash_masuk = $_SESSION['temp_cash_masul'];
+        foreach ($temp_cash_masuk as $key => $data) {
+            $keterangan = $data['keterangan'];
+            /* Cek Barang */
+            if ($terima_dari = "customer") {
+                $barang = $data['barangPenjualan'];
+            } else {
+                $barang = NULL;
+            }
+            $jasa = $data['id_jasa'];
+            $jumlah = $jumlah['jumlah'];
+
+            $queryDetail = "INSERT INTO history_cash_masuk (id_cash_masuk, id_barang, kuantitas";
+        }
 
     }
 }
-
-
 ?>
