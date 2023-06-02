@@ -100,10 +100,11 @@ elseif ($_GET['act'] == 'insertCash'){
             } else {
                 $barang = NULL;
             }
+            $kuantitas = $data['satuan_kecil'];
             $jasa = $data['id_jasa'];
             $jumlah = $jumlah['jumlah'];
 
-            $queryDetail = "INSERT INTO history_cash_masuk (id_cash_masuk, id_barang, kuantitas";
+            $queryDetail = "INSERT INTO history_cash_masuk (id_cash_masuk, id_barang, kuantitas, jasa, jumlah) VALUES ($id_cashMasuk, $barang, $kuantitas, $jasa, $jumlah)";
         }
 
     }
