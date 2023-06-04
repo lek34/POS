@@ -111,10 +111,10 @@
                   <!-- Morris chart - Sales -->
                   <div class="chart tab-pane active" id="revenue-chart"
                        style="position: relative; height: 300px;">
-                       <canvas id="areaChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                       <canvas id="lineChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                    </div>
                   <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
-                  <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                  <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
                   </div>
                 </div>
               </div><!-- /.card-body -->
