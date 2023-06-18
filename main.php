@@ -321,6 +321,9 @@ marginInput.addEventListener('input', updateSellingPrice);
    
   //Line Chart
   $(function () {
+    <?php
+      $pembelian_akum = mysqli_query($conn, "select")
+    ?>
     var pembelian_akum = 28;
     var lineChartCanvas = $('#lineChart').get(0).getContext('2d');
     var lineChartData = {
