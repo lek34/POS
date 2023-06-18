@@ -321,6 +321,7 @@ marginInput.addEventListener('input', updateSellingPrice);
    
   //Line Chart
   $(function () {
+    var pembelian_akum = 28;
     var lineChartCanvas = $('#lineChart').get(0).getContext('2d');
     var lineChartData = {
       labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -329,7 +330,7 @@ marginInput.addEventListener('input', updateSellingPrice);
           label               : 'Digital Goods',
           backgroundColor     : 'rgba(60,141,188,0.9)',
           borderColor         : 'rgba(60,141,188,0.8)',
-          data                : [28, 48, 40, 19, 86, 27, 90],
+          data                : [pembelian_akum, 48, 40, 19, 86, 27, 90],
           fill                : false
         },
         {
