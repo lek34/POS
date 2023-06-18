@@ -1,5 +1,5 @@
 <?php
-if (isset($_GET['id_pembelian'])) { ?>
+if (isset($_GET['id_mobil'])) { ?>
   <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -10,15 +10,17 @@ if (isset($_GET['id_pembelian'])) { ?>
       </div><!-- /.container-fluid -->
     </section>
 <?php
-  $id_pembelian = $_GET['id_pembelian'];
-  $execQuery = mysqli_query($conn, "SELECT pembelian.jatuh_tempo, pembelian.no_faktur, supplier.nama
-                                    FROM pembelian
-                                    JOIN supplier ON pembelian.id_supplier = supplier.id_supplier
-                                    WHERE pembelian.id_pembelian = '$id_pembelian'");
+  $id_mobil = $_GET['id_mobil'];
+  $execQuery = mysqli_query($conn, "SELECT *
+                                    FROM data_mobil
+                                    JOIN history_mobil ON data_mobil.id_mobil= history_mobil.id_mobil
+                                    WHERE data_mobil.id_mobil = $id_mobil;'");
   while ($data = mysqli_fetch_array($execQuery)){
-    $no_faktur = $data ['no_faktur'];
-    $supplier = $data ['nama'];
-    $jatuh_tempo = $data ['jatuh_tempo'];
+    $id_mobil = $data ['id_mobil'];
+    $merk = $data ['merk'];
+    $plat = $data ['plat'];
+    $tanggal  = $data ['tanggal'];
+    $pemeriksa  = $data ['pemeriksa'];
 ?>
 <!-- Mulai content -->
             <!-- Main content -->
@@ -35,14 +37,18 @@ if (isset($_GET['id_pembelian'])) { ?>
               <!-- info row -->
               <div class="row invoice-info">
                   <div class="col-sm-4 invoice-col">
-                      <label>No. Faktur</label>
-                      <input type="text" name="no_faktur" placeholder="No Faktur" value='<?=$no_faktur?>' class="form-control" readonly>
+                      <label>Merk Mobil</label>
+                      <input type="text" name="merk" placeholder="Merk Mobil" value="<?=$merk?>" class="form-control" readonly>
                       <br>
-                      <label>Supplier</label>
-                      <input type="text" name="no_faktur" placeholder="No Faktur" value='<?=$supplier?>' class="form-control" readonly>
+                      <label>No Polisi</label>
+                      <input type="text" name="plat" placeholder="No Polisi" value="<?=$plat?>" class="form-control" readonly>
                       <br>
-                      <label>Jatuh Tempo</label>
-                      <input type="date" id="jatuh_tempo" value="<?=$jatuh_tempo?>" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" readonly>
+                      <label>Tanggal Periksa</label>
+                      <input type="date" id="tanggal_periksa" name="tanggal_periksa" placeholder="Tanggal Periksa" value="<?=$tanggal?>" class="form-control" readonly>
+                      <br>
+                      <label>Pemeriksa</label>
+                      <input type="text" name="pemeriksa" placeholder="Pemeriksa" value="<?=$pemeriksa?>" class="form-control" readonly>
+                      <br>
                     </div>
                   </div>
                   <br>
@@ -54,34 +60,30 @@ if (isset($_GET['id_pembelian'])) { ?>
               <!-- Table row -->
               <div class="row">
                 <div class="col-12 table-responsive">
-                  <h3>List Barang :</h3>
+                  <h3>List Perlengkapan :</h3>
                   <table class="table table-striped">
                     <thead>
                     <tr>
                       <th>No.</th>
-                      <th>Nama Barang</th>
-                      <th>Qty</th>
-                      <th>Harga Barang</th>
-                      <th>Bruto</th>
-                      <th>Disc</th>
-                      <th>Netto</th>
+                      <th>Nama Perlengkapan</th>
+                      <th>Kondisi</th>
+                      <th>Deskripsi</th>
                     </tr>
                     </thead>
                     <tbody>
                     <?php
                         $i = 1;
-                        $execQuery = mysqli_query($conn, "SELECT p.id_pembelian, hp.*,  b.nama_barang 
-                                                          FROM pembelian p
-                                                          JOIN history_pembelian hp ON p.id_pembelian = hp.id_pembelian 
-                                                          JOIN barang b ON hp.id_barang = b.id_barang 
-                                                          WHERE p.id_pembelian = '$id_pembelian';");
+                        $execQuery = mysqli_query($conn, "SELECT *
+                                                          FROM data_mobil
+                                                          JOIN history_mobil ON data_mobil.id_mobil= history_mobil.id_mobil
+                                                          JOIN mobil ON mobil.id_prlkpn = history_mobil.id_perlengkapan
+                                                          WHERE data_mobil.id_mobil = $id_mobil;");
                         while ($data = mysqli_fetch_array($execQuery)){
-                          $nama_barang = $data ['nama_barang'];
-                          $kuantitas  = $data ['kuantitas'];
-                          $harga_barang = number_format($data ['harga_barang'], 0, ',', '.');
-                          $disc = number_format($data ['disc'], 0, ',', '.');
-                          $bruto = number_format($data ['bruto'], 0, ',', '.');
-                          $netto = number_format($data ['netto'], 0, ',', '.');
+                          $id_mobil = $data ['id_mobil'];
+                          $merk = $data ['merk'];
+                          $plat = $data ['plat'];
+                          $tanggal  = $data ['tanggal'];
+                          $pemeriksa  = $data ['pemeriksa'];
                     ?>
                     <tr>
                         <td><?=$i?></>

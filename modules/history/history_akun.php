@@ -25,7 +25,7 @@
             <div class="card-header">
                 <div class = "row">
                     <div class="col-4">
-                      <a href="?module=historyPenjualan&id_barang=<?=$id_barang?>" class = "btn btn-outline-danger">Penjualan</a>
+                      
                     </div>
                 </div>
               </div>

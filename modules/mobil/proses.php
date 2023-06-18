@@ -96,7 +96,7 @@ require_once "../../auth/cek.php";
     
                 $queryDetail = "INSERT INTO history_mobil (id_mobil, id_perlengkapan ,kondisi , perlengkapan, creator) 
                                 VALUES ('$id_mobil', '$id_perlengkapan', '$kondisi', '$perlengkapan' ,'$user')";
-                $execQueryDetail = mysqli_query($conn, $queryDetail) or die('Error inserting data into pembelian_detail table: ' . mysqli_error($conn));
+                $execQueryDetail = mysqli_query($conn, $queryDetail) or die('Error inserting data into history_mobil table: ' . mysqli_error($conn));
             }
             
            
