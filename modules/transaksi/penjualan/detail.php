@@ -177,10 +177,16 @@ if (isset($_GET['id_penjualan'])) { ?>
                                                           GROUP BY p.id_penjualan;");
 
                         while ($data = mysqli_fetch_array($execQuery)){
-                          $totBruto =  number_format($jumlah + $data ['total_bruto'], 0, ',', '.');
-                          $totDiskon =  number_format($data ['total_diskon'], 0, ',', '.');
-                          $totNetto  = number_format($jumlah + $data ['total_netto'], 0, ',', '.');
-                    ?>
+                          if (isset($jumlah)) {
+                            $totBruto =  number_format($jumlah + $data['total_bruto'], 0, ',', '.');
+                            $totNetto  = number_format($jumlah + $data['total_netto'], 0, ',', '.');
+                          } else {
+                            $totBruto =  number_format($data['total_bruto'], 0, ',', '.');
+                            $totNetto  = number_format($data['total_netto'], 0, ',', '.');
+                          }
+                          
+                          $totDiskon =  number_format($data['total_diskon'], 0, ',', '.');
+                        ?>
                       <tr>
                         <th style="width:50%">Subtotal:</th>
                         <td>Rp. <?=$totBruto?></td>
@@ -357,7 +363,8 @@ if (isset($_GET['id_penjualan'])) { ?>
                     </div>
                   <br>
                   <?php
-                  } else { 
+                  } else {
+                     
                     $no_transaksi = $_SESSION['temp_transaksi_jual']['no_transaksi'];
                     $customer = $_SESSION['temp_transaksi_jual']['id_customer'];
                     $jatuh_tempo = $_SESSION['temp_transaksi_jual']['jatuh_tempo'];
@@ -485,6 +492,7 @@ if (isset($_GET['id_penjualan'])) { ?>
                       <th>Satuan</th>
                       <th>Qty</th>
                       <th>Margin</th>
+                      <th>Harga Modal</th>
                       <th>Harga Barang</th>
                       <th>Disc</th>
                       <th>Submit</th>
@@ -522,17 +530,27 @@ if (isset($_GET['id_penjualan'])) { ?>
                             </td>
 
                             <td>
+                            <div class="input-group mb-3">
                               <input type="hidden" id="costPrice" value="<?= $harga_modal; ?>">
-                              <input type="text" class="form-control" name="margin" id="margin" required>
-                        
+                              <input type="text" class="form-control" name="margin" id="margin" readonly>
+                              <div class="input-group-append">
+                                <span class="input-group-text">%</span>
+                              </div>
+                            </div>
                             </td>
 
                             <td>
-                            <div class="input-group mb-3">
-                              <div class="input-group-append">
+                              <div class="input-group mb-3">
+                                <div class="input-group-append"></div>
+                                <input type="text" class="form-control" name="harga_modal" class="harga_modal" id="harga_modal" readonly>
                               </div>
-                              <input type="text" class="form-control" name="harga_barang" class="harga_barang" id="harga_barang" required>
-                            </div>
+                            </td>
+
+                            <td>
+                              <div class="input-group mb-3">
+                                <div class="input-group-append"></div>
+                                <input type="text" class="form-control" name="harga_barang" class="harga_barang" id="harga_barang" required>
+                              </div>
                             </td>
                             
                             <td>
@@ -741,8 +759,10 @@ if (isset($_GET['id_penjualan'])) { ?>
                           $totBruto += $harga_jasa;
                           $totNetto += $harga_jasa;  
                         } 
+                        $totBrutoformat = 0;
+                        $totNettoformat = 0;
                         $totBrutoformat = number_format($totBruto, 0, ',', '.');
-                        $totDiskonformat = number_format($totDiskon, 0, ',', '.');
+                        $totDiskon = number_format($totDiskon, 0, ',', '.');
                         $totNettoformat = number_format($totNetto, 0, ',', '.');
                         }
                         ?>

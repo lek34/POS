@@ -194,23 +194,31 @@ function updateUOMpenjualan(id_barang) {
 </script>
 
 <script>
-const costPriceInput = document.getElementById('costPrice');
-const sellingPriceInput = document.getElementById('harga_barang');
-const marginInput = document.getElementById('margin');
-const barangIdInput = document.getElementById('id_barang_penjualan');
+  const costPriceInput = document.getElementById('costPrice');
+  const sellingPriceInput = document.getElementById('harga_barang');
+  const marginInput = document.getElementById('margin');
+  const barangIdInput = document.getElementById('id_barang_penjualan');
+  const hargaModalInput = document.getElementById('harga_modal');
 
-function updateSellingPrice() {
-  const costPrice = parseFloat(barangIdInput.options[barangIdInput.selectedIndex].dataset.hargaModal);
-  const margin = parseFloat(marginInput.value);
-  const sellingPrice = costPrice * (1 + margin / 100);
-  sellingPriceInput.value = sellingPrice.toFixed(0); 
-}
+  function updateSellingPrice() {
+    const costPrice = parseFloat(barangIdInput.options[barangIdInput.selectedIndex].dataset.hargaModal);
+    const sellingPrice = parseFloat(sellingPriceInput.value);
+    const margin = ((sellingPrice - costPrice) / costPrice) * 100;
+    marginInput.value = margin.toFixed(0);
+  }
 
-barangIdInput.addEventListener('change', updateSellingPrice);
-marginInput.addEventListener('input', updateSellingPrice);
+  barangIdInput.addEventListener('change', function() {
+    const selectedOption = this.options[this.selectedIndex];
+    const hargaModal = parseFloat(selectedOption.dataset.hargaModal);
+    costPriceInput.value = hargaModal;
+    hargaModalInput.value = hargaModal.toFixed(0); // Display harga_modal value in the input field
+    updateSellingPrice();
+  });
 
-
+  sellingPriceInput.addEventListener('input', updateSellingPrice);
 </script>
+
+
 <script>
   function showForm() {
     var option1 = document.getElementById("radioPrimary1");

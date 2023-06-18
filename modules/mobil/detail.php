@@ -14,7 +14,7 @@ if (isset($_GET['id_mobil'])) { ?>
   $execQuery = mysqli_query($conn, "SELECT *
                                     FROM data_mobil
                                     JOIN history_mobil ON data_mobil.id_mobil= history_mobil.id_mobil
-                                    WHERE data_mobil.id_mobil = $id_mobil;'");
+                                    WHERE data_mobil.id_mobil = $id_mobil;");
   while ($data = mysqli_fetch_array($execQuery)){
     $id_mobil = $data ['id_mobil'];
     $merk = $data ['merk'];
@@ -35,7 +35,11 @@ if (isset($_GET['id_mobil'])) { ?>
                 <!-- /.col -->
               </div>
               <!-- info row -->
-              <div class="row invoice-info">
+              
+      <?php
+        }
+      ?>   
+      <div class="row invoice-info">
                   <div class="col-sm-4 invoice-col">
                       <label>Merk Mobil</label>
                       <input type="text" name="merk" placeholder="Merk Mobil" value="<?=$merk?>" class="form-control" readonly>
@@ -51,10 +55,7 @@ if (isset($_GET['id_mobil'])) { ?>
                       <br>
                     </div>
                   </div>
-                  <br>
-      <?php
-        }
-      ?>        
+                  <br>     
 <!-- form tutup -->
                 <br>
               <!-- Table row -->
@@ -79,20 +80,16 @@ if (isset($_GET['id_mobil'])) { ?>
                                                           JOIN mobil ON mobil.id_prlkpn = history_mobil.id_perlengkapan
                                                           WHERE data_mobil.id_mobil = $id_mobil;");
                         while ($data = mysqli_fetch_array($execQuery)){
-                          $id_mobil = $data ['id_mobil'];
-                          $merk = $data ['merk'];
-                          $plat = $data ['plat'];
-                          $tanggal  = $data ['tanggal'];
-                          $pemeriksa  = $data ['pemeriksa'];
+                            $id_mobil = $data ['id_mobil'];
+                            $prlkpn = $data ['prlkpn'];
+                            $kondisi = $data ['kondisi'];
+                            $perlengkapan  = $data ['perlengkapan'];
                     ?>
                     <tr>
                         <td><?=$i?></>
-                        <td><?=$nama_barang?></td>
-                        <td><?=$kuantitas?></td>
-                        <td>Rp. <?=$harga_barang?></td>
-                        <td>Rp. <?=$bruto?></td>
-                        <td><?=$disc?>%</td>
-                        <td>Rp. <?=$netto?></td>
+                        <td><?=$prlkpn?></td>
+                        <td><?=$kondisi?></td>
+                        <td><?=$perlengkapan?></td>
                     </tr>
                     <?php
                     $i++;
@@ -113,52 +110,7 @@ if (isset($_GET['id_mobil'])) { ?>
                 <div class="col-6">
                 </div>
                 <!-- /.col -->
-                <div class="col-6">
-                <?php
-                    $execQuery = mysqli_query($conn, "SELECT p.jatuh_tempo
-                                                      FROM pembelian p
-                                                      WHERE p.id_pembelian = '$id_pembelian'");
-                    while ($data = mysqli_fetch_array($execQuery)){
-                      $jatuh_tempo = $data ['jatuh_tempo'];
-                  ?>
-                  <p class="lead">Jatuh Tempo : <?=$jatuh_tempo?></p>
-                  <?php
-                    }
-                  ?>
-                  <div class="table-responsive">
-                    <table class="table">
-                    <?php
-                        $i = 1;
-                        $execQuery = mysqli_query($conn, "SELECT p.id_pembelian, SUM(hp.bruto) as total_bruto, SUM(hp.netto) as total_netto, SUM(hp.diskon) as total_diskon
-                                                          FROM pembelian p 
-                                                          JOIN history_pembelian hp ON p.id_pembelian = hp.id_pembelian 
-                                                          WHERE p.id_pembelian = '$id_pembelian' 
-                                                          GROUP BY p.id_pembelian;");
-
-                        while ($data = mysqli_fetch_array($execQuery)){
-                          $totBruto =  number_format($data ['total_bruto'], 0, ',', '.');
-                          $totDiskon =  number_format($data ['total_diskon'], 0, ',', '.');
-                          $totNetto  = number_format($data ['total_netto'], 0, ',', '.');
-                    ?>
-                      <tr>
-                        <th style="width:50%">Subtotal:</th>
-                        <td>Rp. <?=$totBruto?></td>
-                      </tr>
-                      <tr>
-                        <th>Disc</th>
-                        <td>Rp. <?=$totDiskon?></td>
-                      </tr>
-                      <tr>
-                      </tr>
-                      <tr>
-                        <th>Total:</th>
-                        <td>Rp. <?=$totNetto?></td>
-                      </tr>
-                      <?php
-                        }
-                      ?>
-                    </table>
-                  </div>
+                
                 </div>
                 <!-- /.col -->
               </div>
@@ -173,9 +125,6 @@ if (isset($_GET['id_mobil'])) { ?>
                       window.addEventListener("load", window.print());
                     }
                     </script>
-                    <button type="button" class="btn btn-primary float-right" style="margin-right: 5px;">
-                    <i class="fas fa-download"></i> Generate PDF
-                  </button>
                 </div>
               </div>
             </div>
