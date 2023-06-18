@@ -106,7 +106,6 @@ elseif ($_GET['act'] == 'insertCash'){
 
             $queryDetail = "INSERT INTO history_cash_masuk (id_cash_masuk, id_barang, kuantitas, jasa, jumlah) VALUES ($id_cashMasuk, $barang, $kuantitas, $jasa, $jumlah)";
         }
-
     }
 }
 ?>
