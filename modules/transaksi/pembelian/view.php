@@ -30,6 +30,7 @@
                             </button>
                         </a>
                     </div>
+                    <form name=form method=POST  action='modules/needapparp/proses.php?act=valbayar'>
                     <!-- /.card-header -->
                     <div class="card-body">
                         <table id="example1" class="table table-bordered table-striped">
@@ -42,6 +43,7 @@
                                 <th>Status</th>
                                 <th>Jatuh Tempo</th>
                                 <th>Action</th>
+                                <th>Check Box</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -58,14 +60,15 @@
                                     $tanggal  = $data ['tanggal'];
                                     $jatuh_tempo  = $data ['jatuh_tempo'];
                                     $supplier = $data ['nama'];
-                                    $netto = number_format($data['netto'], 0, ',', '.');
+                                    $netto = $data ['netto'];
+                                    $nettoformat = number_format($data['netto'], 0, ',', '.');
                                     $status = $data ['status_pembayaran'];
                                 ?>
                                 <tr>
                                     <td><?=$no_faktur?></td>
                                     <td><?=$tanggal?></td>
                                     <td><?=$supplier?></td>
-                                    <td>Rp. <?=$netto?></td>
+                                    <td>Rp. <?=$nettoformat?></td>
                                     <td>
                                         <?php
                                         if ($status == "N") {
@@ -81,11 +84,16 @@
                                         <?php
                                         if ($status == "N") {
                                             // echo"<a href='".$id_pembelian."'>";
-                                            echo "<button type='button' class='btn btn-danger btn-sm' data-toggle='modal' data-target='#bayar".$id_pembelian."'><i class='fas fa-times' style='color: #ffffff'></i></button>";
+                                            echo "<button type='button' class='btn btn-danger btn-sm'><i class='fas fa-times' style='color: #ffffff'></i></button>";
                                         } else {
                                             echo "<button type='button' class='btn btn-success btn-sm'><i class='fas fa-check' style = 'color : #ffffff'></i></button>";
                                         }
                                         ?>
+                                    </td>
+                                    <td>
+                                    <input type='checkbox' name='nobayar[]' value='<?=$netto?>' data-id_pembelian='<?=$id_pembelian?>' class="netto-checkbox">
+                                    
+                                    <input  name="totalNetto" id="totalNetto">
                                     </td>
                                 </tr>
                                 <?php
@@ -93,6 +101,7 @@
                                 ?>
                             </tbody>
                 </table>
+                        <button type='button' class='btn btn-danger btn-sm' data-toggle='modal' data-target='#bayar'>Bayar</button>
                     </div>
                             </div>
                         </div>
@@ -130,6 +139,36 @@
           <!-- /.col -->
         </div>
         <!-- /.row -->
+<?php
+if (isset($_GET['netto'])) {
+    $nettoatas = isset($_GET['netto']) ? $_GET['netto'] : 0; // Assign a default value of 0 if netto is not set
+    $formattedNetto = number_format($nettoatas, 0, ',', '.');
+
+// Use the $formattedNetto variable wherever you need the formatted netto value
+
+    // Lakukan sesuatu dengan nilai netto yang diterima
+  } else {
+    // Lakukan sesuatu jika netto tidak ada
+    // (misalnya, mengatur nilai default atau menampilkan pesan kesalahan)
+    $nettoatas = 0; // Nilai default jika netto tidak ada
+    $formattedNetto = number_format($nettoatas, 0, ',', '.');
+    // atau
+    echo "Netto tidak ditemukan!";
+  }
+
+if (isset($_GET['id_pembelian'])) {
+$id_pembelian = $_GET['id_pembelian'];
+$id_pembelian_array = explode(',', $id_pembelian);
+} else {
+// Handle the case when id_pembelian is not set
+// (set default value or display an error message)
+$id_pembelian_array = array(); // Empty array as default value
+}
+foreach ($id_pembelian_array as $id) {
+    // Do something with each $id_pembelian value
+    echo "ID Pembelian: " . $id . "<br>";
+  }    
+?>
 
 <!-- The Modal -->
 <?php
@@ -139,9 +178,10 @@
     while ($data2 = mysqli_fetch_array($execQuery2)){
     $id_pembelian = $data2 ['id_pembelian'];
     $no_faktur = $data2 ['no_faktur'];
-    $netto = $data2 ['netto'];
+    // $netto = $data2 ['netto'];
+    // $formattedNetto = number_format($netto, 0, ',', '.');
     ?>
-  <div class="modal fade" id="bayar<?=$id_pembelian?>">
+  <div class="modal fade" id="bayar">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">     
         <!-- Modal Header -->
@@ -157,7 +197,8 @@
                 <input type="hidden" name="id_pembelian" value="<?=$id_pembelian;?>">
                 <input name="no_faktur" class="form-control" value="<?=$no_faktur;?>" disabled>
                 <br>
-                <input name="jumlah" class="form-control" value="<?=$netto;?>" readonly>
+                <input name="jumlah" class="form-control" value="<?=$formattedNetto;?>" readonly>
+                <input name="totalNetto" id="totalNetto">
                 <br>
                 <select name="id_akun" class="form-control">
                 <?php
