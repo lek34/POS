@@ -93,7 +93,14 @@
                                 ?>
                             </tbody>
                 </table>
+                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+</section>
                 <br><br>
+                           
                 <div class="row">
                     <div class="col-8"></div>
                     <?php
@@ -177,5 +184,5 @@
     </div>
   </div>
   <?php
-    }
+    }mysqli_close($conn);
 ?>

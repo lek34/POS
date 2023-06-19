@@ -113,6 +113,10 @@
       "responsive": true, "lengthChange": false, "autoWidth": false,
       "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
     }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $("#examplex").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example_wrapper .col-md-6:eq(0)');
     $('#example2').DataTable({
       "paging": true,
       "lengthChange": false,
@@ -123,6 +127,19 @@
       "responsive": true,
     });
   });
+</script>
+<script>
+$(document).ready(function() {
+  $('input[name="perlengkapan"]').on('change', function() {
+    if ($(this).val() === 'Tidak ada') {
+      $('#kondisi-container input[name="kondisi"]').prop('disabled', true);
+      $('#kondisi-container input[name="kondisi"]').prop('checked', false);
+      $('#kondisi-container input[name="kondisi"][value="-"]').prop('disabled', false);
+    } else {
+      $('#kondisi-container input[name="kondisi"]').prop('disabled', false);
+    }
+  });
+});
 </script>
 <script>
 $('.toastrDefaultSuccess').click(function() {
@@ -263,6 +280,7 @@ function updateUOMpenjualan(id_barang) {
     }
   });
 </script>
+
 <script src="plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -330,7 +348,7 @@ function updateUOMpenjualan(id_barang) {
   //Line Chart
   $(function () {
     <?php
-      $pembelian_akum = mysqli_query($conn, "select")
+      $pembelian_akun = mysqli_query($conn, "select")
     ?>
     var pembelian_akum = 28;
     var lineChartCanvas = $('#lineChart').get(0).getContext('2d');

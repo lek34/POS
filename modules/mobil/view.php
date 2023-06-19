@@ -132,5 +132,5 @@
     </div>
   </div>
   <?php
-    }
+    }mysqli_close($conn)
 ?>

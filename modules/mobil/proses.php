@@ -23,7 +23,7 @@ require_once "../../auth/cek.php";
             );
             
             $id_perlengkapan = mysqli_real_escape_string($conn, trim($_POST['id_perlengkapan']));
-            $kondisi = mysqli_real_escape_string($conn, trim($_POST['kondisi']));
+            $kondisi = isset($_POST['kondisi']) ? mysqli_real_escape_string($conn, trim($_POST['kondisi'])) : "-";
             $perlengkapan = mysqli_real_escape_string($conn, trim($_POST['perlengkapan']));
             $user = $_SESSION['username'];
 

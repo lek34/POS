@@ -228,8 +228,8 @@ if (isset($_GET['id_mobil'])) { ?>
                   <thead>
                     <tr>
                       <th>Nama Perlengkapan</th>
-                      <th>Kondisi</th>
                       <th>Deskripsi</th>
+                      <th>Kondisi</th>
                       <th>Submit</th>
                     </tr>
                     </thead>
@@ -252,20 +252,22 @@ if (isset($_GET['id_mobil'])) { ?>
                       </select>
                       </td>
 
-    <td>
-    <input type="radio" id="kondisi-baik" name="kondisi" value="Baik">
-    <label for="kondisi-baik">Baik</label>
+                      <td>
+  <input type="radio" id="perlengkapan-ada" name="perlengkapan" value="Ada">
+  <label for="perlengkapan-ada">Ada</label>
 
-    <input type="radio" id="kondisi-rusak" name="kondisi" value="Rusak">
-    <label for="kondisi-rusak">Rusak</label>
-    </td>
-      <td>
-      <input type="radio" id="perlengkapan-ada" name="perlengkapan" value="Ada">
-      <label for="perlengkapan-ada">Ada</label>
+  <input type="radio" id="perlengkapan-tidakada" name="perlengkapan" value="Tidak ada">
+  <label for="perlengkapan-tidakada">Tidak Ada</label>
+</td>
 
-      <input type="radio" id="perlengkapan-tidakada" name="perlengkapan" value="Tidak ada">
-      <label for="perlengkapan-tidakada">Tidak Ada</label>
-      </td>
+<td id="kondisi-container">
+  <input type="radio" id="kondisi-baik" name="kondisi" value="Baik">
+  <label for="kondisi-baik">Baik</label>
+
+  <input type="radio" id="kondisi-rusak" name="kondisi" value="Rusak">
+  <label for="kondisi-rusak">Rusak</label>
+</td>
+      
       
       <td>
         <div class="row">

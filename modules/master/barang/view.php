@@ -26,13 +26,13 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header d-md-flex justify-content-md-end">
-                    <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#myModal">
+                    <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#tambahBarang">
                           <i class="fa fa-plus-square"></i> Tambah Barang
                       </button>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
+              <table id="example1" class="table table-bordered table-striped">
                   <thead>
                   <tr>
                     <th>Nama Barang</th>
@@ -67,7 +67,7 @@
                         <a href="?module=historyPembelian&id_barang=<?=$id_barang?>" class = "btn btn-outline-primary" style="margin-right: 10px;">Pembelian</a>
                         <a href="?module=historyPenjualan&id_barang=<?=$id_barang?>" class = "btn btn-outline-danger">Penjualan</a>
                       </td>
-                      <td class="center">
+                      <td>
                         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit<?=$id_barang;?>"><i class = "far fa-edit"></i></button>
                         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete<?=$id_barang;?>"><i class = "far fa-trash-alt"></i></button>
                       </td>
@@ -84,9 +84,12 @@
           </div>
           <!-- /.col -->
         </div>
+         <!-- /.row -->
+      </div>
+    </section>
         <!-- /.row -->
             <!-- The Modal -->
-  <div class="modal fade" id="myModal">
+  <div class="modal fade" id="tambahBarang">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
       
@@ -246,4 +249,5 @@
   </div>
 <?php
   }
+  mysqli_close($conn);
 ?>
