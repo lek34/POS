@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 18, 2023 at 08:09 AM
+-- Generation Time: Jun 19, 2023 at 02:47 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.0.25
 
@@ -67,8 +67,8 @@ CREATE TABLE `barang` (
 --
 
 INSERT INTO `barang` (`id_barang`, `nama_barang`, `harga_modal`, `satuan_besar`, `satuan_kecil`, `uom_besar`, `uom_kecil`, `kuantitas`, `status`) VALUES
-(1, 'PIPA PARALONTE GAJAHMADA', 10000, 1, 20, 'KONTOL', 'BIJI', 19910, 'Y'),
-(2, 'GSM', 10000, 1, 30, 'KONTOL', 'BIJI', 40010, 'Y');
+(1, 'PIPA PARALONTE GAJAHMADA', 10000, 1, 20, 'Kotak', 'Pcs', 19910, 'Y'),
+(2, 'GSM', 20000, 1, 30, 'Kotak', 'Pcs', 40010, 'Y');
 
 -- --------------------------------------------------------
 
@@ -134,11 +134,20 @@ INSERT INTO `customer` (`id_customer`, `nama`, `kontak`, `keterangan`, `alamat`,
 
 CREATE TABLE `data_mobil` (
   `id_mobil` int(11) NOT NULL,
-  `plat` int(11) NOT NULL,
+  `merk` varchar(50) NOT NULL,
+  `plat` varchar(50) NOT NULL,
   `tanggal` date NOT NULL,
   `pemeriksa` varchar(255) NOT NULL,
-  `status` varchar(1) NOT NULL DEFAULT 'Y'
+  `status` varchar(1) NOT NULL DEFAULT 'Y',
+  `creator` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `data_mobil`
+--
+
+INSERT INTO `data_mobil` (`id_mobil`, `merk`, `plat`, `tanggal`, `pemeriksa`, `status`, `creator`) VALUES
+(1, 'Innova', 'BK 689 ABF', '2023-06-20', 'Abun', 'Y', 'admin');
 
 -- --------------------------------------------------------
 
@@ -217,6 +226,14 @@ CREATE TABLE `history_mobil` (
   `perlengkapan` varchar(50) NOT NULL,
   `creator` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `history_mobil`
+--
+
+INSERT INTO `history_mobil` (`id_mobil`, `id_perlengkapan`, `kondisi`, `perlengkapan`, `creator`) VALUES
+(1, 3, 'Baik', 'Ada', 'admin'),
+(1, 3, 'Baik', 'Ada', 'admin');
 
 -- --------------------------------------------------------
 
@@ -493,12 +510,6 @@ ALTER TABLE `history_jasa`
   ADD PRIMARY KEY (`id_hjasa`);
 
 --
--- Indexes for table `history_mobil`
---
-ALTER TABLE `history_mobil`
-  ADD PRIMARY KEY (`id_mobil`);
-
---
 -- Indexes for table `history_pembelian`
 --
 ALTER TABLE `history_pembelian`
@@ -585,7 +596,7 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT for table `data_mobil`
 --
 ALTER TABLE `data_mobil`
-  MODIFY `id_mobil` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_mobil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `history_akun`
@@ -604,12 +615,6 @@ ALTER TABLE `history_cash_masuk`
 --
 ALTER TABLE `history_jasa`
   MODIFY `id_hjasa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `history_mobil`
---
-ALTER TABLE `history_mobil`
-  MODIFY `id_mobil` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `history_pembelian`
