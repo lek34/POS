@@ -129,7 +129,11 @@
   });
 </script>
 <script>
-  $(document).ready(function() {
+$(document).ready(function() {
+  function formatNumber(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  }
+
   $('.netto-checkbox').on('change', function() {
     var totalNetto = 0;
     $('.netto-checkbox:checked').each(function() {
@@ -137,28 +141,34 @@
       totalNetto += nettoValue;
     });
 
-    $('#totalNetto').val(totalNetto);
+    var formattedNetto = formatNumber(totalNetto);
+    $('#totalNetto').val(formattedNetto);
   });
 });
+</script>
 
+<script>
+  $(document).ready(function() {
+    $('.netto-checkbox').on('change', function() {
+      var selectedNoFaktur = [];
+      $('.netto-checkbox:checked').each(function() {
+        var noFaktur = $(this).data('no_faktur');
+        selectedNoFaktur.push(noFaktur);
+      });
+      var joinedNoFaktur = selectedNoFaktur.join('\n');
+      $('#noFakturDisplay').val(joinedNoFaktur);
+    });
+  });
 </script>
 <script>
 $(document).ready(function() {
   $('.netto-checkbox').on('change', function() {
-    var selectedNettoValues = [];
     var selectedPembelianIds = [];
     
     $('.netto-checkbox:checked').each(function() {
-      var netto = parseInt($(this).val());
-      selectedNettoValues.push(netto);
-      
       var pembelianId = $(this).data('id_pembelian');
       selectedPembelianIds.push(pembelianId);
     });
-
-    var totalNetto = selectedNettoValues.reduce(function(a, b) {
-      return a + b;
-    }, 0);
 
     var baseUrl = window.location.href.split('?')[0];
     var existingParams = window.location.search;
@@ -168,18 +178,13 @@ $(document).ready(function() {
     if (existingParams.length > 0) {
       var params = new URLSearchParams(existingParams);
 
-      // Remove any existing 'id_pembelian' and 'netto' parameters
+      // Remove any existing 'id_pembelian' parameter
       params.delete('id_pembelian');
-      params.delete('netto');
 
       updatedParams = params.toString();
     }
 
     var newUrl = baseUrl + (updatedParams ? '?' + updatedParams : '');
-
-    if (totalNetto > 0) {
-      newUrl += (updatedParams ? '&' : '?') + 'netto=' + totalNetto;
-    }
 
     if (selectedPembelianIds.length > 0) {
       newUrl += (newUrl.includes('?') ? '&' : '?') + 'id_pembelian=' + selectedPembelianIds.join(',');
@@ -190,7 +195,6 @@ $(document).ready(function() {
     history.replaceState(null, null, newUrl);
   });
 });
-
 </script>
 
 <script>

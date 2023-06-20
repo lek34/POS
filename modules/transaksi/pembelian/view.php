@@ -91,9 +91,14 @@
                                         ?>
                                     </td>
                                     <td>
-                                    <input type='checkbox' name='nobayar[]' value='<?=$netto?>' data-id_pembelian='<?=$id_pembelian?>' class="netto-checkbox">
-                                    
-                                    <input  name="totalNetto" id="totalNetto">
+                                    <?php
+                                        if ($status == "N") { ?>
+                                        <input type="checkbox" name="nobayar[]" value="<?=$netto?>" data-id_pembelian="<?=$id_pembelian?>" data-no_faktur="<?=$no_faktur?>" class="netto-checkbox">
+                                        <?php } else {?>
+                                            <input type="checkbox" name="nobayar[]" value="<?=$netto?>" data-id_pembelian="<?=$id_pembelian?>" data-no_faktur="<?=$no_faktur?>" class="netto-checkbox" disabled>
+                                        <?php    
+                                        }
+                                        ?>
                                     </td>
                                 </tr>
                                 <?php
@@ -116,8 +121,14 @@
                         $query = "SELECT SUM(netto) as utang_dagang FROM pembelian WHERE status_pembayaran = 'N'";
                         $execQuery = mysqli_query($conn, $query);
 
+                        $query2 = "SELECT SUM(netto) as utang_bayar FROM pembelian WHERE status_pembayaran = 'Y'";
+                        $execQuery2 = mysqli_query($conn, $query2);
+
                         $ambilUtangDagang = mysqli_fetch_array($execQuery);
                         $utang_dagang =  number_format($ambilUtangDagang['utang_dagang'], 0, ',', '.');
+
+                        $ambilUtangbayar = mysqli_fetch_array($execQuery2);
+                        $utang_bayar =  number_format($ambilUtangbayar['utang_bayar'], 0, ',', '.');
                     ?>
                     <div class="col-4">
                         <div class="table-responsive">
@@ -125,6 +136,10 @@
                                 <tr>
                                     <th>Utang Dagang :</th>
                                     <td>Rp. <?=$utang_dagang?></td>
+                                </tr>
+                                <tr>
+                                    <th>Utang Dibayar :</th>
+                                    <td>Rp. <?=$utang_bayar?></td>
                                 </tr>
                             </table>
                         </div>
@@ -163,11 +178,7 @@ $id_pembelian_array = explode(',', $id_pembelian);
 // Handle the case when id_pembelian is not set
 // (set default value or display an error message)
 $id_pembelian_array = array(); // Empty array as default value
-}
-foreach ($id_pembelian_array as $id) {
-    // Do something with each $id_pembelian value
-    echo "ID Pembelian: " . $id . "<br>";
-  }    
+} 
 ?>
 
 <!-- The Modal -->
@@ -195,10 +206,9 @@ foreach ($id_pembelian_array as $id) {
             <form action="modules/transaksi/pembelian/proses.php?act=buy" method="post">
                 <p>Selesaikan Pembayaran?</p>
                 <input type="hidden" name="id_pembelian" value="<?=$id_pembelian;?>">
-                <input name="no_faktur" class="form-control" value="<?=$no_faktur;?>" disabled>
+                <textarea id="noFakturDisplay" class="form-control" rows="3" readonly></textarea>
                 <br>
-                <input name="jumlah" class="form-control" value="<?=$formattedNetto;?>" readonly>
-                <input name="totalNetto" id="totalNetto">
+                <input name="jumlah" class="form-control" id="totalNetto" readonly>
                 <br>
                 <select name="id_akun" class="form-control">
                 <?php
