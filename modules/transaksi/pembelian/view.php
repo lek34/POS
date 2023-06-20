@@ -30,7 +30,7 @@
                             </button>
                         </a>
                     </div>
-                    <form name=form method=POST  action='modules/needapparp/proses.php?act=valbayar'>
+                    
                     <!-- /.card-header -->
                     <div class="card-body">
                         <table id="example1" class="table table-bordered table-striped">
@@ -205,7 +205,7 @@ $id_pembelian_array = array(); // Empty array as default value
             <br>
             <form action="modules/transaksi/pembelian/proses.php?act=buy" method="post">
                 <p>Selesaikan Pembayaran?</p>
-                <input type="hidden" name="id_pembelian" value="<?=$id_pembelian;?>">
+                <input name="id_pembelian" id="id_pembelian">
                 <textarea id="noFakturDisplay" class="form-control" rows="3" readonly></textarea>
                 <br>
                 <input name="jumlah" class="form-control" id="totalNetto" readonly>

@@ -628,5 +628,5 @@ if (isset($_GET['id_pembelian'])) { ?>
       </div><!-- /.container-fluid -->
     </section>
     <?php 
-  } 
+  } mysqli_close($conn)
 ?>

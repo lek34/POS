@@ -146,7 +146,18 @@ $(document).ready(function() {
   });
 });
 </script>
+<script>
+  $(document).ready(function() {
+  $('.netto-checkbox').on('change', function() {
+    var selectedPembelianIds = $('.netto-checkbox:checked').map(function() {
+      return $(this).data('id_pembelian');
+    }).get();
 
+    $('#id_pembelian').val(selectedPembelianIds.join(','));
+  });
+});
+
+</script>
 <script>
   $(document).ready(function() {
     $('.netto-checkbox').on('change', function() {

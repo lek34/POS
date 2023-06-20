@@ -70,6 +70,7 @@
                      </tr>
                      <?php
                     }
+                    mysqli_close($conn)
                     ?>
                     </tbody>
                 </table>

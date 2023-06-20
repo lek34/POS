@@ -81,9 +81,10 @@ require_once "../../../auth/cek.php";
         if(isset($_POST['buy'])){
             $id_pembelian = mysqli_real_escape_string($conn, trim($_POST['id_pembelian']));
             $id_akun = mysqli_real_escape_string($conn, trim($_POST['id_akun']));
-            $netto = $_POST['jumlah'];
+            $netto = mysqli_real_escape_string($conn , $_POST['jumlah']);
+            $netto = str_replace('.', '', $netto);
 
-            $query = "UPDATE pembelian SET status_pembayaran = 'Y' WHERE id_pembelian = '$id_pembelian'";
+            $query = "UPDATE pembelian SET status_pembayaran = 'Y' WHERE id_pembelian in ($id_pembelian)";
             $execQuery = mysqli_query($conn, $query);
 
             $queryjumlah ="SELECT * from akun where id_akun = $id_akun";

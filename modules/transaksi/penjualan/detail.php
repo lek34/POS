@@ -816,6 +816,6 @@ if (isset($_GET['id_penjualan'])) { ?>
       </div><!-- /.container-fluid -->
     </section>
     <?php 
-  } 
+  } mysqli_close($conn)
 ?>
 
