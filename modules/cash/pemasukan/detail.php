@@ -286,7 +286,7 @@
                     <div id="cashmasuk-option2">
                         <div class="row">
                             <div class="col-6">
-                            <label for="">Lainnya : </label>
+                            <label for="">Diterima dari : </label>
                             </div>
                         </div>
                         <div class="row">
@@ -395,12 +395,12 @@
                 <div id="cashmasuk-option2" style="display: none;">
                     <div class="row">
                         <div class="col-6">
-                        <label for="">Lainnya : </label>
+                        <label for="">Diterima Dari : </label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6">
-                            <input type="text" class="form-control" name="sumberLainnya" placeholder="Keterangan">
+                            <input type="text" class="form-control" name="sumberLainnya" placeholder="Nama">
                         </div>
                         <div class="col-1">
                             Posisi Debet

@@ -118,7 +118,7 @@ elseif ($_GET['act'] == 'insertCash'){
             $jumlah = $data['jumlah'];
             $keterangan = $data['keterangan'];
 
-            $queryDetail = "INSERT INTO history_cash_masuk (id_cash_masuk, id_barang, kuantitas, jasa, jumlah) VALUES (?, ?, ?, ?, ?, )";
+            $queryDetail = "INSERT INTO history_cash_masuk (id_cash_masuk, id_barang, kuantitas, jasa, jumlah) VALUES (?, ?, ?, ?, ?)";
             $stmt = mysqli_prepare($conn, $queryDetail);
             mysqli_stmt_bind_param($stmt, 'iiiii', $id_cashMasuk, $barang, $kuantitas, $jasa, $jumlah);
             mysqli_stmt_execute($stmt);
