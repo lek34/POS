@@ -317,11 +317,25 @@ function updateUOMpenjualan(id_barang) {
 
 
 <script>
-  function showForm() {
+function showForm() {
     var option1 = document.getElementById("radioPrimary1");
     var option2 = document.getElementById("radioPrimary2");
     var form1 = document.getElementById("cashmasuk-option1");
     var form2 = document.getElementById("cashmasuk-option2");
+
+    if (option1.checked) {
+    form1.style.display = "block";
+    form2.style.display = "none";
+    } else if (option2.checked) {
+    form1.style.display = "none";
+    form2.style.display = "block";
+    }
+}
+function showForm() {
+    var option1 = document.getElementById("radioPrimary1");
+    var option2 = document.getElementById("radioPrimary2");
+    var form1 = document.getElementById("cashkeluar-option1");
+    var form2 = document.getElementById("cashkeluar-option2");
 
     if (option1.checked) {
     form1.style.display = "block";
