@@ -10,6 +10,7 @@
     </div>
     <!-- Header Row -->
     <div class="row">
+        
         <?php
        /*  unset($_SESSION['header_cash_masuk']);
         unset($_SESSION['temp_cash_masuk']); */
@@ -45,8 +46,8 @@
                 <label for="">Ke Kas : </label>
                     <select name="id_akun" class="form-control" required>
                             <?php
-                                $pilihanCustomer = mysqli_query($conn, "select * from akun WHERE status = 'Y'");
-                            while ($fetcharray = mysqli_fetch_array($pilihanCustomer)) {
+                            $pilihanAkun = mysqli_query($conn, "select * from akun WHERE status = 'Y'");
+                            while ($fetcharray = mysqli_fetch_array($pilihanAkun)) {
                             $namaAkun = $fetcharray['nama_akun'];
                             $idAkun = $fetcharray['id_akun'];
                             ?>
@@ -128,7 +129,7 @@
                         ?>
                         <div class="form-group clearfix">
                             <div class="icheck-primary d-inline">
-                                <input type="radio" id="radioPrimary1" onclick="showForm()" checked disabled>
+                                <input type="radio" id="radioPrimary1" onclick="showForm()" checked disabled">
                                 <input type="hidden" name="terimaDari" value="customer">
                                 <label for="radioPrimary1">
                                 Customer
@@ -181,19 +182,36 @@
                         </div>
                         <div class="row">
                             <div class="col-6">
-                                <select class="form-control" disabled>
-                                    <?php
-                                        $sumber = $_SESSION['header_cash_masuk']['sumber'];
-                                        $queryNamaCustomer = "SELECT nama from customer where $sumber = id_customer";
-                                        $execQueryNamaCustomer =  mysqli_query($conn, $queryNamaCustomer);
-                                        $fetchNamaCustomer = mysqli_fetch_array($execQueryNamaCustomer);
+                                <?php
+                                if (isset($_SESSION['header_cash_masuk']['sumber'])) {
+                                    $sumber = $_SESSION['header_cash_masuk']['sumber'];
+                                
+                                    // Prepare and execute the SQL query using prepared statements
+                                    $queryNamaCustomer = "SELECT nama FROM customer WHERE id_customer = ?";
+                                    $stmt = mysqli_prepare($conn, $queryNamaCustomer);
+                                    mysqli_stmt_bind_param($stmt, "s", $sumber);
+                                    mysqli_stmt_execute($stmt);
+                                    $result = mysqli_stmt_get_result($stmt);
+                                
+                                    // Fetch the row from the result set
+                                    if ($fetchNamaCustomer = mysqli_fetch_array($result)) {
                                         $namaCustomer = $fetchNamaCustomer['nama'];
-                                        ?>
-                                        <option value="<?= $sumber; ?>">
-                                            <?= $namaCustomer; ?>
-                                        </option>
+                                    } else {
+                                        // Handle the case when no row is returned
+                                        $namaCustomer = "Customer Not Found";
+                                    }
+                                } else {
+                                    // Handle the case when the session variable is not set
+                                    $sumber = null;
+                                    $namaCustomer = "Session Variable Not Set";
+                                }
+                                ?>
+                                <select class="form-control" disabled>
+                                    <option value="<?= $sumber; ?>">
+                                        <?= $namaCustomer; ?>
+                                    </option>
                                 </select>
-                                <input type="hidden" name="sumber" value="<?=$sumber?>">
+                                <input type="hidden" name="sumberCustomer" value="<?=$sumber?>">
                             </div>
                             <div class="col-1">
                             Posisi Debet
@@ -216,6 +234,7 @@
                         <div class="row">
                             <div class="col-2">
                                 <select name="barangPenjualan"  id="id_barang_penjualan" class="form-control" onchange="updateUOMpenjualan(this.value)">
+                                    <option value="">Select an item</option>
                                     <?php
                                     $pilihanbarang = mysqli_query($conn, "select * from barang WHERE status = 'Y'");
                                     while ($fetcharray = mysqli_fetch_array($pilihanbarang)) {
@@ -262,16 +281,18 @@
                     </div>
                     <?php
                     } else {
+                        $sumber = $_SESSION['header_cash_masuk']['sumber'];
                     ?>
                     <div id="cashmasuk-option2">
                         <div class="row">
                             <div class="col-6">
-                            <label for="">Lainnya : </label>
+                            <label for="">Diterima dari : </label>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-6">
-                                <input type="text" class="form-control" name="sumberLainnya" placeholder="Keterangan">
+                                <input type="text" class="form-control"value="<?=$sumber?>" disabled>
+                                <input type="hidden" value="<?=$sumber?>" name="sumberLainnya">
                             </div>
                             <div class="col-1">
                                 Posisi Debet
@@ -374,12 +395,12 @@
                 <div id="cashmasuk-option2" style="display: none;">
                     <div class="row">
                         <div class="col-6">
-                        <label for="">Lainnya : </label>
+                        <label for="">Diterima Dari : </label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-6">
-                            <input type="text" class="form-control" name="sumberLainnya" placeholder="Keterangan">
+                            <input type="text" class="form-control" name="sumberLainnya" placeholder="Nama">
                         </div>
                         <div class="col-1">
                             Posisi Debet
@@ -408,7 +429,18 @@
                         <input type="text" class="form-control"  name="jumlah" required>
                     </div>
                     <div class="col-2">
-                        <input type="text" class="form-control" name="keterangan" required>
+                    <?php
+                     if (isset($_SESSION['header_cash_masuk'])){
+                        $keterangan = $_SESSION['header_cash_masuk']['keterangan'];
+                        ?>
+                            <input type="text" class="form-control" name="keterangan" disabled value="<?=$keterangan?>">
+                        <?php
+                        } else {
+                        ?>
+                            <input type="text" class="form-control" name="keterangan">
+                        <?php
+                        }
+                    ?>
                     </div>
                 </div>
                 <br>
@@ -442,7 +474,6 @@
                         <th>No.</th>
                         <th>Account</th>
                         <th>Nama Akun</th>
-                        <th>Keterangan Jurnal/Referensi</th>
                         <th>Terima Dari</th>
                         <th>Barang</th>
                         <th>Jasa</th>
@@ -464,7 +495,6 @@
                         <td>-</td>
                         <td>-</td>
                         <td>-</td>
-                        <td>-</td>
                     </tr>
                     <?php
                     } else {
@@ -476,7 +506,6 @@
                     $nama_akun = $fetchAkun['nama_akun'];
                     $kode_akun  = $fetchAkun['kode_akun'];
                     foreach ($_SESSION['temp_cash_masuk'] as $key => $value) {
-                        $keterangan = $value ['keterangan'];
                         
                         /* Ambil Nama Customer */
                         if($terima_dari == "customer"){
@@ -518,7 +547,6 @@
                         <td><?=$i?></td>
                         <td><?=$kode_akun?></td>
                         <td><?=$nama_akun?></td>
-                        <td><?=$keterangan?></td>
                         <td><?=$sumber?></td>
                         <td><?=$nama_barang?></td>
                         <td><?=$nama_jasa?></td>
