@@ -43,17 +43,22 @@
                   </thead>
                   <tbody>
                   <?php
-                    $queryHistoryAkun = "SELECT history_akun.*, pembelian.no_faktur, akun.nama_akun, history_akun.tanggal , history_akun.kredit , 
-                    history_akun.debit
-                    FROM history_akun 
-                    JOIN pembelian ON history_akun.id_pembelian = pembelian.id_pembelian 
-                    JOIN akun ON history_akun.id_akun = akun.id_akun 
+                    $queryHistoryAkun = "SELECT history_akun.*, pembelian.no_faktur AS pembelian_no_faktur, penjualan.no_faktur AS penjualan_no_faktur, akun.nama_akun, history_akun.tanggal, history_akun.kredit, history_akun.debit
+                    FROM history_akun
+                    LEFT JOIN pembelian ON history_akun.id_pembelian = pembelian.id_pembelian
+                    LEFT JOIN penjualan ON history_akun.id_penjualan = penjualan.id_penjualan
+                    JOIN akun ON history_akun.id_akun = akun.id_akun
                     WHERE history_akun.id_akun = $id_akun";
 
                     $execHistoryAkun = mysqli_query($conn, $queryHistoryAkun);
 
                     while($data = mysqli_fetch_array($execHistoryAkun)){
-                        $no_faktur = $data['no_faktur'];
+                        $no_faktur = '';
+                        if (!empty($data['pembelian_no_faktur'])) {
+                          $no_faktur = $data['pembelian_no_faktur'];
+                        } else {
+                          $no_faktur = $data['penjualan_no_faktur'];
+                        }
                         $nama_akun = $data['nama_akun'];
                         $tanggal = $data['tanggal'];
                         $kredit = number_format($data['kredit'], 0); // Format 'kredit' with 2 decimal places

@@ -123,10 +123,36 @@ require_once "../../../auth/cek.php";
     elseif ($_GET['act'] == 'sell'){
         if(isset($_POST['buy'])){
             $id_penjualan = mysqli_real_escape_string($conn, trim($_POST['id_penjualan']));
+            $id_akun = mysqli_real_escape_string($conn, trim($_POST['id_akun']));
+            $netto = mysqli_real_escape_string($conn , $_POST['jumlah']);
+            $netto = str_replace('.', '', $netto);
 
-            $query = "UPDATE penjualan SET status_pembayaran = 'Y' WHERE id_penjualan = '$id_penjualan'";
+            $query = "UPDATE penjualan SET status_pembayaran = 'Y' WHERE id_penjualan in ($id_penjualan)";
             $execQuery = mysqli_query($conn, $query);
 
+            $queryjumlah ="SELECT * from akun where id_akun = $id_akun";
+            $exectambahjumlah = mysqli_query($conn, $queryjumlah);
+
+            while ($datatambahjumlah = mysqli_fetch_array($exectambahjumlah)){
+                $id_akun= $datatambahjumlah['id_akun'];
+                $debit = (int)$datatambahjumlah['debit'];
+                
+                $jumlahbaru = $netto + $debit;
+                
+                $insertjumlah = "UPDATE akun SET debit = '$jumlahbaru' WHERE id_akun = '$id_akun'";
+                $execinsertJumlah = mysqli_query($conn, $insertjumlah);
+            }
+
+            $queryDetail ="SELECT id_penjualan , netto from penjualan where id_penjualan in ($id_penjualan)";
+            $execquerydetail = mysqli_query($conn, $queryDetail);
+
+            while ($datadetail = mysqli_fetch_array($execquerydetail)){
+                $id_penjualan = $datadetail['id_penjualan'];
+                $netto = $datadetail['netto'];
+
+                $queryAkun = "INSERT INTO history_akun (id_akun , id_penjualan , debit) VALUES ('$id_akun','$id_penjualan','$netto')";
+                $execakun = mysqli_query($conn, $queryAkun);
+            }
             header('location: ../../../main.php?module=sellItem');
         }
     }

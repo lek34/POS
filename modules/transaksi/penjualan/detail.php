@@ -318,8 +318,8 @@ if (isset($_GET['id_penjualan'])) { ?>
                       <label>Jatuh Tempo</label>
                       <input type="date" id="jatuh_tempo" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" required>
                       <br>
-                      <label>Kendaraan</label>
-                      <input type="text" id="kendaraan" name="kendaraan" placeholder="Kendaraan" class="form-control" required>
+                      <label>Plat</label>
+                      <input type="text" id="kendaraan" name="kendaraan" placeholder="Plat" class="form-control" required>
                     </div>
                     <div class="col-sm-2"></div>
                     <div class="col-sm-5" style="margin-left : 24px;">
@@ -816,6 +816,6 @@ if (isset($_GET['id_penjualan'])) { ?>
       </div><!-- /.container-fluid -->
     </section>
     <?php 
-  } mysqli_close($conn)
+  } 
 ?>
 
