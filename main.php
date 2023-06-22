@@ -128,6 +128,7 @@
     });
   });
 </script>
+//Pembelian Check-Box
 <script>
 $(document).ready(function() {
   function formatNumber(number) {
@@ -207,7 +208,76 @@ $(document).ready(function() {
   });
 });
 </script>
+//
+//Penjualan Check-Box
+<script>
+$(document).ready(function() {
+  function formatNumber(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  }
 
+  $('.netto-checkbox-jual').on('change', function() {
+    var totalNettoJual = 0;
+    $('.netto-checkbox-jual:checked').each(function() {
+      var nettoValue = parseInt($(this).data('netto'));
+      totalNettoJual += nettoValue;
+    });
+
+    var formattedNettoJual = formatNumber(totalNettoJual);
+    $('#totalNettoJual').val(formattedNettoJual);
+  });
+
+  $('.netto-checkbox-jual').change(function() {
+    var selectedPenjualanIds = $('.netto-checkbox-jual:checked').map(function() {
+      return $(this).data('id_penjualan');
+    }).get();
+
+    $('#id_penjualan').val(selectedPenjualanIds.join(','));
+
+    var selectedNoFakturJual = $('.netto-checkbox-jual:checked').map(function() {
+      return $(this).data('no_faktur_jual');
+    }).get();
+
+    $('#noFakturDisplayJual').val(selectedNoFakturJual.join('\n'));
+  });
+});
+</script>
+<script>
+  $(document).ready(function() {
+  $('.netto-checkbox-jual').on('change', function() {
+    var selectedPenjualanIds = [];
+    
+    $('.netto-checkbox-jual:checked').each(function() {
+      var penjualanId = $(this).data('id_penjualan');
+      selectedPenjualanIds.push(penjualanId);
+    });
+
+    var baseUrl = window.location.href.split('?')[0];
+    var existingParams = window.location.search;
+
+    var updatedParams = '';
+
+    if (existingParams.length > 0) {
+      var params = new URLSearchParams(existingParams);
+
+      // Remove any existing 'id_penjualan' parameter
+      params.delete('id_penjualan');
+
+      updatedParams = params.toString();
+    }
+
+    var newUrl = baseUrl + (updatedParams ? '?' + updatedParams : '');
+
+    if (selectedPenjualanIds.length > 0) {
+      newUrl += (newUrl.includes('?') ? '&' : '?') + 'id_penjualan=' + selectedPenjualanIds.join(',');
+    }
+
+    newUrl += (newUrl.includes('module=sellItem') ? '' : '&module=sellItem');
+
+    history.replaceState(null, null, newUrl);
+  });
+});
+</script>
 <script>
 $(document).ready(function() {
   $('input[name="perlengkapan"]').on('change', function() {

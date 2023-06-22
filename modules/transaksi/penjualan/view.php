@@ -43,6 +43,7 @@
                                 <th>Status</th>
                                 <th>Jatuh Tempo</th>
                                 <th>Action</th>
+                                <th>CheckBox</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -60,7 +61,8 @@
                                     $jatuh_tempo  = $data ['jatuh_tempo'];
                                     $customer = $data ['nama'];
                                     $plat = $data ['plat'];
-                                    $netto = number_format($data['netto'], 0, ',', '.');
+                                    $netto = $data ['netto'];
+                                    $nettoFormat = number_format($data['netto'], 0, ',', '.');
                                     $status = $data ['status_pembayaran'];
                                 ?>
                                 <tr>
@@ -68,7 +70,7 @@
                                     <td><?=$tanggal?></td>
                                     <td><?=$customer?></td>
                                     <td><?=$plat?></td>
-                                    <td>Rp. <?=$netto?></td>
+                                    <td>Rp. <?=$nettoFormat?></td>
                                     <td>
                                         <?php
                                         if ($status == "N") {
@@ -81,7 +83,24 @@
                                     <td><?=$jatuh_tempo?></td>
                                     <td>
                                         <a href="?module=detailPenjualan&id_penjualan=<?=$id_penjualan?>"><button type="button" class="btn btn-warning btn-sm"><i class="fas fa-ellipsis-h" style="color : #ffffff"></i></button></a>
-                                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#bayar<?=$id_penjualan?>"><i class="fas fa-check" style = "color : #ffffff"></i></button>
+                                        <?php
+                                        if ($status == "N") {
+                                            // echo"<a href='".$id_penjualan."'>";
+                                            echo "<button type='button' class='btn btn-danger btn-sm'><i class='fas fa-times' style='color: #ffffff'></i></button>";
+                                        } else {
+                                            echo "<button type='button' class='btn btn-success btn-sm'><i class='fas fa-check' style = 'color : #ffffff'></i></button>";
+                                        }
+                                        ?>
+                                    </td>
+                                    <td>
+                                    <?php
+                                        if ($status == "N") { ?>
+                                        <input type="checkbox" name="nobayar[]" data-id_penjualan="<?=$id_penjualan?>" data-no_faktur_jual="<?=$no_faktur?>" data-netto="<?=$netto?>" class="netto-checkbox-jual">
+                                        <?php } else {?>
+                                            <input type="checkbox" name="nobayar[]" value="<?=$netto?>" data-id_penjualan="<?=$id_penjualan?>" data-no_faktur_jual="<?=$no_faktur?>" class="netto-checkbox-jual" disabled>
+                                        <?php    
+                                        }
+                                        ?>
                                     </td>
                                 </tr>
                                 <?php
@@ -89,6 +108,7 @@
                                 ?>
                             </tbody>
                 </table>
+                <button type='button' class='btn btn-danger btn-sm' data-toggle='modal' data-target='#bayar'>Bayar</button>
                 <br><br>
                 <div class="row">
                     <div class="col-8"></div>
@@ -128,7 +148,7 @@
     while ($data = mysqli_fetch_array($execQuery)){
     $id_penjualan = $data ['id_penjualan'];
     ?>
-  <div class="modal fade" id="bayar<?=$id_penjualan?>">
+  <div class="modal fade" id="bayar">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
       
@@ -141,10 +161,29 @@
         <div class="modal-body">
             <br>
             <form action="modules/transaksi/penjualan/proses.php?act=sell" method="post">
-                <p>Selesaikan Pembayaran?</p>
+            <p>Selesaikan Penjualan?</p>
+                <input name="id_penjualan" id="id_penjualan">
+                <textarea id="noFakturDisplayJual" class="form-control" rows="3" readonly></textarea>
+                <br>
+                <input name="jumlah" class="form-control" id="totalNettoJual" readonly>
+                <br>
+                <select name="id_akun" class="form-control">
+                <?php
+                $query = "SELECT * FROM akun";
+                    $execQuery = mysqli_query($conn, $query);
+                    while ($data = mysqli_fetch_array($execQuery)){
+                    $id_akun = $data ['id_akun'];
+                    $kode_akun = $data ['kode_akun'];
+                    $nama_akun = $data ['nama_akun'];
+                ?>
+                    <option value="<?= $id_akun; ?>">
+                        <?= $nama_akun;?>
+                    <?php
+                    }
+                ?>
+                </select>
                 <br>
                 <br>
-                <input type="hidden" name="id_penjualan" value="<?=$id_penjualan;?>">
                 <button type="button" class="btn btn-danger" style="float: left;" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary" name="buy" style="float: right;">Submit</button>
             </form> 
