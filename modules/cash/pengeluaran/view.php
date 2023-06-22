@@ -13,10 +13,6 @@
         </div>
     </div><!-- /.container-fluid -->
 </section>
-<?php
-    $query = "SELECT * FROM cash_keluar WHERE status_hapus = 'Y';";
-    $execQuery = mysqli_query($conn, $query);
-?>
 <section class="content">
     <div class="container-fluid">
         <div class="row">
@@ -34,19 +30,39 @@
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                <th>Nama</th>
-                                <th>Kontak</th>
+                                <th>No. Bukti</th>
+                                <th>Akun</th>
+                                <th>Dibayarkan Kepada</th>
+                                <th>Nominal</th>
                                 <th>Keterangan</th>
-                                <th>Alamat</th>
-                                <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                            <?php
+                                $query = "SELECT * FROM cash_keluar WHERE status_hapus = 'Y';";
+                                $execQuery = mysqli_query($conn, $query);
+
+                                while($data = mysqli_fetch_array($execQuery)){
+                                    $sumber = $data['sumber'];
+                                    $no_bukti = $data['bukti_keluar'];
+                                    $nominal = number_format($data['jumlah'], 0, ',', '.');
+                                    $keterangan = $data ['keterangan'];
+                                    $id_akun = $data ['id_akun'];
+                                    $queryAkun  = "SELECT nama_akun, kode_akun FROM akun WHERE $id_akun = id_akun";
+                                    $execQueryAkun = mysqli_query($conn, $queryAkun);
+                                    $fetchAkun = mysqli_fetch_array($execQueryAkun);
+                                    $nama_akun = $fetchAkun['nama_akun'];
+                                ?>
+                                <tr>
+                                    <td><?=$no_bukti?></td>
+                                    <td><?=$nama_akun?></td>
+                                    <td><?=$sumber?></td>
+                                    <td><?=$nominal?></td>
+                                    <td><?=$keterangan?></td>
+                                </tr>
+                                <?php
+                                }
+                            ?>
                             </tbody>
                         </table>
                     </div>

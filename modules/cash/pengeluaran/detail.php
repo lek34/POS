@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-12">
             <h2>
-            Input Pemasukan
+            Input Pengeluaran
             </h2>
         </div>
     <!-- /.col -->
@@ -14,7 +14,7 @@
         <?php
        /*  unset($_SESSION['header_cash_keluar']);
         unset($_SESSION['temp_cash_keluar']); */
-        $query = "SELECT MAX(nomor_keluar) as last_masuk , bukti_keluar from cash_keluar;";
+        $query = "SELECT MAX(nomor_keluar) as last_keluar , bukti_keluar from cash_keluar;";
         $execQuery = mysqli_query($conn, $query);
         $fetchQuery = mysqli_fetch_array($execQuery);
         $date = date('ym');
@@ -30,7 +30,7 @@
 
         ?>
         <div class="col-12">
-        <form action="modules/cash/pemasukan/proses.php?act=insertTempCashKeluar" method="post"> <!-- form buka -->
+        <form action="modules/cash/pengeluaran/proses.php?act=insertTempCashKeluar" method="post"> <!-- form buka -->
         <!-- Pengulangan pertama -->
         <?php
         if (!isset($_SESSION['header_cash_keluar'])) { 
@@ -64,7 +64,7 @@
                     <?php
                         $tanggal_keluar = date("d/m/y");
                     ?>
-                    <input type="text" name = "tanggal_masuk" class="form-control" value="<?=$tanggal_keluar?>" readonly>
+                    <input type="text" name = "tanggal_keluar" class="form-control" value="<?=$tanggal_keluar?>" readonly>
                 </div>
             </div>
             <div class="row">
@@ -96,7 +96,7 @@
             } else {
                     $no_bukti = $_SESSION['header_cash_keluar']['no_bukti'];
                     $idAkun = $_SESSION['header_cash_keluar']['id_akun'];
-                    $tanggal_masuk = $_SESSION['header_cash_keluar']['tanggal_masuk'];
+                    $tanggal_keluar = $_SESSION['header_cash_keluar']['tanggal_keluar'];
                     $terima_dari = $_SESSION['header_cash_keluar']['terima_dari'];
             ?>
             <!-- After Second Repetition -->
@@ -122,8 +122,8 @@
                 </div>
                 <div class="col-2">
                     <label>Tanggal : </label>
-                    <input type="text" class="form-control" value="<?=$tanggal_masuk?>" disabled>
-                    <input type="hidden" name="tanggal_masuk" value="<?=$tanggal_masuk?>">
+                    <input type="text" class="form-control" value="<?=$tanggal_keluar?>" disabled>
+                    <input type="hidden" name="tanggal_keluar" value="<?=$tanggal_keluar?>">
                 </div>
             </div>
             <div class="row">
@@ -216,7 +216,7 @@
                 if(isset($_SESSION['temp_cash_keluar'])){
                     if ($terima_dari == "customer") {
                     ?>
-                    <div id="cashmasuk-option1">
+                    <div id="cashkeluar-option1">
                         <div class="row">
                             <div class="col-5">
                             <label for="">Customer : </label>
@@ -225,13 +225,13 @@
                         <div class="row">
                             <div class="col-6">
                                 <?php
-                                if (isset($_SESSION['header_cash_keluar']['sumber'])) {
-                                    $sumber = $_SESSION['header_cash_keluar']['sumber'];
+                                if (isset($_SESSION['header_cash_keluar']['dari'])) {
+                                    $dari = $_SESSION['header_cash_keluar']['dari'];
                                 
                                     // Prepare and execute the SQL query using prepared statements
                                     $queryNamaCustomer = "SELECT nama FROM customer WHERE id_customer = ?";
                                     $stmt = mysqli_prepare($conn, $queryNamaCustomer);
-                                    mysqli_stmt_bind_param($stmt, "s", $sumber);
+                                    mysqli_stmt_bind_param($stmt, "s", $dari);
                                     mysqli_stmt_execute($stmt);
                                     $result = mysqli_stmt_get_result($stmt);
                                 
@@ -244,19 +244,19 @@
                                     }
                                 } else {
                                     // Handle the case when the session variable is not set
-                                    $sumber = null;
+                                    $dari = null;
                                     $namaCustomer = "Session Variable Not Set";
                                 }
                                 ?>
                                 <select class="form-control" disabled>
-                                    <option value="<?= $sumber; ?>">
+                                    <option value="<?= $dari; ?>">
                                         <?= $namaCustomer; ?>
                                     </option>
                                 </select>
-                                <input type="hidden" name="sumberCustomer" value="<?=$sumber?>">
+                                <input type="hidden" name="dariCustomer" value="<?=$dari?>">
                             </div>
                             <div class="col-1">
-                            Posisi Debet
+                            Posisi Kredit
                             </div>
                         </div>
                         <div class="row">
@@ -323,9 +323,9 @@
                     </div>
                     <?php
                     } else {
-                        $sumber = $_SESSION['header_cash_keluar']['sumber'];
+                        $dari = $_SESSION['header_cash_keluar']['dari'];
                     ?>
-                    <div id="cashmasuk-option2">
+                    <div id="cashkeluar-option2">
                         <div class="row">
                             <div class="col-6">
                             <label for="">Diterima dari : </label>
@@ -333,11 +333,11 @@
                         </div>
                         <div class="row">
                             <div class="col-6">
-                                <input type="text" class="form-control"value="<?=$sumber?>" disabled>
-                                <input type="hidden" value="<?=$sumber?>" name="sumberLainnya">
+                                <input type="text" class="form-control"value="<?=$dari?>" disabled>
+                                <input type="hidden" value="<?=$dari?>" name="dariLainnya">
                             </div>
                             <div class="col-1">
-                                Posisi Debet
+                                Posisi Kredit
                             </div>
                         </div>
                     </div>
@@ -345,7 +345,7 @@
                     }
                 } else {
                 ?>
-                <div id="cashmasuk-option1" style="display: none;">
+                <div id="cashkeluar-option1" style="display: none;">
                     <div class="row">
                         <div class="col-5">
                         <label for="">Customer : </label>
@@ -353,7 +353,7 @@
                     </div>
                     <div class="row">
                         <div class="col-6">
-                        <select name="sumberCustomer" class="form-control">
+                        <select name="dariCustomer" class="form-control">
                             <?php
                             $pilihanCustomer = mysqli_query($conn, "select * from customer WHERE status = 'Y'");
                             while ($fetcharray = mysqli_fetch_array($pilihanCustomer)) {
@@ -369,7 +369,7 @@
                         </select>
                         </div>
                         <div class="col-1">
-                        Posisi Debet
+                        Posisi Kredit
                         </div>
                     </div>
                     <div class="row">
@@ -434,7 +434,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="cashmasuk-option2" style="display: none;">
+                <div id="cashkeluar-option2" style="display: none;">
                     <div class="row">
                         <div class="col-6">
                         <label for="">Diterima Dari : </label>
@@ -442,10 +442,10 @@
                     </div>
                     <div class="row">
                         <div class="col-6">
-                            <input type="text" class="form-control" name="sumberLainnya" placeholder="Nama">
+                            <input type="text" class="form-control" name="dariLainnya" placeholder="Nama">
                         </div>
                         <div class="col-1">
-                            Posisi Debet
+                            Posisi Kredit
                         </div>
                     </div>
                 </div>
@@ -491,15 +491,15 @@
                         <?php
                         if (!isset($_SESSION['header_cash_keluar'])) {
                         ?>
-                        <button type="button" name="reset" class="btn btn-secondary" onclick="window.location.href='modules/cash/pemasukan/proses.php?act=reset'" disabled>Reset</button>
+                        <button type="button" name="reset" class="btn btn-secondary" onclick="window.location.href='modules/cash/pengeluaran/proses.php?act=reset'" disabled>Reset</button>
                         <?php
                         } else {
                         ?>
-                        <button type="button" name="reset" class="btn btn-danger" onclick="window.location.href='modules/cash/pemasukan/proses.php?act=reset'">Reset</button>
+                        <button type="button" name="reset" class="btn btn-danger" onclick="window.location.href='modules/cash/pengeluaran/proses.php?act=reset'">Reset</button>
                         <?php
                         }
                         ?>
-                        <button type="submit" name="insertTempCashMasuk" class="btn btn-primary float-right">Tambahkan</button>
+                        <button type="submit" name="insertTempCashkeluar" class="btn btn-primary float-right">Tambahkan</button>
                     </div>
                 </div>
             </form>
@@ -551,11 +551,11 @@
                         
                         /* Ambil Nama Customer */
                         if($terima_dari == "customer"){
-                            $sumber = $_SESSION['header_cash_keluar']['sumber'];
-                            $queryNamaCustomer = "SELECT nama FROM customer WHERE $sumber = id_customer";
+                            $dari = $_SESSION['header_cash_keluar']['dari'];
+                            $queryNamaCustomer = "SELECT nama FROM customer WHERE $dari = id_customer";
                             $execQueryNamaCustomer = mysqli_query($conn, $queryNamaCustomer);
                             $fetchNamaCustomer = mysqli_fetch_array($execQueryNamaCustomer);
-                            $sumber = $fetchNamaCustomer ['nama'];
+                            $dari = $fetchNamaCustomer ['nama'];
 
                             /* Ambil Nama Barang */
                             $id_barang = $value['barangPenjualan'];
@@ -564,7 +564,7 @@
                             $fetchNamaBarang = mysqli_fetch_array($execQueryNamaBarang);
                             $nama_barang = $fetchNamaBarang['nama_barang'];
                         } else {
-                            $sumber = $_SESSION['header_cash_keluar']['sumber'];
+                            $dari = $_SESSION['header_cash_keluar']['dari'];
                             $nama_barang = NULL;
                         }
                         
@@ -589,12 +589,12 @@
                         <td><?=$i?></td>
                         <td><?=$kode_akun?></td>
                         <td><?=$nama_akun?></td>
-                        <td><?=$sumber?></td>
+                        <td><?=$dari?></td>
                         <td><?=$nama_barang?></td>
                         <td><?=$nama_jasa?></td>
                         <td>Rp.<?=$jumlah_tampil?></td>
                         <td>
-                            <form action="modules/cash/pemasukan/proses.php?act=deleteList" method="post">
+                            <form action="modules/cash/pengeluaran/proses.php?act=deleteList" method="post">
                               <input type="hidden" name="indexhapus" value=<?=$key?>>
                               <button type="submit" name="deleteList"class="btn btn-danger btn-sm" ><i class = "far fa-trash-alt"></i></button>
                             </form>
@@ -612,10 +612,10 @@
     <div class="row">
         <!-- accepted payments column -->
         <?php
-            if(!isset($tanggal_masuk)){
+            if(!isset($tanggal_keluar)){
                 $tanggal_bawah = "DD/MM/YYYY";
             } else{
-                $tanggal_bawah = $tanggal_masuk;
+                $tanggal_bawah = $tanggal_keluar;
             }
             $totalJumlah = number_format($totJumlah, 0, ',', '.');
         ?>
@@ -623,7 +623,7 @@
         </div>
         <!-- /.col -->
         <div class="col-6"> 
-            <p class="lead">Tanggal Masuk : <?=$tanggal_bawah?></p>
+            <p class="lead">Tanggal keluar : <?=$tanggal_bawah?></p>
             <div class="table-responsive">
             <table class="table">
                 <tr>
@@ -644,7 +644,7 @@
             <?php
             } else {
             ?>
-            <form action="modules/cash/pemasukan/proses.php?act=insertCash" method="post">
+            <form action="modules/cash/pengeluaran/proses.php?act=insertCash" method="post">
                 <input type="hidden" name="totJumlah" value="<?=$totJumlah?>">
                 <button type="submit" name="insertCash" class="btn btn-success float-right">Submit</button>
             </form>
