@@ -649,7 +649,7 @@ if (isset($_GET['id_penjualan'])) { ?>
                       $totBruto += $bruto;
                       $totDiskon += $diskon;
                       $totNetto += $netto;
-                      $_SESSION['totNetto'] = $totNetto;
+                      
                       }
                       $totBrutoformat = number_format($totBruto, 0, ',', '.');
                       $totDiskonformat = number_format($totDiskon, 0, ',', '.');
@@ -758,6 +758,7 @@ if (isset($_GET['id_penjualan'])) { ?>
                           $i++;
                           $totBruto += $harga_jasa;
                           $totNetto += $harga_jasa;  
+                          $_SESSION['totNetto'] = $totNetto;
                         } 
                         $totBrutoformat = 0;
                         $totNettoformat = 0;
