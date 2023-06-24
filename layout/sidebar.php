@@ -58,6 +58,12 @@
                     </a>
                   </li>
                   <li class="nav-item">
+                    <a href="?module=pihakJasa" class="nav-link <?php echo isPageActive('pihakJasa') ? 'active' : ''; ?>">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Pihak Jasa</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
                     <a href="?module=dataJasa" class="nav-link <?php echo isPageActive('dataJasa') ? 'active' : ''; ?>">
                       <i class="far fa-circle nav-icon"></i>
                       <p>Data Jasa</p>

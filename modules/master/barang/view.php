@@ -216,7 +216,7 @@
                 <br>
                 <br>
 				    <button type="button" class="btn btn-danger" style="float: left;" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" name="editbarang" style="float: right;">Submit</button>
+            <button type="submit" class="btn btn-primary" name="editbarang" style="float: right;">Submit</button>
             </form> 
         </div>
       </div>

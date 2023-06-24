@@ -112,7 +112,7 @@
                   </div>
                   <div class="col-5">
                   <?php
-                       $pilihantahun = mysqli_query($conn, "SELECT * FROM penjualan_netto");
+                       /* $pilihantahun = mysqli_query($conn, "SELECT * FROM penjualan_netto");
                        while ($fetcharray = mysqli_fetch_array($pilihantahun)) {
                            $tahun_beli = json_decode($fetcharray['tanggal_akum_beli'], true) ?? [];
                            $tahun_jual = json_decode($fetcharray['tanggal_akum_jual'], true) ?? [];
@@ -132,7 +132,6 @@
                        
                            sort($tahun_transaksi);
                        
-                           // Output the values using var_dump
                            var_dump($tahun_transaksi);
                            ?>
                            <select name="tahun" id="tahun" class="form-control">
@@ -147,7 +146,7 @@
                                ?>
                            </select>
                         <?php
-                        }
+                        } */
                         ?>
                   
                   </div>
