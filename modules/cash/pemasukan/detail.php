@@ -476,6 +476,7 @@
                         <th>Nama Akun</th>
                         <th>Terima Dari</th>
                         <th>Barang</th>
+                        <th>Qty</th>
                         <th>Jasa</th>
                         <th>Jumlah</th>
                         <th>Delete</th>
@@ -487,6 +488,7 @@
                     if (!isset($_SESSION['temp_cash_masuk'])) {
                     ?>
                     <tr>
+                        <td>-</td>
                         <td>-</td>
                         <td>-</td>
                         <td>-</td>
@@ -526,7 +528,9 @@
                             $nama_barang = NULL;
                         }
                         
-                        
+                       $kuantitas = $value['kuantitas'];
+
+
                         /* Ambil Nama Jasa */
                         $id_jasa = $value['id_jasa'];
                         if ($id_jasa == NULL) {
@@ -549,6 +553,7 @@
                         <td><?=$nama_akun?></td>
                         <td><?=$sumber?></td>
                         <td><?=$nama_barang?></td>
+                        <td><?=$kuantitas?></td>
                         <td><?=$nama_jasa?></td>
                         <td>Rp.<?=$jumlah_tampil?></td>
                         <td>

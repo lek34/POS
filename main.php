@@ -128,8 +128,9 @@
     });
   });
 </script>
-//Pembelian Check-Box
+
 <script>
+  //Pembelian Check-Box
 $(document).ready(function() {
   function formatNumber(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -208,9 +209,10 @@ $(document).ready(function() {
   });
 });
 </script>
-//
-//Penjualan Check-Box
+
+
 <script>
+  //Penjualan Check-Box
 $(document).ready(function() {
   function formatNumber(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
