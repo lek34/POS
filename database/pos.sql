@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 18 Jun 2023 pada 03.39
+-- Waktu pembuatan: 24 Jun 2023 pada 02.32
 -- Versi server: 10.4.27-MariaDB
 -- Versi PHP: 8.1.12
 
@@ -31,6 +31,8 @@ CREATE TABLE `akun` (
   `id_akun` int(11) NOT NULL,
   `kode_akun` text NOT NULL,
   `nama_akun` varchar(50) NOT NULL,
+  `kredit` bigint(20) NOT NULL,
+  `debit` bigint(20) NOT NULL,
   `status` varchar(1) NOT NULL DEFAULT 'Y'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -38,9 +40,9 @@ CREATE TABLE `akun` (
 -- Dumping data untuk tabel `akun`
 --
 
-INSERT INTO `akun` (`id_akun`, `kode_akun`, `nama_akun`, `status`) VALUES
-(1, '11021', 'Kas Besar', 'Y'),
-(2, '110', 'Kas Kecil', 'Y');
+INSERT INTO `akun` (`id_akun`, `kode_akun`, `nama_akun`, `kredit`, `debit`, `status`) VALUES
+(1, '11021', 'Kas Besar', 0, 26000000, 'Y'),
+(2, '110', 'Kas Kecil', 0, 0, 'Y');
 
 -- --------------------------------------------------------
 
@@ -65,7 +67,8 @@ CREATE TABLE `barang` (
 --
 
 INSERT INTO `barang` (`id_barang`, `nama_barang`, `harga_modal`, `satuan_besar`, `satuan_kecil`, `uom_besar`, `uom_kecil`, `kuantitas`, `status`) VALUES
-(1, 'Linggis', 100000, 1, 10, 'Kotak', 'Batang', 20045, 'Y');
+(1, 'Linggis', 100000, 1, 10, 'Kotak', 'Batang', 20045, 'Y'),
+(2, 'pipa', 100000, 1, 100, 'Kg', 'gram', 39930, 'Y');
 
 -- --------------------------------------------------------
 
@@ -76,8 +79,14 @@ INSERT INTO `barang` (`id_barang`, `nama_barang`, `harga_modal`, `satuan_besar`,
 CREATE TABLE `cash_keluar` (
   `id_ckeluar` int(11) NOT NULL,
   `nomor_keluar` int(11) NOT NULL,
-  `bukti_keluar` int(11) NOT NULL,
-  `status` varchar(1) NOT NULL DEFAULT 'Y'
+  `bukti_keluar` varchar(256) NOT NULL,
+  `terima_dari` varchar(256) NOT NULL,
+  `dari` varchar(256) NOT NULL,
+  `jumlah` int(11) NOT NULL,
+  `status_hapus` varchar(1) NOT NULL DEFAULT 'Y',
+  `id_akun` int(11) NOT NULL,
+  `tanggal_keluar` date NOT NULL,
+  `keterangan` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -87,14 +96,15 @@ CREATE TABLE `cash_keluar` (
 --
 
 CREATE TABLE `cash_masuk` (
-  `id_cash_masuk` int(11) NOT NULL,
-  `bukti_masuk` int(11) NOT NULL,
+  `id_cmasuk` int(11) NOT NULL,
+  `bukti_masuk` varchar(256) NOT NULL,
   `nomor_masuk` int(11) NOT NULL,
+  `terima_dari` varchar(256) NOT NULL,
   `sumber` varchar(256) NOT NULL,
-  `id_jasa` int(11) NOT NULL,
-  `plat` varchar(20) NOT NULL,
-  `tanggal` date NOT NULL,
-  `netto` int(11) DEFAULT 0,
+  `id_akun` int(11) NOT NULL,
+  `tanggal_masuk` date NOT NULL,
+  `jumlah` int(11) DEFAULT 0,
+  `keterangan` text NOT NULL,
   `status_hapus` varchar(1) NOT NULL DEFAULT 'Y',
   `creator` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -129,10 +139,66 @@ INSERT INTO `customer` (`id_customer`, `nama`, `kontak`, `keterangan`, `alamat`,
 
 CREATE TABLE `data_mobil` (
   `id_mobil` int(11) NOT NULL,
-  `plat` int(11) NOT NULL,
+  `merk` varchar(50) NOT NULL,
+  `plat` varchar(50) NOT NULL,
   `tanggal` date NOT NULL,
   `pemeriksa` varchar(255) NOT NULL,
-  `status` varchar(1) NOT NULL DEFAULT 'Y'
+  `status` varchar(1) NOT NULL DEFAULT 'Y',
+  `creator` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `data_mobil`
+--
+
+INSERT INTO `data_mobil` (`id_mobil`, `merk`, `plat`, `tanggal`, `pemeriksa`, `status`, `creator`) VALUES
+(1, 'Innova', 'BK 689 ABF', '2023-06-20', 'Abun', 'Y', 'admin'),
+(2, 'Agya', 'BK 689 AC', '2023-06-20', 'Aboen', 'Y', 'admin'),
+(3, 'grang max', 'bk 8909', '2023-06-22', 'dura', 'Y', 'admin');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `history_akun`
+--
+
+CREATE TABLE `history_akun` (
+  `id_ha` int(11) NOT NULL,
+  `id_akun` int(11) NOT NULL,
+  `id_pembelian` int(11) DEFAULT NULL,
+  `id_penjualan` int(11) DEFAULT NULL,
+  `id_ckeluar` int(11) NOT NULL,
+  `id_cmasuk` int(11) NOT NULL,
+  `kredit` int(11) NOT NULL,
+  `debit` int(11) NOT NULL,
+  `tanggal` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `history_akun`
+--
+
+INSERT INTO `history_akun` (`id_ha`, `id_akun`, `id_pembelian`, `id_penjualan`, `id_ckeluar`, `id_cmasuk`, `kredit`, `debit`, `tanggal`) VALUES
+(1, 1, NULL, 1, 0, 0, 0, 1000000, '2023-06-20'),
+(2, 1, NULL, 2, 0, 0, 0, 1000000, '2023-06-20'),
+(3, 1, NULL, 2, 0, 0, 0, 24000000, '2023-06-22'),
+(4, 1, NULL, NULL, 5, 0, 100000, 0, '2023-06-24'),
+(5, 1, NULL, NULL, 0, 18, 0, 100000, '2023-06-24'),
+(6, 1, NULL, NULL, 6, 0, 100000, 0, '2023-06-24');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `history_cash_keluar`
+--
+
+CREATE TABLE `history_cash_keluar` (
+  `id_hck` int(11) NOT NULL,
+  `id_cash_keluar` int(11) NOT NULL,
+  `id_barang` int(11) NOT NULL,
+  `kuantitas` int(11) NOT NULL,
+  `jasa` int(11) NOT NULL,
+  `jumlah` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -145,9 +211,10 @@ CREATE TABLE `history_cash_masuk` (
   `id_hcm` int(11) NOT NULL,
   `id_cash_masuk` int(11) NOT NULL,
   `id_barang` int(11) NOT NULL,
-  `id_customer` int(11) NOT NULL,
   `jasa` int(11) NOT NULL,
+  `kuantitas` int(11) NOT NULL,
   `jumlah` bigint(20) NOT NULL,
+  `keterangan` varchar(256) NOT NULL,
   `user` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -170,7 +237,32 @@ CREATE TABLE `history_jasa` (
 --
 
 INSERT INTO `history_jasa` (`id_hjasa`, `id_jasa`, `id_penjualan`, `harga_jasa`, `deskripsi`) VALUES
-(1, 1, 6, 20000, '0');
+(1, 1, 6, 20000, '0'),
+(2, 1, 2, 20000, 'kimsiu');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `history_mobil`
+--
+
+CREATE TABLE `history_mobil` (
+  `id_mobil` int(11) NOT NULL,
+  `id_perlengkapan` int(11) NOT NULL,
+  `kondisi` varchar(50) NOT NULL,
+  `perlengkapan` varchar(50) NOT NULL,
+  `creator` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `history_mobil`
+--
+
+INSERT INTO `history_mobil` (`id_mobil`, `id_perlengkapan`, `kondisi`, `perlengkapan`, `creator`) VALUES
+(1, 3, 'Baik', 'Ada', 'admin'),
+(1, 3, 'Baik', 'Ada', 'admin'),
+(2, 3, '-', 'Tidak ada', 'admin'),
+(3, 3, 'Rusak', 'Ada', 'admin');
 
 -- --------------------------------------------------------
 
@@ -205,7 +297,9 @@ INSERT INTO `history_pembelian` (`id_hbeli`, `id_pembelian`, `id_barang`, `id_su
 (6, 3, 2, 24, 20000, 10000, 0, 0, 200000000, 200000000, 'admin'),
 (7, 4, 1, 23, 20000, 10000, 0, 0, 200000000, 200000000, 'admin'),
 (8, 5, 1, 23, 20, 100000, 0, 0, 2000000, 2000000, 'admin'),
-(9, 6, 1, 24, 10, 100000, 0, 0, 1000000, 1000000, 'admin');
+(9, 6, 1, 24, 10, 100000, 0, 0, 1000000, 1000000, 'admin'),
+(10, 7, 2, 24, 20, 2000, 0, 0, 40000, 40000, 'admin'),
+(11, 8, 2, 23, 100, 100000, 0, 0, 10000000, 10000000, 'admin');
 
 -- --------------------------------------------------------
 
@@ -226,6 +320,14 @@ CREATE TABLE `history_penjualan` (
   `netto` bigint(20) NOT NULL,
   `user` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data untuk tabel `history_penjualan`
+--
+
+INSERT INTO `history_penjualan` (`id_hjual`, `id_penjualan`, `id_barang`, `id_customer`, `kuantitas`, `harga_barang`, `disc`, `diskon`, `bruto`, `netto`, `user`) VALUES
+(1, 2, 2, 1, 100, 120000, 0, 0, 12000000, 12000000, 'admin'),
+(2, 2, 2, 1, 100, 120000, 0, 0, 12000000, 12000000, 'admin');
 
 -- --------------------------------------------------------
 
@@ -321,7 +423,9 @@ INSERT INTO `pembelian` (`id_pembelian`, `no_faktur`, `nomor_transaksi`, `id_sup
 (3, 'PB/2304/0003', 3, 24, '2023-04-24', '2023-04-25', 200050000, 'Y', 'N', 'admin'),
 (4, 'PB/2304/0004', 4, 23, '2023-04-26', '2023-04-27', 200000000, 'Y', 'N', 'admin'),
 (5, 'PB/2305/0001', 1, 23, '2023-05-05', '2023-06-03', 2000000, 'Y', 'N', 'admin'),
-(6, 'PB/2305/0001', 1, 24, '2023-05-31', '2023-06-10', 1000000, 'Y', 'N', 'admin');
+(6, 'PB/2305/0001', 1, 24, '2023-05-31', '2023-06-10', 1000000, 'Y', 'N', 'admin'),
+(7, 'PB/2306/0001', 1, 24, '2023-06-22', '2023-06-22', 40000, 'Y', 'N', 'admin'),
+(8, 'PB/2306/0001', 1, 23, '2023-06-22', '2023-06-30', 10000000, 'Y', 'N', 'admin');
 
 -- --------------------------------------------------------
 
@@ -348,7 +452,8 @@ CREATE TABLE `penjualan` (
 --
 
 INSERT INTO `penjualan` (`id_penjualan`, `no_faktur`, `nomor_transaksi`, `id_customer`, `plat`, `tanggal`, `jatuh_tempo`, `netto`, `status_hapus`, `status_pembayaran`, `creator`) VALUES
-(1, 'PJ/2305/0001', 1, 2, 'BK 1583 TK', '2023-05-26', '2023-05-27', 1000000, 'Y', 'N', 'admin');
+(1, 'PJ/2305/0001', 1, 2, 'BK 1583 TK', '2023-05-26', '2023-05-27', 1000000, 'Y', 'N', 'admin'),
+(2, 'PJ/2306/0001', 1, 1, 'BK 1215 AAF', '2023-06-22', '2023-06-30', 24000000, 'Y', 'Y', 'admin');
 
 -- --------------------------------------------------------
 
@@ -400,7 +505,7 @@ ALTER TABLE `cash_keluar`
 -- Indeks untuk tabel `cash_masuk`
 --
 ALTER TABLE `cash_masuk`
-  ADD PRIMARY KEY (`id_cash_masuk`);
+  ADD PRIMARY KEY (`id_cmasuk`);
 
 --
 -- Indeks untuk tabel `customer`
@@ -413,6 +518,18 @@ ALTER TABLE `customer`
 --
 ALTER TABLE `data_mobil`
   ADD PRIMARY KEY (`id_mobil`);
+
+--
+-- Indeks untuk tabel `history_akun`
+--
+ALTER TABLE `history_akun`
+  ADD PRIMARY KEY (`id_ha`);
+
+--
+-- Indeks untuk tabel `history_cash_keluar`
+--
+ALTER TABLE `history_cash_keluar`
+  ADD PRIMARY KEY (`id_hck`);
 
 --
 -- Indeks untuk tabel `history_cash_masuk`
@@ -489,7 +606,7 @@ ALTER TABLE `akun`
 -- AUTO_INCREMENT untuk tabel `barang`
 --
 ALTER TABLE `barang`
-  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_barang` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `cash_keluar`
@@ -501,7 +618,7 @@ ALTER TABLE `cash_keluar`
 -- AUTO_INCREMENT untuk tabel `cash_masuk`
 --
 ALTER TABLE `cash_masuk`
-  MODIFY `id_cash_masuk` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_cmasuk` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `customer`
@@ -513,7 +630,19 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT untuk tabel `data_mobil`
 --
 ALTER TABLE `data_mobil`
-  MODIFY `id_mobil` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_mobil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT untuk tabel `history_akun`
+--
+ALTER TABLE `history_akun`
+  MODIFY `id_ha` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT untuk tabel `history_cash_keluar`
+--
+ALTER TABLE `history_cash_keluar`
+  MODIFY `id_hck` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `history_cash_masuk`
@@ -525,19 +654,19 @@ ALTER TABLE `history_cash_masuk`
 -- AUTO_INCREMENT untuk tabel `history_jasa`
 --
 ALTER TABLE `history_jasa`
-  MODIFY `id_hjasa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_hjasa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `history_pembelian`
 --
 ALTER TABLE `history_pembelian`
-  MODIFY `id_hbeli` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_hbeli` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT untuk tabel `history_penjualan`
 --
 ALTER TABLE `history_penjualan`
-  MODIFY `id_hjual` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_hjual` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `is_users`
@@ -561,13 +690,13 @@ ALTER TABLE `mobil`
 -- AUTO_INCREMENT untuk tabel `pembelian`
 --
 ALTER TABLE `pembelian`
-  MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_pembelian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT untuk tabel `penjualan`
 --
 ALTER TABLE `penjualan`
-  MODIFY `id_penjualan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_penjualan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `supplier`
