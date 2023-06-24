@@ -94,6 +94,7 @@
                 <h3 class="card-title">
                   <i class="fas fa-chart-pie mr-1"></i>
                   Sales
+                  
                 </h3>
                 <div class="card-tools">
                   <ul class="nav nav-pills ml-auto">
@@ -105,6 +106,54 @@
                     </li>
                   </ul>
                 </div>
+                <div class="row">
+                  <div class="col-4">
+
+                  </div>
+                  <div class="col-5">
+                  <?php
+                       $pilihantahun = mysqli_query($conn, "SELECT * FROM penjualan_netto");
+                       while ($fetcharray = mysqli_fetch_array($pilihantahun)) {
+                           $tahun_beli = json_decode($fetcharray['tanggal_akum_beli'], true) ?? [];
+                           $tahun_jual = json_decode($fetcharray['tanggal_akum_jual'], true) ?? [];
+                           $tahun_transaksi = [];
+                       
+                           foreach ($tahun_beli as $i => $data) {
+                               if (!existCheck($data, $tahun_transaksi)) {
+                                   $tahun_transaksi[] = $data;
+                               }
+                           }
+                       
+                           foreach ($tahun_jual as $i => $data) {
+                               if (!existCheck($data, $tahun_transaksi)) {
+                                   $tahun_transaksi[] = $data;
+                               }
+                           }
+                       
+                           sort($tahun_transaksi);
+                       
+                           // Output the values using var_dump
+                           var_dump($tahun_transaksi);
+                           ?>
+                           <select name="tahun" id="tahun" class="form-control">
+                               <?php
+                               foreach ($tahun_transaksi as $tahun) {
+                               ?>
+                                   <option value="<?= $tahun; ?>">
+                                       <?= $tahun; ?>
+                                   </option>
+                               <?php
+                               }
+                               ?>
+                           </select>
+                        <?php
+                        }
+                        ?>
+                  
+                  </div>
+                
+                </div>
+                
               </div><!-- /.card-header -->
               <div class="card-body">
                 <div class="tab-content p-0">

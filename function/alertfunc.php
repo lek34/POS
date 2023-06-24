@@ -54,3 +54,12 @@
           }
         }
 ?>
+<?php 
+  function existCheck($var, array $array) {
+    for ($i = 0; $i < count($array); $i++) {
+      if ($var == $array[$i])
+        return true;
+    }
+    return false;
+  }
+?>

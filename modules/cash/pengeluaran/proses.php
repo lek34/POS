@@ -100,6 +100,19 @@ elseif ($_GET['act'] == 'insertCash'){
 
 
         $temp_cash_keluar = $_SESSION['temp_cash_keluar'];
+        $getStockQuery = "SELECT id_barang, kuantitas FROM barang";
+        $getStockResult = mysqli_query($conn, $getStockQuery);
+
+        // Create an empty array to store the current stock values
+        $currentStock = array();
+
+        while ($row = mysqli_fetch_assoc($getStockResult)) {
+            $id_barang = $row['id_barang'];
+            $kuantitas = $row['kuantitas'];
+            // Store the current stock value in the $currentStock array using the id_barang as the key
+            $currentStock[$id_barang] = $kuantitas;
+        }
+
         foreach ($temp_cash_keluar as $key => $data) {
             /* Cek Barang */
             $barang = $data['barangPenjualan'];
@@ -108,11 +121,27 @@ elseif ($_GET['act'] == 'insertCash'){
             $jumlah = $data['jumlah'];
             $keterangan = $data['keterangan'];
 
-            $queryDetail = "INSERT INTO history_cash_keluar (id_cash_keluar, id_barang, kuantitas, jasa, jumlah) VALUES (?, ?, ?, ?, ?)";
+            $queryDetail = "INSERT INTO history_cash_keluar (id_cash_keluar, id_barang, kuantitas, jasa, jumlah) VALUES (?, ?, ?, ?, ? )";
             $stmt = mysqli_prepare($conn, $queryDetail);
             mysqli_stmt_bind_param($stmt, 'iiiii', $id_cashkeluar, $barang, $kuantitas, $jasa, $jumlah);
             mysqli_stmt_execute($stmt);
+
+
+            if ($terima_dari == "customer"){
+             // Update stock quantity in the barang table
+             $stock_sekarang = $currentStock[$id_barang];
+             $stock_baru = $stock_sekarang + $kuantitas;
+             
+             $updateKuantitas = "UPDATE barang SET kuantitas = '$stock_baru' WHERE id_barang = '$id_barang'";
+             $execUpdateKuantitas = mysqli_query($conn, $updateKuantitas);
+             
+             // Update the current stock value in the $currentStock array
+             $currentStock[$id_barang] = $stock_baru;
+             }
         }
+
+
+       
     }
     $queryAkun = "INSERT INTO history_akun (id_akun , id_ckeluar , kredit) VALUES ('$id_akun','$id_cashkeluar','$jumlah')";
     $execakun = mysqli_query($conn, $queryAkun);

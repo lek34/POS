@@ -49,8 +49,8 @@
                                     <tr>
                                         <td><?=$data['kode_akun']?></td>
                                         <td><?=$data['nama_akun']?></td>
-                                        <td><?=$kredit?></td>
                                         <td><?=$debit?></td>
+                                        <td><?=$kredit?></td>
                                         <td>
                                             <a href="?module=historyAkun&id_akun=<?=$id_akun?>" class = "btn btn-outline-primary" style="margin-right: 10px;">History Akun</a>
                                             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit<?=$id_akun;?>"><i class = "far fa-edit"></i></button>

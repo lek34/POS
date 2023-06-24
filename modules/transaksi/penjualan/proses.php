@@ -175,6 +175,20 @@ require_once "../../../auth/cek.php";
     
             // Insert data from temp_data_jual table
             $temp_data_jual = $_SESSION['temp_data_jual'];
+
+            $getStockQuery = "SELECT id_barang, kuantitas FROM barang";
+            $getStockResult = mysqli_query($conn, $getStockQuery);
+
+            // Create an empty array to store the current stock values
+            $currentStock = array();
+
+            while ($row = mysqli_fetch_assoc($getStockResult)) {
+                $id_barang = $row['id_barang'];
+                $kuantitas = $row['kuantitas'];
+                // Store the current stock value in the $currentStock array using the id_barang as the key
+                $currentStock[$id_barang] = $kuantitas;
+            }
+
             foreach ($temp_data_jual as $data) {
                 $id_barang = $data['id_barang'];
                 $id_customer = $data['id_customer'];
@@ -189,6 +203,17 @@ require_once "../../../auth/cek.php";
                 $queryDetail = "INSERT INTO history_penjualan (id_penjualan, id_customer, id_barang, kuantitas, harga_barang, disc, diskon, bruto, netto, user) 
                                 VALUES ('$id_penjualan', '$id_customer', '$id_barang', '$kuantitas', '$harga_barang', '$disc', '$diskon', '$bruto', '$netto', '$user')";
                 $execQueryDetail = mysqli_query($conn, $queryDetail) or die('Error inserting data into penjualan_detail table: ' . mysqli_error($conn));
+
+                 // Update stock quantity in the barang table
+                 $stock_sekarang = $currentStock[$id_barang];
+                 $stock_baru = $stock_sekarang - $kuantitas;
+                 
+                 $updateKuantitas = "UPDATE barang SET kuantitas = '$stock_baru' WHERE id_barang = '$id_barang'";
+                 $execUpdateKuantitas = mysqli_query($conn, $updateKuantitas);
+                 
+                 // Update the current stock value in the $currentStock array
+                 $currentStock[$id_barang] = $stock_baru;
+ 
             }
 
             $temp_jasa = $_SESSION['temp_jasa'];
@@ -202,23 +227,7 @@ require_once "../../../auth/cek.php";
                 $execQueryJasa = mysqli_query($conn, $queryJasa) or die('Error inserting data into penjualan_detail table: ' . mysqli_error($conn));
             }
             
-            $tambahBarang = "SELECT hp.id_barang, b.nama_barang, b.kuantitas, SUM(hp.kuantitas) as total_kuantitas 
-                            FROM barang b 
-                            INNER JOIN history_penjualan hp ON hp.id_barang = b.id_barang 
-                            WHERE hp.id_penjualan = '$id_penjualan'
-                            GROUP BY hp.id_barang, b.nama_barang;";
-            $exectambahBarang = mysqli_query($conn, $tambahBarang);
-            
-            
-            while ($datatambahBarang = mysqli_fetch_array($exectambahBarang)){
-                $id_barang = $datatambahBarang['id_barang'];
-                $stock_sekarang = $datatambahBarang['kuantitas'];
-                $total_kuantitas = $datatambahBarang ['total_kuantitas'];
-                $stock_baru = $stock_sekarang - $total_kuantitas;
-
-                $insertKuantitas = "UPDATE barang SET kuantitas = '$stock_baru' WHERE id_barang = '$id_barang'";
-                $execinsertKuantitas = mysqli_query($conn, $insertKuantitas);
-            }
+         
             // Clear session data after successful insertions
             unset($_SESSION['temp_transaksi_jual']);
             unset($_SESSION['temp_data_jual']);

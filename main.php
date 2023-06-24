@@ -128,8 +128,9 @@
     });
   });
 </script>
-//Pembelian Check-Box
+
 <script>
+  //Pembelian Check-Box
 $(document).ready(function() {
   function formatNumber(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -208,9 +209,10 @@ $(document).ready(function() {
   });
 });
 </script>
-//
-//Penjualan Check-Box
+
+
 <script>
+  //Penjualan Check-Box
 $(document).ready(function() {
   function formatNumber(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -433,7 +435,7 @@ function showFormMasuk() {
   $(function () {
     var areaChartCanvas = $('#areaChart').get(0).getContext('2d');
     var areaChartData = {
-      labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      labels  : ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
       datasets: [
         {
           label               : 'Digital Goods',
@@ -485,36 +487,142 @@ function showFormMasuk() {
    
   //Line Chart
   $(function () {
+    
     <?php
-      $pembelian_akun = mysqli_query($conn, "select")
-    ?>
-    var pembelian_akum = 28;
-    var lineChartCanvas = $('#lineChart').get(0).getContext('2d');
-    var lineChartData = {
-      labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [
-        {
-          label               : 'Digital Goods',
-          backgroundColor     : 'rgba(60,141,188,0.9)',
-          borderColor         : 'rgba(60,141,188,0.8)',
-          data                : [pembelian_akum, 48, 40, 19, 86, 27, 90],
-          fill                : false
-        },
-        {
-          label               : 'Electronics',
-          backgroundColor     : 'rgba(210, 214, 222, 1)',
-          borderColor         : 'rgba(210, 214, 222, 1)',
-          data                : [65, 59, 80, 81, 56, 55, 40],
-          fill                : false
+    // Fetch the data from MySQL
+    $query1 = "SELECT * FROM pembelian_netto";
+    $query2 = "SELECT * FROM penjualan_netto";
+    $result1 = mysqli_query($conn, $query1);
+    $result2 = mysqli_query($conn, $query2);
+
+    // Process the fetched data and generate JavaScript array variables
+    $chartpembelian = [];
+    for ($i = 0; $i < 12; $i++) {
+      $chartpembelian[] = 0;
+    }
+    $chartpenjualan = [];
+    for ($i = 0; $i < 12; $i++) {
+      $chartpenjualan[] = 0;
+    }
+    while ($row = mysqli_fetch_assoc($result1)) {
+      $bulan_akum_beli[] = $row['bulan_akum_beli'];
+      $total_netto_beli[] = $row['total_netto_beli'];
+    }
+    while ($row = mysqli_fetch_assoc($result2)) {
+      $bulan_akum_jual[] = $row['bulan_akum_jual'];
+      $total_netto_jual[] = $row['total_netto_jual'];
+    }
+    foreach ($bulan_akum_beli as $i => $data) {
+      switch ($bulan_akum_beli[$i]) {
+        case 1:
+          $chartpembelian[0] = $total_netto_beli[$i];
+          break;
+        case 2:
+          $chartpembelian[1] = $total_netto_beli[$i];
+          break;
+        case 3:
+          $chartpembelian[2] = $total_netto_beli[$i];
+          break;
+        case 4:
+          $chartpembelian[3] = $total_netto_beli[$i];
+          break;      
+        case 5:
+          $chartpembelian[4] = $total_netto_beli[$i];
+          break;
+        case 6:
+          $chartpembelian[5] = $total_netto_beli[$i];
+          break;
+        case 7:
+          $chartpembelian[6] = $total_netto_beli[$i];
+          break;
+        case 8:
+          $chartpembelian[7] = $total_netto_beli[$i];
+          break;
+        case 9:
+          $chartpembelian[8] = $total_netto_beli[$i];
+          break;
+        case 10:
+          $chartpembelian[9] = $total_netto_beli[$i];
+          break;
+        case 11:
+          $chartpembelian[10] = $total_netto_beli[$i];
+          break;
+        case 12:
+          $chartpembelian[11] = $total_netto_beli[$i];
+          break;
         }
-      ]
+    }
+        foreach ($bulan_akum_jual as $i => $data) {
+      switch ($bulan_akum_jual[$i]) {
+        case 1:
+          $chartpenjualan[0] = $total_netto_jual[$i];
+          break;
+        case 2:
+          $chartpenjualan[1] = $total_netto_jual[$i];
+          break;
+        case 3:
+          $chartpenjualan[2] = $total_netto_jual[$i];
+          break;
+        case 4:
+          $chartpenjualan[3] = $total_netto_jual[$i];
+          break;      
+        case 5:
+          $chartpenjualan[4] = $total_netto_jual[$i];
+          break;
+        case 6:
+          $chartpenjualan[5] = $total_netto_jual[$i];
+          break;
+        case 7:
+          $chartpenjualan[6] = $total_netto_jual[$i];
+          break;
+        case 8:
+          $chartpenjualan[7] = $total_netto_jual[$i];
+          break;
+        case 9:
+          $chartpenjualan[8] = $total_netto_jual[$i];
+          break;
+        case 10:
+          $chartpenjualan[9] = $total_netto_jual[$i];
+          break;
+        case 11:
+          $chartpenjualan[10] = $total_netto_jual[$i];
+          break;
+        case 12:
+          $chartpenjualan[11] = $total_netto_jual[$i];
+          break;
+        }
+    }
+    while ($row = mysqli_fetch_assoc($result2)) {
+      $chartpenjualan[] = $row['total_netto_jual'];
+    }
+  ?>
+
+  var lineChartCanvas = $('#lineChart').get(0).getContext('2d');
+  var lineChartData = {
+    labels  : ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
+    datasets: [
+      {
+        label               : 'Pembelian',
+        backgroundColor     : 'rgba(60,141,188,0.9)',
+        borderColor         : 'rgba(60,141,188,0.8)',
+        data                : <?php echo json_encode($chartpembelian); ?>,
+        fill                : false
+      },
+      {
+        label               : 'Penjualan',
+        backgroundColor     : 'rgba(210, 214, 222, 1)',
+        borderColor         : 'rgba(210, 214, 222, 1)',
+        data                : <?php echo json_encode($chartpenjualan); ?>,
+        fill                : false
+      }
+    ]
     };
   
     var lineChartOptions = {
       maintainAspectRatio : false,
       responsive : true,
       legend: {
-        display: false
+        display: true,
       },
       scales: {
         xAxes: [{
@@ -592,21 +700,129 @@ $(function () {
 });
 //Bar Chart
 $(function () {
+  <?php
+    // Fetch the data from MySQL
+    $query1 = "SELECT * FROM pembelian_netto";
+    $query2 = "SELECT * FROM penjualan_netto";
+    $result1 = mysqli_query($conn, $query1);
+    $result2 = mysqli_query($conn, $query2);
+
+    // Process the fetched data and generate JavaScript array variables
+    $chartpembelian = [];
+    for ($i = 0; $i < 12; $i++) {
+      $chartpembelian[] = 0;
+    }
+    $chartpenjualan = [];
+    for ($i = 0; $i < 12; $i++) {
+      $chartpenjualan[] = 0;
+    }
+    while ($row = mysqli_fetch_assoc($result1)) {
+      $bulan_akum_beli[] = $row['bulan_akum_beli'];
+      $total_netto_beli[] = $row['total_netto_beli'];
+    }
+    while ($row = mysqli_fetch_assoc($result2)) {
+      $bulan_akum_jual[] = $row['bulan_akum_jual'];
+      $total_netto_jual[] = $row['total_netto_jual'];
+    }
+    foreach ($bulan_akum_beli as $i => $data) {
+      switch ($bulan_akum_beli[$i]) {
+        case 1:
+          $chartpembelian[0] = $total_netto_beli[$i];
+          break;
+        case 2:
+          $chartpembelian[1] = $total_netto_beli[$i];
+          break;
+        case 3:
+          $chartpembelian[2] = $total_netto_beli[$i];
+          break;
+        case 4:
+          $chartpembelian[3] = $total_netto_beli[$i];
+          break;      
+        case 5:
+          $chartpembelian[4] = $total_netto_beli[$i];
+          break;
+        case 6:
+          $chartpembelian[5] = $total_netto_beli[$i];
+          break;
+        case 7:
+          $chartpembelian[6] = $total_netto_beli[$i];
+          break;
+        case 8:
+          $chartpembelian[7] = $total_netto_beli[$i];
+          break;
+        case 9:
+          $chartpembelian[8] = $total_netto_beli[$i];
+          break;
+        case 10:
+          $chartpembelian[9] = $total_netto_beli[$i];
+          break;
+        case 11:
+          $chartpembelian[10] = $total_netto_beli[$i];
+          break;
+        case 12:
+          $chartpembelian[11] = $total_netto_beli[$i];
+          break;
+        }
+    }
+        foreach ($bulan_akum_jual as $i => $data) {
+      switch ($bulan_akum_jual[$i]) {
+        case 1:
+          $chartpenjualan[0] = $total_netto_jual[$i];
+          break;
+        case 2:
+          $chartpenjualan[1] = $total_netto_jual[$i];
+          break;
+        case 3:
+          $chartpenjualan[2] = $total_netto_jual[$i];
+          break;
+        case 4:
+          $chartpenjualan[3] = $total_netto_jual[$i];
+          break;      
+        case 5:
+          $chartpenjualan[4] = $total_netto_jual[$i];
+          break;
+        case 6:
+          $chartpenjualan[5] = $total_netto_jual[$i];
+          break;
+        case 7:
+          $chartpenjualan[6] = $total_netto_jual[$i];
+          break;
+        case 8:
+          $chartpenjualan[7] = $total_netto_jual[$i];
+          break;
+        case 9:
+          $chartpenjualan[8] = $total_netto_jual[$i];
+          break;
+        case 10:
+          $chartpenjualan[9] = $total_netto_jual[$i];
+          break;
+        case 11:
+          $chartpenjualan[10] = $total_netto_jual[$i];
+          break;
+        case 12:
+          $chartpenjualan[11] = $total_netto_jual[$i];
+          break;
+        }
+    }
+    while ($row = mysqli_fetch_assoc($result2)) {
+      $chartpenjualan[] = $row['total_netto_jual'];
+    }
+  ?>
   var barChartCanvas = $('#barChart').get(0).getContext('2d');
   var barChartData = {
-    labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+    labels  : ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
     datasets: [
       {
-        label               : 'Digital Goods',
+        label               : 'Pembelian',
         backgroundColor     : 'rgba(60,141,188,0.9)',
         borderColor         : 'rgba(60,141,188,0.8)',
-        data                : [65, 59, 80, 81, 56, 55, 40]
+        data                : <?php echo json_encode($chartpembelian); ?>,
       },
       {
-        label               : 'Electronics',
+        label               : 'Penjualan',
         backgroundColor     : 'rgba(210, 214, 222, 1)',
         borderColor         : 'rgba(210, 214, 222, 1)',
-        data                : [28, 48, 40, 19, 86, 27, 90]
+        data                : <?php echo json_encode($chartpenjualan); ?>,
       }
     ]
   };
