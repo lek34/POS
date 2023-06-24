@@ -43,12 +43,33 @@
                   </thead>
                   <tbody>
                   <?php
-                    $queryHistoryAkun = "SELECT history_akun.*, pembelian.no_faktur AS pembelian_no_faktur, penjualan.no_faktur AS penjualan_no_faktur, akun.nama_akun, history_akun.tanggal, history_akun.kredit, history_akun.debit
-                    FROM history_akun
-                    LEFT JOIN pembelian ON history_akun.id_pembelian = pembelian.id_pembelian
-                    LEFT JOIN penjualan ON history_akun.id_penjualan = penjualan.id_penjualan
-                    JOIN akun ON history_akun.id_akun = akun.id_akun
-                    WHERE history_akun.id_akun = $id_akun";
+                    $queryHistoryAkun = " SELECT
+                      history_akun.*,
+                      pembelian.no_faktur AS pembelian_no_faktur,
+                      penjualan.no_faktur AS penjualan_no_faktur,
+                      cash_keluar.bukti_keluar AS keluar_no_faktur,
+                      cash_masuk.bukti_masuk AS masuk_no_faktur,
+                      akun.nama_akun,
+                      history_akun.tanggal,
+                      history_akun.kredit,
+                      history_akun.debit,
+                      cash_keluar.*,
+                      cash_masuk.*
+                    FROM
+                      history_akun
+                    LEFT JOIN
+                      pembelian ON history_akun.id_pembelian = pembelian.id_pembelian
+                    LEFT JOIN
+                      penjualan ON history_akun.id_penjualan = penjualan.id_penjualan
+                    LEFT JOIN
+                      akun ON history_akun.id_akun = akun.id_akun
+                    LEFT JOIN
+                      cash_keluar ON history_akun.id_ckeluar = cash_keluar.id_ckeluar
+                    LEFT JOIN
+                      cash_masuk ON history_akun.id_cmasuk = cash_masuk.id_cmasuk
+                    WHERE
+                      history_akun.id_akun = $id_akun";
+                    
 
                     $execHistoryAkun = mysqli_query($conn, $queryHistoryAkun);
 
@@ -56,8 +77,12 @@
                         $no_faktur = '';
                         if (!empty($data['pembelian_no_faktur'])) {
                           $no_faktur = $data['pembelian_no_faktur'];
-                        } else {
+                        } elseif (!empty($data['penjualan_no_faktur'])) {
                           $no_faktur = $data['penjualan_no_faktur'];
+                        } elseif (!empty($data['keluar_no_faktur'])){
+                          $no_faktur = $data['keluar_no_faktur'];
+                        } else {
+                          $no_faktur = $data['masuk_no_faktur'];
                         }
                         $nama_akun = $data['nama_akun'];
                         $tanggal = $data['tanggal'];

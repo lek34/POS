@@ -89,19 +89,11 @@ elseif ($_GET['act'] == 'insertCash'){
         $terima_dari = $_SESSION['header_cash_keluar']['terima_dari'];
         $last_keluar = $_SESSION['header_cash_keluar']['last_keluar'];
         $keterangan = $_SESSION['header_cash_keluar']['keterangan'];
-        /* Ambil Keterangan Nama */
-        if ($terima_dari == "customer") {
-            $dari = $_SESSION['header_cash_keluar']['dari'];
-            $queryNamaCustomer = "SELECT nama FROM customer WHERE $dari = id_customer";
-            $execQueryNamaCustomer = mysqli_query($conn, $queryNamaCustomer);
-            $fetchNamaCustomer = mysqli_fetch_array($execQueryNamaCustomer);
-            $dari = $fetchNamaCustomer ['nama'];
-        } else {
-            $dari = $_SESSION['header_cash_keluar']['dari'];
-        }
-        $queryHeader = "INSERT INTO cash_keluar (bukti_keluar, nomor_keluar, dari, jumlah, id_akun, tanggal_keluar, keterangan) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $dari = $_SESSION['header_cash_keluar']['dari'];
+        
+        $queryHeader = "INSERT INTO cash_keluar (bukti_keluar, nomor_keluar, terima_dari, dari, jumlah, id_akun, tanggal_keluar, keterangan) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = mysqli_prepare($conn, $queryHeader);
-        mysqli_stmt_bind_param($stmt, 'ssssdss', $no_bukti, $last_keluar, $dari, $totJumlah, $id_akun, $tanggal_keluar, $keterangan);
+        mysqli_stmt_bind_param($stmt, 'sssssdss', $no_bukti, $last_keluar, $terima_dari, $dari, $totJumlah, $id_akun, $tanggal_keluar, $keterangan);
         mysqli_stmt_execute($stmt);
 
         $id_cashkeluar = mysqli_insert_id($conn);
@@ -122,6 +114,9 @@ elseif ($_GET['act'] == 'insertCash'){
             mysqli_stmt_execute($stmt);
         }
     }
+    $queryAkun = "INSERT INTO history_akun (id_akun , id_ckeluar , kredit) VALUES ('$id_akun','$id_cashkeluar','$jumlah')";
+    $execakun = mysqli_query($conn, $queryAkun);
+        
     unset($_SESSION['header_cash_keluar']);
     unset($_SESSION['temp_cash_keluar']);
     header('location: ../../../main.php?module=cashKeluar');

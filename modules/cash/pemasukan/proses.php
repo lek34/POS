@@ -91,19 +91,11 @@ elseif ($_GET['act'] == 'insertCash'){
         $terima_dari = $_SESSION['header_cash_masuk']['terima_dari'];
         $last_masuk = $_SESSION['header_cash_masuk']['last_masuk'];
         $keterangan = $_SESSION['header_cash_masuk']['keterangan'];
-        /* Ambil Keterangan Nama */
-        if ($terima_dari == "customer") {
-            $sumber = $_SESSION['header_cash_masuk']['sumber'];
-            $queryNamaCustomer = "SELECT nama FROM customer WHERE $sumber = id_customer";
-            $execQueryNamaCustomer = mysqli_query($conn, $queryNamaCustomer);
-            $fetchNamaCustomer = mysqli_fetch_array($execQueryNamaCustomer);
-            $sumber = $fetchNamaCustomer ['nama'];
-        } else {
-            $sumber = $_SESSION['header_cash_masuk']['sumber'];
-        }
-        $queryHeader = "INSERT INTO cash_masuk (bukti_masuk, nomor_masuk, sumber, jumlah, id_akun, tanggal_masuk, keterangan) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $sumber = $_SESSION['header_cash_masuk']['sumber'];
+        
+        $queryHeader = "INSERT INTO cash_masuk (bukti_masuk, nomor_masuk, terima_dari, sumber, jumlah, id_akun, tanggal_masuk, keterangan) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = mysqli_prepare($conn, $queryHeader);
-        mysqli_stmt_bind_param($stmt, 'ssssdss', $no_bukti, $last_masuk, $sumber, $totJumlah, $id_akun, $tanggal_masuk, $keterangan);
+        mysqli_stmt_bind_param($stmt, 'sssssdss', $no_bukti, $last_masuk, $terima_dari, $sumber, $totJumlah, $id_akun, $tanggal_masuk, $keterangan);
         mysqli_stmt_execute($stmt);
 
         $id_cashMasuk = mysqli_insert_id($conn);
@@ -124,6 +116,9 @@ elseif ($_GET['act'] == 'insertCash'){
             mysqli_stmt_execute($stmt);
         }
     }
+    $queryAkun = "INSERT INTO history_akun (id_akun , id_cmasuk , debit) VALUES ('$id_akun','$id_cashMasuk','$jumlah')";
+    $execakun = mysqli_query($conn, $queryAkun);
+
     unset($_SESSION['header_cash_masuk']);
     unset($_SESSION['temp_cash_masuk']);
     header('location: ../../../main.php?module=cashMasuk');

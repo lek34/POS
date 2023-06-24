@@ -43,7 +43,17 @@
                                 $execQuery = mysqli_query($conn, $query);
 
                                 while($data = mysqli_fetch_array($execQuery)){
-                                    $sumber = $data['sumber'];
+                                    $terima_dari = $data ['terima_dari'];
+                                    if ($terima_dari == "customer") {
+                                        $sumber = $data['sumber'];
+                                        $queryNamaCustomer = "SELECT nama FROM customer WHERE $sumber = id_customer";
+                                        $execQueryNamaCustomer = mysqli_query($conn, $queryNamaCustomer);
+                                        $fetchNamaCustomer = mysqli_fetch_array($execQueryNamaCustomer);
+                                        $nama_customer = $fetchNamaCustomer ['nama'];
+                                    } else {
+                                        $nama_customer = $data['terima_dari'];
+                                    }
+                                    
                                     $no_bukti = $data['bukti_masuk'];
                                     $nominal = number_format($data['jumlah'], 0, ',', '.');
                                     $keterangan = $data ['keterangan'];
@@ -56,7 +66,7 @@
                                 <tr>
                                     <td><?=$no_bukti?></td>
                                     <td><?=$nama_akun?></td>
-                                    <td><?=$sumber?></td>
+                                    <td><?=$nama_customer?></td>
                                     <td><?=$nominal?></td>
                                     <td><?=$keterangan?></td>
                                 </tr>
