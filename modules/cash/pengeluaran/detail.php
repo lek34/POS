@@ -84,9 +84,9 @@
                             </label>
                         </div>
                         <div class="icheck-primary d-inline" style="margin-left : 12px  ">
-                            <input type="radio" id="radioPrimary3" name="terimaDari" value="salesman" onclick="showFormKeluar()">
+                            <input type="radio" id="radioPrimary3" name="terimaDari" value="pihak_jasa" onclick="showFormKeluar()">
                             <label for="radioPrimary3">
-                            Salesman
+                            Pihak Jasa
                             </label>
                         </div>
                     </div>
@@ -322,7 +322,7 @@
                         </div>
                     </div>
                     <?php
-                    } else {
+                    } elseif ($terima_dari == "lainnya") {
                         $dari = $_SESSION['header_cash_keluar']['dari'];
                     ?>
                     <div id="cashkeluar-option2">
@@ -341,6 +341,24 @@
                             </div>
                         </div>
                     </div>
+                    <?php
+                    } else {
+                    ?>
+                        <div id = "cashkeluar-option3">>
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="">Nama Pihak Jasa :</label>
+                                </div>
+                                <div class="col-6">
+                                    <label for="">Nama Jasa : </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+
+                                </div>
+                            </div>
+                        </div>
                     <?php
                     }
                 } else {
@@ -446,6 +464,39 @@
                         </div>
                         <div class="col-1">
                             Posisi Kredit
+                        </div>
+                    </div>
+                </div>
+                <div id="cashkeluar-option3" style="display: none;">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="col-6">
+                                <label for="">Nama Pihak : </label>
+                            </div>
+                            <div class="col-6">
+                                <label for="">Nama Jasa : </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="col-6">
+                                <select name="id_pjasa" class="form-control">
+                                    <option value="">Select an Option</option>
+                                    <?php
+                                    $pilihanPihak = mysqli_query($conn, "select * from pihak_jasa WHERE status = 'Y'");
+                                    while ($fetcharray = mysqli_fetch_array($pilihanPihak)) {
+                                    $namaPihak = $fetcharray['nama_pihak'];
+                                    $id_pihak = $fetcharray['id_jasa'];
+                                    ?>
+                                    <option value="<?= $id_pihak; ?>">
+                                        <?= $namaPihak; ?>
+                                    </option>
+                                    <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>

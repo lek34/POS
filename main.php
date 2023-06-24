@@ -238,7 +238,7 @@ function updateUOMpenjualan(id_barang) {
 
 
 <script>
-  function showForm() {
+  function showFormMasuk() {
     var option1 = document.getElementById("radioPrimary1");
     var option2 = document.getElementById("radioPrimary2");
     var form1 = document.getElementById("cashmasuk-option1");
@@ -254,32 +254,28 @@ function updateUOMpenjualan(id_barang) {
 }
 </script>
 <script>
-  document.getElementById("option").addEventListener("change", function() {
-    var customerFields = document.getElementById("customerFields");
-    var lainnyaFields = document.getElementById("lainnyaFields");
+  function showFormKeluar() {
+    var option1 = document.getElementById("radioPrimary1");
+    var option2 = document.getElementById("radioPrimary2");
+    var option3 = document.getElementById("radioPrimary3")
+    var form1 = document.getElementById("cashkeluar-option1");
+    var form2 = document.getElementById("cashkeluar-option2");
+    var form3 = doucmnet.getElementById("cashkeluar-option3");
 
-    if (this.value === "customer") {
-      customerFields.style.display = "block";
-      lainnyaFields.style.display = "none";
-    } else if (this.value === "lainnya") {
-      customerFields.style.display = "none";
-      lainnyaFields.style.display = "block";
+    if (option1.checked) {
+      form1.style.display = "block";
+      form2.style.display = "none";
+      form3.style.display = "none";
+    } else if (option2.checked) {
+      form1.style.display = "none";
+      form2.style.display = "block";
+      form3.style.display = "none";
+    } else if (option3.checked) {
+      form1.style.display = "none";
+      form2.style.display = "none";
+      form3.style.display = "block";
     }
-  });
-</script>
-<script>
-  document.getElementById("option").addEventListener("change", function() {
-    var customerFields = document.getElementById("customerFields");
-    var lainnyaFields = document.getElementById("lainnyaFields");
-
-    if (this.value === "customer") {
-      customerFields.style.display = "block";
-      lainnyaFields.style.display = "none";
-    } else if (this.value === "lainnya") {
-      customerFields.style.display = "none";
-      lainnyaFields.style.display = "block";
-    }
-  });
+}
 </script>
 
 <script src="plugins/jquery/jquery.min.js"></script>
