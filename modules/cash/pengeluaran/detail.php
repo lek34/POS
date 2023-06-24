@@ -72,19 +72,19 @@
                     <label for=""> Dibayarkan Kepada : </label>
                     <div class="form-group clearfix">
                         <div class="icheck-primary d-inline">
-                            <input type="radio" id="radioPrimary1" name="terimaDari" value="customer" onclick="showForm()">
+                            <input type="radio" id="radioPrimary1" name="terimaDari" value="customer" onclick="showFormKeluar()">
                             <label for="radioPrimary1">
                             Customer
                             </label>
                         </div>
                         <div class="icheck-primary d-inline" style="margin-left : 12px  ">
-                            <input type="radio" id="radioPrimary2" name="terimaDari" value="lainnya" onclick="showForm()">
+                            <input type="radio" id="radioPrimary2" name="terimaDari" value="lainnya" onclick="showFormKeluar()">
                             <label for="radioPrimary2">
                             Lainnya
                             </label>
                         </div>
                         <div class="icheck-primary d-inline" style="margin-left : 12px  ">
-                            <input type="radio" id="radioPrimary3" name="terimaDari" value="salesman" onclick="showForm()">
+                            <input type="radio" id="radioPrimary3" name="terimaDari" value="salesman" onclick="showFormKeluar()">
                             <label for="radioPrimary3">
                             Salesman
                             </label>
@@ -328,7 +328,7 @@
                     <div id="cashkeluar-option2">
                         <div class="row">
                             <div class="col-6">
-                            <label for="">Diterima dari : </label>
+                            <label for="">Dibayarkan Kepada : </label>
                             </div>
                         </div>
                         <div class="row">
@@ -437,7 +437,7 @@
                 <div id="cashkeluar-option2" style="display: none;">
                     <div class="row">
                         <div class="col-6">
-                        <label for="">Diterima Dari : </label>
+                        <label for="">Dibayarkan Kepada : </label>
                         </div>
                     </div>
                     <div class="row">

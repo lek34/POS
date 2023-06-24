@@ -43,7 +43,7 @@
                                 $execQuery = mysqli_query($conn, $query);
 
                                 while($data = mysqli_fetch_array($execQuery)){
-                                    $sumber = $data['sumber'];
+                                    $dari = $data['dari'];
                                     $no_bukti = $data['bukti_keluar'];
                                     $nominal = number_format($data['jumlah'], 0, ',', '.');
                                     $keterangan = $data ['keterangan'];
@@ -56,7 +56,7 @@
                                 <tr>
                                     <td><?=$no_bukti?></td>
                                     <td><?=$nama_akun?></td>
-                                    <td><?=$sumber?></td>
+                                    <td><?=$dari?></td>
                                     <td><?=$nominal?></td>
                                     <td><?=$keterangan?></td>
                                 </tr>

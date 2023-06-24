@@ -11,7 +11,7 @@ if($_GET['act'] == 'insertTempCashKeluar'){
     if(isset($_POST['insertTempCashkeluar'])){
         /* Header Information */
         $last_keluar = mysqli_real_escape_string($conn, trim($_POST['last_keluar']));
-        $no_bukti = mysqli_real_escape_string($conn, trim($_POST['no_bukti']));
+        $no_bukti = $_POST['no_bukti'];
         $id_akun = mysqli_real_escape_string($conn, trim($_POST['id_akun']));
         $tanggal_keluar = $_POST['tanggal_keluar'];
         $terima_dari = mysqli_real_escape_string($conn, trim($_POST['terimaDari']));
@@ -59,10 +59,8 @@ if($_GET['act'] == 'insertTempCashKeluar'){
             'kuantitas' => $kuantitas,
             'kendaraan' => $kendaraan,
             'jumlah' => $jumlah,
-            
         );
-
-        header('location: ../../../main.php?module=detailCashkeluar');
+        header('location: ../../../main.php?module=detailCashKeluar');
     }
 }
 
@@ -70,7 +68,7 @@ elseif ($_GET['act'] == 'reset'){
     unset($_SESSION['header_cash_keluar']);
     unset($_SESSION['temp_cash_keluar']);
 
-    header('location: ../../../main.php?module=detailCashkeluar');
+    header('location: ../../../main.php?module=detailCashKeluar');
 }
 
 elseif ($_GET['act'] == 'deleteList'){
@@ -79,7 +77,7 @@ elseif ($_GET['act'] == 'deleteList'){
 
         unset($_SESSION['temp_cash_keluar'][$id_list]);
 
-        header('location: ../../../main.php?module=detailCashkeluar');
+        header('location: ../../../main.php?module=detailCashKeluar');
     }
 }
 elseif ($_GET['act'] == 'insertCash'){
@@ -126,6 +124,6 @@ elseif ($_GET['act'] == 'insertCash'){
     }
     unset($_SESSION['header_cash_keluar']);
     unset($_SESSION['temp_cash_keluar']);
-    header('location: ../../../main.php?module=cashkeluar');
+    header('location: ../../../main.php?module=cashKeluar');
 }
 ?>

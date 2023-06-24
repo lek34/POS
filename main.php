@@ -387,7 +387,7 @@ function updateUOMpenjualan(id_barang) {
 
 
 <script>
-function showForm() {
+function showFormMasuk() {
     var option1 = document.getElementById("radioPrimary1");
     var option2 = document.getElementById("radioPrimary2");
     var form1 = document.getElementById("cashmasuk-option1");
@@ -401,7 +401,9 @@ function showForm() {
     form2.style.display = "block";
     }
 }
-function showForm() {
+</script>
+<script>
+  function showFormKeluar() {
     var option1 = document.getElementById("radioPrimary1");
     var option2 = document.getElementById("radioPrimary2");
     var form1 = document.getElementById("cashkeluar-option1");
@@ -415,34 +417,6 @@ function showForm() {
     form2.style.display = "block";
     }
 }
-</script>
-<script>
-  document.getElementById("option").addEventListener("change", function() {
-    var customerFields = document.getElementById("customerFields");
-    var lainnyaFields = document.getElementById("lainnyaFields");
-
-    if (this.value === "customer") {
-      customerFields.style.display = "block";
-      lainnyaFields.style.display = "none";
-    } else if (this.value === "lainnya") {
-      customerFields.style.display = "none";
-      lainnyaFields.style.display = "block";
-    }
-  });
-</script>
-<script>
-  document.getElementById("option").addEventListener("change", function() {
-    var customerFields = document.getElementById("customerFields");
-    var lainnyaFields = document.getElementById("lainnyaFields");
-
-    if (this.value === "customer") {
-      customerFields.style.display = "block";
-      lainnyaFields.style.display = "none";
-    } else if (this.value === "lainnya") {
-      customerFields.style.display = "none";
-      lainnyaFields.style.display = "block";
-    }
-  });
 </script>
 
 <script src="plugins/jquery/jquery.min.js"></script>

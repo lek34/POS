@@ -72,13 +72,13 @@
                     <label for=""> Terima Dari : </label>
                     <div class="form-group clearfix">
                         <div class="icheck-primary d-inline">
-                            <input type="radio" id="radioPrimary1" name="terimaDari" value="customer" onclick="showForm()">
+                            <input type="radio" id="radioPrimary1" name="terimaDari" value="customer" onclick="showFormMasuk()">
                             <label for="radioPrimary1">
                             Customer
                             </label>
                         </div>
                         <div class="icheck-primary d-inline" style="margin-left : 12px  ">
-                            <input type="radio" id="radioPrimary2" name="terimaDari" value="lainnya" onclick="showForm()">
+                            <input type="radio" id="radioPrimary2" name="terimaDari" value="lainnya" onclick="showFormMasuk()">
                             <label for="radioPrimary2">
                             Lainnya
                             </label>
@@ -129,14 +129,14 @@
                         ?>
                         <div class="form-group clearfix">
                             <div class="icheck-primary d-inline">
-                                <input type="radio" id="radioPrimary1" onclick="showForm()" checked disabled">
+                                <input type="radio" id="radioPrimary1" onclick="showFormMasuk()" checked disabled">
                                 <input type="hidden" name="terimaDari" value="customer">
                                 <label for="radioPrimary1">
                                 Customer
                                 </label>
                             </div>
                             <div class="icheck-primary d-inline" style="margin-left : 12px  ">
-                                <input type="radio" id="radioPrimary2" name="terimaDari" value="lainnya" onclick="showForm()" disabled>
+                                <input type="radio" id="radioPrimary2" name="terimaDari" value="lainnya" onclick="showFormMasuk()" disabled>
                                 <label for="radioPrimary2">
                                 Lainnya
                                 </label>
@@ -147,13 +147,13 @@
                         ?>
                         <div class="form-group clearfix">
                             <div class="icheck-primary d-inline">
-                                <input type="radio" id="radioPrimary1" name="terimaDari" value="customer" onclick="showForm()" disabled>
+                                <input type="radio" id="radioPrimary1" name="terimaDari" value="customer" onclick="showFormMasuk()" disabled>
                                 <label for="radioPrimary1" readonly>
                                 Customer
                                 </label>
                             </div>
                             <div class="icheck-primary d-inline" style="margin-left : 12px  ">
-                                <input type="radio" id="radioPrimary2" onclick="showForm()" disabled checked>
+                                <input type="radio" id="radioPrimary2" onclick="showFormMasuk()" disabled checked>
                                 <input type="hidden" name="terimaDari" value="lainnya">
                                 <label for="radioPrimary2" readonly>
                                 Lainnya
