@@ -128,158 +128,6 @@
     });
   });
 </script>
-
-<script>
-  //Pembelian Check-Box
-$(document).ready(function() {
-  function formatNumber(number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-  }
-
-  $('.netto-checkbox').on('change', function() {
-    var totalNetto = 0;
-    $('.netto-checkbox:checked').each(function() {
-      var nettoValue = parseInt($(this).val());
-      totalNetto += nettoValue;
-    });
-
-    var formattedNetto = formatNumber(totalNetto);
-    $('#totalNetto').val(formattedNetto);
-  });
-});
-</script>
-<script>
-  $(document).ready(function() {
-  $('.netto-checkbox').on('change', function() {
-    var selectedPembelianIds = $('.netto-checkbox:checked').map(function() {
-      return $(this).data('id_pembelian');
-    }).get();
-
-    $('#id_pembelian').val(selectedPembelianIds.join(','));
-  });
-});
-
-</script>
-<script>
-  $(document).ready(function() {
-    $('.netto-checkbox').on('change', function() {
-      var selectedNoFaktur = [];
-      $('.netto-checkbox:checked').each(function() {
-        var noFaktur = $(this).data('no_faktur');
-        selectedNoFaktur.push(noFaktur);
-      });
-      var joinedNoFaktur = selectedNoFaktur.join('\n');
-      $('#noFakturDisplay').val(joinedNoFaktur);
-    });
-  });
-</script>
-<script>
-$(document).ready(function() {
-  $('.netto-checkbox').on('change', function() {
-    var selectedPembelianIds = [];
-    
-    $('.netto-checkbox:checked').each(function() {
-      var pembelianId = $(this).data('id_pembelian');
-      selectedPembelianIds.push(pembelianId);
-    });
-
-    var baseUrl = window.location.href.split('?')[0];
-    var existingParams = window.location.search;
-
-    var updatedParams = '';
-
-    if (existingParams.length > 0) {
-      var params = new URLSearchParams(existingParams);
-
-      // Remove any existing 'id_pembelian' parameter
-      params.delete('id_pembelian');
-
-      updatedParams = params.toString();
-    }
-
-    var newUrl = baseUrl + (updatedParams ? '?' + updatedParams : '');
-
-    if (selectedPembelianIds.length > 0) {
-      newUrl += (newUrl.includes('?') ? '&' : '?') + 'id_pembelian=' + selectedPembelianIds.join(',');
-    }
-
-    newUrl += (newUrl.includes('module=buyItem') ? '' : '&module=buyItem');
-
-    history.replaceState(null, null, newUrl);
-  });
-});
-</script>
-
-
-<script>
-  //Penjualan Check-Box
-$(document).ready(function() {
-  function formatNumber(number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-  }
-
-  $('.netto-checkbox-jual').on('change', function() {
-    var totalNettoJual = 0;
-    $('.netto-checkbox-jual:checked').each(function() {
-      var nettoValue = parseInt($(this).data('netto'));
-      totalNettoJual += nettoValue;
-    });
-
-    var formattedNettoJual = formatNumber(totalNettoJual);
-    $('#totalNettoJual').val(formattedNettoJual);
-  });
-
-  $('.netto-checkbox-jual').change(function() {
-    var selectedPenjualanIds = $('.netto-checkbox-jual:checked').map(function() {
-      return $(this).data('id_penjualan');
-    }).get();
-
-    $('#id_penjualan').val(selectedPenjualanIds.join(','));
-
-    var selectedNoFakturJual = $('.netto-checkbox-jual:checked').map(function() {
-      return $(this).data('no_faktur_jual');
-    }).get();
-
-    $('#noFakturDisplayJual').val(selectedNoFakturJual.join('\n'));
-  });
-});
-</script>
-<script>
-  $(document).ready(function() {
-  $('.netto-checkbox-jual').on('change', function() {
-    var selectedPenjualanIds = [];
-    
-    $('.netto-checkbox-jual:checked').each(function() {
-      var penjualanId = $(this).data('id_penjualan');
-      selectedPenjualanIds.push(penjualanId);
-    });
-
-    var baseUrl = window.location.href.split('?')[0];
-    var existingParams = window.location.search;
-
-    var updatedParams = '';
-
-    if (existingParams.length > 0) {
-      var params = new URLSearchParams(existingParams);
-
-      // Remove any existing 'id_penjualan' parameter
-      params.delete('id_penjualan');
-
-      updatedParams = params.toString();
-    }
-
-    var newUrl = baseUrl + (updatedParams ? '?' + updatedParams : '');
-
-    if (selectedPenjualanIds.length > 0) {
-      newUrl += (newUrl.includes('?') ? '&' : '?') + 'id_penjualan=' + selectedPenjualanIds.join(',');
-    }
-
-    newUrl += (newUrl.includes('module=sellItem') ? '' : '&module=sellItem');
-
-    history.replaceState(null, null, newUrl);
-  });
-});
-</script>
 <script>
 $(document).ready(function() {
   $('input[name="perlengkapan"]').on('change', function() {
@@ -364,6 +212,7 @@ function updateUOMpenjualan(id_barang) {
 
 <script>
   const costPriceInput = document.getElementById('costPrice');
+  const sellingpinput = document.getElementsByClassName('harga_barang')[0];
   const sellingPriceInput = document.getElementById('harga_barang');
   const marginInput = document.getElementById('margin');
   const barangIdInput = document.getElementById('id_barang_penjualan');
@@ -389,7 +238,7 @@ function updateUOMpenjualan(id_barang) {
 
 
 <script>
-function showFormMasuk() {
+  function showForm() {
     var option1 = document.getElementById("radioPrimary1");
     var option2 = document.getElementById("radioPrimary2");
     var form1 = document.getElementById("cashmasuk-option1");
@@ -405,20 +254,32 @@ function showFormMasuk() {
 }
 </script>
 <script>
-  function showFormKeluar() {
-    var option1 = document.getElementById("radioPrimary1");
-    var option2 = document.getElementById("radioPrimary2");
-    var form1 = document.getElementById("cashkeluar-option1");
-    var form2 = document.getElementById("cashkeluar-option2");
+  document.getElementById("option").addEventListener("change", function() {
+    var customerFields = document.getElementById("customerFields");
+    var lainnyaFields = document.getElementById("lainnyaFields");
 
-    if (option1.checked) {
-    form1.style.display = "block";
-    form2.style.display = "none";
-    } else if (option2.checked) {
-    form1.style.display = "none";
-    form2.style.display = "block";
+    if (this.value === "customer") {
+      customerFields.style.display = "block";
+      lainnyaFields.style.display = "none";
+    } else if (this.value === "lainnya") {
+      customerFields.style.display = "none";
+      lainnyaFields.style.display = "block";
     }
-}
+  });
+</script>
+<script>
+  document.getElementById("option").addEventListener("change", function() {
+    var customerFields = document.getElementById("customerFields");
+    var lainnyaFields = document.getElementById("lainnyaFields");
+
+    if (this.value === "customer") {
+      customerFields.style.display = "block";
+      lainnyaFields.style.display = "none";
+    } else if (this.value === "lainnya") {
+      customerFields.style.display = "none";
+      lainnyaFields.style.display = "block";
+    }
+  });
 </script>
 
 <script src="plugins/jquery/jquery.min.js"></script>
@@ -490,10 +351,8 @@ function showFormMasuk() {
     
     <?php
     // Fetch the data from MySQL
-    $query1 = "SELECT * FROM pembelian_netto";
-    $query2 = "SELECT * FROM penjualan_netto";
-    $result1 = mysqli_query($conn, $query1);
-    $result2 = mysqli_query($conn, $query2);
+    $query = "SELECT * FROM pembelian_netto";
+    $result = mysqli_query($conn, $query1);
 
     // Process the fetched data and generate JavaScript array variables
     $chartpembelian = [];
@@ -504,11 +363,11 @@ function showFormMasuk() {
     for ($i = 0; $i < 12; $i++) {
       $chartpenjualan[] = 0;
     }
-    while ($row = mysqli_fetch_assoc($result1)) {
+    while ($row = mysqli_fetch_assoc($result)) {
       $bulan_akum_beli[] = $row['bulan_akum_beli'];
       $total_netto_beli[] = $row['total_netto_beli'];
     }
-    while ($row = mysqli_fetch_assoc($result2)) {
+    while ($row = mysqli_fetch_assoc($result)) {
       $bulan_akum_jual[] = $row['bulan_akum_jual'];
       $total_netto_jual[] = $row['total_netto_jual'];
     }

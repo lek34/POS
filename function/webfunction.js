@@ -11,6 +11,7 @@
 
       // Update the input field value with the formatted value
       inputField.value = formattedValue;
+      inputField.dataset.numericValue = parseInt(numericValue); // Store the numeric value as a data attribute
     }
     function formatNumber(inputClass) {
       let inputField = document.getElementsByClassName(inputClass)[0];
