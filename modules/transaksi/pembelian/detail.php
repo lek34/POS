@@ -461,13 +461,13 @@ if (isset($_GET['id_pembelian'])) { ?>
   <input type="text" class="form-control" name="satuan_kecil" id="satuankecil_input" hidden>
 </td>
   <td>
-  <input type="text" class="form-control" name="kuantitas" id="kuantitaspembelian_mask" oninput="formatNumber('kuantitaspembelian_mask')" required>
+  <input type="text" class="form-control kuantitaspembelian_mask" name="kuantitas" oninput="formatNumber('kuantitaspembelian_mask')" required>
   </td>
       <td>
       <div class="input-group mb-3">
         <div class="input-group-append">
         </div>
-        <input type="text" class="form-control" name="harga_barang" id="hargapembelian_mask" oninput="formatCurrency('hargapembelian_mask')" required>
+        <input type="text" class="form-control hargapembelian_mask" name="harga_barang" oninput="formatCurrency('hargapembelian_mask')" required>
       </div>
       </td>
       <td>
