@@ -24,6 +24,9 @@ else{
 	elseif ($_GET['module'] == 'dataJasa') {
 		include "modules/master/jasa/view.php";
 	}
+	elseif ($_GET['module'] == 'pihakJasa') {
+		include "modules/master/pihakJasa/view.php";
+	}
 	elseif ($_GET['module'] == 'dataMobil') {
 		include "modules/master/mobil/view.php";
 	}

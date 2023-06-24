@@ -430,16 +430,22 @@
                     </div>
                     <div class="col-2">
                     <?php
-                     if (isset($_SESSION['header_cash_masuk'])){
+                    if (isset($_SESSION['header_cash_masuk'])) {
                         $keterangan = $_SESSION['header_cash_masuk']['keterangan'];
-                        ?>
-                            <input type="text" class="form-control" name="keterangan" disabled value="<?=$keterangan?>">
-                        <?php
+                        if (!empty($keterangan)) {
+                            ?>
+                            <input type="text" class="form-control" name="keterangan" disabled value="<?= $keterangan ?>">
+                            <?php
                         } else {
-                        ?>
+                            ?>
                             <input type="text" class="form-control" name="keterangan">
-                        <?php
+                            <?php
                         }
+                    } else {
+                        ?>
+                        <input type="text" class="form-control" name="keterangan">
+                        <?php
+                    }
                     ?>
                     </div>
                 </div>
