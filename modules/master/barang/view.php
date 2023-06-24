@@ -176,6 +176,7 @@
         <div class="modal-body">
             <br>
             <form action="modules/master/barang/proses.php?act=edit" method="post">
+            <input type="hidden" name="id_barang" value="<?=$id_barang;?>">
             <div class="row">
                 <div class="col-12">
                 <label>Nama Barang</label>
