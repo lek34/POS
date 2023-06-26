@@ -469,34 +469,50 @@
                 </div>
                 <div id="cashkeluar-option3" style="display: none;">
                     <div class="row">
-                        <div class="col-6">
-                            <div class="col-6">
-                                <label for="">Nama Pihak : </label>
-                            </div>
-                            <div class="col-6">
-                                <label for="">Nama Jasa : </label>
-                            </div>
+                        <div class="col-3">
+                            <label for="">Nama Pihak : </label>
+                        </div>
+                        <div class="col-3">
+                            <label for="">Nama Jasa : </label>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6">
-                            <div class="col-6">
-                                <select name="id_pjasa" class="form-control">
-                                    <option value="">Select an Option</option>
-                                    <?php
-                                    $pilihanPihak = mysqli_query($conn, "select * from pihak_jasa WHERE status = 'Y'");
-                                    while ($fetcharray = mysqli_fetch_array($pilihanPihak)) {
-                                    $namaPihak = $fetcharray['nama_pihak'];
-                                    $id_pihak = $fetcharray['id_jasa'];
-                                    ?>
-                                    <option value="<?= $id_pihak; ?>">
-                                        <?= $namaPihak; ?>
-                                    </option>
-                                    <?php
-                                    }
-                                    ?>
-                                </select>
-                            </div>
+                        <div class="col-3">
+                            <select name="terimaDari" class="form-control">
+                                <option>Select an Option</option>
+                                <?php
+                                $pilihanPihak = mysqli_query($conn, "select * from pihak_jasa WHERE status = 'Y'");
+                                while ($fetcharray = mysqli_fetch_array($pilihanPihak)) {
+                                $namaPihak = $fetcharray['nama_pihak'];
+                                $id_pihak = $fetcharray['id_pjasa'];
+                                ?>
+                                <option value="<?= $id_pihak; ?>">
+                                    <?= $namaPihak; ?>
+                                </option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="col-3">
+                        <select name="id_bjasa" class="form-control">
+                                <option>Select an Option</option>
+                                <?php
+                                $pilihanjasa = mysqli_query($conn, "select * from jasa WHERE status = 'Y'");
+                                while ($fetcharray = mysqli_fetch_array($pilihanjasa)) {
+                                $namaJasa = $fetcharray['nama_jasa'];
+                                $id_jasa = $fetcharray['id_jasa'];
+                                ?>
+                                <option value="<?= $id_jasa; ?>">
+                                    <?= $namaJasa; ?>
+                                </option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <div class="col-1">
+                            Posisi Kredit
                         </div>
                     </div>
                 </div>

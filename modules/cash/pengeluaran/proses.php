@@ -41,12 +41,21 @@ if($_GET['act'] == 'insertTempCashKeluar'){
             $satuan_kecil = mysqli_real_escape_string($conn, trim($_POST['satuankecil']));
             $kuantitas = mysqli_real_escape_string($conn, trim($_POST['kuantitas']));
             $id_jasa = mysqli_real_escape_string($conn, trim($_POST['id_jasa']));
+            $id_bjasa = "";
+        } elseif ($terima_dari == "lainnya") {
+            $barangPenjualan = "";
+            $uom = "";
+            $satuan_kecil = "";
+            $kuantitas = "";
+            $id_jasa = "";
+            $id_bjasa = "";
         } else {
             $barangPenjualan = "";
             $uom = "";
             $satuan_kecil = "";
             $kuantitas = "";
             $id_jasa = "";
+            $id_bjasa = mysqli_real_escape_string($conn, trim($_POST['id_bjasa']));
         }
         $kendaraan = mysqli_real_escape_string($conn, trim($_POST['barangPenjualan']));
         $jumlah = mysqli_real_escape_string($conn, trim($_POST['jumlah']));
@@ -59,6 +68,7 @@ if($_GET['act'] == 'insertTempCashKeluar'){
             'kuantitas' => $kuantitas,
             'kendaraan' => $kendaraan,
             'jumlah' => $jumlah,
+            'id_bjasa' => $id_bjasa
         );
         header('location: ../../../main.php?module=detailCashKeluar');
     }
@@ -121,9 +131,9 @@ elseif ($_GET['act'] == 'insertCash'){
             $jumlah = $data['jumlah'];
             $keterangan = $data['keterangan'];
 
-            $queryDetail = "INSERT INTO history_cash_keluar (id_cash_keluar, id_barang, kuantitas, jasa, jumlah) VALUES (?, ?, ?, ?, ? )";
+            $queryDetail = "INSERT INTO history_cash_keluar (id_cash_keluar, id_barang, kuantitas, jasa, jumlah, jasa_pihak) VALUES (?, ?, ?, ?, ?, ?)";
             $stmt = mysqli_prepare($conn, $queryDetail);
-            mysqli_stmt_bind_param($stmt, 'iiiii', $id_cashkeluar, $barang, $kuantitas, $jasa, $jumlah);
+            mysqli_stmt_bind_param($stmt, 'iiiiii', $id_cashkeluar, $barang, $kuantitas, $jasa, $jumlah, $id_bjasa);
             mysqli_stmt_execute($stmt);
 
 
@@ -140,8 +150,6 @@ elseif ($_GET['act'] == 'insertCash'){
              }
         }
 
-
-       
     }
     $queryAkun = "INSERT INTO history_akun (id_akun , id_ckeluar , kredit) VALUES ('$id_akun','$id_cashkeluar','$jumlah')";
     $execakun = mysqli_query($conn, $queryAkun);

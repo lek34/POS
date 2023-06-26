@@ -260,7 +260,7 @@ function updateUOMpenjualan(id_barang) {
     var option3 = document.getElementById("radioPrimary3")
     var form1 = document.getElementById("cashkeluar-option1");
     var form2 = document.getElementById("cashkeluar-option2");
-    var form3 = doucmnet.getElementById("cashkeluar-option3");
+    var form3 = document.getElementById("cashkeluar-option3");
 
     if (option1.checked) {
       form1.style.display = "block";
