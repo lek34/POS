@@ -50,8 +50,14 @@
                                         $execQueryNamaCustomer = mysqli_query($conn, $queryNamaCustomer);
                                         $fetchNamaCustomer = mysqli_fetch_array($execQueryNamaCustomer);
                                         $nama_customer = $fetchNamaCustomer ['nama'];
-                                    } else {
+                                    } elseif ($terima_dari == "lainnya") {
                                         $nama_customer = $data['terima_dari'];
+                                    } else {
+                                        $dari = $data['dari'];
+                                        $queryNamaCustomer = "SELECT nama_pihak FROM pihak_jasa WHERE $dari = id_pjasa";
+                                        $execQueryNamaCustomer = mysqli_query($conn, $queryNamaCustomer);
+                                        $fetchNamaCustomer = mysqli_fetch_array($execQueryNamaCustomer);
+                                        $nama_customer = $fetchNamaCustomer ['nama_pihak'];
                                     }
                                     $no_bukti = $data['bukti_keluar'];
                                     $nominal = number_format($data['jumlah'], 0, ',', '.');

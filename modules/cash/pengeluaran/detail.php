@@ -150,7 +150,7 @@
                             <div class="icheck-primary d-inline" style="margin-left : 12px  ">
                                 <input type="radio" id="radioPrimary3" name="terimaDari" value="salesman" onclick="showForm()" disabled>
                                 <label for="radioPrimary3">
-                                Salesman
+                                Pihak Jasa
                                 </label>
                             </div>
                         </div>
@@ -174,7 +174,7 @@
                             <div class="icheck-primary d-inline" style="margin-left : 12px  ">
                                 <input type="radio" id="radioPrimary3" name="terimaDari" value="salesman" onclick="showForm()" disabled>
                                 <label for="radioPrimary3">
-                                Salesman
+                                Pihak Jasa
                                 </label>
                             </div>
                         </div>
@@ -197,8 +197,9 @@
                             </div>
                             <div class="icheck-primary d-inline" style="margin-left : 12px  ">
                                 <input type="radio" id="radioPrimary3" name="terimaDari" value="salesman" onclick="showForm()" disabled checked>
+                                <input type="hidden" name="terimaDari" value="pihak_jasa">
                                 <label for="radioPrimary3">
-                                Salesman
+                                Pihak Jasa
                                 </label>
                             </div>
                         </div>
@@ -317,7 +318,7 @@
                                     <?php
                                     }
                                     ?>
-                            </select>
+                            </select>;
                             </div>
                         </div>
                     </div>
@@ -343,19 +344,66 @@
                     </div>
                     <?php
                     } else {
-                    ?>
-                        <div id = "cashkeluar-option3">>
+                        if (isset($_SESSION['header_cash_keluar']['dari'])) {
+                            $dari = $_SESSION['header_cash_keluar']['dari'];
+                        
+                            // Prepare and execute the SQL query using prepared statements
+                            $queryNamaPihak = "SELECT nama_pihak FROM pihak_jasa WHERE id_pjasa = ?";
+                            $stmt = mysqli_prepare($conn, $queryNamaPihak);
+                            mysqli_stmt_bind_param($stmt, "s", $dari);
+                            mysqli_stmt_execute($stmt);
+                            $result = mysqli_stmt_get_result($stmt);
+                        
+                            // Fetch the row from the result set
+                            if ($fetchNamaPihak = mysqli_fetch_array($result)) {
+                                $namaPihak = $fetchNamaPihak['nama_pihak'];
+                            } else {
+                                // Handle the case when no row is returned
+                                $namaPihak = "Name Not Found";
+                            }
+                        } else {
+                            // Handle the case when the session variable is not set
+                            $dari = null;
+                            $namaPihak = "Session Variable Not Set";
+                        }
+                        ?>
+                        <div id = "cashkeluar-option3">
                             <div class="row">
-                                <div class="col-6">
-                                    <label for="">Nama Pihak Jasa :</label>
+                                <div class="col-3">
+                                    <label for="">Nama Pihak : </label>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-3">
                                     <label for="">Nama Jasa : </label>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-6">
-
+                                <div class="col-3">
+                                    <select name="dariJasa" class="form-control" disabled>
+                                        <option value="<?= $dari; ?>">
+                                            <?= $namaPihak; ?>
+                                        </option>
+                                    </select>
+                                    <input type="hidden" name = "dariJasa" value="<?=$dari?>">
+                                </div>
+                                <div class="col-3">
+                                <select name="id_jasa" class="form-control">
+                                        <option>Select an Option</option>
+                                        <?php
+                                        $pilihanjasa = mysqli_query($conn, "select * from jasa WHERE status = 'Y'");
+                                        while ($fetcharray = mysqli_fetch_array($pilihanjasa)) {
+                                        $namaJasa = $fetcharray['nama_jasa'];
+                                        $id_jasa = $fetcharray['id_jasa'];
+                                        ?>
+                                        <option value="<?= $id_jasa; ?>">
+                                            <?= $namaJasa; ?>
+                                        </option>
+                                        <?php
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="col-1">
+                                    Posisi Kredit
                                 </div>
                             </div>
                         </div>
@@ -478,7 +526,7 @@
                     </div>
                     <div class="row">
                         <div class="col-3">
-                            <select name="terimaDari" class="form-control">
+                            <select name="dariJasa" class="form-control">
                                 <option>Select an Option</option>
                                 <?php
                                 $pilihanPihak = mysqli_query($conn, "select * from pihak_jasa WHERE status = 'Y'");
@@ -495,7 +543,7 @@
                             </select>
                         </div>
                         <div class="col-3">
-                        <select name="id_bjasa" class="form-control">
+                        <select name="id_jasa" class="form-control">
                                 <option>Select an Option</option>
                                 <?php
                                 $pilihanjasa = mysqli_query($conn, "select * from jasa WHERE status = 'Y'");
@@ -589,7 +637,7 @@
                         <th>No.</th>
                         <th>Account</th>
                         <th>Nama Akun</th>
-                        <th>Terima Dari</th>
+                        <th>Dibayarkan Kepada</th>
                         <th>Barang</th>
                         <th>Jasa</th>
                         <th>Jumlah</th>
@@ -636,11 +684,23 @@
                             $execQueryNamaBarang = mysqli_query($conn, $queryNamaBarang);
                             $fetchNamaBarang = mysqli_fetch_array($execQueryNamaBarang);
                             $nama_barang = $fetchNamaBarang['nama_barang'];
-                        } else {
+                        } elseif ($terima_dari == "lainnya") {
                             $dari = $_SESSION['header_cash_keluar']['dari'];
                             $nama_barang = NULL;
+                        } else {
+                            $dari = $_SESSION['header_cash_keluar']['dari'];
+                            var_dump($dari);
+                            // Prepare and execute the SQL query using prepared statements
+                            $queryNamaPihak = "SELECT nama_pihak FROM pihak_jasa WHERE id_pjasa = ?";
+                            $stmt = mysqli_prepare($conn, $queryNamaPihak);
+                            mysqli_stmt_bind_param($stmt, "s", $dari);
+                            mysqli_stmt_execute($stmt);
+                            $result = mysqli_stmt_get_result($stmt);
+                            $fetchNamaPihak = mysqli_fetch_array($result);
+                            $dari = $fetchNamaPihak['nama_pihak'];
+
+                            $nama_barang = NULL;
                         }
-                        
                         
                         /* Ambil Nama Jasa */
                         $id_jasa = $value['id_jasa'];

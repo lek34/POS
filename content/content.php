@@ -60,6 +60,9 @@ else{
 	elseif ($_GET['module'] == 'historyPenjualan'){
 		include "modules/history/history_penjualan.php";
 	}
+	elseif ($_GET['module'] == 'historyPihakJasa') {
+		include "modules/history/history_pihak_jasa.php";
+	}
 	elseif ($_GET['module'] == 'cekMobil'){
 		include "modules/mobil/view.php";
 	}

@@ -56,7 +56,7 @@
                             <td><?=$kontak?></td>
                             <td><?=$alamat?></td>
                             <td>
-                            <a href="?module=historyPihakJasas&id_pjasa=<?=$id_pjasa?>" class = "btn btn-outline-primary" style="margin-right: 10px;">History</a>
+                            <a href="?module=historyPihakJasa&id_pjasa=<?=$id_pjasa?>" class = "btn btn-outline-primary" style="margin-right: 10px;">History</a>
                             </td>
                             <td>
                               <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit<?=$id_pjasa;?>"><i class = "far fa-edit"></i></button>

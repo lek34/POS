@@ -18,8 +18,10 @@ if($_GET['act'] == 'insertTempCashKeluar'){
         $keterangan = mysqli_real_escape_string($conn, trim($_POST['keterangan']));
         if ($terima_dari == "customer") {
             $dari = $_POST['dariCustomer'];
-        } else {
+        } elseif ($terima_dari == "lainnya") {
             $dari = mysqli_real_escape_string($conn, trim($_POST['dariLainnya']));
+        } else {
+            $dari = mysqli_real_escape_string($conn, trim($_POST['dariJasa']));
         }
 
         $_SESSION['header_cash_keluar'] =  array(
@@ -41,22 +43,20 @@ if($_GET['act'] == 'insertTempCashKeluar'){
             $satuan_kecil = mysqli_real_escape_string($conn, trim($_POST['satuankecil']));
             $kuantitas = mysqli_real_escape_string($conn, trim($_POST['kuantitas']));
             $id_jasa = mysqli_real_escape_string($conn, trim($_POST['id_jasa']));
-            $id_bjasa = "";
         } elseif ($terima_dari == "lainnya") {
             $barangPenjualan = "";
             $uom = "";
             $satuan_kecil = "";
             $kuantitas = "";
             $id_jasa = "";
-            $id_bjasa = "";
         } else {
             $barangPenjualan = "";
             $uom = "";
             $satuan_kecil = "";
             $kuantitas = "";
-            $id_jasa = "";
-            $id_bjasa = mysqli_real_escape_string($conn, trim($_POST['id_bjasa']));
+            $id_jasa = mysqli_real_escape_string($conn, trim($_POST['id_jasa']));
         }
+
         $kendaraan = mysqli_real_escape_string($conn, trim($_POST['barangPenjualan']));
         $jumlah = mysqli_real_escape_string($conn, trim($_POST['jumlah']));
         
@@ -68,7 +68,6 @@ if($_GET['act'] == 'insertTempCashKeluar'){
             'kuantitas' => $kuantitas,
             'kendaraan' => $kendaraan,
             'jumlah' => $jumlah,
-            'id_bjasa' => $id_bjasa
         );
         header('location: ../../../main.php?module=detailCashKeluar');
     }
@@ -107,8 +106,6 @@ elseif ($_GET['act'] == 'insertCash'){
         mysqli_stmt_execute($stmt);
 
         $id_cashkeluar = mysqli_insert_id($conn);
-
-
         $temp_cash_keluar = $_SESSION['temp_cash_keluar'];
         $getStockQuery = "SELECT id_barang, kuantitas FROM barang";
         $getStockResult = mysqli_query($conn, $getStockQuery);
@@ -131,9 +128,9 @@ elseif ($_GET['act'] == 'insertCash'){
             $jumlah = $data['jumlah'];
             $keterangan = $data['keterangan'];
 
-            $queryDetail = "INSERT INTO history_cash_keluar (id_cash_keluar, id_barang, kuantitas, jasa, jumlah, jasa_pihak) VALUES (?, ?, ?, ?, ?, ?)";
+            $queryDetail = "INSERT INTO history_cash_keluar (id_cash_keluar, id_barang, kuantitas, id_jasa, jumlah) VALUES (?, ?, ?, ?, ?)";
             $stmt = mysqli_prepare($conn, $queryDetail);
-            mysqli_stmt_bind_param($stmt, 'iiiiii', $id_cashkeluar, $barang, $kuantitas, $jasa, $jumlah, $id_bjasa);
+            mysqli_stmt_bind_param($stmt, 'iiiii', $id_cashkeluar, $barang, $kuantitas, $jasa, $jumlah);
             mysqli_stmt_execute($stmt);
 
 
