@@ -723,6 +723,8 @@ if (isset($_GET['id_penjualan'])) { ?>
                       <tbody>
                         <?php
                         if (!isset($_SESSION['temp_jasa'])) {
+                          $totBrutoformat = 0;
+                          $totNettoformat = 0;
                           ?>
                         <td>-</td>
                         <td>-</td>

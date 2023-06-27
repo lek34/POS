@@ -36,6 +36,7 @@
                   <thead>
                   <tr>
                     <th>Nama Jasa</th>
+                    <th>History</th>
                     <th>Action</th>
                   </tr>
                   </thead>
@@ -51,6 +52,9 @@
                         <a href="?module=historyPembelian&id_barang=<?=$id_barang?>" class = "btn btn-outline-primary" style="margin-right: 10px;">Pembelian</a>
                         <a href="?module=historyPenjualan&id_barang=<?=$id_barang?>" class = "btn btn-outline-danger">Penjualan</a>
                       </td> -->
+                      <td>
+                        <a href="?module=historyNamaJasa&id_jasa=<?=$id_jasa?>" class = "btn btn-outline-primary" style="margin-right: 10px;">History</a>
+                      </td>
                       <td class="center">
                         <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit<?=$id_barang;?>"><i class = "far fa-edit"></i></button>
                         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete<?=$id_barang;?>"><i class = "far fa-trash-alt"></i></button>
