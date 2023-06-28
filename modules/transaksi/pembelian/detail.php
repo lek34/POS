@@ -264,39 +264,35 @@ if (isset($_GET['id_pembelian'])) { ?>
                       <label>Jatuh Tempo</label>
                       <input type="date" id="jatuh_tempo" name="jatuh_tempo" placeholder="jatuhtempo" class="form-control" required>
                     </div>
-                    <div class="col-sm-2"></div>
+                    <div class="col-sm-1"></div>
                     <div class="col-sm-5" style="margin-left : 24px; ">
                       <div class="row">
                         <h5><b>History Pembelian Terdahulu</b></h5>
                       </div>
                       <div class="row" style="margin-top : 24px">
                       <div class="col-12">
-                          <label>Nama Barang</label>
-                          <input type="text" placeholder = "Nama Barang" value="" class="form-control" readonly>
-                        </div>
-                      </div>
-                      <div class="row" style="margin-top : 24px">
-                      <div class="col-6">
-                          <label>No. Faktur</label>
-                          <input type="text" placeholder = "PB/XXXX/XXXX" value="" class="form-control" readonly>
-                        </div>
-                        <div class="col-6">
-                          <label>Harga Beli</label>
-                          <input type="text" placeholder = "Rp." value="" class="form-control" readonly>
-                        </div>
-                    </div>
-                      <div class="row" style="margin-top : 24px">
-                      <div class="col-4">
-                          <label>Tanggal</label>
-                          <input type="text"placeholder="DD/MM/YYYY" value="" class="form-control" readonly>
-                        </div>
-                        <div class="col-4">
-                          <label>Kuantitas</label>
-                          <input type="text" placeholder="0" value="" class="form-control" readonly>
-                        </div>
-                        <div class="col-4">
-                          <label>Stock Sekarang</label>
-                          <input type="text" placeholder="0" class="form-control" readonly>
+                
+                        <table id='example2' class='table table-bordered table-striped'>
+                            <thead>
+                                <tr>
+                                    <th>Nama Barang</th>
+                                    <th>Qty</th>
+                                    <th>Harga</th>
+                                    <th>No Faktur</th>
+                                    <th>Stok Sekarang</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                    <td>-</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    
                         </div>
                       </div>
                     </div>
@@ -318,28 +314,6 @@ if (isset($_GET['id_pembelian'])) { ?>
                     $no_faktur = "PB/XXXX/XXXX";
                     $tanggal = "";
                     $kuantitas = "0";
-                    if (isset($_GET['id_barang'])) {
-                      $id_barang = $_GET['id_barang'];
-                      $execQuery = mysqli_query($conn, "SELECT max_hp.id_barang, b.nama_barang, b.kuantitas as stok_sekarang, SUM(hp.kuantitas) as total_kuantitas, hp.harga_barang, pb.no_faktur, pb.tanggal 
-                                                      FROM barang b 
-                                                      INNER JOIN 
-                                                      ( SELECT id_barang, MAX(id_pembelian) as max_id_pembelian FROM history_pembelian GROUP BY id_barang ) max_hp 
-                                                      ON b.id_barang = max_hp.id_barang 
-                                                      INNER JOIN history_pembelian hp ON hp.id_barang = max_hp.id_barang AND hp.id_pembelian = max_hp.max_id_pembelian 
-                                                      INNER JOIN pembelian pb ON pb.id_pembelian = hp.id_pembelian WHERE max_hp.id_barang = '$id_barang' 
-                                                      GROUP BY max_hp.id_barang, b.nama_barang;");
-                  
-                      while ($row = mysqli_fetch_array($execQuery, MYSQLI_ASSOC)) {
-                          // Access the values using the column names
-                          $id_barang = $row['id_barang'];
-                          $nama_barang = $row['nama_barang'];
-                          $total_kuantitas = $row['total_kuantitas'];
-                          $harga_barang = $row['harga_barang'];
-                          $no_faktur = $row['no_faktur'];
-                          $tanggal = $row['tanggal'];
-                          $kuantitas = $row['stok_sekarang'];
-                      }
-                  }
 
                   
                   ?>
@@ -379,37 +353,41 @@ if (isset($_GET['id_pembelian'])) { ?>
                       </div>
                       <div class="row" style="margin-top : 24px">
                       <div class="col-12">
-                          <label>Nama Barang</label>
-                          <input type="text" value="<?=$nama_barang?>" class="form-control" readonly>
-                        </div>
-                        </div>
-                        <div class="row" style="margin-top : 24px ;">
-                        <div class="col-6">
-                          <label>No. Faktur</label>
-                          <input type="text" value="<?=$no_faktur?>" class="form-control" readonly>
-                        </div>
-                        <div class="col-6">
-                          <label>Harga Beli</label>
                           <?php
-                          $harga_barang_formatted = number_format($harga_barang, 0, ',', '.');
+                             if (isset($_GET['id_barang'])) {
+                              $id_barang = $_GET['id_barang'];
+                              $execQuery = mysqli_query($conn, "SELECT hp.*, b.nama_barang, p.no_faktur, s.nama as nama_supplier, p.tanggal
+                                                                FROM history_pembelian hp
+                                                                JOIN barang b ON hp.id_barang = b.id_barang
+                                                                JOIN pembelian p ON hp.id_pembelian = p.id_pembelian
+                                                                JOIN supplier s ON hp.id_supplier = s.id_supplier
+                                                                WHERE b.id_barang = $id_barang");
+                          
+                              while ($row = mysqli_fetch_array($execQuery, MYSQLI_ASSOC)) {
+                                  // Access the values using the column names
+                                  $nama_barang = $data['nama_barang'];
+                                  $kuantitas = $data['kuantitas'];
+                                  $netto = number_format($data ['netto'], 0, ',', '.');
+                                  $tanggal = $data['tanggal'];
+                                  $no_faktur = $data['no_faktur'];
+                                  $supplier = $data['nama_supplier'];
+                                  ?>
+                                  <tr>
+                                  <td><?=$nama_barang?></td>
+                                      <td><?=$kuantitas?></td>
+                                      <td>Rp. <?=$netto?></td>
+                                      <td><?=$tanggal?></td>
+                                      <td><?=$no_faktur?></td>
+                                      <td><?=$supplier?></td>
+                                  </tr>
+                              <?php
+                              }
+                          }
                           ?>
-                          <input type="text" value="Rp. <?=$harga_barang_formatted?>" class="form-control" readonly>
                         </div>
-                      </div>
-                      <div class="row" style="margin-top : 24px">
-                      <div class="col-4">
-                          <label>Tanggal</label>
-                          <input type="text"placeholder="DD/MM/YYYY" value="<?=$tanggal?>" class="form-control" readonly>
                         </div>
-                        <div class="col-4">
-                          <label>Kuantitas</label>
-                          <input type="text" placeholder="0" value="<?=$total_kuantitas?>" class="form-control" readonly>
-                        </div>
-                        <div class="col-4">
-                          <label>Stock Sekarang</label>
-                          <input type="text" placeholder="0" value="<?=$kuantitas?>" class="form-control" readonly>
-                        </div>
-                      </div>
+                        
+                      
                     </div>
                   </div>
                   <div class="row" style="margin: 24px 0 0 2px">
