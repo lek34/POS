@@ -90,11 +90,11 @@
         <div class="modal-body">
             <br>
             <form action="modules/master/akunbank/proses.php?act=insert" method="post">
-                <label>Kode Akun</label>
-                <input type="text" name="kode_akun" placeholder="Kode Akun" class="form-control" required>
+                <label>Tipe</label>
+                <input type="text" name="tipe_akun" placeholder="Kode Akun" class="form-control" required>
                 <br>
-                <label>Nama Akun</label>
-                <input type="text" name="nama_akun" placeholder="Nama Akun" class="form-control" required>
+                <label>Nomor Akun</label>
+                <input type="text" name="nomor_akun" placeholder="Nama Akun" class="form-control" required>
                 <br>
                 <br>
 				    <button type="button" class="btn btn-danger" style="float: left;" data-dismiss="modal">Close</button>
