@@ -33,6 +33,9 @@ else{
 	elseif ($_GET['module'] == 'noAcc') {
 		include "modules/master/akunbank/view.php";
 	}
+	elseif ($_GET['module'] == 'detailAkun') {
+		include "modules/master/akunbank/detail.php";
+	}
 	elseif ($_GET['module'] == 'historyAkun') {
 		include "modules/history/history_akun.php";
 	}
