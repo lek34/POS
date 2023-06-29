@@ -98,12 +98,14 @@
                     $idAkun = $_SESSION['header_cash_keluar']['id_akun'];
                     $tanggal_keluar = $_SESSION['header_cash_keluar']['tanggal_keluar'];
                     $terima_dari = $_SESSION['header_cash_keluar']['terima_dari'];
+                    $last_keluar = $_SESSION['header_cash_keluar']['last_keluar'];
             ?>
             <!-- After Second Repetition -->
             <div class="row">
                 <div class="col-2">
                     <label>No. Bukti : </label>
                     <input type="text" name = "no_bukti" value=<?=$no_bukti?> class="form-control" readonly>
+                    <input type="hidden" name="last_keluar" value="<?=$last_keluar?>">
                 </div>
                 <div class="col-2">
                 <label for="">Ke Kas : </label>
@@ -689,7 +691,6 @@
                             $nama_barang = NULL;
                         } else {
                             $dari = $_SESSION['header_cash_keluar']['dari'];
-                            var_dump($dari);
                             // Prepare and execute the SQL query using prepared statements
                             $queryNamaPihak = "SELECT nama_pihak FROM pihak_jasa WHERE id_pjasa = ?";
                             $stmt = mysqli_prepare($conn, $queryNamaPihak);
