@@ -205,7 +205,7 @@ $id_pembelian_array = array(); // Empty array as default value
             <br>
             <form action="modules/transaksi/pembelian/proses.php?act=buy" method="post">
                 <p>Selesaikan Pembayaran?</p>
-                <input name="id_pembelian" id="id_pembelian">
+                <input name="id_pembelian" id="id_pembelian" hidden>
                 <textarea id="noFakturDisplay" class="form-control" rows="3" readonly></textarea>
                 <br>
                 <input name="jumlah" class="form-control" id="totalNetto" readonly>
@@ -220,7 +220,7 @@ $id_pembelian_array = array(); // Empty array as default value
                     $nama_akun = $data ['nama_akun'];
                 ?>
                     <option value="<?= $id_akun; ?>">
-                        <?= $nama_akun;?>
+                        <?= $nama_akun;?> - (<?= $kode_akun;?>)
                     <?php
                     }
                 ?>

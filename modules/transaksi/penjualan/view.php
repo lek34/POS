@@ -172,12 +172,12 @@
                 $query = "SELECT * FROM akun";
                     $execQuery = mysqli_query($conn, $query);
                     while ($data = mysqli_fetch_array($execQuery)){
-                    $id_akun = $data ['id_akun'];
-                    $kode_akun = $data ['kode_akun'];
-                    $nama_akun = $data ['nama_akun'];
+                        $id_akun = $data ['id_akun'];
+                        $kode_akun = $data ['kode_akun'];
+                        $nama_akun = $data ['nama_akun'];
                 ?>
                     <option value="<?= $id_akun; ?>">
-                        <?= $nama_akun;?>
+                        <?= $nama_akun;?> - (<?= $kode_akun;?>)
                     <?php
                     }
                 ?>
