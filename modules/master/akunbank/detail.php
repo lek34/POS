@@ -155,7 +155,7 @@
     $execQuery = mysqli_query($conn, "SELECT * FROM akun");
 
     while ($data = mysqli_fetch_array($execQuery)) {
-        $id_akun = $data['id_tipe'];
+        $id_akun = $data['id_akun'];
         $kode_akun = $data['kode_akun'];
         $nama_akun = $data['nama_akun'];
 ?>
