@@ -56,8 +56,8 @@
                         <a href="?module=historyNamaJasa&id_jasa=<?=$id_jasa?>" class = "btn btn-outline-primary" style="margin-right: 10px;">History</a>
                       </td>
                       <td class="center">
-                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit<?=$id_barang;?>"><i class = "far fa-edit"></i></button>
-                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete<?=$id_barang;?>"><i class = "far fa-trash-alt"></i></button>
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#edit<?=$id_jasa?>"><i class = "far fa-edit"></i></button>
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#delete<?=$id_jasa;?>"><i class = "far fa-trash-alt"></i></button>
                       </td>
                       </tr>
                     <?php
